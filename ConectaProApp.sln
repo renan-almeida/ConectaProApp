@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConectaProApp", "ConectaProApp\ConectaProApp.csproj", "{77771366-376B-4EE4-91E7-D795971A0ADA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77771366-376B-4EE4-91E7-D795971A0ADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77771366-376B-4EE4-91E7-D795971A0ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77771366-376B-4EE4-91E7-D795971A0ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77771366-376B-4EE4-91E7-D795971A0ADA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {688E6B7C-7734-4BAA-A5B8-473FC42FF637}
+	EndGlobalSection
+EndGlobal
