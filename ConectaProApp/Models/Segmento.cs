@@ -9,6 +9,6 @@ namespace ConectaProApp.Models
     public class Segmento
     {
         public long IdSegmento { get; private set; } // Agora pode ser acessado
-        private string descSegmento;
+        public string DescSegmento { get; set; }
     }
 }

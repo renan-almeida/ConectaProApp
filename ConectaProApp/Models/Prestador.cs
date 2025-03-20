@@ -10,15 +10,15 @@ namespace ConectaProApp.Models
     public class Prestador: Usuario
     {
         public long IdPrestador { get; set; }
-        private long id_Plano;
-        private string descPrestador;
-        private string prestador;
-        private List<string> especialização;
-        private StatusDisponibilidadeEnum statusDisponibilidade;
+        public long Id_Plano { get; set; }
+        public string DescPrestador { get; set; }
+        public string Cpf { get; set; }
+        public List<string> Especialização { get; set; }
+        public StatusDisponibilidadeEnum StatusDisponibilidade { get; set; }
 
         public Prestador( Plano plano)
         {
-            id_Plano = plano.IdPlano; 
+            Id_Plano = plano.IdPlano; 
         }
     }
 }

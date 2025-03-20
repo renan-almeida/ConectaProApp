@@ -8,15 +8,15 @@ namespace ConectaProApp.Models.Enuns
 {
     public class Avaliacao
     {
-        public long idAvaliacao { get; set; }
-        private long id_Servico;
-        private long id_Cliente;
-        private NvlSatisfacaoEnum nvlSatisfacao;
+        public long IdAvaliacao { get; set; }
+        public long Id_Servico { get; set; }
+        public long Id_Cliente { get; set; }
+        public NvlSatisfacaoEnum nvlSatisfacao { get; set; }
 
         public Avaliacao( Servico servico, EmpresaCliente cliente)
         {
-            id_Servico = servico.IdServico;
-            id_Cliente = cliente.IdUsuario;
+            Id_Servico = servico.IdServico;
+            Id_Cliente = cliente.IdUsuario;
         }
     }
 }

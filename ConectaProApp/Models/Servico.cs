@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConectaProApp.Models.Enuns;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,23 +10,25 @@ namespace ConectaProApp.Models
     public class Servico
     {
         public long IdServico { get; set; }
-        private long id_Plano;
-        private long id_Segmento; 
-        private long id_Prestador;    
-        private long id_Cliente;   
-        private float vcServico;
-        private DateTime diServico;
-        private DateTime daServico;
-        private DateTime deServico;
-        private DateTime dpServico;
-        private char stServico;
+        public long Id_Plano { get; set; }
+        public long Id_Segmento { get; set; }
+        public long Id_Prestador { get; set; }
+        public long Id_Cliente { get; set; }
+        public long Id_Endereco { get; set; }
+        public float VcServico { get; set; }
+        public DateTime DiServico { get; set; }
+        public DateTime DaServico { get; set; }
+        public DateTime DeServico { get; set; }
+        public DateTime DpServico { get; set; }
+        public StatusServicoEnum StServico { get; set; }
+        public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
 
         public Servico(Plano plano, Segmento segmento, Prestador prestador, EmpresaCliente cliente)
         {
-            id_Plano = plano.IdPlano;
-            id_Segmento = segmento.IdSegmento;
-            id_Prestador = prestador.IdPrestador;
-            id_Cliente = cliente.IdEmpresa;
+            Id_Plano = plano.IdPlano;
+            Id_Segmento = segmento.IdSegmento;
+            Id_Prestador = prestador.IdPrestador;
+            Id_Cliente = cliente.IdEmpresa;
             
         }
     }

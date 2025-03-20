@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ConectaProApp.Models.Enuns
 {
-    public enum NvlUrgenciaEnum
+    public enum StatusServicoEnum
     {
-       EMERGÊNCIA,
-       URGENTE,
-       POUCO_URGENTE,
-       NÃO_URGENTE
+        CONCLUÍDO,
+        PENDENTE,
+        ATRASADO,
+        CANCELADO
     }
 }

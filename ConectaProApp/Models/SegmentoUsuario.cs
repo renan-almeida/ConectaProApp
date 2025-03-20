@@ -8,8 +8,8 @@ namespace ConectaProApp.Models
 {
     public class SegmentoUsuario
     {
-        private long Id_Usuario { get; set; }
-        private long Id_Segmento { get; set; }
+        public long Id_Usuario { get; set; }
+        public long Id_Segmento { get; set; }
 
         public SegmentoUsuario(Usuario usuario, Segmento segmento)
         {

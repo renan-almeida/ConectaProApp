@@ -9,13 +9,12 @@ namespace ConectaProApp.Models
 {
     public class Usuario
     {
-        public long IdUsuario { get; private set; }
-        private string nome;
-        private string Cnpj;
-        private string email;
-        private string senha;
-        private int telefone;
-        private string fotoUrl;
-        private TipoUsuarioEnum tipoUsuario;
+        public long IdUsuario { get; set; }
+        public string Nome { get; set; }
+        public string Email { get; set; }
+        public string Senha { get; set; }
+        public int Telefone { get; set; }
+        public byte[] FotoUrl{ get; set; }
+        public TipoUsuarioEnum ipoUsuario { get; set; }
     }
 }

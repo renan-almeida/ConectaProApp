@@ -9,12 +9,17 @@ namespace ConectaProApp.Models
 {
     public class Endereco
     {
-        public long idEndereco { get; set; }
-        private long id_Usuario;
-        private string logradouro;
-        private int nro;
-        private string bairro;
-        private string cidade;
-        private UfEnum estado;
+        public long IdEndereco { get; set; }
+        public long Id_Usuario { get; set; }
+        public string Logradouro { get; set; }
+        public int Nro { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
+        public UfEnum Estado { get; set; }
+
+        public Endereco( Usuario usuario)
+        {
+            Id_Usuario = usuario.IdUsuario;
+        }
     }
 }
