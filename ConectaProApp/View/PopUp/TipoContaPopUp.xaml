@@ -1,0 +1,27 @@
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+                  x:Class="ConectaProApp.View.PopUp.TipoContaPopUp"
+                  BackgroundColor="White">
+
+
+    <Frame WidthRequest="364" HeightRequest="365"
+           BackgroundColor="White"
+           Padding="20"
+           CornerRadius="30"
+           BorderColor="Black" 
+           BorderWidth="1"
+           HorizontalOptions="Center"
+           VerticalOptions="Center">
+
+        <VerticalStackLayout>
+            <Label Text="Qual tipo de conta você deseja criar?" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+
+            <Button Text="Cliente" FontSize="25" BackgroundColor="#0f5cc2" WidthRequest="150" HeightRequest="70" TextColor="White"  Clicked="OnClientSelected"/>
+            <Button Text="Prestador" FontSize="25" BackgroundColor="#0f5cc2" TextColor="White" WidthRequest="150" HeightRequest="70" Clicked="OnProviderSelected"/>
+            <Label Text="Cancelar" FontSize="16" TextColor="#C70202" 
+        </VerticalStackLayout>
+
+    </Frame>
+
+</mopups:PopupPage>

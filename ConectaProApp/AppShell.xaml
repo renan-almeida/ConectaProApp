@@ -9,7 +9,18 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:LoginView}"
+        ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+    
+    <ShellContent Route="login" 
+                  ContentTemplate="{DataTemplate local:LoginView}"
+                  />
+    <ShellContent Route="RegistroCliente"
+                  ContentTemplate="{DataTemplate local: RegistroClienteView}"
+    />
+    <ShellContent Route="RegistroPrestador"
+                  ContentTemplate="{DataTemplate local: RegistroPrestadorView}"
+    />
+
 
 </Shell>
