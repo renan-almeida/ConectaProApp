@@ -4,6 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ConectaProApp"
+    xmlns:usuario="clr-namespace:ConectaProApp.View.Usuario"
+    xmlns:popup="clr-namespace:ConectaProApp.View.PopUp"
     Shell.FlyoutBehavior="Flyout"
     Title="ConectaProApp">
 
@@ -11,16 +13,22 @@
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-    
+
     <ShellContent Route="login" 
-                  ContentTemplate="{DataTemplate local:LoginView}"
+                  ContentTemplate="{DataTemplate usuario:LoginView}"
                   />
+
+    <ShellContent Route="tipoConta" 
+                  ContentTemplate="{DataTemplate popup:TipoContaPopUp}"
+                  />
+
+    <!--
     <ShellContent Route="RegistroCliente"
-                  ContentTemplate="{DataTemplate local: RegistroClienteView}"
+                  ContentTemplate="{DataTemplate local:LoginView}"
     />
     <ShellContent Route="RegistroPrestador"
-                  ContentTemplate="{DataTemplate local: RegistroPrestadorView}"
+                  ContentTemplate="{DataTemplate local:LoginView}"
     />
-
+    -->
 
 </Shell>

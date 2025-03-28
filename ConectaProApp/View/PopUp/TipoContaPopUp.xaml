@@ -5,12 +5,12 @@
                   BackgroundColor="White">
 
 
-    <Frame WidthRequest="364" HeightRequest="365"
+    <!--<Frame WidthRequest="364" HeightRequest="365"
            BackgroundColor="White"
            Padding="20"
            CornerRadius="30"
            BorderColor="Black" 
-           BorderWidth="1"
+            StrokeThickness="1"
            HorizontalOptions="Center"
            VerticalOptions="Center">
 
@@ -23,5 +23,19 @@
         </VerticalStackLayout>
 
     </Frame>
+    -->
+    <Border Stroke="Black" StrokeThickness="1" Background="White" HorizontalOptions="Center" VerticalOptions="Center">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="30"/>
+        </Border.StrokeShape>
+        <Border.Content>
+            <VerticalStackLayout Padding="20" WidthRequest="364" HeightRequest="365">
+                <Label Text="Qual tipo de conta você deseja criar?" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <Button Text="Cliente" FontSize="25" BackgroundColor="#0f5cc2" WidthRequest="150" HeightRequest="70" TextColor="White" Clicked="OnClientSelected"/>
+                <Button Text="Prestador" FontSize="25" BackgroundColor="#0f5cc2" TextColor="White" WidthRequest="150" HeightRequest="70" Clicked="OnProviderSelected"/>
+                <Label Text="Cancelar" FontSize="16" TextColor="#C70202"/>
+            </VerticalStackLayout>
+        </Border.Content>
+    </Border>
 
 </mopups:PopupPage>

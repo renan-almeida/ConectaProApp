@@ -9,7 +9,7 @@ public partial class LoginView : ContentPage
 		InitializeComponent();
 	}
 
-	private async Task OnLabelTapped(object sender, EventArgs e)
+	private async void OnLabelTapped(object sender, EventArgs e)
 	{
 		string action = await DisplayActionSheet("Qual tipo de Conta deseja criar?", "Cancelar", null, "Cliente", "Prestador");
 
