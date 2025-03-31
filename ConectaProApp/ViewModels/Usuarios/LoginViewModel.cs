@@ -1,4 +1,6 @@
-﻿using ConectaProApp.Services;
+﻿using ConectaProApp.PopUp;
+using ConectaProApp.Services;
+using Mopups.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +10,13 @@ using System.Windows.Input;
 
 namespace ConectaProApp.ViewModels.Usuarios
 {
-    public class UsuarioViewModel : BaseViewModel 
+    class LoginViewModel : BaseViewModel
     {
         private UsuarioServices uService;
-        public ICommand LoginPageCommand { get; set; }
 
-        public UsuarioViewModel()
+        public ICommand AbrirPopupCommand { get; set; }
+
+        public LoginViewModel()
         {
             uService = new UsuarioServices();
             InitializeCommands();
@@ -21,20 +24,21 @@ namespace ConectaProApp.ViewModels.Usuarios
 
         public void InitializeCommands()
         {
-            LoginPageCommand = new Command(async () => await LoginPage());
+            AbrirPopupCommand = new Command(async () => await AbrirPopup());
         }
 
-        public async Task LoginPage()
+        public async Task AbrirPopup()
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new View.Usuario.LoginView());
+                await MopupService.Instance.PushAsync(new TipoContaAlert());
+         
             }
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert
-                    ("Ops!", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
-                
+                   ("Ops!", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
+
             }
         }
     }
