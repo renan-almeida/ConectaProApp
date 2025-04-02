@@ -48,17 +48,18 @@
           HorizontalTextAlignment="Center" />
 
             <Button
-          Text="Começar"
-          FontSize="25"
-          Command="{Binding LoginPageCommand}"
-          BackgroundColor="Transparent"
-          TextColor="White"
-          BorderColor="White"
-          BorderWidth="3"
+        x:Name="StartButton"
+        Command="{Binding LoginPageCommand}"
+        Text="Começar"
+        FontSize="25"
+        TextColor="White"
           CornerRadius="15"
-          HorizontalOptions="Center"
-          WidthRequest="178"
-          HeightRequest="49"/>
+        BorderColor="White"
+        BorderWidth="2"
+        BackgroundColor="Transparent"
+        WidthRequest="178"
+        HeightRequest="49"/>
+
         </VerticalStackLayout>
     </Grid>
 

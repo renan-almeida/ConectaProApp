@@ -73,6 +73,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="View\Cliente\RegisterClient.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\Cliente\RegisterClientTwo.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\LoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

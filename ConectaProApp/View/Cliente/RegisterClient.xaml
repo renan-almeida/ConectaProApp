@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.Cliente.RegisterClient"
+             BackgroundColor="#F3F3F3">
+    <ScrollView>
+        <VerticalStackLayout
+         Padding="30,0"
+         Spacing="25">
+
+
+            
+            <Image
+             Source="conectapro_logo.png"
+             HeightRequest="100"
+             Aspect="AspectFit"
+             HorizontalOptions="Center"
+                Margin="63"/>
+<!--
+          <HorizontalStackLayout>
+                <Button 
+                    BackgroundColor="#0f5cc2"
+                    Text="1"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    CornerRadius="30"
+                    WidthRequest="50"
+                    HeightRequest="50" 
+                    Margin="30"
+                    HorizontalOptions="Start"
+                    />
+
+                <Border
+                    Stroke="#0f5cc2"
+                    StrokeThickness="3"
+                    WidthRequest="37"
+                    HeightRequest="1"
+                    HorizontalOptions="Center"/>  
+
+
+            </HorizontalStackLayout>  
+            -->
+            
+            
+            
+            <Label
+             Text="1. Informações pessoais"
+             FontSize="24"
+             HorizontalOptions="Center" />
+
+            <Label
+             Text="Como proprietário do seu negócio, insira suas informações pessoais."
+             FontSize="14"
+             TextColor="Gray"
+             HorizontalOptions="Center" />
+
+            <Entry
+             Placeholder="Digite o seu Nome"
+             FontSize="15"
+             HorizontalOptions="Fill"
+             WidthRequest="314"
+              />
+
+
+            <Entry
+             Placeholder="Digite seu Email"
+             FontSize="15"
+             HorizontalOptions="Fill"
+             WidthRequest="314"
+              />
+
+           
+            <Button
+               Command="{Binding EtapaDoisRegisterClientCommand}"
+             Text="Próximo"
+             FontSize="30"
+             BackgroundColor="#0f5cc2"
+             TextColor="White"
+             HorizontalOptions="Fill" 
+                WidthRequest="178"
+                HeightRequest="49"/>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -31,8 +31,8 @@ namespace ConectaProApp.ViewModels.Usuarios
         {
             try
             {
-                await MopupService.Instance.PushAsync(new TipoContaAlert());
-         
+                await Application.Current.MainPage.Navigation.PushAsync(new View.Cliente.RegisterClient());
+
             }
             catch (Exception ex)
             {
