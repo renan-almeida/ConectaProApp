@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.CadastroCliente.EtapaDois"
+             Title="EtapaDois">
+    
+    <ScrollView>
+        <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25">
+
+            <Image
+            Source="conectapro_logo.png"
+            HeightRequest="100"
+            Aspect="AspectFit"
+            HorizontalOptions="Center" />
+
+            <Label
+            Text="2. Informações do seu negócio"
+            FontSize="24"
+            HorizontalOptions="Center" />
+
+            <Label
+            Text="Insira as informações da sua empresa."
+            FontSize="14"
+            HorizontalOptions="Center" />
+
+            <Entry
+            Placeholder="Razão Social"
+            FontSize="18"
+            HorizontalOptions="Fill" />
+
+            <Entry
+            Placeholder="Nome Fantasia"
+            FontSize="18"
+            HorizontalOptions="Fill" />
+
+            <Entry
+            Placeholder="CNPJ"
+            FontSize="18"
+            HorizontalOptions="Fill" />
+
+            <Entry
+            Placeholder="Segmento"
+            FontSize="18"
+            HorizontalOptions="Fill" />
+
+            <Button
+            Text="Próximo"
+            FontSize="18"
+            BackgroundColor="Blue"
+            TextColor="White"
+            HorizontalOptions="Fill"
+            Clicked="OnNextButtonClicked" />
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentPage>

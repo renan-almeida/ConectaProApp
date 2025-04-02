@@ -73,12 +73,63 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="View\CadastroCliente\EtapaDois.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\CadastroCliente\EtapaFinal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\CadastroCliente\EtapaTres.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\CadastroCliente\EtapaUm.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\CadastroPrestador\EtapaDois_Prestador.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\CadastroPrestador\EtapaFinal_Prestador.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\CadastroPrestador\EtapaTres_Prestador.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\CadastroPrestador\EtapaUm_Prestador.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\LoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\PopUp\TipoContaAlert.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="View\CadastroCliente\EtapaDois.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="View\CadastroCliente\EtapaFinal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="View\CadastroCliente\EtapaTres.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="View\CadastroCliente\EtapaUm.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="View\CadastroPrestador\EtapaDois_Prestador.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="View\CadastroPrestador\EtapaFinal_Prestador.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="View\CadastroPrestador\EtapaTres_Prestador.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
+	  <None Update="View\CadastroPrestador\EtapaUm_Prestador.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
 	</ItemGroup>
 
 </Project>

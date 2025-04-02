@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.CadastroCliente.EtapaFinal"
+             Title="EtapaFinal">
+    <ScrollView>
+        <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25">
+
+            <Image
+            Source="conectapro_logo.png"
+            HeightRequest="100"
+            Aspect="AspectFit"
+            HorizontalOptions="Center" />
+            
+            <Label
+            Text="4. Para finalizar"
+            FontSize="24"
+            HorizontalOptions="Center" />
+
+            <Label
+            Text="Crie uma senha"
+            FontSize="14"
+            HorizontalOptions="Center" />
+
+            <Entry
+            Placeholder="Digitar senha"
+            FontSize="18"
+            IsPassword="True"
+            HorizontalOptions="Fill" />
+
+            <Entry
+            Placeholder="Confirmar senha"
+            FontSize="18"
+            IsPassword="True"
+            HorizontalOptions="Fill" />
+
+            <Button
+            Text="Criar conta"
+            FontSize="18"
+            BackgroundColor="Blue"
+            TextColor="White"
+            HorizontalOptions="Fill"
+            Clicked="OnCreateAccountButtonClicked" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

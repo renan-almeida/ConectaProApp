@@ -5,7 +5,6 @@
                   x:Class="ConectaProApp.PopUp.TipoContaAlert"
                   BackgroundColor="White">
 
-
     <Frame WidthRequest="364" HeightRequest="365"
            BackgroundColor="White"
            Padding="20"
@@ -17,8 +16,17 @@
         <VerticalStackLayout>
             <Label Text="Qual tipo de conta você deseja criar?" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
 
-            <Button Text="Cliente" FontSize="25" BackgroundColor="#0f5cc2" WidthRequest="150" HeightRequest="70" TextColor="White"  Command="{Binding SelectedClient}"/>
-            <Button Text="Prestador" FontSize="25" BackgroundColor="#0f5cc2" TextColor="White" WidthRequest="150" HeightRequest="70" Command="{Binding SelectedProvider}"/>
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image Source="employee.png" HeightRequest="100" WidthRequest="100" Aspect="AspectFit" />
+                    <Button Text="Cliente" FontSize="25" BackgroundColor="#0f5cc2" WidthRequest="150" HeightRequest="70" TextColor="White" Command="{Binding SelectedClientCommand}"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Image Source="employees.png" HeightRequest="100" WidthRequest="100" Aspect="AspectFit" />
+                    <Button Text="Prestador" FontSize="25" BackgroundColor="#0f5cc2" TextColor="White" WidthRequest="150" HeightRequest="70" Command="{Binding SelectedProviderCommand}"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
             <Label Text="CANCELAR" FontSize="16" TextColor="#C70202" HorizontalOptions="Center">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="CancelPopup"/>

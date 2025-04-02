@@ -1,4 +1,3 @@
-
 using ConectaProApp.PopUp;
 using ConectaProApp.ViewModels.Usuarios;
 using Mopups.Services;
@@ -14,7 +13,8 @@ public partial class LoginView : ContentPage
     public LoginView()
     {
         InitializeComponent();
-        InitializeCommands();
+        _loginViewModel = new LoginViewModel();
+        BindingContext = _loginViewModel;
 
     }
     public ICommand AbrirPopupCommand { get; set; }

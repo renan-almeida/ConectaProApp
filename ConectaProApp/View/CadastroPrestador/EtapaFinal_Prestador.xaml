@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.CadastroPrestador.EtapaFinal_Prestador"
+             Title="EtapaFinal_Prestador">
+    <StackLayout Padding="20">
+        <Image Source="logo.png" HorizontalOptions="Center" />
+        <Label Text="4. Para finalizar" FontSize="Large" HorizontalOptions="Center" />
+        <Label Text="Crie uma senha" HorizontalOptions="Center" />
+        <Entry Placeholder="Digitar senha" IsPassword="True" />
+        <Entry Placeholder="Confirmar senha" IsPassword="True" />
+        <Button Text="Criar conta" Clicked="OnCreateAccountButtonClicked" />
+    </StackLayout>
+</ContentPage>

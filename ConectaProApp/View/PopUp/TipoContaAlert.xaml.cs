@@ -1,9 +1,10 @@
 using Mopups.Services;
-using System;
-using Microsoft.Maui.Controls;
 using Mopups.Pages;
 using ConectaProApp.View.CadastroCliente;
 using ConectaProApp.View.CadastroPrestador;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Microsoft.Maui.Controls;
 
 namespace ConectaProApp.PopUp
 {
@@ -18,8 +19,6 @@ namespace ConectaProApp.PopUp
             InitializeCommands();
             BindingContext = this;
         }
-        public Command SelectedClientCommand;
-        public Command SelectedProviderCommand;
 
         public void InitializeCommands()
         {
@@ -27,17 +26,16 @@ namespace ConectaProApp.PopUp
             SelectedProviderCommand = new Command(async () => await SelectedProvider());
         }
 
-
         private async Task SelectedClient()
         {
             await MopupService.Instance.PopAsync(); // Fecha o popup
-            await Shell.Current.GoToAsync("CadastroCliente"); // Vai para a tela de cadastro de cliente
+            await Application.Current.MainPage.Navigation.PushAsync(new EtapaUm()); // Vai para a tela de cadastro de cliente
         }
 
         private async Task SelectedProvider()
         {
             await MopupService.Instance.PopAsync(); // Fecha o popup
-            await Shell.Current.GoToAsync("CadastroPrestador"); // Vai para a tela de cadastro de prestador
+            await Application.Current.MainPage.Navigation.PushAsync(new EtapaUm_Prestador()); // Vai para a tela de cadastro de prestador
         }
 
         private async void CancelPopup(object sender, EventArgs e)
