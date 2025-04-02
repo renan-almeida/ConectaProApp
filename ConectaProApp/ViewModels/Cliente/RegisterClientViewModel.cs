@@ -8,6 +8,7 @@ using System.Windows.Input;
 
 namespace ConectaProApp.ViewModels.Cliente
 {
+
     class RegisterClientViewModel
     {
         private UsuarioServices uService;
@@ -31,7 +32,7 @@ namespace ConectaProApp.ViewModels.Cliente
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert
-                       ("Ops!", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
+                       ("Opss!", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
 
             }
 
