@@ -2,15 +2,21 @@ using Mopups.Services;
 using System;
 using Microsoft.Maui.Controls;
 using Mopups.Pages;
+using ConectaProApp.View.CadastroCliente;
+using ConectaProApp.View.CadastroPrestador;
 
 namespace ConectaProApp.PopUp
 {
-    public partial class TipoContaAlert :  PopupPage
+    public partial class TipoContaAlert : PopupPage
     {
+        public Command SelectedClientCommand { get; set; }
+        public Command SelectedProviderCommand { get; set; }
+
         public TipoContaAlert()
         {
             InitializeComponent();
             InitializeCommands();
+            BindingContext = this;
         }
         public Command SelectedClientCommand;
         public Command SelectedProviderCommand;
