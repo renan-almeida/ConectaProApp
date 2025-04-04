@@ -14,17 +14,14 @@
            HorizontalOptions="Center"
            VerticalOptions="Center">
 
-        <VerticalStackLayout>
-            <Label Text="Qual tipo de conta você deseja criar?" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
-
-            <Button Text="Cliente" FontSize="25" BackgroundColor="#0f5cc2" WidthRequest="150" HeightRequest="70" TextColor="White"  Command="{Binding SelectedClient}"/>
-            <Button Text="Prestador" FontSize="25" BackgroundColor="#0f5cc2" TextColor="White" WidthRequest="150" HeightRequest="70" Command="{Binding SelectedProvider}"/>
-            <Label Text="CANCELAR" FontSize="16" TextColor="#C70202" HorizontalOptions="Center">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="CancelPopup"/>
-                </Label.GestureRecognizers>
-            </Label>
-        </VerticalStackLayout>
+        <StackLayout Padding="20" BackgroundColor="White" VerticalOptions="Center" HorizontalOptions="Center">
+            <Label Text="Qual tipo de conta você deseja criar?" FontSize="Medium" HorizontalOptions="Center" />
+            <Image Source="employee.png" HorizontalOptions="Center" />
+            <Button Text="Cliente" Command="{Binding SelectedClientCommand}" />
+            <Image Source="employees.png" HorizontalOptions="Center" />
+            <Button Text="Prestador" Command="{Binding SelectedProviderCommand}" />
+            <Button Text="CANCELAR" TextColor="Red" Clicked="CancelPopup" />
+        </StackLayout>
 
     </Frame>
 

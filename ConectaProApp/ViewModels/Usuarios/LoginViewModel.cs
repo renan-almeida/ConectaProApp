@@ -10,35 +10,29 @@ using System.Windows.Input;
 
 namespace ConectaProApp.ViewModels.Usuarios
 {
-    class LoginViewModel : BaseViewModel
+    public class LoginViewModel : BaseViewModel
     {
-        private UsuarioServices uService;
-
-        public ICommand AbrirPopupCommand { get; set; }
+        public ICommand AbrirPopupCommand { get; private set; }
 
         public LoginViewModel()
         {
-            uService = new UsuarioServices();
             InitializeCommands();
         }
 
-        public void InitializeCommands()
+        private void InitializeCommands()
         {
             AbrirPopupCommand = new Command(async () => await AbrirPopup());
         }
 
-        public async Task AbrirPopup()
+        private async Task AbrirPopup()
         {
             try
             {
                 await MopupService.Instance.PushAsync(new TipoContaAlert());
-         
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert
-                   ("Ops!", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
-
+                await Application.Current.MainPage.DisplayAlert("Ops!", ex.Message, "Ok");
             }
         }
     }
