@@ -19,7 +19,7 @@ namespace ConectaProApp.Services
 
         public async Task<Usuario> PostRegistrarUsuarioAsync(Usuario u)
         {
-            string urlComplementar = "/Registrar";
+            string urlComplementar = "/RegistrarCliente";
             u.IdUsuario = await _request
                 .PostReturnIntAsync(apiUrlBase + urlComplementar, u, string.Empty);
 

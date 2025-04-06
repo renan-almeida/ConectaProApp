@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.MainPage"
-             BackgroundImageSource="tela_inicial.png">
+             BackgroundImageSource="tela_inicial.png"
+             Title="">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -48,17 +49,18 @@
           HorizontalTextAlignment="Center" />
 
             <Button
-          Text="Começar"
-          FontSize="25"
-          Command="{Binding LoginPageCommand}"
-          BackgroundColor="Transparent"
-          TextColor="White"
-          BorderColor="White"
-          BorderWidth="3"
+        x:Name="StartButton"
+        Command="{Binding LoginPageCommand}"
+        Text="Começar"
+        FontSize="25"
+        TextColor="White"
           CornerRadius="15"
-          HorizontalOptions="Center"
-          WidthRequest="178"
-          HeightRequest="49"/>
+        BorderColor="White"
+        BorderWidth="2"
+        BackgroundColor="Transparent"
+        WidthRequest="178"
+        HeightRequest="49"/>
+
         </VerticalStackLayout>
     </Grid>
 

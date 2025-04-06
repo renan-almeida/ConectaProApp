@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.Cliente.RegisterClientTwo"
+             BackgroundColor="#F3F3F3">
+    <ScrollView>
+        <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25">
+
+            <Image
+            Source="logo_conectapro_preto.png"
+            HeightRequest="100"
+            Aspect="AspectFit"
+            HorizontalOptions="Center"
+                Margin="63"/>
+
+            <Label
+            Text="2. Informações do seu negócio"
+            FontSize="24"
+            HorizontalOptions="Center" />
+
+            <Label
+            Text="Insira as informações da sua empresa."
+            FontSize="14"
+            TextColor="Gray"
+            HorizontalOptions="Center" />
+
+            <Entry
+           Placeholder="Nome Fantasia"
+            FontSize="15"
+            HorizontalOptions="Fill"
+            WidthRequest="314"
+            Text="{Binding NomeFantasia, Mode=TwoWay}"/>
+            
+            <Entry
+            Placeholder="CNPJ"
+            FontSize="15"
+            HorizontalOptions="Fill" 
+                WidthRequest="314"
+                Text="{Binding Cnpj, Mode=TwoWay}"/>
+
+            <Picker WidthRequest="314" Title="Selecione o segmento">
+                <Picker.Items>
+                    <x:String>Tecnologia</x:String>
+                    <x:String>Alimentação</x:String>
+                    <x:String>Serviços Gerais</x:String>
+                    <x:String>Saúde</x:String>
+                    <x:String>Educação</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Button
+                    Text="Próximo"
+                    FontSize="30"
+                    BackgroundColor="#0f5cc2"
+                    TextColor="White"
+                    HorizontalOptions="Fill"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    WidthRequest="178"
+                    HeightRequest="49"
+                    Command="{Binding EtapaTresRegisterClientCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

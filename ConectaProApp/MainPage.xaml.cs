@@ -8,11 +8,12 @@ namespace ConectaProApp
         public MainPage()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
 
             _usuarioViewModel = new UsuarioViewModel();
             BindingContext = _usuarioViewModel;
         }
 
     }
-
 }
+

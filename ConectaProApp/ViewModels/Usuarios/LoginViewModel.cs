@@ -12,7 +12,13 @@ namespace ConectaProApp.ViewModels.Usuarios
 {
     public class LoginViewModel : BaseViewModel
     {
-        public ICommand AbrirPopupCommand { get; private set; }
+
+        private UsuarioServices uService;
+
+        public ICommand EtapaUmCommand { get; set; }
+        public ICommand AbrirPopupCommand { get; set; } 
+        
+
 
         public LoginViewModel()
         {
@@ -21,19 +27,40 @@ namespace ConectaProApp.ViewModels.Usuarios
 
         private void InitializeCommands()
         {
+            EtapaUmCommand = new Command(async () => await EtapaUm());
             AbrirPopupCommand = new Command(async () => await AbrirPopup());
         }
 
-        private async Task AbrirPopup()
+
+        public async Task EtapaUm()
         {
             try
             {
-                await MopupService.Instance.PushAsync(new TipoContaAlert());
+                await MopupService.Instance.PopAsync();
+                await Application.Current.MainPage.Navigation.PushAsync(new View.Cliente.RegisterClient());
+
+
             }
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Ops!", ex.Message, "Ok");
             }
         }
+
+        public async Task AbrirPopup()
+        {
+            try
+            {
+                await Mopups.Services.MopupService.Instance.PushAsync(new PopUp.TipoContaAlert());
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert
+                   ("Ops!", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
+
+            }
+        }
+    
     }
 }
