@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ConectaProApp.View.EsqueceuSenha;
 
 namespace ConectaProApp.ViewModels.Usuarios
 {
@@ -16,19 +17,30 @@ namespace ConectaProApp.ViewModels.Usuarios
         private UsuarioServices uService;
 
         public ICommand EtapaUmCommand { get; set; }
-        public ICommand AbrirPopupCommand { get; set; } 
-        
+        public ICommand AbrirPopupCommand { get; set; }
+
+        public ICommand EsqueceuSenhaCommand { get; }
+
 
 
         public LoginViewModel()
         {
             InitializeCommands();
+            EsqueceuSenhaCommand = new Command(async () => await EsqueceuSenha());
+        }
+       
+   
+
+        private async Task EsqueceuSenha()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new PasswordEmail());
         }
 
         private void InitializeCommands()
         {
             EtapaUmCommand = new Command(async () => await EtapaUm());
             AbrirPopupCommand = new Command(async () => await AbrirPopup());
+            
         }
 
 

@@ -12,42 +12,47 @@ namespace ConectaProApp.Services
     {
         public async Task<int> PostReturnIntAsync<TResult>(string uri, TResult data, string token)
         {
-            HttpClient httpClient = new HttpClient();
+            using (HttpClient httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            httpClient.DefaultRequestHeaders.Authorization
-            = new AuthenticationHeaderValue("Bearer", token);
+                var content = new StringContent(JsonConvert.SerializeObject(data));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = await httpClient.PostAsync(uri, content);
 
-            var content = new StringContent(JsonConvert.SerializeObject(data));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            HttpResponseMessage response = await httpClient.PostAsync(uri, content);
+                string serialized = await response.Content.ReadAsStringAsync();
 
-            string serialized = await response.Content.ReadAsStringAsync();
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                return int.Parse(serialized);
-            else
-                throw new Exception(serialized);
+                if (response.IsSuccessStatusCode)
+                {
+                    return int.Parse(serialized);
+                }
+                else
+                {
+                    throw new Exception($"Erro: {response.StatusCode}, Detalhes: {serialized}");
+                }
+            }
         }
 
-        public async Task<TResult> PostAsync<TResult>(string uri, TResult data, string token)
+        public async Task<TResult> PostAsync<TResult>(string uri, object data, string token)
         {
-            HttpClient httpClient = new HttpClient();
+            using (HttpClient httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            httpClient.DefaultRequestHeaders.Authorization
-            = new AuthenticationHeaderValue("Bearer", token);
+                var content = new StringContent(JsonConvert.SerializeObject(data));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = await httpClient.PostAsync(uri, content);
+                string serialized = await response.Content.ReadAsStringAsync();
 
-            var content = new StringContent(JsonConvert.SerializeObject(data));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            HttpResponseMessage response = await httpClient.PostAsync(uri, content);
-            string serialized = await response.Content.ReadAsStringAsync();
-            TResult result = data;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                result = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(serialized));
-            else
-                throw new Exception(serialized);
-
-            return result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<TResult>(serialized);
+                }
+                else
+                {
+                    throw new Exception($"Erro: {response.StatusCode}, Detalhes: {serialized}");
+                }
+            }
         }
     }
 }

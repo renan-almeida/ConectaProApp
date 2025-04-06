@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConectaProApp.Services
 {
-    class UsuarioServices: Request
+    class UsuarioServices : Request
     {
         private readonly Request _request;
         private const string apiUrlBase = "xyz.com/ConectaPro/Usuarios";
@@ -20,8 +20,7 @@ namespace ConectaProApp.Services
         public async Task<Usuario> PostRegistrarUsuarioAsync(Usuario u)
         {
             string urlComplementar = "/RegistrarCliente";
-            u.IdUsuario = await _request
-                .PostReturnIntAsync(apiUrlBase + urlComplementar, u, string.Empty);
+            u.IdUsuario = await _request.PostReturnIntAsync(apiUrlBase + urlComplementar, u, string.Empty);
 
             return u;
         }
@@ -29,11 +28,16 @@ namespace ConectaProApp.Services
         public async Task<Usuario> PostAutenticarUsuarioAsync(Usuario u)
         {
             string urlComplementar = "/Autenticar";
-
-            u = await _request
-                .PostAsync(apiUrlBase + urlComplementar, u, string.Empty);
+            u = await _request.PostAsync<Usuario>(apiUrlBase + urlComplementar, u, string.Empty);
 
             return u;
+        }
+
+        public async Task<bool> SolicitarCodigoRecuperacaoSenhaAsync(string email)
+        {
+            var uri = $"{apiUrlBase}/SolicitarCodigoRecuperacaoSenha";
+            var resultado = await _request.PostAsync<bool>(uri, new { Email = email }, string.Empty);
+            return resultado;
         }
     }
 }
