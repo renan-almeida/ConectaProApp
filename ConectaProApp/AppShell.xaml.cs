@@ -1,4 +1,5 @@
-﻿using ConectaProApp.View.Usuario;
+﻿using ConectaProApp.View.Cliente;
+using ConectaProApp.View.Usuario;
 
 namespace ConectaProApp
 {
@@ -9,6 +10,7 @@ namespace ConectaProApp
             InitializeComponent();
 
             Routing.RegisterRoute("login", typeof(LoginView));
+            Routing.RegisterRoute("registerclienttwo", typeof(RegisterClientTwo));
         }
 
         

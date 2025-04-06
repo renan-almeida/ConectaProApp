@@ -1,17 +1,15 @@
 using ConectaProApp.ViewModels.Cliente;
-using System.Windows.Input;
 
 namespace ConectaProApp.View.Cliente;
 
-public partial class RegisterClient : ContentPage
+public partial class RegisterClientTree : ContentPage
 {
-	private RegisterClientViewModel _ClientViewModel;
-	public RegisterClient()
+    private RegisterClientViewModel _ClientViewModel;
+
+    public RegisterClientTree()
 	{
 		InitializeComponent();
 		_ClientViewModel = new RegisterClientViewModel();
 		BindingContext = _ClientViewModel;
 	}
-
-
 }

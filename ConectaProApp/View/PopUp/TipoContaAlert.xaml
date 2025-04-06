@@ -5,8 +5,7 @@
                   x:Class="ConectaProApp.PopUp.TipoContaAlert"
                   BackgroundColor="White">
 
-
-    <Frame WidthRequest="364" HeightRequest="365"
+    <Frame WidthRequest="365" HeightRequest="365"
            BackgroundColor="White"
            Padding="20"
            CornerRadius="30"
@@ -14,16 +13,76 @@
            HorizontalOptions="Center"
            VerticalOptions="Center">
 
-        <VerticalStackLayout>
-            <Label Text="Qual tipo de conta você deseja criar?" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+        <VerticalStackLayout Spacing="13">
 
-            <Button Text="Cliente" FontSize="25" BackgroundColor="#0f5cc2" WidthRequest="150" HeightRequest="70" TextColor="White"  Command="{Binding SelectedClient}"/>
-            <Button Text="Prestador" FontSize="25" BackgroundColor="#0f5cc2" TextColor="White" WidthRequest="150" HeightRequest="70" Command="{Binding SelectedProvider}"/>
-            <Label Text="CANCELAR" FontSize="16" TextColor="#C70202" HorizontalOptions="Center">
+            <!-- Título -->
+            <Label Text="Qual tipo de conta você deseja criar?" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center"/>
+
+            <!-- Imagens e botões agrupados -->
+            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+
+                <!-- Cliente -->
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="44">
+                    <Image 
+                        Source="tornarcliente.png"
+                        Aspect="AspectFit"
+                        WidthRequest="115"
+                        HeightRequest="111"
+                        HorizontalOptions="Center" />
+
+                    <Button
+                        Text="Cliente"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        BackgroundColor="#0f5cc2"
+                        BorderColor="Black"
+                        BorderWidth="1"
+                        WidthRequest="150"
+                        HeightRequest="70"
+                        TextColor="White"
+                        CornerRadius="15"
+                        Command="{Binding EtapaUmCommand}" />
+                </VerticalStackLayout>
+
+                <!-- Prestador -->
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="44">
+                    <Image 
+                        Source="tornarprestador.png"
+                        Aspect="AspectFit"
+                        WidthRequest="115"
+                        HeightRequest="111"
+                        HorizontalOptions="Center" />
+
+                    <Button 
+                        Text="Prestador"
+                        FontSize="25"
+                        FontAttributes="Bold"
+                        BackgroundColor="#0f5cc2"
+                        BorderColor="Black"
+                        BorderWidth="1"
+                        WidthRequest="150"
+                        HeightRequest="70"
+                        TextColor="White"
+                        CornerRadius="15"
+                        Command="{Binding PrestadorSelecionadoCommand}" />
+                </VerticalStackLayout>
+
+            </HorizontalStackLayout>
+
+            <!-- Cancelar -->
+            <Label Text="CANCELAR"
+                   FontSize="16" 
+                   FontAttributes="Bold"
+                   TextColor="#C70202" 
+                   HorizontalOptions="Center">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="CancelPopup"/>
                 </Label.GestureRecognizers>
             </Label>
+
         </VerticalStackLayout>
 
     </Frame>

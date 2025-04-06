@@ -14,7 +14,9 @@ namespace ConectaProApp.ViewModels.Usuarios
     {
         private UsuarioServices uService;
 
-        public ICommand AbrirPopupCommand { get; set; }
+        public ICommand EtapaUmCommand { get; set; }
+        public ICommand AbrirPopupCommand { get; set; } 
+        
 
         public LoginViewModel()
         {
@@ -24,13 +26,15 @@ namespace ConectaProApp.ViewModels.Usuarios
 
         public void InitializeCommands()
         {
+            EtapaUmCommand = new Command(async () => await EtapaUm());
             AbrirPopupCommand = new Command(async () => await AbrirPopup());
         }
 
-        public async Task AbrirPopup()
+        public async Task EtapaUm()
         {
             try
             {
+                await MopupService.Instance.PopAsync();
                 await Application.Current.MainPage.Navigation.PushAsync(new View.Cliente.RegisterClient());
 
             }
@@ -41,5 +45,21 @@ namespace ConectaProApp.ViewModels.Usuarios
 
             }
         }
+
+        public async Task AbrirPopup()
+        {
+            try
+            {
+                await Mopups.Services.MopupService.Instance.PushAsync(new PopUp.TipoContaAlert());
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert
+                   ("Ops!", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
+
+            }
+        }
+    
     }
 }

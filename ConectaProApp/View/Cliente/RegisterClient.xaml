@@ -11,7 +11,7 @@
 
             
             <Image
-             Source="conectapro_logo.png"
+             Source="logo_conectapro_preto.png"
              HeightRequest="100"
              Aspect="AspectFit"
              HorizontalOptions="Center"
@@ -44,41 +44,45 @@
             
             
             <Label
-             Text="1. Informações pessoais"
+             Text="1. Informações iniciais"
              FontSize="24"
              HorizontalOptions="Center" />
 
             <Label
-             Text="Como proprietário do seu negócio, insira suas informações pessoais."
+             Text="Insira as informações inicias desejadas para o cadastro da sua empresa"
              FontSize="14"
              TextColor="Gray"
              HorizontalOptions="Center" />
 
             <Entry
-             Placeholder="Digite o seu Nome"
+             Placeholder="Razao Social"
              FontSize="15"
              HorizontalOptions="Fill"
              WidthRequest="314"
+             Text="{Binding Nome, Mode=TwoWay}"
               />
 
 
             <Entry
-             Placeholder="Digite seu Email"
+             Placeholder="Email corporativo"
              FontSize="15"
              HorizontalOptions="Fill"
              WidthRequest="314"
+             Text="{Binding Email, Mode=TwoWay}"
               />
 
-           
+
             <Button
-               Command="{Binding EtapaDoisRegisterClientCommand}"
-             Text="Próximo"
-             FontSize="30"
-             BackgroundColor="#0f5cc2"
-             TextColor="White"
-             HorizontalOptions="Fill" 
-                WidthRequest="178"
-                HeightRequest="49"/>
+                 Command="{Binding EtapaDoisRegisterClientCommand}"
+                 Text="Próximo"
+                 FontSize="30"
+                 BackgroundColor="#0f5cc2"
+                 BorderColor="Black"
+                 BorderWidth="1"
+                 TextColor="White"
+                 HorizontalOptions="Fill" 
+                 WidthRequest="178"
+                 HeightRequest="49"/>
         </VerticalStackLayout>
     </ScrollView>
 

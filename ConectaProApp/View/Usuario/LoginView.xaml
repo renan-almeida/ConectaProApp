@@ -54,7 +54,7 @@
                 x:Name="MyButton"
                  Text="Entrar"
                 FontSize="30"
-                Command="{Binding AbrirPopupCommand}"
+                Command="{Binding EtapaUmCommand}"
                 CornerRadius="10"
                 BorderColor="Black"
                 BorderWidth="1"
@@ -63,7 +63,7 @@
                 BackgroundColor="#0f5cc2"
                 TextColor="White"
                 HorizontalOptions="FillAndExpand" />
-
+            
             <Label
                  Text="Esqueceu a Senha?"
                  FontSize="14"
@@ -72,21 +72,25 @@
                  VerticalOptions="End"
                  Margin="0,10,0,0" />
 
-            <Label VerticalOptions="End"
-                   FontSize="14"
-                   HorizontalOptions="Center"
-                   Margin="0,10,0,0">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Não tem uma conta?" TextColor="Black"/>
-                        <Span Text="Crie uma" TextColor="#2886CA"/>
-                    </FormattedString>
-                </Label.FormattedText>
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding AbrirPopupCommand}"/>
-                </Label.GestureRecognizers>
-            </Label>
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Label VerticalOptions="End"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        Margin="0,10,0,0"
+        >
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Não tem uma conta? Crie uma" TextColor="#2886CA"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AbrirPopupCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
+            </HorizontalStackLayout>
+
+           
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

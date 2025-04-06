@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.Cliente.RegisterClientTree"
+             BackgroundColor="#f3f3f3">
+    <ScrollView>
+        <VerticalStackLayout
+        Padding="30,0"
+        Spacing="25">
+
+            <Image
+            Source="logo_conectapro_preto.png"
+            HeightRequest="100"
+            Aspect="AspectFit"
+            HorizontalOptions="Center"
+                Margin="63"/>
+            
+
+            <Label
+            Text="3. Estamos quase lá"
+            FontSize="24"
+            HorizontalOptions="Center" />
+
+            <Label
+            Text="Insira as últimas informações e ingresse na ConectaPro!."
+            FontSize="14"
+            HorizontalOptions="Center"
+                TextColor="gray"/>
+
+            <Entry
+            Placeholder="Telefone"
+            Keyboard="Numeric"
+            FontSize="15"
+            HorizontalOptions="Fill"
+            WidthRequest="314"
+            Text="{Binding Telefone, Mode=TwoWay}"/>
+
+            <Entry
+            Placeholder="CEP"
+             Keyboard="Numeric"
+             FontSize="15"
+             HorizontalOptions="Fill"
+             WidthRequest="314"
+             Text="{Binding Telefone, Mode=TwoWay}"/>
+
+            <Entry
+            Placeholder="Nro"
+             Keyboard="Numeric"
+             FontSize="15"
+             HorizontalOptions="Fill"
+             WidthRequest="314"
+             Text="{Binding Telefone, Mode=TwoWay}"/>   
+
+            <Button
+            Text="Próximo"
+            Command="{Binding EtapaQuatroRegisterClientCommand}"
+            FontSize="30"
+            WidthRequest="178"
+            HeightRequest="49"
+            BackgroundColor="#0f5cc2"
+            BorderColor="Black"
+            BorderWidth="1"
+            TextColor="White"
+            HorizontalOptions="Fill"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
