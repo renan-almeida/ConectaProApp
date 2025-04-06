@@ -44,6 +44,7 @@
             
             
             <Label
+             TextColor="Black"
              Text="1. Informações iniciais"
              FontSize="24"
              HorizontalOptions="Center" />
@@ -55,6 +56,7 @@
              HorizontalOptions="Center" />
 
             <Entry
+             TextColor="Black"
              Placeholder="Razao Social"
              FontSize="15"
              HorizontalOptions="Fill"
@@ -64,6 +66,7 @@
 
 
             <Entry
+             TextColor="Black"
              Placeholder="Email corporativo"
              FontSize="15"
              HorizontalOptions="Fill"
@@ -75,14 +78,14 @@
             <Button
                  Command="{Binding EtapaDoisRegisterClientCommand}"
                  Text="Próximo"
-                 FontSize="30"
+                 FontSize="25"
                  BackgroundColor="#0f5cc2"
                  BorderColor="Black"
                  BorderWidth="1"
                  TextColor="White"
                  HorizontalOptions="Fill" 
                  WidthRequest="178"
-                 HeightRequest="49"/>
+                 HeightRequest="48"/>
         </VerticalStackLayout>
     </ScrollView>
 

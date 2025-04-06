@@ -17,6 +17,7 @@
             
 
             <Label
+            TextColor="Black"
             Text="3. Estamos quase lá"
             FontSize="24"
             HorizontalOptions="Center" />
@@ -28,6 +29,7 @@
                 TextColor="gray"/>
 
             <Entry
+            TextColor="Black"
             Placeholder="Telefone"
             Keyboard="Numeric"
             FontSize="15"
@@ -36,6 +38,7 @@
             Text="{Binding Telefone, Mode=TwoWay}"/>
 
             <Entry
+            TextColor="Black"
             Placeholder="CEP"
              Keyboard="Numeric"
              FontSize="15"
@@ -44,17 +47,18 @@
              Text="{Binding Telefone, Mode=TwoWay}"/>
 
             <Entry
+            TextColor="Black"
             Placeholder="Nro"
-             Keyboard="Numeric"
-             FontSize="15"
-             HorizontalOptions="Fill"
-             WidthRequest="314"
-             Text="{Binding Telefone, Mode=TwoWay}"/>   
+            Keyboard="Numeric"
+            FontSize="15"
+            HorizontalOptions="Fill"
+            WidthRequest="314"
+            Text="{Binding Telefone, Mode=TwoWay}"/>   
 
             <Button
             Text="Próximo"
             Command="{Binding EtapaQuatroRegisterClientCommand}"
-            FontSize="30"
+            FontSize="25"
             WidthRequest="178"
             HeightRequest="49"
             BackgroundColor="#0f5cc2"

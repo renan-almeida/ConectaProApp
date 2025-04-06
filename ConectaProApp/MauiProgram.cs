@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-<<<<<<< HEAD
+
 using CommunityToolkit.Maui;
-=======
+
 using Mopups.Hosting;
 
->>>>>>> 02/04_RenanAlmeida
+
 namespace ConectaProApp;
 
 public static class MauiProgram

@@ -16,6 +16,7 @@
                  Margin="63"/>
             
             <Label
+            TextColor="Black"
             Text="4. Para finalizar"
             FontSize="24"
             HorizontalOptions="Center" />
@@ -27,6 +28,7 @@
             HorizontalOptions="Center" />
 
             <Entry
+            TextColor="Black"
             Placeholder="Digitar senha"
             PlaceholderColor="#B2A9A9"
             FontSize="15"
@@ -36,6 +38,7 @@
             Text="{Binding Senha, Mode=TwoWay}"/> 
 
             <Entry
+            TextColor="Black"
             Placeholder="Confirmar senha"
             PlaceholderColor="#B2A9A9"
             FontSize="15"

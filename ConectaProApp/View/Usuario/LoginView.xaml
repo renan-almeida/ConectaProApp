@@ -40,12 +40,14 @@
                  TextColor="Gray" />
 
             <Entry
+                TextColor="Black"
                  Placeholder="Digite seu Email"
                  Keyboard="Email"
                  HorizontalOptions="FillAndExpand"
                 />
 
             <Entry
+                TextColor="Black"
                  Placeholder="Digite sua senha"
                  IsPassword="True"
                  HorizontalOptions="FillAndExpand" />
@@ -53,13 +55,13 @@
             <Button
                 x:Name="MyButton"
                  Text="Entrar"
-                FontSize="30"
+                FontSize="25"
                 Command="{Binding EtapaUmCommand}"
                 CornerRadius="10"
                 BorderColor="Black"
                 BorderWidth="1"
                 WidthRequest="178"
-                HeightRequest="49"
+                HeightRequest="48"
                 BackgroundColor="#0f5cc2"
                 TextColor="White"
                 HorizontalOptions="FillAndExpand" />
