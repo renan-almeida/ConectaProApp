@@ -17,6 +17,7 @@
             
 
             <Label
+            TextColor="Black"
             Text="3. Estamos quase lá"
             FontSize="24"
             HorizontalOptions="Center" />
@@ -25,36 +26,42 @@
             Text="Insira as últimas informações e ingresse na ConectaPro!."
             FontSize="14"
             HorizontalOptions="Center"
-                TextColor="gray"/>
+                TextColor="#B2A9A9"/>
 
             <Entry
+            TextColor="Black"
             Placeholder="Telefone"
+            PlaceholderColor="#B2A9A9"
             Keyboard="Numeric"
             FontSize="15"
             HorizontalOptions="Fill"
             WidthRequest="314"
-            Text="{Binding Telefone, Mode=TwoWay}"/>
+            Text="{Binding TelefoneCliente, Mode=TwoWay}"/>
 
             <Entry
+            TextColor="Black"
             Placeholder="CEP"
+            PlaceholderColor="#B2A9A9"
              Keyboard="Numeric"
              FontSize="15"
              HorizontalOptions="Fill"
              WidthRequest="314"
-             Text="{Binding Telefone, Mode=TwoWay}"/>
+             Text="{Binding CepCliente, Mode=TwoWay}"/>
 
             <Entry
+            TextColor="Black"
             Placeholder="Nro"
-             Keyboard="Numeric"
-             FontSize="15"
-             HorizontalOptions="Fill"
-             WidthRequest="314"
-             Text="{Binding Telefone, Mode=TwoWay}"/>   
+            PlaceholderColor="#B2A9A9"
+            Keyboard="Numeric"
+            FontSize="15"
+            HorizontalOptions="Fill"
+            WidthRequest="314"
+            Text="{Binding NroEndCliente, Mode=TwoWay}"/>   
 
             <Button
             Text="Próximo"
             Command="{Binding EtapaQuatroRegisterClientCommand}"
-            FontSize="30"
+            FontSize="25"
             WidthRequest="178"
             HeightRequest="49"
             BackgroundColor="#0f5cc2"

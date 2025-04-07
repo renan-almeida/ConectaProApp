@@ -68,7 +68,7 @@
                         HeightRequest="70"
                         TextColor="White"
                         CornerRadius="15"
-                        Command="{Binding PrestadorSelecionadoCommand}" />
+                        Command="{Binding EtapaUmPrestadorCommand}" />
                 </VerticalStackLayout>
 
             </HorizontalStackLayout>

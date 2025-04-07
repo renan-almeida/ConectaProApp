@@ -1,48 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ConectaProApp.View.Cliente.RegisterClient"
-             BackgroundColor="#F3F3F3">
+             x:Class="ConectaProApp.View.Prestador.RegisterPrestador"
+             BackgroundColor="#f3f3f3">
     <ScrollView>
         <VerticalStackLayout
          Padding="30,0"
          Spacing="25">
 
 
-            
+
             <Image
              Source="logo_conectapro_preto.png"
              HeightRequest="100"
              Aspect="AspectFit"
              HorizontalOptions="Center"
                 Margin="63"/>
-<!--
-          <HorizontalStackLayout>
-                <Button 
-                    BackgroundColor="#0f5cc2"
-                    Text="1"
-                    FontSize="20"
-                    FontAttributes="Bold"
-                    CornerRadius="30"
-                    WidthRequest="50"
-                    HeightRequest="50" 
-                    Margin="30"
-                    HorizontalOptions="Start"
-                    />
-
-                <Border
-                    Stroke="#0f5cc2"
-                    StrokeThickness="3"
-                    WidthRequest="37"
-                    HeightRequest="1"
-                    HorizontalOptions="Center"/>  
-
-
-            </HorizontalStackLayout>  
-            -->
-            
-            
-            
+        
             <Label
              TextColor="Black"
              Text="1. Informações iniciais"
@@ -50,35 +24,35 @@
              HorizontalOptions="Center" />
 
             <Label
-             Text="Insira as informações inicias desejadas para o cadastro da sua empresa"
+             Text="Insira suas informações pessoais para se tornar um prestador ConectaPro"
              FontSize="14"
              TextColor="#B2A9A9"
              HorizontalOptions="Center" />
 
             <Entry
              TextColor="Black"
-             Placeholder="Razao Social"
+             Placeholder="Digite seu Nome"
              PlaceholderColor="#B2A9A9"
              FontSize="15"
              HorizontalOptions="Fill"
              WidthRequest="314"
-             Text="{Binding NomeCliente, Mode=TwoWay}"
+             Text="{Binding NomePrestador, Mode=TwoWay}"
               />
 
 
             <Entry
              TextColor="Black"
-             Placeholder="Email corporativo"
+             Placeholder="Digite seu Email"
              PlaceholderColor="#B2A9A9"
              FontSize="15"
-             HorizontalOptions="Fill"
+             HorizontalOptions="Center"
              WidthRequest="314"
-             Text="{Binding EmailCliente, Mode=TwoWay}"
+             Text="{Binding EmailPrestador, Mode=TwoWay}"
               />
 
 
             <Button
-                 Command="{Binding EtapaDoisRegisterClientCommand}"
+                 Command="{Binding EtapaDoisRegisterPrestadorCommand}"
                  Text="Próximo"
                  FontSize="25"
                  BackgroundColor="#0f5cc2"
@@ -90,5 +64,4 @@
                  HeightRequest="48"/>
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

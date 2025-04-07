@@ -16,8 +16,30 @@ namespace ConectaProApp.ViewModels.Usuarios
         private UsuarioServices uService;
 
         public ICommand EtapaUmCommand { get; set; }
-        public ICommand AbrirPopupCommand { get; set; } 
-        
+        public ICommand EtapaUmPrestadorCommand { get; set; }
+        public ICommand AbrirPopupCommand { get; set; }
+
+        private string email;
+        public string Email
+        {
+            get => email;
+            set
+            {
+                email = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string senha;
+        public string Senha
+        {
+            get => senha;
+            set
+            {
+                senha = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         public LoginViewModel()
@@ -29,15 +51,35 @@ namespace ConectaProApp.ViewModels.Usuarios
         {
             EtapaUmCommand = new Command(async () => await EtapaUm());
             AbrirPopupCommand = new Command(async () => await AbrirPopup());
+            EtapaUmPrestadorCommand = new Command(async() => await EtapaUmPrestador());
         }
+
+
 
 
         public async Task EtapaUm()
         {
             try
             {
-                await MopupService.Instance.PopAsync();
+                
+
+                    await MopupService.Instance.PopAsync();
                 await Application.Current.MainPage.Navigation.PushAsync(new View.Cliente.RegisterClient());
+
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Ops!", ex.Message, "Ok");
+            }
+        }
+
+        public async Task EtapaUmPrestador()
+        {
+            try
+            {
+                await MopupService.Instance.PopAsync();
+                await Application.Current.MainPage.Navigation.PushAsync(new View.Prestador.RegisterPrestador());
 
 
             }
@@ -61,6 +103,8 @@ namespace ConectaProApp.ViewModels.Usuarios
 
             }
         }
+
+
     
     }
 }

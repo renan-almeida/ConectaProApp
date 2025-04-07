@@ -1,5 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
+
 using Mopups.Hosting;
+
+
+
+using CommunityToolkit.Maui;
+
+using Mopups.Hosting;
+
+
 
 namespace ConectaProApp;
 

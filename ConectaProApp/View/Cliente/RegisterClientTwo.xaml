@@ -16,6 +16,7 @@
                 Margin="63"/>
 
             <Label
+            TextColor="Black"
             Text="2. Informações do seu negócio"
             FontSize="24"
             HorizontalOptions="Center" />
@@ -27,13 +28,15 @@
             HorizontalOptions="Center" />
 
             <Entry
-           Placeholder="Nome Fantasia"
+            TextColor="Black"
+            Placeholder="Nome Fantasia"
             FontSize="15"
             HorizontalOptions="Fill"
             WidthRequest="314"
             Text="{Binding NomeFantasia, Mode=TwoWay}"/>
             
             <Entry
+            TextColor="Black"
             Placeholder="CNPJ"
             FontSize="15"
             HorizontalOptions="Fill" 
@@ -52,14 +55,14 @@
 
             <Button
                     Text="Próximo"
-                    FontSize="30"
+                    FontSize="25"
                     BackgroundColor="#0f5cc2"
                     TextColor="White"
                     HorizontalOptions="Fill"
                     BorderColor="Black"
                     BorderWidth="1"
                     WidthRequest="178"
-                    HeightRequest="49"
+                    HeightRequest="48"
                     Command="{Binding EtapaTresRegisterClientCommand}" />
         </VerticalStackLayout>
     </ScrollView>

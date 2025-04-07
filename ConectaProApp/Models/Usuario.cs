@@ -1,4 +1,5 @@
-﻿using ConectaProApp.Models.Enuns;
+﻿
+using ConectaProApp.Models.Enuns;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,10 @@ namespace ConectaProApp.Models
         public string Nome { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
-        public int Telefone { get; set; }
+        public string  Telefone { get; set; }
+        public string Cep { get; set; }
+        public int Nro { get; set; }
         public byte[] FotoUrl{ get; set; }
-        public TipoUsuarioEnum ipoUsuario { get; set; }
+        public TipoUsuarioEnum TipoUsuario { get; set; }
     }
 }

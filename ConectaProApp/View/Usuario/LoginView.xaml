@@ -38,29 +38,35 @@
                  Text="Faça login para começar a alavancar suas manutenções."
                  FontSize="14"
                  HorizontalOptions="Center"
-                 TextColor="Gray" />
+                 TextColor="#B2A9A9" />
 
             <Entry
+                TextColor="Black"
                  Placeholder="Digite seu Email"
+                PlaceholderColor="#B2A9A9"
                  Keyboard="Email"
+                Text="{Binding Email}"
                  HorizontalOptions="FillAndExpand"
                 />
 
             <Entry
+                TextColor="Black"
                  Placeholder="Digite sua senha"
+                PlaceholderColor="#B2A9A9"
                  IsPassword="True"
+                Text="{Binding Senha}"
                  HorizontalOptions="FillAndExpand" />
 
             <Button
                 x:Name="MyButton"
                  Text="Entrar"
-                FontSize="30"
+                FontSize="25"
                 Command="{Binding EtapaUmCommand}"
                 CornerRadius="10"
                 BorderColor="Black"
                 BorderWidth="1"
                 WidthRequest="178"
-                HeightRequest="49"
+                HeightRequest="48"
                 BackgroundColor="#0f5cc2"
                 TextColor="White"
                 HorizontalOptions="FillAndExpand" />

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.Prestador.RegisterPrestadorTwo"
+             BackgroundColor="#f3f3f3">
+    <ScrollView>
+        <VerticalStackLayout
+      Padding="30,0"
+      Spacing="25">
+
+
+
+            <Image
+          Source="logo_conectapro_preto.png"
+          HeightRequest="100"
+          Aspect="AspectFit"
+          HorizontalOptions="Center"
+             Margin="63"/>
+
+            <Label
+          TextColor="Black"
+          Text="2. Informações profissionais"
+          FontSize="24"
+          HorizontalOptions="Center" />
+
+            <Label
+          Text="Nos descreva suas habilidades e\nespecializações profissionais"
+          FontSize="15"
+          LineBreakMode="WordWrap"
+          TextColor="#B2A9A9"
+          HorizontalOptions="Center" />
+
+            <Entry
+          TextColor="Black"
+          Placeholder="Habilidades"
+          PlaceholderColor="#B2A9A9"
+          FontSize="15"
+          HorizontalOptions="Fill"
+          WidthRequest="314"
+          Text="{Binding Habilidades, Mode=TwoWay}"
+           />
+
+
+            <Entry
+          TextColor="Black"
+          Placeholder="Especializações"
+          PlaceholderColor="#B2A9A9"
+          FontSize="15"
+          HorizontalOptions="Center"
+          WidthRequest="314"
+          Text="{Binding Especializacoes, Mode=TwoWay}"
+           />
+
+            <Entry
+                TextColor="Black"
+                Placeholder="Breve descrição sobre você"
+                PlaceholderColor="#B2A9A9"
+                FontSize="15"
+                HorizontalOptions="Center"
+                WidthRequest="314"
+                Text="{Binding Especializacoes, Mode=TwoWay}"
+                 />
+
+            <Picker WidthRequest="314" Title="Selecione o segmento">
+                <Picker.Items>
+                    <x:String>Tecnologia</x:String>
+                    <x:String>Alimentação</x:String>
+                    <x:String>Serviços Gerais</x:String>
+                    <x:String>Saúde</x:String>
+                    <x:String>Educação</x:String>
+                </Picker.Items>
+            </Picker>
+
+
+            <Button
+              Command="{Binding EtapaTresRegisterPrestadorCommand}"
+              Text="Próximo"
+              FontSize="25"
+              BackgroundColor="#0f5cc2"
+              BorderColor="Black"
+              BorderWidth="1"
+              TextColor="White"
+              HorizontalOptions="Fill" 
+              WidthRequest="178"
+              HeightRequest="48"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
