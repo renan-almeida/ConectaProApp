@@ -58,7 +58,7 @@
                 FontSize="15"
                 HorizontalOptions="Center"
                 WidthRequest="314"
-                Text="{Binding Especializacoes, Mode=TwoWay}"
+                Text="{Binding DescPrestador, Mode=TwoWay}"
                  />
 
             <Picker WidthRequest="314" Title="Selecione o segmento">

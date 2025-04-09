@@ -2,6 +2,7 @@
 using ConectaProApp.Models;
 using ConectaProApp.Services;
 using ConectaProApp.Services.Cliente;
+using ConectaProApp.Services.Validações;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,11 @@ namespace ConectaProApp.ViewModels.Cliente
         public ICommand EtapaDoisRegisterClientCommand { get; set; }
         public ICommand EtapaTresRegisterClientCommand { get; set; }
         public ICommand EtapaQuatroRegisterClientCommand { get; set; }
-        public ICommand CriarContaPrestadorCommand { get; set; }
+        public ICommand CriarContaClienteCommand { get; set; }
+
+        private readonly CepService _cepService = new();
+        private readonly CnpjService _cnpjService = new();
+        private readonly TelefoneService _telefoneService = new();
 
         private string nomeCliente;
         public string NomeCliente
@@ -167,7 +172,7 @@ namespace ConectaProApp.ViewModels.Cliente
             EtapaDoisRegisterClientCommand = new Command(async () => await EtapaDois());
             EtapaTresRegisterClientCommand = new Command(async () => await EtapaTres());
             EtapaQuatroRegisterClientCommand = new Command(async () => await EtapaQuatro());
-            CriarContaPrestadorCommand = new Command(async () => await FinalizarCadastro());
+            CriarContaClienteCommand = new Command(async () => await FinalizarCadastro());
         }
 
         public async Task EtapaDois()

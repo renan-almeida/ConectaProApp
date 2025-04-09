@@ -30,14 +30,25 @@
          HorizontalOptions="Center" />
 
             <Entry
-         TextColor="Black"
-         Placeholder="Digite seu CEP"
-         PlaceholderColor="#B2A9A9"
-         FontSize="15"
-         HorizontalOptions="Fill"
-         WidthRequest="314"
-         Text="{Binding CepPrestador, Mode=TwoWay}"
-          />
+                TextColor="Black"
+                Placeholder="Digite seu Telefone"
+                PlaceholderColor="#B2A9A9"
+                FontSize="15"
+                HorizontalOptions="Fill"
+                WidthRequest="314"
+                Text="{Binding TelefonePrestador, Mode=TwoWay}"
+ />
+
+
+            <Entry
+                 TextColor="Black"
+                 Placeholder="Digite seu CEP"
+                 PlaceholderColor="#B2A9A9"
+                 FontSize="15"
+                 HorizontalOptions="Fill"
+                 WidthRequest="314"
+                 Text="{Binding CepPrestador, Mode=TwoWay}"
+                  />
 
 
             <Entry
