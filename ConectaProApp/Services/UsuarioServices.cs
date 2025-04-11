@@ -1,4 +1,5 @@
 ﻿using ConectaProApp.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,20 @@ namespace ConectaProApp.Services
                 .PostAsync(apiUrlBase + urlComplementar, u, string.Empty);
 
             return u;
+        }
+
+        public class EmailRequest
+        {
+            public string Email { get; set; }
+        }
+
+        public async Task<bool> SolicitarCodigoRecuperacaoSenhaAsync(string email)
+        {
+            var uri = $"{apiUrlBase}/SolicitarCodigoRecuperacaoSenha";
+            var response = await _request.PostAsync<dynamic>(uri, new EmailRequest { Email = email }, string.Empty);
+
+            Console.WriteLine($"Response: {response}");
+            return response.success ?? false; // Ajuste conforme o formato real da resposta
         }
     }
 }

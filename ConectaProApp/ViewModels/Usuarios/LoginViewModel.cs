@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ConectaProApp.View.EsqueceuSenha;
 
 namespace ConectaProApp.ViewModels.Usuarios
 {
@@ -15,6 +16,7 @@ namespace ConectaProApp.ViewModels.Usuarios
 
         private UsuarioServices uService;
 
+        public ICommand EsqueceuSenhaCommand { get; }
         public ICommand EtapaUmCommand { get; set; }
         public ICommand EtapaUmPrestadorCommand { get; set; }
         public ICommand AbrirPopupCommand { get; set; }
@@ -45,10 +47,12 @@ namespace ConectaProApp.ViewModels.Usuarios
         public LoginViewModel()
         {
             InitializeCommands();
+            EsqueceuSenhaCommand = new Command(async () => await NavegarParaPasswordEmail());
         }
 
         private void InitializeCommands()
         {
+            
             EtapaUmCommand = new Command(async () => await EtapaUm());
             AbrirPopupCommand = new Command(async () => await AbrirPopup());
             EtapaUmPrestadorCommand = new Command(async() => await EtapaUmPrestador());
@@ -103,8 +107,13 @@ namespace ConectaProApp.ViewModels.Usuarios
 
             }
         }
+        private async Task NavegarParaPasswordEmail()
+        {
+            // Navega para a página PasswordEmail
+            await Application.Current.MainPage.Navigation.PushAsync(new PasswordEmail());
+        }
 
 
-    
+
     }
 }
