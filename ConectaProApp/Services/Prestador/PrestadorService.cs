@@ -10,7 +10,7 @@ namespace ConectaProApp.Services.Prestador
     public class PrestadorService : Request
     {
         private readonly Request _request;
-        private const string apiUrlBase = "xyz.com/ConectaPro/Usuarios/Prestador";
+        private const string apiUrlBase = "https://conectapro-api.azurewebsites.net";
 
         public PrestadorService()
         {

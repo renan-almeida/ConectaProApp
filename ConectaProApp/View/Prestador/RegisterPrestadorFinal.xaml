@@ -54,7 +54,7 @@
 
 
             <Button
-         Command="{Binding HomeScreen}"
+         Command="{Binding CriarContaPrestadorCommand}"
          Text="Criar conta"
          FontSize="25"
          BackgroundColor="#0f5cc2"

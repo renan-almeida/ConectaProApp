@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -16,14 +17,22 @@ namespace ConectaProApp.ViewModels.Cliente
     public class RegisterClientViewModel : BaseViewModel
     {
         private ClienteService eService;
+        private readonly CepService _cepService;
+        private readonly CnpjService _cnpjService;
+
         public ICommand EtapaDoisRegisterClientCommand { get; set; }
         public ICommand EtapaTresRegisterClientCommand { get; set; }
         public ICommand EtapaQuatroRegisterClientCommand { get; set; }
         public ICommand CriarContaClienteCommand { get; set; }
 
-        private readonly CepService _cepService = new();
-        private readonly CnpjService _cnpjService = new();
-        private readonly TelefoneService _telefoneService = new();
+        public RegisterClientViewModel()
+        {
+            eService = new ClienteService();
+            _cnpjService = new CnpjService();
+            _cepService = new CepService();
+            InitializeCommands();
+
+        }
 
         private string nomeCliente;
         public string NomeCliente
@@ -46,6 +55,17 @@ namespace ConectaProApp.ViewModels.Cliente
                 OnPropertyChanged();
             }
         }
+        
+        // Validação de Email
+        private bool EmailValido(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            return regex.IsMatch(email);
+        }
+
 
         private string nomeFantasia;
         public string NomeFantasia
@@ -71,9 +91,20 @@ namespace ConectaProApp.ViewModels.Cliente
 
         private string MascararCnpj(string input)
         {
-            if (input.Length > 14) input.Substring(0, 14);
-            return Convert.ToUInt64(input).ToString(@"00\.000\.000\/0000\-00");
+            
+            input = new string(input.Where(char.IsDigit).ToArray());
+
+            // Limita a 14 dígitos de outra forma -> []
+            if (input.Length > 14)
+                input = input[..14]; 
+
+            // Aplica a máscara apenas se tiver os 14 dígitos
+            if (input.Length == 14 && ulong.TryParse(input, out ulong cnpjNumerico))
+                return cnpjNumerico.ToString(@"00\.000\.000\/0000\-00");
+
+            return input; // Retorna o número parcial enquanto digita
         }
+
 
         private string telefoneCliente;
         public string TelefoneCliente
@@ -84,6 +115,12 @@ namespace ConectaProApp.ViewModels.Cliente
                 telefoneCliente = MascararTelefone(RemoverNaoNumericos(value));
                 OnPropertyChanged();
             }
+        }
+
+        // Validação de telefone
+        public bool ValidarTelefone(string telefone)
+        {
+            return Regex.IsMatch(telefone, @"^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$");
         }
 
         private string MascararTelefone(string input)
@@ -115,13 +152,15 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             input = new string(input.Where(char.IsDigit).ToArray());
 
-            if (input.Length > 8) 
+            if (input.Length > 8)
                 input = input.Substring(0, 8);
 
-            if (ulong.TryParse(input, out ulong cepNumerico))
-                return cepNumerico.ToString(@"00000\-000");
+            if (input.Length < 8)
+                return input;
 
-            return input;
+            return Convert.ToUInt64(input).ToString(@"00000\-000");
+
+
         }
 
         private int nroEndCliente;
@@ -155,16 +194,6 @@ namespace ConectaProApp.ViewModels.Cliente
                 confimacaoSenhaCliente = value;
                 OnPropertyChanged();
             }
-        }
-
-        
-
-
-
-        public RegisterClientViewModel()
-        {
-            eService = new ClienteService();
-            InitializeCommands();
         }
        
         public void InitializeCommands()
@@ -246,6 +275,33 @@ namespace ConectaProApp.ViewModels.Cliente
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "Ok");
                     return;
+                }
+
+                if (!EmailValido(EmailCliente))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Email inválido", "Ok");
+                    return;
+                }
+
+                var cnpjValido = await _cnpjService.ValidarCnpjAsync(Cnpj);
+
+                if(!cnpjValido)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Cnpj inválido", "Ok");
+                    return;
+                }
+
+                var cepValido = await _cepService.ValidarCepAsync(CepCliente);
+
+                if(!cepValido)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Cep inválido", "Ok");
+                    return;
+                }
+
+                if(TelefoneCliente.Length < 10 || !ValidarTelefone(TelefoneCliente))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Telefone inválido", "Ok");
                 }
 
                 var novoCliente = new EmpresaCliente

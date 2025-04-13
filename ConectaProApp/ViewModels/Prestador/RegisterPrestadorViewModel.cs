@@ -1,9 +1,12 @@
-﻿using ConectaProApp.Services.Prestador;
+﻿using ConectaProApp.Models;
+using ConectaProApp.Services.Prestador;
+using ConectaProApp.Services.Validações;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -12,10 +15,12 @@ namespace ConectaProApp.ViewModels.Prestador
     public class RegisterPrestadorViewModel : BaseViewModel
     {
         private PrestadorService pService;
-
+        private CepService _cepService;
+        
         public ICommand EtapaDoisRegisterPrestadorCommand { get; set; }
         public ICommand EtapaTresRegisterPrestadorCommand { get; set; }
         public ICommand EtapaQuatroRegisterPrestadorCommand { get; set; }
+        public ICommand CriarContaPrestadorCommand { get; set; }
         
 
         public RegisterPrestadorViewModel()
@@ -46,15 +51,45 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
 
+        // Validação de Email
+        private bool EmailValido(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            return regex.IsMatch(email);
+        }
+
         private string cpfPrestador;
         public string CpfPrestador
         {
             get => cpfPrestador;
             set
             {
-                cpfPrestador = value;
+                cpfPrestador = MascararCpf(RemoverNaoNumericos(value));
                 OnPropertyChanged();
             }
+        }
+
+        private string  MascararCpf(string input)
+        {
+            // Removendo qualquer caractere que não seja número
+            input = new string(input.Where(char.IsDigit).ToArray());
+
+            // Aqui garantimos que não passe de 11 digitos
+            if (input.Length > 11)
+                input = input.Substring(0, 11);
+            // Enquanto o usuario nao digite todos os 11 caracteres, garantimos que apareça os caracteres que ele já digitou.
+            if (input.Length < 11)
+                return input;
+
+            // Convertendo do tipo string para númerico (Int)
+            // O trecho .ToString(...) é onde realizamos a mascara do cpf, ou seja como será
+            // exibido para o usuario.
+            return Convert.ToUInt64(input).ToString(@"000\.000\.000\-00");
+
+
         }
 
 
@@ -103,6 +138,12 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
 
+        // Validação de telefone
+        public bool ValidarTelefone(string telefone)
+        {
+            return Regex.IsMatch(telefone, @"^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$");
+        }
+
         private string MascararTelefone(string input)
         {
             if (input.Length > 11)
@@ -135,10 +176,12 @@ namespace ConectaProApp.ViewModels.Prestador
             if (input.Length > 8)
                 input = input.Substring(0, 8);
 
-            if (ulong.TryParse(input, out ulong cepNumerico))
-                return cepNumerico.ToString(@"00000\-000");
+            if (input.Length < 8)
+                return input;
 
-            return input;
+            return Convert.ToUInt64(input).ToString(@"00000\-000");
+
+          
         }
 
         private int nroResidencia;
@@ -182,6 +225,7 @@ namespace ConectaProApp.ViewModels.Prestador
             EtapaDoisRegisterPrestadorCommand = new Command(async () => EtapaDois());
             EtapaTresRegisterPrestadorCommand = new Command(async () => EtapaTres());
             EtapaQuatroRegisterPrestadorCommand = new Command(async () => EtapaQuatro());
+            CriarContaPrestadorCommand = new Command(async () => FinalizarCadastro());
         }
 
         public async Task EtapaDois()
@@ -243,6 +287,98 @@ namespace ConectaProApp.ViewModels.Prestador
 
             }
         }
+
+        public async Task FinalizarCadastro()
+        {
+            try
+            {
+                if (!ValidarCampos(out string mensagemErro))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "Ok");
+                    return;
+                }
+
+                if (!EmailValido(EmailPrestador))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Email inválido", "Ok");
+                    return;
+                }
+
+                
+
+                var cepValido = await _cepService.ValidarCepAsync(CepPrestador);
+
+                if (!cepValido)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Cep inválido", "Ok");
+                    return;
+                }
+
+                if (TelefonePrestador.Length < 10 || !ValidarTelefone(TelefonePrestador))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Telefone inválido", "Ok");
+                }
+
+                var novoPrestador = new Models.Prestador
+                {
+                    Nome = this.NomePrestador,
+                    Email = this.EmailPrestador,
+                    Cpf = this.CpfPrestador,
+                    Habilidades = this.Habilidades,
+                    Especialização = this.Especializacao,
+                   // Segmento = this.SegmentoPrestador
+                    DescPrestador = this.DescPrestador,
+                    Telefone = this.TelefonePrestador,
+                    Cep = this.CepPrestador,
+                    Nro = this.NroResidencia,
+                    Senha = this.SenhaPrestador,
+                    TipoUsuario = Models.Enuns.TipoUsuarioEnum.PRESTADOR
+                };
+
+                var prestadorRegistrado = await pService.PostRegistrarUsuarioAsync(novoPrestador);
+
+                if (prestadorRegistrado != null && prestadorRegistrado.IdUsuario > 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert($"Bem Vindo {NomePrestador}", "Cadastro realizado com sucesso, vamos trilhar essa carreira de prestador juntos!", "Ok");
+
+                    Application.Current.MainPage = new NavigationPage(new View.Prestador.HomePrestador());
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Não foi possível realizar o cadastro.", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao cadastrar: {ex.Message}", "Ok");
+            }
+        }
+
+
+        public bool ValidarCampos(out string mensagemErro)
+        {
+            if (string.IsNullOrWhiteSpace(NomePrestador) ||
+                    string.IsNullOrWhiteSpace(EmailPrestador) ||
+                    string.IsNullOrWhiteSpace(CpfPrestador) ||
+                    string.IsNullOrWhiteSpace(CepPrestador) ||
+                    string.IsNullOrWhiteSpace(TelefonePrestador) ||
+                    NroResidencia == 0 ||
+                    string.IsNullOrWhiteSpace(SenhaPrestador) ||
+                    string.IsNullOrWhiteSpace(ConfirmacaoSenhaPrestador))
+            {
+                mensagemErro = "Por favor, preencha todos os campos.";
+                return false;
+            }
+            if (SenhaPrestador != ConfirmacaoSenhaPrestador)
+            {
+                mensagemErro = "A senha e a confirmação não coincidem";
+                return false;
+            }
+
+            mensagemErro = string.Empty;
+            return true;
+        }
+        
 
         private string RemoverNaoNumericos(string input)
         {

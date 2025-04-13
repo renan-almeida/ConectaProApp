@@ -15,5 +15,7 @@ namespace ConectaProApp.Services.Cliente
 
             return e;
         }
+
+      
     }
 }

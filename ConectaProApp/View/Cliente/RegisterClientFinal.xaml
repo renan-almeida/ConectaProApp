@@ -50,6 +50,7 @@
 
             <Button
             Text="Criar conta"
+            Command="{Binding CriarContaClienteCommand}"
             FontSize="25"
             BackgroundColor="#0f5cc2"
                 BorderColor="Black"

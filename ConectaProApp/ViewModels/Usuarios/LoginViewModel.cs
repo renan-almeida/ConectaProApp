@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ConectaProApp.View.EsqueceuSenha;
+using ConectaProApp.Models;
+using System.ComponentModel.Design;
+using ConectaProApp.Models.Enuns;
 
 namespace ConectaProApp.ViewModels.Usuarios
 {
@@ -16,10 +19,11 @@ namespace ConectaProApp.ViewModels.Usuarios
 
         private UsuarioServices uService;
 
-        public ICommand EsqueceuSenhaCommand { get; }
+        public ICommand EsqueceuSenhaCommand { get; set; }
         public ICommand EtapaUmCommand { get; set; }
         public ICommand EtapaUmPrestadorCommand { get; set; }
         public ICommand AbrirPopupCommand { get; set; }
+        public ICommand EntrarCommand { get; set; }
 
         private string email;
         public string Email
@@ -46,8 +50,7 @@ namespace ConectaProApp.ViewModels.Usuarios
 
         public LoginViewModel()
         {
-            InitializeCommands();
-            EsqueceuSenhaCommand = new Command(async () => await NavegarParaPasswordEmail());
+            InitializeCommands();     
         }
 
         private void InitializeCommands()
@@ -56,6 +59,8 @@ namespace ConectaProApp.ViewModels.Usuarios
             EtapaUmCommand = new Command(async () => await EtapaUm());
             AbrirPopupCommand = new Command(async () => await AbrirPopup());
             EtapaUmPrestadorCommand = new Command(async() => await EtapaUmPrestador());
+            EsqueceuSenhaCommand = new Command(async () => await NavegarParaPasswordEmail());
+            EntrarCommand = new Command(async () => await Entrar());
         }
 
 
@@ -107,6 +112,57 @@ namespace ConectaProApp.ViewModels.Usuarios
 
             }
         }
+
+        public async Task Entrar()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Senha))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Atenção", "Preencha todos os campos.", "Ok");
+                    return;
+                }
+
+                var usuario = new Usuario
+                {
+                    Email = this.Email,
+                    Senha = this.Senha
+                };
+
+                var usuarioAutenticado = await uService.PostAutenticarUsuarioAsync(usuario);
+
+                if (usuarioAutenticado != null && usuarioAutenticado.IdUsuario > 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Bem-vindo!", $"Olá, {usuarioAutenticado.Nome}!", "Ok");
+
+                 switch (usuarioAutenticado.TipoUsuario)
+                    {
+                        case TipoUsuarioEnum.EMPRESA:
+                            await Application.Current.MainPage.Navigation.PushAsync(new View.Cliente.HomeClient());
+                            break;
+
+                        case TipoUsuarioEnum.PRESTADOR:
+                            await Application.Current.MainPage.Navigation.PushAsync(new View.Prestador.HomePrestador());
+                            break;
+
+                        default:
+                            await Application.Current.MainPage.DisplayAlert("Erro", "Tipo de Usuario não encontrado", "Ok");
+                            break;
+                    }
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Email ou senha inválidos.", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Ops!", ex.Message, "Ok");
+            }
+        }
+
+           
+        
         private async Task NavegarParaPasswordEmail()
         {
             // Navega para a página PasswordEmail

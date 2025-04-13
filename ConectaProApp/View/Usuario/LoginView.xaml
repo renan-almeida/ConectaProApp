@@ -63,7 +63,7 @@
                  Text="Entrar"
               
                 FontSize="25"
-                Command="{Binding EtapaUmCommand}"
+                Command="{Binding EntrarCommand}"
                 CornerRadius="10"
                 BorderColor="Black"
                 BorderWidth="1"

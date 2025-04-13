@@ -11,7 +11,7 @@ namespace ConectaProApp.Services
     class UsuarioServices: Request
     {
         private readonly Request _request;
-        private const string apiUrlBase = "xyz.com/ConectaPro/Usuarios";
+        private const string apiUrlBase = "https://conectapro-api.azurewebsites.net";
 
         public UsuarioServices()
         {
@@ -29,7 +29,7 @@ namespace ConectaProApp.Services
 
         public async Task<Usuario> PostAutenticarUsuarioAsync(Usuario u)
         {
-            string urlComplementar = "/Autenticar";
+            string urlComplementar = "/prestadores";
 
             u = await _request
                 .PostAsync(apiUrlBase + urlComplementar, u, string.Empty);
