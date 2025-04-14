@@ -1,6 +1,7 @@
 ﻿using ConectaProApp.Models.Enuns;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +14,10 @@ namespace ConectaProApp.Models
         //public long Id_Plano { get; set; }
         public string DescPrestador { get; set; }
         public List<string> Segmento { get; set; }
-        public List<string> Habilidades { get; set; }
+        public ObservableCollection<string> Habilidades { get; set; }
         public string Cpf { get; set; }
-        public List<string> Especialização { get; set; }
+        public ObservableCollection<string> Especializacoes { get; set; }
+        public DateTime DataNascimento { get; set; }
         public StatusDisponibilidadeEnum StatusDisponibilidade { get; set; }
 
       /*  public Prestador( Plano plano)

@@ -13,4 +13,6 @@ public partial class RegisterPrestadorTwo : ContentPage
 		BindingContext = _registerPrestador;
 
 	}
+
+   
 }

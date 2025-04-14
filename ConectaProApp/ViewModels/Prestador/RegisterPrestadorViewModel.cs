@@ -3,6 +3,7 @@ using ConectaProApp.Services.Prestador;
 using ConectaProApp.Services.Validações;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -16,18 +17,34 @@ namespace ConectaProApp.ViewModels.Prestador
     {
         private PrestadorService pService;
         private CepService _cepService;
+        private CpfService _cpfService;
         
         public ICommand EtapaDoisRegisterPrestadorCommand { get; set; }
         public ICommand EtapaTresRegisterPrestadorCommand { get; set; }
         public ICommand EtapaQuatroRegisterPrestadorCommand { get; set; }
         public ICommand CriarContaPrestadorCommand { get; set; }
-        
+        public ICommand AdicionarHabilidadeCommand { get; set; }
+        public ICommand RemoverHabilidadeCommand { get; set; }
+        public ICommand AdicionarEspecializacaoCommand { get; set; }
+        public ICommand RemoverEspecializacaoCommand { get; set; }
 
+     
         public RegisterPrestadorViewModel()
         {
             pService = new PrestadorService();
             InitializeCommands();
            
+        }
+        // spin de carregamento quando o prestador clicar em criar a conta.
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged();
+            }
         }
 
         private string nomePrestador;
@@ -88,33 +105,100 @@ namespace ConectaProApp.ViewModels.Prestador
             // O trecho .ToString(...) é onde realizamos a mascara do cpf, ou seja como será
             // exibido para o usuario.
             return Convert.ToUInt64(input).ToString(@"000\.000\.000\-00");
-
-
         }
 
-
-
-        private List<string> habilidades;
-        public List<string> Habilidades
+        private DateTime dtNascimento;
+        public DateTime DtNascimento
         {
-            get => habilidades;
+            get => dtNascimento;
             set
             {
-                habilidades = value;
+                dtNascimento = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        // Verificando se o Prestador é maior de idade.
+        public bool MaiorDeIdade(DateTime dataNascimento)
+        {
+            // Essa variavel esta calcula a diferença de anos entre o ano atual e o ano de nascimento
+            var idade = DateTime.Today.Year - dataNascimento.Year;
+
+            // Ajustamos a idade se a pessoa ainda não fez aniversário esse ano.
+            if (dataNascimento.Date > DateTime.Today.AddYears(-idade)) idade--;
+
+            // retornamos verdadeiro caso a idade seja maior ou igual a 18.
+            return idade >= 18;
+        }
+
+        public ObservableCollection<string> Habilidades { get; set; } = new();
+
+        private string habilidadeAtual;
+        public string HabilidadeAtual
+        {
+            get => habilidadeAtual;
+            set
+            {
+                habilidadeAtual = value;
                 OnPropertyChanged();
             }
         }
 
-        private List<string> especializacao;
-        public List<string> Especializacao
+        private void AdicionarHabilidade()
         {
-            get => especializacao;
+            if (string.IsNullOrWhiteSpace(HabilidadeAtual))
+                return;
+
+            if (Habilidades.Count >= 3)
+            {
+                Application.Current.MainPage.DisplayAlert("Limite atingido", "Você só pode adicionar até 3 habilidades.", "Ok");
+                return;
+            }
+
+            Habilidades.Add(HabilidadeAtual.Trim());
+            HabilidadeAtual = string.Empty; // Limpa o Entry
+        }
+
+        private void RemoverHabilidade(string habilidade)
+        {
+            if (Habilidades.Contains(habilidade))
+            {
+                Habilidades.Remove(habilidade);
+            }
+        }
+
+
+
+        public ObservableCollection<string> Especializacoes { get; set; } = new();
+
+        private string especializacaoAtual;
+        public string EspecializacaoAtual
+        {
+            get => especializacaoAtual;
             set
             {
-                especializacao = value;
+                especializacaoAtual = value;
                 OnPropertyChanged();
             }
         }
+
+        private void AdicionarEspecializacao()
+        {
+            if (string.IsNullOrWhiteSpace(EspecializacaoAtual))
+                Application.Current.MainPage.DisplayAlert("Erro", "Por favor insira uma especialização", "Ok");
+
+            Especializacoes.Add(EspecializacaoAtual.Trim());
+            EspecializacaoAtual = string.Empty;
+        }
+
+        private void RemoverEspecializacao(string especializacao)
+        {
+            if(Especializacoes.Contains(especializacao))
+            {
+                Especializacoes.Remove(especializacao);
+            }
+        }
+
 
         private string descPrestador;
         public string DescPrestador
@@ -226,6 +310,10 @@ namespace ConectaProApp.ViewModels.Prestador
             EtapaTresRegisterPrestadorCommand = new Command(async () => EtapaTres());
             EtapaQuatroRegisterPrestadorCommand = new Command(async () => EtapaQuatro());
             CriarContaPrestadorCommand = new Command(async () => FinalizarCadastro());
+            AdicionarHabilidadeCommand = new Command(AdicionarHabilidade);
+            RemoverHabilidadeCommand = new Command<string>(RemoverHabilidade);
+            AdicionarEspecializacaoCommand = new Command(AdicionarEspecializacao);
+            RemoverEspecializacaoCommand = new Command<string>(RemoverEspecializacao);
         }
 
         public async Task EtapaDois()
@@ -292,6 +380,9 @@ namespace ConectaProApp.ViewModels.Prestador
         {
             try
             {
+                // Spin começa a girar
+                IsBusy = true; 
+
                 if (!ValidarCampos(out string mensagemErro))
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "Ok");
@@ -304,8 +395,6 @@ namespace ConectaProApp.ViewModels.Prestador
                     return;
                 }
 
-                
-
                 var cepValido = await _cepService.ValidarCepAsync(CepPrestador);
 
                 if (!cepValido)
@@ -317,6 +406,21 @@ namespace ConectaProApp.ViewModels.Prestador
                 if (TelefonePrestador.Length < 10 || !ValidarTelefone(TelefonePrestador))
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", "Telefone inválido", "Ok");
+                    return;
+                }
+
+                var cpfValido = await _cpfService.ValidarCpfAsync(CpfPrestador);   
+                
+                if (!cpfValido)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Cpf inválido", "Ok");
+                    return;
+                }
+
+                if (!MaiorDeIdade(DtNascimento))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "É necessário ser maior de 18 anos para se cadastrar.", "Ok");
+                    return;
                 }
 
                 var novoPrestador = new Models.Prestador
@@ -325,7 +429,7 @@ namespace ConectaProApp.ViewModels.Prestador
                     Email = this.EmailPrestador,
                     Cpf = this.CpfPrestador,
                     Habilidades = this.Habilidades,
-                    Especialização = this.Especializacao,
+                    Especializacoes = this.Especializacoes,
                    // Segmento = this.SegmentoPrestador
                     DescPrestador = this.DescPrestador,
                     Telefone = this.TelefonePrestador,
@@ -351,6 +455,11 @@ namespace ConectaProApp.ViewModels.Prestador
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao cadastrar: {ex.Message}", "Ok");
+            }
+            finally
+            {
+                // Spin para de girar após o fim do try catch
+                IsBusy = false;
             }
         }
 

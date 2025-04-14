@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              x:Class="ConectaProApp.View.Prestador.RegisterPrestador"
              BackgroundColor="#f3f3f3">
     <ScrollView>
@@ -48,7 +49,7 @@
                  HorizontalOptions="Center"
                  WidthRequest="314"
                  Text="{Binding EmailPrestador, Mode=TwoWay}"
-                  />    
+                  />
 
             <Entry
                  TextColor="Black"
@@ -58,6 +59,17 @@
                  HorizontalOptions="Center"
                  WidthRequest="314"
                  Text="{Binding CpfPrestador, Mode=TwoWay}"
+                  />
+
+            <Label Text="Digite sua data de Nascimento abaixo" TextColor="#b2a9a9" HorizontalOptions="Center"/>
+            <DatePicker
+                 TextColor="Black"
+                 Date="{Binding DtNascimento, Mode=TwoWay}"
+                MaximumDate="{x:Static sys:DateTime.Today}"
+                Format="dd/MM/yyyy"
+                 FontSize="15"
+                 HorizontalOptions="Center"
+                 WidthRequest="314"
                   />    
 
 

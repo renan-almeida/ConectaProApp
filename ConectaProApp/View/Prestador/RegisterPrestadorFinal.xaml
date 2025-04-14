@@ -4,10 +4,17 @@
              x:Class="ConectaProApp.View.Prestador.RegisterPrestadorFinal"
              BackgroundColor="#f3f3f3">
     <ScrollView>
-        <VerticalStackLayout
- Padding="30,0"
- Spacing="25">
-
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+            <Grid>
+                <ActivityIndicator 
+                    IsVisible="{Binding IsBusy}" 
+                    IsRunning="{Binding IsBusy}" 
+                    Color="#0f5cc2" 
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center" 
+                    WidthRequest="50" 
+                    HeightRequest="50"/>
+            </Grid>
 
 
             <Image

@@ -2,66 +2,137 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Prestador.RegisterPrestadorTwo"
+             x:Name="RegisterPage"
              BackgroundColor="#f3f3f3">
     <ScrollView>
-        <VerticalStackLayout
-      Padding="30,0"
-      Spacing="25">
-
-
+        <VerticalStackLayout Padding="30,0" Spacing="25">
 
             <Image
-          Source="logo_conectapro_preto.png"
-          HeightRequest="100"
-          Aspect="AspectFit"
-          HorizontalOptions="Center"
-             Margin="63"/>
+                Source="logo_conectapro_preto.png"
+                HeightRequest="100"
+                Aspect="AspectFit"
+                HorizontalOptions="Center"
+                Margin="63"/>
 
             <Label
-          TextColor="Black"
-          Text="2. Informações profissionais"
-          FontSize="24"
-          HorizontalOptions="Center" />
+                TextColor="Black"
+                Text="2. Informações profissionais"
+                FontSize="24"
+                HorizontalOptions="Center" />
 
             <Label
-          Text="Nos descreva suas habilidades e\nespecializações profissionais"
-          FontSize="15"
-          LineBreakMode="WordWrap"
-          TextColor="#B2A9A9"
-          HorizontalOptions="Center" />
+                Text="Nos descreva suas habilidades e\nespecializações profissionais"
+                FontSize="15"
+                LineBreakMode="WordWrap"
+                TextColor="#B2A9A9"
+                HorizontalOptions="Center" />
 
-            <Entry
-          TextColor="Black"
-          Placeholder="Habilidades"
-          PlaceholderColor="#B2A9A9"
-          FontSize="15"
-          HorizontalOptions="Fill"
-          WidthRequest="314"
-          Text="{Binding Habilidades, Mode=TwoWay}"
-           />
+            <Label Text="Habilidades (máx. 3)" FontSize="15" TextColor="Black" HorizontalOptions="Center" />
 
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Entry
+                    Placeholder="Digite uma habilidade"
+                    Text="{Binding HabilidadeAtual}"
+                    WidthRequest="314"
+                    PlaceholderColor="#B2A9A9"
+                    TextColor="Black"/>
+                <Button Text="+" Command="{Binding AdicionarHabilidadeCommand}" BackgroundColor="#0f5cc2" />
+            </HorizontalStackLayout>
 
-            <Entry
-          TextColor="Black"
-          Placeholder="Especializações"
-          PlaceholderColor="#B2A9A9"
-          FontSize="15"
-          HorizontalOptions="Center"
-          WidthRequest="314"
-          Text="{Binding Especializacoes, Mode=TwoWay}"
-           />
+            <!-- Lista de Habilidades -->
+            <FlexLayout Wrap="Wrap" Direction="Row" AlignItems="Center"
+                        JustifyContent="Center"
+                        BindableLayout.ItemsSource="{Binding Habilidades}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Frame BackgroundColor="#e0e0e0"
+               Padding="5"
+               Margin="4"
+               CornerRadius="15"
+               HasShadow="False">
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding .}" TextColor="Black" />
+                                <Label Text="✖"
+                       TextColor="Red"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       Margin="5,0,0,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer
+                            Command="{Binding BindingContext.RemoverHabilidadeCommand, Source={x:Reference RegisterPage}}"
+                            CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
 
-            <Entry
+            </FlexLayout>
+
+            <Label Text="Especializações" TextColor="Black" FontSize="15" HorizontalOptions="Center"/>
+
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Entry
+                    TextColor="Black"
+                    Placeholder="Adicione suas especializações"
+                    Text="{Binding EspecializacaoAtual}"
+                    PlaceholderColor="#B2A9A9"
+                    FontSize="15"
+                    HorizontalOptions="Center"
+                    WidthRequest="314"/>
+                <Button Text="+" Command="{Binding AdicionarEspecializacaoCommand}" BackgroundColor="#0f5cc2"/>
+            </HorizontalStackLayout>
+
+            <!-- Lista de Especializações -->
+            <FlexLayout Wrap="Wrap" Direction="Row" AlignItems="Center"
+                        JustifyContent="Center"
+                        BindableLayout.ItemsSource="{Binding Especializacoes}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Frame BackgroundColor="#e0e0e0"
+               Padding="5"
+               Margin="4"
+               CornerRadius="15"
+               HasShadow="False">
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding .}" TextColor="Black" />
+                                <Label Text="✖"
+                       TextColor="Red"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       Margin="5,0,0,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer
+                            Command="{Binding BindingContext.RemoverEspecializacaoCommand, Source={x:Reference RegisterPage}}"
+                            CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+
+            </FlexLayout>
+
+            <Editor
+                x:Name="DescricaoEditor"
+                Text="{Binding DescPrestador, Mode=TwoWay}"
                 TextColor="Black"
                 Placeholder="Breve descrição sobre você"
                 PlaceholderColor="#B2A9A9"
                 FontSize="15"
-                HorizontalOptions="Center"
+                AutoSize="TextChanges"
+                MaxLength="100"
                 WidthRequest="314"
-                Text="{Binding DescPrestador, Mode=TwoWay}"
-                 />
+                HeightRequest="100"
+                HorizontalOptions="Center"
+            />
 
-            <Picker WidthRequest="314" Title="Selecione o segmento">
+
+            <Picker WidthRequest="314" Title="Selecione o segmento que você trabalha">
                 <Picker.Items>
                     <x:String>Tecnologia</x:String>
                     <x:String>Alimentação</x:String>
@@ -71,18 +142,17 @@
                 </Picker.Items>
             </Picker>
 
-
             <Button
-              Command="{Binding EtapaTresRegisterPrestadorCommand}"
-              Text="Próximo"
-              FontSize="25"
-              BackgroundColor="#0f5cc2"
-              BorderColor="Black"
-              BorderWidth="1"
-              TextColor="White"
-              HorizontalOptions="Fill" 
-              WidthRequest="178"
-              HeightRequest="48"/>
+                Command="{Binding EtapaTresRegisterPrestadorCommand}"
+                Text="Próximo"
+                FontSize="25"
+                BackgroundColor="#0f5cc2"
+                BorderColor="Black"
+                BorderWidth="1"
+                TextColor="White"
+                HorizontalOptions="Fill" 
+                WidthRequest="178"
+                HeightRequest="48"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
