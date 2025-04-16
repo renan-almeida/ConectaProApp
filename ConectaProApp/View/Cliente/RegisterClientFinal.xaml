@@ -59,7 +59,7 @@
             HeightRequest="48"
             WidthRequest="178"
             HorizontalOptions="Fill"
-            />
+            Clicked="OnCriarContaClicked"/>
         </VerticalStackLayout>
     </ScrollView>
 
