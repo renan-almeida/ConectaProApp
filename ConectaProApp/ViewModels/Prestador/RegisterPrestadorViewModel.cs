@@ -1,12 +1,15 @@
 ﻿using ConectaProApp.Models;
+using ConectaProApp.Models.Enuns;
 using ConectaProApp.Services.Prestador;
 using ConectaProApp.Services.Validações;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -33,6 +36,7 @@ namespace ConectaProApp.ViewModels.Prestador
         {
             pService = new PrestadorService();
             InitializeCommands();
+            CarregarSegmentos();
            
         }
         // spin de carregamento quando o prestador clicar em criar a conta.
@@ -301,7 +305,35 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
 
-        
+        public List<TipoSegmentoEnum> SegmentosSelecionados { get; set; } = new();
+        public ObservableCollection<SegmentoSelecionado> Segmentos { get; set; } = new();
+
+        // Carregar seguimentos vindos da Enum (TipoSegmentoEnum)
+        private void CarregarSegmentos()
+        {
+            foreach (var segmento in Enum.GetValues(typeof(TipoSegmentoEnum)).Cast<TipoSegmentoEnum>())
+            {
+                Segmentos.Add(new SegmentoSelecionado
+                {
+                    Segmento = segmento,
+                    Nome = ObterDescricao(segmento),
+                    Selecionado = false
+                });
+            }
+        }
+
+        // Carregar os segmentos em tela para o prestador. 
+        private string ObterDescricao(TipoSegmentoEnum value)
+        {
+            var field = value.GetType().GetField(value.ToString());
+            var attribute = field?.GetCustomAttribute<DescriptionAttribute>();
+                return attribute?.Description ?? value.ToString();
+        }
+
+        public List<TipoSegmentoEnum> ObterSegmentosSelecionados()
+        {
+            return Segmentos.Where(s => s.Selecionado).Select(s => s.Segmento).ToList();
+        }
 
 
         public void InitializeCommands()
@@ -423,6 +455,8 @@ namespace ConectaProApp.ViewModels.Prestador
                     return;
                 }
 
+                SegmentosSelecionados = ObterSegmentosSelecionados();
+
                 var novoPrestador = new Models.Prestador
                 {
                     Nome = this.NomePrestador,
@@ -430,7 +464,7 @@ namespace ConectaProApp.ViewModels.Prestador
                     Cpf = this.CpfPrestador,
                     Habilidades = this.Habilidades,
                     Especializacoes = this.Especializacoes,
-                   // Segmento = this.SegmentoPrestador
+                    Segmento = this.SegmentosSelecionados,
                     DescPrestador = this.DescPrestador,
                     Telefone = this.TelefonePrestador,
                     Cep = this.CepPrestador,
@@ -445,7 +479,11 @@ namespace ConectaProApp.ViewModels.Prestador
                 {
                     await Application.Current.MainPage.DisplayAlert($"Bem Vindo {NomePrestador}", "Cadastro realizado com sucesso, vamos trilhar essa carreira de prestador juntos!", "Ok");
 
-                    Application.Current.MainPage = new NavigationPage(new View.Prestador.HomePrestador());
+                    Preferences.Set("UsuarioLogado", true);
+                    Preferences.Set("TipoUsuario", "PRESTADOR");
+
+                    Application.Current.MainPage = new AppShell();
+                    await Shell.Current.GoToAsync("//prestador");
                 }
                 else
                 {

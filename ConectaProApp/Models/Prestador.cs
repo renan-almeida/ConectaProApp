@@ -13,7 +13,7 @@ namespace ConectaProApp.Models
         public long IdPrestador { get; set; }
         //public long Id_Plano { get; set; }
         public string DescPrestador { get; set; }
-        public List<string> Segmento { get; set; }
+        public List<TipoSegmentoEnum> Segmento { get; set; }
         public ObservableCollection<string> Habilidades { get; set; }
         public string Cpf { get; set; }
         public ObservableCollection<string> Especializacoes { get; set; }

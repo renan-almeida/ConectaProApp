@@ -3,16 +3,50 @@
     x:Class="ConectaProApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:ConectaProApp"
+    xmlns:prestador="clr-namespace:ConectaProApp.View.Prestador"
+    xmlns:cliente="clr-namespace:ConectaProApp.View.Cliente"
     Shell.FlyoutBehavior="Disabled"
     Title="ConectaProApp">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-    
-    
+    <TabBar Route="prestador">
+        <ShellContent
+            Title="Home"
+            Icon="home.png"
+            ContentTemplate="{DataTemplate prestador:HomePrestador}"
+            Route="MainPage" />
 
+        <ShellContent
+             Title="Busca"
+             Icon="busca.png"
+             ContentTemplate="{DataTemplate prestador:BuscaPrestador}"
+             Route="MainPage" />
 
+        <ShellContent
+     Title="myAccount"
+     Icon="minhaconta.png"
+     ContentTemplate="{DataTemplate prestador:MinhaContaPrestador}"
+     Route="MainPage" />
+
+    </TabBar>
+
+    <TabBar Route="cliente">
+        <ShellContent
+         Title="Home"
+         Icon="home.png"
+         ContentTemplate="{DataTemplate cliente:HomeClient}"
+         Route="MainPage" />
+
+        <ShellContent
+          Title="Busca"
+          Icon="busca.png"
+          ContentTemplate="{DataTemplate cliente:BuscaClient}"
+          Route="MainPage" />
+
+        <ShellContent
+          Title="myAccount"
+          Icon="minhaconta.png"
+          ContentTemplate="{DataTemplate cliente:MinhaContaClient}"
+          Route="MainPage" />
+
+    </TabBar>
 </Shell>

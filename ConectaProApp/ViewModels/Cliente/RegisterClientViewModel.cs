@@ -34,6 +34,18 @@ namespace ConectaProApp.ViewModels.Cliente
 
         }
 
+        // spin de carregamento quando o prestador clicar em criar a conta.
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string nomeCliente;
         public string NomeCliente
         {
@@ -271,6 +283,8 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             try
             {
+                isBusy = true;
+
                 if (!ValidarCampos(out string mensagemErro))
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "Ok");
@@ -321,9 +335,16 @@ namespace ConectaProApp.ViewModels.Cliente
 
                 if (clienteRegistrado != null && clienteRegistrado.IdUsuario > 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Sucesso", "Cadastro realizado com sucesso!", "Ok");
-                    
-                    Application.Current.MainPage = new NavigationPage(new View.Usuario.LoginView());
+                    await Application.Current.MainPage.DisplayAlert
+                        ($"Bem Vindo {NomeCliente}", "Cadastro realizado com sucesso," +
+                        " juntos vamos encontrar soluções rapidas e simples" +
+                        " para o seu negócio!", "Ok");
+
+                    Preferences.Set("UsuarioLogado", true);
+                    Preferences.Set("TipoUsuario", "CLIENTE");
+
+                    Application.Current.MainPage = new AppShell();
+                    await Shell.Current.GoToAsync("//cliente");
                 }
                 else
                 {
@@ -333,6 +354,10 @@ namespace ConectaProApp.ViewModels.Cliente
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao cadastrar: {ex.Message}", "Ok");
+            }
+            finally
+            {
+                isBusy = false;
             }
         }
 

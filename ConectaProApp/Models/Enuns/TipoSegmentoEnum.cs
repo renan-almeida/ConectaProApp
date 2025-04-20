@@ -10,6 +10,7 @@ namespace ConectaProApp.Models.Enuns
     public enum TipoSegmentoEnum
     {
         [Description("Limpeza")]
+
         LIMPEZA,
 
         [Description("Reparos")]
