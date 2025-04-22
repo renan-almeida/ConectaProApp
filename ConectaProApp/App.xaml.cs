@@ -5,37 +5,51 @@
         public App()
         {
             InitializeComponent();
-            
 
-            bool usuarioLogado = Preferences.Get("UsuarioLogado", false);
-            string tipoUsuario = Preferences.Get("TipoUsuario", "");
+            bool modoDev = true;
 
-            if (usuarioLogado)
+            if (modoDev)
             {
                 MainPage = new AppShell();
 
-                // Aguarda a UI carregar antes de redirecionar
-                Device.BeginInvokeOnMainThread(async () =>
+                Dispatcher.Dispatch(async () =>
                 {
-                    // Levando o Usuario correto para a home baseada no seu tipo de usuario
-                    if (tipoUsuario == "PRESTADOR")
-                    {
-                        Shell.Current.GoToAsync("//prestador");
-                    }
-                    else if (tipoUsuario == "CLIENTE")
-                    {
-                        Shell.Current.GoToAsync("//cliente");
-                    }
-                    else
-                    {
-                        MainPage = new MainPage();
-                    }
+                    await Shell.Current.GoToAsync("//prestador");
                 });
             }
             else
             {
-                MainPage = new MainPage();
+                bool usuarioLogado = Preferences.Get("UsuarioLogado", false);
+                string tipoUsuario = Preferences.Get("TipoUsuario", "");
+
+                if (usuarioLogado)
+                {
+                    MainPage = new AppShell();
+
+                    // Aguarda a UI carregar antes de redirecionar
+                     Dispatcher.Dispatch(async () =>
+                    {
+                        // Levando o Usuario correto para a home baseada no seu tipo de usuario
+                        if (tipoUsuario == "PRESTADOR")
+                        {
+                            await Shell.Current.GoToAsync("//prestador");
+                        }
+                        else if (tipoUsuario == "CLIENTE")
+                        {
+                            await Shell.Current.GoToAsync("//cliente");
+                        }
+                        else
+                        {
+                            await (MainPage as NavigationPage).PushAsync(new MainPage());
+                        }
+                    });
+                }
+                else
+                {
+                    MainPage = new NavigationPage(new MainPage());
+                }
             }
+                
 
 
             }

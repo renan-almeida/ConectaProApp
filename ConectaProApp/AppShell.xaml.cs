@@ -12,10 +12,12 @@ namespace ConectaProApp
 
             Routing.RegisterRoute("prestador", typeof(HomePrestador));
             Routing.RegisterRoute("cliente", typeof(HomeClient));
+            
+
         }
 
-        
-    
+
+
 
     }
 }
