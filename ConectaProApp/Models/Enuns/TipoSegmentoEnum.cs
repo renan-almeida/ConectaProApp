@@ -28,6 +28,12 @@ namespace ConectaProApp.Models.Enuns
         [Description("Jardinagem")]
         JARDINAGEM,
 
+        [Description("Pintura")]
+        PINTURA,
+
+        [Description("Mecânico")]
+        MECANICO,
+
         [Description("Outros")]
         OUTROS
     }
