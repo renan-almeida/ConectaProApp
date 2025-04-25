@@ -10,17 +10,17 @@
         <!-- Logo -->
         <Image Source="logo_conectapro_preto.png" HeightRequest="100" WidthRequest="100" />
 
+            <HorizontalStackLayout>
         <!-- Barra de Pesquisa -->
         <Frame 
             Padding="0"
-            Margin="10"
+            Margin="25,0,0,20"
             BackgroundColor="White"
             CornerRadius="15"
             BorderColor="#0F5CC2"
             HasShadow="False"
             HeightRequest="44"
-            HorizontalOptions="Center"
-            WidthRequest="375">
+            WidthRequest="320">
 
             <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
                 <!-- Ícone de lupa -->
@@ -37,18 +37,28 @@
                     Grid.Column="1"
                     Placeholder="Busque suas solicitações"
                     FontSize="16"
-                    WidthRequest="375"
+                    WidthRequest="300"
                     HeightRequest="44"
-                    BackgroundColor="White"
+                    BackgroundColor="Transparent"
                     VerticalOptions="Center"
+                    HorizontalOptions="FillAndExpand"
                     TextColor="Black"
                     PlaceholderColor="Gray"
-                    Margin="5,0"
+                    Margin="0"
                 />
             </Grid>
         </Frame>
+        
+        <Button
+            x:Name="AcionarBusca"
+            Text="➤" FontSize="18" CornerRadius="100"
+            HeightRequest="30"
+            WidthRequest="30"
+            BackgroundColor="#0f5cc2"
+            Margin="15,0,0,20"/>
+            </HorizontalStackLayout>
 
-        <!-- Categorias -->
+            <!-- Categorias -->
 <Frame 
     Padding="0"
     Margin="10"
@@ -87,7 +97,7 @@
 
                 <Grid>
                     <Image 
-                        Source="construcao.png" 
+                        Source="tecnologia.png" 
                         Aspect="AspectFill"
                         HeightRequest="93"
                         WidthRequest="170" />
@@ -263,9 +273,130 @@
                </Grid>
            </Frame>
 
-        </FlexLayout>
+                        <!-- Mecânico -->
+         <Frame
+                 CornerRadius="20"
+                 Padding="0"
+                 HasShadow="False"
+                 HeightRequest="93"
+                 WidthRequest="170"
+                 Margin="0,0,0,25"
+                 IsClippedToBounds="True"
+                 BorderColor="Transparent">
+
+          <Grid>
+                <Image 
+                    Source="mecanico.png" 
+                    Aspect="AspectFill"
+                    HeightRequest="93"
+                    WidthRequest="170" />
+                     <BoxView 
+                            BackgroundColor="#00000066" 
+                            VerticalOptions="End"
+                            HeightRequest="40"/>
+                          <Label 
+                             Text="Mecânico"
+                             TextColor="White"
+                             FontAttributes="Bold"
+                             FontSize="15"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Start"
+                             Margin="0,10"
+                              Padding="0,0,75,0"/>
+
+               <Grid.GestureRecognizers>
+                  <TapGestureRecognizer 
+                    Command="{Binding MecanicoSolicitacoesCommand}" 
+                    CommandParameter="Mecanico" />
+                </Grid.GestureRecognizers>
+          </Grid>
+     </Frame>
+
+
+             <!-- Pintura -->
+<Frame
+    CornerRadius="20"
+    Padding="0"
+    HasShadow="False"
+    HeightRequest="93"
+    WidthRequest="170"
+    Margin="0,0,25,0"
+    IsClippedToBounds="True"
+    BorderColor="Transparent">
+
+    <Grid>
+        
+        <Image 
+          Source="pintura.png" 
+          Aspect="AspectFill"
+          HeightRequest="93"
+          WidthRequest="170" />
+        
+             <BoxView 
+               BackgroundColor="#00000066" 
+               VerticalOptions="End"
+               HeightRequest="40"/>
+        
+                <Label 
+                    Text="Pintura"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    Margin="0,10"
+                     Padding="0,0,90,0"/>
+
+                  <Grid.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding PinturaSolicitacoesCommand}" 
+                        CommandParameter="Pintura" />
+                  </Grid.GestureRecognizers>
+     </Grid>
+</Frame>
+            
+            <!-- Motorista -->
+         <Frame CornerRadius="20"
+                Padding="0"
+                HasShadow="False"
+                HeightRequest="93"
+                WidthRequest="170"
+                Margin="0,0,0,25"
+                IsClippedToBounds="True"
+                BorderColor="Transparent">
+
+            <Grid>
+                    <Image Source="motorista.png"
+                           Aspect="AspectFill"
+                           HeightRequest="93"
+                           WidthRequest="170"/>
+                    <BoxView 
+                        BackgroundColor="#00000066" 
+                        VerticalOptions="End"
+                        HeightRequest="40"/>
+                    <Label Text="Motorista"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start"
+                           Margin="0,10"
+                           Padding="0,0,75,0"/>
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding MotoristaSolicitacoesCommand}"
+                                        CommandParameter="Motorista"/>
+                                </Grid.GestureRecognizers>
+            </Grid>                 
+         </Frame>
+            
+            
+                    </FlexLayout>
     </VerticalStackLayout>
 </Frame>
+        
+        
 
     </VerticalStackLayout>
         
