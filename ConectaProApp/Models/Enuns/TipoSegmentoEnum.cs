@@ -34,6 +34,9 @@ namespace ConectaProApp.Models.Enuns
         [Description("Mecânico")]
         MECANICO,
 
+        [Description("Motorista")]
+        MOTORISTA,
+
         [Description("Outros")]
         OUTROS
     }
