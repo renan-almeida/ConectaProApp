@@ -87,6 +87,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="View\Busca\ResultadoBuscaPrestadorView.xaml.cs">
+	    <DependentUpon>ResultadoBuscaPrestadorView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="View\Busca\ResultadoBuscaPrestadorView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\Cliente\BuscaClient.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

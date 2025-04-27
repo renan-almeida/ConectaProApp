@@ -10,9 +10,11 @@ namespace ConectaProApp.Services
 {
     public class Request
     {
+        HttpClient httpClient = new HttpClient();
+
         public async Task<int> PostReturnIntAsync<TResult>(string uri, TResult data, string token)
         {
-            HttpClient httpClient = new HttpClient();
+            
 
             httpClient.DefaultRequestHeaders.Authorization
             = new AuthenticationHeaderValue("Bearer", token);
@@ -31,7 +33,6 @@ namespace ConectaProApp.Services
 
         public async Task<TResult> PostAsync<TResult>(string uri, TResult data, string token)
         {
-            HttpClient httpClient = new HttpClient();
 
             httpClient.DefaultRequestHeaders.Authorization
             = new AuthenticationHeaderValue("Bearer", token);

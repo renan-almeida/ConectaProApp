@@ -5,9 +5,9 @@ namespace ConectaProApp.Services.Cliente
 {
     class ClienteService : Request
     {
-        private const string apiUrlBase = "xyz.com/ConectaPro/Usuarios/Clientes";
+        private const string apiUrlBase = "https://conectapro-api.azurewebsites.net";
 
-        public async Task<EmpresaCliente> PostRegistrarUsuarioAsync(EmpresaCliente e)
+        public async Task<EmpresaCliente> PostRegistrarClienteAsync(EmpresaCliente e)
         {
             string urlComplementar = "/RegistrarCliente";
 

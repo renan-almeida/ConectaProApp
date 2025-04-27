@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ConectaProApp.Services.Prestador;
 using ConectaProApp.Services.Servico;
+using ConectaProApp.View.Busca;
 using ConectaProApp.View.Usuario;
 
 namespace ConectaProApp.ViewModels.Prestador
@@ -38,13 +40,15 @@ namespace ConectaProApp.ViewModels.Prestador
             MecanicoSolicitacoesCommand = new Command(async () => GetAllMecanico());
             PinturaSolicitacoesCommand = new Command(async () => GetAllPintura());
             MotoristaSolicitacoesCommand = new Command(async () => GetAllMotorista());
+
         }
 
         private async Task GetAllTecnologia()
         {
             try
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new View.Usuario.LoginView());
+                var resultados = await sService.BuscarServicoAsync("Tecnologia");
+                await Application.Current.MainPage.Navigation.PushAsync(new ResultadoBuscaPrestadorView(resultados));
             }
             catch (Exception ex)
             {
@@ -143,5 +147,6 @@ namespace ConectaProApp.ViewModels.Prestador
                 await Application.Current.MainPage.DisplayAlert("Erro", ex.Message + "Detalhes: ", ex.InnerException + "Ok");
             }
         }
+
     }
 }

@@ -10,5 +10,6 @@ namespace ConectaProApp.Models.Enuns
     {
         ACEITA,
         PENDENTE
+        
     }
 }
