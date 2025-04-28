@@ -6,4 +6,9 @@ public partial class HomePrestador : ContentPage
 	{
 		InitializeComponent();
 	}
+
+	private void OnFotoPrestadorClicked(object sender, EventArgs e)
+	{
+		Shell.Current.FlyoutIsPresented = true;
+	}
 }

@@ -331,7 +331,7 @@ namespace ConectaProApp.ViewModels.Cliente
                     TipoUsuario = Models.Enuns.TipoUsuarioEnum.EMPRESA
                 };
 
-                var clienteRegistrado = await eService.PostRegistrarUsuarioAsync(novoCliente);
+                var clienteRegistrado = await eService.PostRegistrarClienteAsync(novoCliente);
 
                 if (clienteRegistrado != null && clienteRegistrado.IdUsuario > 0)
                 {

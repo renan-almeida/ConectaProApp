@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prestador="clr-namespace:ConectaProApp.View.Prestador"
     xmlns:cliente="clr-namespace:ConectaProApp.View.Cliente"
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Flyout"
     Title="ConectaProApp">
 
     <TabBar Route="prestador">
