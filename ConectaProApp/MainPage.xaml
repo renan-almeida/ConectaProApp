@@ -2,51 +2,45 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.MainPage"
-             BackgroundImageSource="tela_inicial.png"
+            
              Title="">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <!-- Imagem de Fundo -->
+        <Image Source="tela_inicial.png"
+       Aspect="AspectFill"
+       VerticalOptions="FillAndExpand"
+       HorizontalOptions="FillAndExpand" />
 
+        <!-- Conteúdo Principal -->
         <VerticalStackLayout
-      Grid.Row="1"
-      Padding="30"
-      VerticalOptions="End"
-      HorizontalOptions="Center"
-      Spacing="15">
+    Padding="30"
+    VerticalOptions="CenterAndExpand"
+    HorizontalOptions="Center"
+    Spacing="15">
 
-            <HorizontalStackLayout
-          HorizontalOptions="Center"
-          VerticalOptions="Center"
-          Spacing="10">
-
-                <Image
-              Source="conectapro_logo.png"
-              HeightRequest="150"
-              WidthRequest="150"
-              Aspect="AspectFit"
-              HorizontalOptions="Center"
-              VerticalOptions="Center" />
-
-
-            </HorizontalStackLayout>
+            <Image
+        Source="conectapro_logo.png"
+        HeightRequest="500"
+        WidthRequest="250"
+        Aspect="AspectFit"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        Margin="0,10,0,0"/>
 
             <Label
-          Text="Bem vindo!"
-          FontSize="24"
-          TextColor="White"
-          HorizontalOptions="Center"
-          FontAttributes="Bold" />
+        Text="Bem vindo!"
+        FontSize="24"
+        TextColor="White"
+        HorizontalOptions="Center"
+        FontAttributes="Bold" />
 
             <Label
-          Text="Transformando a forma como você conecta serviços ao seu dia a dia."
-          FontSize="14"
-          TextColor="White"
-          HorizontalOptions="Center"
-          HorizontalTextAlignment="Center" />
+        Text="Transformando a forma como você conecta serviços ao seu dia a dia."
+        FontSize="14"
+        TextColor="White"
+        HorizontalOptions="Center"
+        HorizontalTextAlignment="Center" />
 
             <Button
         x:Name="StartButton"
@@ -54,13 +48,12 @@
         Text="Começar"
         FontSize="25"
         TextColor="White"
-          CornerRadius="15"
+        CornerRadius="15"
         BorderColor="White"
         BorderWidth="2"
         BackgroundColor="Transparent"
         WidthRequest="178"
-        HeightRequest="49"/>
-
+        HeightRequest="49" />
         </VerticalStackLayout>
     </Grid>
 
