@@ -133,6 +133,11 @@ namespace ConectaProApp.ViewModels.Usuarios
 
                 if (usuarioAutenticado != null && usuarioAutenticado.IdUsuario > 0)
                 {
+
+                    Preferences.Set("UsuarioToken", usuarioAutenticado.Token);
+                    Preferences.Set("TipoUsuario", usuarioAutenticado.TipoUsuario.ToString());
+                    Preferences.Set("UfPrestador", usuarioAutenticado.Uf.ToString());
+                  
                     await Application.Current.MainPage.DisplayAlert("Bem-vindo!", $"Olá, {usuarioAutenticado.Nome}!", "Ok");
 
                  switch (usuarioAutenticado.TipoUsuario)

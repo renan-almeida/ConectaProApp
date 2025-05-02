@@ -31,11 +31,12 @@ namespace ConectaProApp.Services
         {
             string urlComplementar = "/prestadores";
 
-            u = await _request
-                .PostAsync(apiUrlBase + urlComplementar, u, string.Empty);
+            var usuarioAutenticado = await _request
+                .PostAsync<Usuario, Usuario>(apiUrlBase + urlComplementar, u, string.Empty);
 
-            return u;
+            return usuarioAutenticado;
         }
+
 
         public class EmailRequest
         {

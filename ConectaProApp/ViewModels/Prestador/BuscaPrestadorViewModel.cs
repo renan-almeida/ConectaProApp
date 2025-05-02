@@ -12,7 +12,7 @@ using ConectaProApp.View.Usuario;
 
 namespace ConectaProApp.ViewModels.Prestador
 {
-    public class BuscaPrestadorViewModel
+    public class BuscaPrestadorViewModel: BaseViewModel
     {
         private ServicoService sService;
         

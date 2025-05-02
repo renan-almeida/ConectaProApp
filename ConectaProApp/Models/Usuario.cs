@@ -14,9 +14,11 @@ namespace ConectaProApp.Models
         public string Nome { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
+        public string Token { get; set; }
         public string  Telefone { get; set; }
         public string Cep { get; set; }
         public int Nro { get; set; }
+        public  UfEnum Uf { get; set; }
         public byte[] FotoUrl{ get; set; }
         public TipoUsuarioEnum TipoUsuario { get; set; }
     }

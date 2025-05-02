@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConectaProApp.Models.Enuns
 {
-    public enum UfEnum
+    public enum TipoPlanoEnum
     {
-        AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT,
-        MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS,
-        RO, RR, SC, SP, SE, TO
+        [Description ("Premium")]
+        PREMIUM,
+
+        [Description ("Padrão")]
+        PADRÃO,
+
+
+
     }
 }

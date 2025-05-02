@@ -21,7 +21,7 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Nos descreva suas habilidades e\nespecializações profissionais"
+                Text="Nos descreva suas habilidades e especializações profissionais"
                 FontSize="15"
                 LineBreakMode="WordWrap"
                 TextColor="#B2A9A9"

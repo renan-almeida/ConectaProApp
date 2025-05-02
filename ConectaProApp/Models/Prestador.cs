@@ -11,7 +11,8 @@ namespace ConectaProApp.Models
     public class Prestador: Usuario
     {
         public long IdPrestador { get; set; }
-        //public long Id_Plano { get; set; }
+        public long? Id_Plano { get; set; }
+        public TipoPlanoEnum TipoPlano { get; set; }
         public string DescPrestador { get; set; }
         public List<TipoSegmentoEnum> Segmento { get; set; }
         public ObservableCollection<string> Habilidades { get; set; }
@@ -19,11 +20,5 @@ namespace ConectaProApp.Models
         public ObservableCollection<string> Especializacoes { get; set; }
         public DateTime DataNascimento { get; set; }
         public StatusDisponibilidadeEnum StatusDisponibilidade { get; set; }
-
-      /*  public Prestador( Plano plano)
-        {
-            Id_Plano = plano.IdPlano; 
-        }
-      */
     }
 }

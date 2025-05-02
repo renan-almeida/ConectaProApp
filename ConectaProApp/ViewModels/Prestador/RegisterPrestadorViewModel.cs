@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.ComponentModel.Design;
 
 namespace ConectaProApp.ViewModels.Prestador
 {
@@ -37,6 +38,10 @@ namespace ConectaProApp.ViewModels.Prestador
             pService = new PrestadorService();
             InitializeCommands();
             CarregarSegmentos();
+            Ufs = [.. Enum.GetNames(typeof(UfEnum))];
+            TiposPlano = new ObservableCollection<Plano>(
+                Enum.GetValues(typeof(TipoPlanoEnum)).Cast<TipoPlanoEnum>()
+                .Select(tp => new Plano { TipoPlano = tp }));
            
         }
         // spin de carregamento quando o prestador clicar em criar a conta.
@@ -150,8 +155,10 @@ namespace ConectaProApp.ViewModels.Prestador
 
         private void AdicionarHabilidade()
         {
-            if (string.IsNullOrWhiteSpace(HabilidadeAtual))
-                return;
+            if (string.IsNullOrWhiteSpace(HabilidadeAtual)) { 
+                Application.Current.MainPage.DisplayAlert("Erro", "Por favor insira uma habilidade", "Ok");
+                 return;
+            }
 
             if (Habilidades.Count >= 3)
             {
@@ -159,8 +166,14 @@ namespace ConectaProApp.ViewModels.Prestador
                 return;
             }
 
-            Habilidades.Add(HabilidadeAtual.Trim());
-            HabilidadeAtual = string.Empty; // Limpa o Entry
+            if (Habilidades.Contains(HabilidadeAtual.Trim()))
+            {
+                Application.Current.MainPage.DisplayAlert("Duplicado", "Essa habilidade já foi adicionada", "Ok");
+                return;
+            }
+           
+                Habilidades.Add(HabilidadeAtual.Trim());
+                HabilidadeAtual = string.Empty; // Limpa o Entry
         }
 
         private void RemoverHabilidade(string habilidade)
@@ -189,10 +202,20 @@ namespace ConectaProApp.ViewModels.Prestador
         private void AdicionarEspecializacao()
         {
             if (string.IsNullOrWhiteSpace(EspecializacaoAtual))
+            {
                 Application.Current.MainPage.DisplayAlert("Erro", "Por favor insira uma especialização", "Ok");
-
+                return;
+            }
+                
+            if (Habilidades.Contains(HabilidadeAtual.Trim()))
+            {
+                Application.Current.MainPage.DisplayAlert("Duplicado", "Essa habilidade já foi adicionada.", "Ok");
+                return;
+            }
             Especializacoes.Add(EspecializacaoAtual.Trim());
             EspecializacaoAtual = string.Empty;
+
+
         }
 
         private void RemoverEspecializacao(string especializacao)
@@ -283,6 +306,31 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
 
+        public ObservableCollection<string> Ufs { get; set; }
+
+        private string ufSelecionada;
+        public string UfSelecionada
+        {
+            get => ufSelecionada;
+            set
+            {
+                ufSelecionada = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Plano> TiposPlano { get; set; }
+
+        private TipoPlanoEnum planoSelecionado;
+        public TipoPlanoEnum PlanoSelecionado
+        {
+            get => planoSelecionado;
+            set
+            {
+                planoSelecionado = value;
+                OnPropertyChanged();
+
+            }
+        }
         private string senhaPrestador;
         public string SenhaPrestador
         {
@@ -427,25 +475,9 @@ namespace ConectaProApp.ViewModels.Prestador
                     return;
                 }
 
-                var cepValido = await _cepService.ValidarCepAsync(CepPrestador);
-
-                if (!cepValido)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Erro", "Cep inválido", "Ok");
-                    return;
-                }
-
                 if (TelefonePrestador.Length < 10 || !ValidarTelefone(TelefonePrestador))
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", "Telefone inválido", "Ok");
-                    return;
-                }
-
-                var cpfValido = await _cpfService.ValidarCpfAsync(CpfPrestador);   
-                
-                if (!cpfValido)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Erro", "Cpf inválido", "Ok");
                     return;
                 }
 
@@ -456,6 +488,10 @@ namespace ConectaProApp.ViewModels.Prestador
                 }
 
                 SegmentosSelecionados = ObterSegmentosSelecionados();
+
+                // convertendo a string selecionada no picker para uma enum
+                Enum.TryParse(UfSelecionada, out UfEnum ufEnum);
+
 
                 var novoPrestador = new Models.Prestador
                 {
@@ -469,6 +505,9 @@ namespace ConectaProApp.ViewModels.Prestador
                     Telefone = this.TelefonePrestador,
                     Cep = this.CepPrestador,
                     Nro = this.NroResidencia,
+                    Uf = ufEnum,
+                    Id_Plano = null,
+                    TipoPlano = PlanoSelecionado,
                     Senha = this.SenhaPrestador,
                     TipoUsuario = Models.Enuns.TipoUsuarioEnum.PRESTADOR
                 };
@@ -481,6 +520,7 @@ namespace ConectaProApp.ViewModels.Prestador
 
                     Preferences.Set("UsuarioLogado", true);
                     Preferences.Set("TipoUsuario", "PRESTADOR");
+                    Preferences.Set("UfPrestador", ufEnum.ToString());
 
                     Application.Current.MainPage = new AppShell();
                     await Shell.Current.GoToAsync("//prestador");
@@ -509,7 +549,8 @@ namespace ConectaProApp.ViewModels.Prestador
                     string.IsNullOrWhiteSpace(CpfPrestador) ||
                     string.IsNullOrWhiteSpace(CepPrestador) ||
                     string.IsNullOrWhiteSpace(TelefonePrestador) ||
-                    NroResidencia == 0 ||
+                    NroResidencia == 0 
+                    || string.IsNullOrWhiteSpace(UfSelecionada) ||
                     string.IsNullOrWhiteSpace(SenhaPrestador) ||
                     string.IsNullOrWhiteSpace(ConfirmacaoSenhaPrestador))
             {

@@ -79,14 +79,14 @@
                     </Frame>
 
                     <VerticalStackLayout Spacing="2" Margin="16,22,0,0">
-                        <Label Text="Etec Horácio"
+                        <Label Text="{Binding NomeFantasia}"
                                FontSize="30"
                                TextColor="Black"
                                />
                         <HorizontalStackLayout Spacing="8">
                             <Label Text="Empresa, "
                                     FontSize="12"/>
-                            <Label Text="SP"
+                            <Label Text="{Binding Uf}"
                                     FontSize="12"
                                     TextColor="Black"/>
                         </HorizontalStackLayout>

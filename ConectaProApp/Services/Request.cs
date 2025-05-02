@@ -50,6 +50,23 @@ namespace ConectaProApp.Services
 
             return result;
         }
-       
+
+        public async Task<TRetorno> PostAsync<TEnvio, TRetorno>(string uri, TEnvio data, string token)
+        {
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            var content = new StringContent(JsonConvert.SerializeObject(data));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await httpClient.PostAsync(uri, content);
+            string serialized = await response.Content.ReadAsStringAsync();
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<TRetorno>(serialized);
+            else
+                throw new Exception(serialized);
+        }
+
     }
 }
