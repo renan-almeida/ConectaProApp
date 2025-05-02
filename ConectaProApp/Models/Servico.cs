@@ -22,8 +22,10 @@ namespace ConectaProApp.Models
         public long Id_Segmento { get; set; }
         public string  NomeSegmento { get; set; }
         public long Id_Prestador { get; set; }
+        public Prestador prestador { get; set; }
         public string NomePrestador { get; set; }
         public long Id_Cliente { get; set; }
+        public EmpresaCliente cliente { get; set; }
         public string NomeCliente { get; set; }
         public long Id_Endereco { get; set; }
         public float ValorServico { get; set; }
@@ -48,7 +50,7 @@ namespace ConectaProApp.Models
         /* Realizamos esse tratamento abaixo por conta que a classe servicos
          na resultadoBuscaViewModel é uma lista, graças a isso precisamos realizar esse tratamento
         diretamente dentro da models para permitir que cada serviço a ser exibido em tela tenha
-        o "Ver mais" disponivel.
+        o "Ver mais" disponivel."
         */
 
         // Propriedade para controlar a visibilidade das informações

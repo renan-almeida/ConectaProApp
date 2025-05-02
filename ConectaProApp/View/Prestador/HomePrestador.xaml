@@ -121,7 +121,7 @@
                             Margin="0,10,90,0"
                             BorderColor="White"
                             BorderWidth="1"
-                            Command="{Binding CandidatarCommand}"/>
+                            Command="{Binding CandidatarServicoCommand}"/>
 
                     <Button Text="➤"
                             FontSize="25"

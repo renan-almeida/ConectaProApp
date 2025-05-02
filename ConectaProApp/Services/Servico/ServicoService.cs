@@ -20,6 +20,7 @@ namespace ConectaProApp.Services.Servico
             _request = new Request();
         }
 
+        // Tela de busca de prestador
         public async Task<List<Models.Servico>> BuscarServicoAsync(string termo)
         {
             try
@@ -46,7 +47,7 @@ namespace ConectaProApp.Services.Servico
             return new List<Models.Servico>();
         }
 
-
+        // Exibe ao prestador apenas servicos com base na sua UF
         public async Task<List<Models.Servico>> BuscarServicoUfAsync(string uf)
         {
             try
