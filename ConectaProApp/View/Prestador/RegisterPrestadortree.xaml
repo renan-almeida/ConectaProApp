@@ -50,21 +50,23 @@
                  Text="{Binding CepPrestador, Mode=TwoWay}"
                   />
 
-            <HorizontalStackLayout>
+            <HorizontalStackLayout Spacing="40">
                 <Entry
                     TextColor="Black"
                     Placeholder="Nro da residência"
                     PlaceholderColor="#B2A9A9"
                     Keyboard="Numeric"
                     FontSize="15"
-                    HorizontalOptions="Start"
-                    WidthRequest="110"
+                    HorizontalOptions="Center"
+                    WidthRequest="150"
+                    Margin="24,0,0,0"
                     Text="{Binding NroResidencia, Mode=TwoWay}"/>
 
                <Picker
                    Title="Selecione o estado"
                    ItemsSource="{Binding Ufs}"
-                   SelectedItem="{Binding UfSelecionada}"/>
+                   SelectedItem="{Binding UfSelecionada}"
+                   HorizontalOptions="End"/>
             </HorizontalStackLayout>
             
 

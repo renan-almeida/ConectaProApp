@@ -1,11 +1,15 @@
 ﻿
 using ConectaProApp.Models;
+using ConectaProApp.Models.Enuns;
 using ConectaProApp.Services;
 using ConectaProApp.Services.Cliente;
 using ConectaProApp.Services.Validações;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -17,9 +21,7 @@ namespace ConectaProApp.ViewModels.Cliente
     public class RegisterClientViewModel : BaseViewModel
     {
         private ClienteService eService;
-        private readonly CepService _cepService;
-        private readonly CnpjService _cnpjService;
-
+       
         public ICommand EtapaDoisRegisterClientCommand { get; set; }
         public ICommand EtapaTresRegisterClientCommand { get; set; }
         public ICommand EtapaQuatroRegisterClientCommand { get; set; }
@@ -28,10 +30,8 @@ namespace ConectaProApp.ViewModels.Cliente
         public RegisterClientViewModel()
         {
             eService = new ClienteService();
-            _cnpjService = new CnpjService();
-            _cepService = new CepService();
             InitializeCommands();
-
+            Ufs = [.. Enum.GetNames(typeof(UfEnum))];
         }
 
         // spin de carregamento quando o prestador clicar em criar a conta.
@@ -186,6 +186,19 @@ namespace ConectaProApp.ViewModels.Cliente
             }
         }
 
+        public ObservableCollection<string> Ufs { get; set; }
+
+        private string ufSelecionada;
+        public string UfSelecionada
+        {
+            get => ufSelecionada;
+            set
+            {
+                ufSelecionada = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string senhaCliente;
         public string SenhaCliente
         {
@@ -207,7 +220,7 @@ namespace ConectaProApp.ViewModels.Cliente
                 OnPropertyChanged();
             }
         }
-       
+
         public void InitializeCommands()
         {
             EtapaDoisRegisterClientCommand = new Command(async () => await EtapaDois());
@@ -297,26 +310,12 @@ namespace ConectaProApp.ViewModels.Cliente
                     return;
                 }
 
-                var cnpjValido = await _cnpjService.ValidarCnpjAsync(Cnpj);
-
-                if(!cnpjValido)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Erro", "Cnpj inválido", "Ok");
-                    return;
-                }
-
-                var cepValido = await _cepService.ValidarCepAsync(CepCliente);
-
-                if(!cepValido)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Erro", "Cep inválido", "Ok");
-                    return;
-                }
-
                 if(TelefoneCliente.Length < 10 || !ValidarTelefone(TelefoneCliente))
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", "Telefone inválido", "Ok");
                 }
+
+                Enum.TryParse(UfSelecionada, out UfEnum ufEnum);
 
                 var novoCliente = new EmpresaCliente
                 {
@@ -327,6 +326,7 @@ namespace ConectaProApp.ViewModels.Cliente
                     Telefone = this.TelefoneCliente,
                     Cep = this.CepCliente,
                     Nro = this.NroEndCliente,
+                    Uf = ufEnum,
                     Senha = this.SenhaCliente,
                     TipoUsuario = Models.Enuns.TipoUsuarioEnum.EMPRESA
                 };

@@ -39,9 +39,7 @@ namespace ConectaProApp.ViewModels.Prestador
             InitializeCommands();
             CarregarSegmentos();
             Ufs = [.. Enum.GetNames(typeof(UfEnum))];
-            TiposPlano = new ObservableCollection<Plano>(
-                Enum.GetValues(typeof(TipoPlanoEnum)).Cast<TipoPlanoEnum>()
-                .Select(tp => new Plano { TipoPlano = tp }));
+            TiposPlano = [.. Enum.GetNames(typeof(TipoPlanoEnum))];
            
         }
         // spin de carregamento quando o prestador clicar em criar a conta.
@@ -318,10 +316,10 @@ namespace ConectaProApp.ViewModels.Prestador
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<Plano> TiposPlano { get; set; }
+        public ObservableCollection<string> TiposPlano { get; set; }
 
-        private TipoPlanoEnum planoSelecionado;
-        public TipoPlanoEnum PlanoSelecionado
+        private string planoSelecionado;
+        public string PlanoSelecionado
         {
             get => planoSelecionado;
             set
@@ -491,6 +489,7 @@ namespace ConectaProApp.ViewModels.Prestador
 
                 // convertendo a string selecionada no picker para uma enum
                 Enum.TryParse(UfSelecionada, out UfEnum ufEnum);
+                Enum.TryParse(PlanoSelecionado, out TipoPlanoEnum planoEnum);
 
 
                 var novoPrestador = new Models.Prestador
@@ -507,7 +506,7 @@ namespace ConectaProApp.ViewModels.Prestador
                     Nro = this.NroResidencia,
                     Uf = ufEnum,
                     Id_Plano = null,
-                    TipoPlano = PlanoSelecionado,
+                    TipoPlano = planoEnum,
                     Senha = this.SenhaPrestador,
                     TipoUsuario = Models.Enuns.TipoUsuarioEnum.PRESTADOR
                 };

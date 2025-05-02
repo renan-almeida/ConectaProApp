@@ -31,15 +31,17 @@
                  HorizontalOptions="Center" />
 
             <Label
-                 Text="Selecio seu plano e crie uma senha"
+                 Text="Selecione seu plano e crie uma senha"
                  FontSize="14"
                  TextColor="#B2A9A9"
                  HorizontalOptions="Center" />
 
             <Picker
                 Title="Selecione o tipo de plano"
+                HorizontalTextAlignment="Center"
                 ItemsSource="{Binding TiposPlano}"
-                SelectedItem="{Binding PlanoSelecionado}"/>
+                SelectedItem="{Binding PlanoSelecionado}"
+                WidthRequest="314"/>
 
             <Entry
                  TextColor="Black"

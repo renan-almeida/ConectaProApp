@@ -34,7 +34,7 @@
             HorizontalOptions="Fill"
             WidthRequest="314"
             Text="{Binding NomeFantasia, Mode=TwoWay}"/>
-            
+
             <Entry
             TextColor="Black"
             Placeholder="CNPJ"
@@ -42,17 +42,7 @@
             HorizontalOptions="Fill" 
                 WidthRequest="314"
                 Text="{Binding Cnpj, Mode=TwoWay}"/>
-
-            <Picker WidthRequest="314" Title="Selecione o segmento">
-                <Picker.Items>
-                    <x:String>Tecnologia</x:String>
-                    <x:String>Alimentação</x:String>
-                    <x:String>Serviços Gerais</x:String>
-                    <x:String>Saúde</x:String>
-                    <x:String>Educação</x:String>
-                </Picker.Items>
-            </Picker>
-
+            
             <Button
                     Text="Próximo"
                     FontSize="25"
