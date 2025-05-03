@@ -3,10 +3,60 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Prestador.MinhaContaPrestador"
              Title="MinhaContaPrestador">
-    <VerticalStackLayout>
-        <Label 
-            Text="My Account Prestador!!!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+            <!-- Header com imagem de fundo -->
+            <Grid>
+                <Image x:Name="HeaderPrestadorImage" Source="fundoperfil.jpg" Aspect="AspectFill" HeightRequest="200">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnHeaderPrestadorTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+
+            <!-- Avatar sobreposto ao fundo -->
+            <Frame WidthRequest="130" HeightRequest="130" CornerRadius="65" IsClippedToBounds="True" BorderColor="White" BackgroundColor="White" Padding="0">
+                <Image x:Name="avatarPrestadorImage" Source="minhaconta.png" Aspect="AspectFill">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAvatarTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+
+            <!-- Informações do usuário -->
+            <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="White">
+                <!-- Nome do usuário -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                    <Entry x:Name="NomeEntry" Text="Claudio de Freitas Silva" FontSize="20" FontAttributes="Bold" TextColor="Black" TextChanged="OnNomeChanged" />
+                    <ImageButton Source="edit.png" WidthRequest="24" HeightRequest="24" BackgroundColor="Transparent" />
+                </HorizontalStackLayout>
+
+                <!-- Descrição do usuário -->
+                <Editor x:Name="DescricaoEditor" Text="Olá, me chamo Claudio, tenho 33 anos e sou programador Back-End Sênior."
+        FontSize="14" TextColor="Gray" HorizontalOptions="Fill" TextChanged="OnDescricaoChanged" />
+            </VerticalStackLayout>
+
+            <!-- Espaçamento entre a Label e os Botões -->
+            <BoxView HeightRequest="200" Color="White" />
+
+            <!-- Botões de navegação -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="15" Padding="0">
+                <Button Text="Serviços" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="100" />
+                <Button Text="Candidaturas" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="120" />
+                <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="100" />
+            </HorizontalStackLayout>
+
+            <!-- Avaliação -->
+            <VerticalStackLayout HorizontalOptions="Center" Spacing="5" Padding="20">
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10" Padding="20">
+                    <Image Source="star.png" WidthRequest="200" HeightRequest="130" />
+                    <Label Text="4,7" FontSize="40" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Label Text="Claudio é um prestador ConectaPro 4,7. Recomendamos ele!"
+               FontSize="14" TextColor="Gray" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

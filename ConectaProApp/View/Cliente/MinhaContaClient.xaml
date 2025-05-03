@@ -2,11 +2,53 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Cliente.MinhaContaClient"
-             Title="MinhaContaClient">
-    <VerticalStackLayout>
-        <Label 
-            Text="Minha conta client!!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             BackgroundColor="White">
+    
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+            <!-- Header com imagem de fundo -->
+            <Grid>
+                <Image x:Name="headerClienteImage" Source="fundoperfil.jpg" Aspect="AspectFill" HeightRequest="200">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnHeaderClienteTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+
+            <!-- Avatar sobreposto ao fundo -->
+            <Frame WidthRequest="130" HeightRequest="130" CornerRadius="65" IsClippedToBounds="True" BorderColor="White" BackgroundColor="White" Padding="0">
+                <Image x:Name="avatarImageClient" Source="minhaconta.png" Aspect="AspectFill">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAvatarClientTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Frame>
+
+            <!-- Informações do usuário -->
+            <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="White">
+                <!-- Nome do usuário -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                    <Entry x:Name="NomeEntry" Text="Etec Horácio Augusto" FontSize="20" FontAttributes="Bold" TextColor="Black" TextChanged="OnNomeChanged" />
+                    <ImageButton Source="edit.png" WidthRequest="24" HeightRequest="24" BackgroundColor="Transparent" />
+                </HorizontalStackLayout>
+
+                <!-- Descrição do usuário -->
+                <Editor x:Name="DescricaoEditor" Text="Somos da Etec Horácio Augusto da Silveira."
+         FontSize="14" TextColor="Gray" HorizontalOptions="Fill" TextChanged="OnDescricaoChanged" />
+            </VerticalStackLayout>
+
+            <!-- Espaçamento entre a Label e os Botões -->
+            <BoxView HeightRequest="100" Color="White" />
+
+            <!-- Botões de navegação -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="15" Padding="0">
+                <Button Text="Solicitações" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="110" />
+                <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="120" />
+                <Button Text="Histórico" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="100" />
+            </HorizontalStackLayout>
+
+            <!-- Avaliação -->
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
