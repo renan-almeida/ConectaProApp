@@ -29,19 +29,16 @@
 
     <TabBar Route="cliente">
         <ShellContent
-         Title="Home"
          Icon="home.png"
          ContentTemplate="{DataTemplate cliente:HomeClient}"
          Route="MainPage" />
 
         <ShellContent
-          Title="Busca"
           Icon="busca.png"
           ContentTemplate="{DataTemplate cliente:BuscaClient}"
           Route="MainPage" />
 
         <ShellContent
-          Title="myAccount"
           Icon="minhaconta.png"
           ContentTemplate="{DataTemplate cliente:MinhaContaClient}"
           Route="MainPage" />

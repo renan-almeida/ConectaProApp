@@ -14,7 +14,6 @@ namespace ConectaProApp.ViewModels.Prestador
 {
     public class HomePrestadorViewModel: BaseViewModel
     {
-        private PrestadorService pService;
         private ServicoService sService;
 
         public ICommand BuscarServicosCommand { get; set; }
@@ -23,7 +22,6 @@ namespace ConectaProApp.ViewModels.Prestador
 
         public HomePrestadorViewModel()
         {
-            pService = new PrestadorService();
             sService = new ServicoService();
             BuscarServicosCommand = new Command(async () => await BuscarServicosAsync());
             ProximoServicoCommand = new Command(MostrarProximoServico);
@@ -43,6 +41,7 @@ namespace ConectaProApp.ViewModels.Prestador
             {
                 servicoAtual = value;
                 OnPropertyChanged();
+              
             }
         }
 
@@ -101,9 +100,9 @@ namespace ConectaProApp.ViewModels.Prestador
 
         private async Task CarregarFotoEmpresa()
         {
-            if (ServicoAtual?.cliente != null && ServicoAtual.cliente.FotoUrl != null)
+            if (ServicoAtual?.Cliente != null && ServicoAtual.Cliente.FotoUrl != null)
             {
-                FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(ServicoAtual.cliente.FotoUrl));
+                FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(ServicoAtual.Cliente.FotoUrl));
             }
             else
             {

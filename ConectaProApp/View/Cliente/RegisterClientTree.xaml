@@ -48,15 +48,16 @@
              WidthRequest="314"
              Text="{Binding CepCliente, Mode=TwoWay}"/>
 
-            <HorizontalStackLayout>
+            <HorizontalStackLayout Spacing="40">
                 <Entry
                     TextColor="Black"
                     Placeholder="Nro"
                     PlaceholderColor="#B2A9A9"
                     Keyboard="Numeric"
                     FontSize="15"
-                    HorizontalOptions="Start"
-                    WidthRequest="110"
+                    HorizontalOptions="Center"
+                    WidthRequest="150"
+                    Margin="24,0,0,0"
                     Text="{Binding NroEndCliente, Mode=TwoWay}"/>
 
                 <Picker

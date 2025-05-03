@@ -73,5 +73,32 @@ namespace ConectaProApp.Services.Servico
 
             return new List<Models.Servico>();
         }
+
+        // Exibe Empresa apenas prestadores correspondentes a sua UF
+
+        public async Task<List<Models.Prestador>> BuscarPrestadorUfAsync(string uf)
+        {
+            try
+            {
+                var token = Preferences.Get("UsuarioToken", string.Empty);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                const string urlComplementar = "/Prestador/Uf";
+                uf = Uri.EscapeDataString(uf);
+                var response = await client.GetAsync($"{apiUrlBase}{urlComplementar}?uf={uf}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<List<Models.Prestador>>(json);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro ao buscar por UF: " + ex.Message);
+            }
+
+            return new List<Models.Prestador>();
+        }
     }
 }

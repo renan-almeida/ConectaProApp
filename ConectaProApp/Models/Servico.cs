@@ -22,10 +22,10 @@ namespace ConectaProApp.Models
         public long Id_Segmento { get; set; }
         public string  NomeSegmento { get; set; }
         public long Id_Prestador { get; set; }
-        public Prestador prestador { get; set; }
+        public Prestador Prestador { get; set; }
         public string NomePrestador { get; set; }
         public long Id_Cliente { get; set; }
-        public EmpresaCliente cliente { get; set; }
+        public EmpresaCliente Cliente { get; set; }
         public string NomeCliente { get; set; }
         public long Id_Endereco { get; set; }
         public float ValorServico { get; set; }

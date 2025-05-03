@@ -6,7 +6,7 @@
         {
             InitializeComponent();
 
-            bool modoDev = false;
+            bool modoDev = true;
 
             if (modoDev)
             {
@@ -14,7 +14,7 @@
 
                 Dispatcher.Dispatch(async () =>
                 {
-                    await Shell.Current.GoToAsync("//prestador");
+                    await Shell.Current.GoToAsync("//cliente");
                 });
             }
             else
