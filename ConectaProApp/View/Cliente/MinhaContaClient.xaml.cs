@@ -118,4 +118,9 @@ public partial class MinhaContaClient : ContentPage
             Console.WriteLine($"Erro ao salvar a descrição: {ex.Message}");
         }
     }
+
+    private void OnFotoEmpresaClicked(object sender, EventArgs e)
+    {
+        Shell.Current.FlyoutIsPresented = true;
+    }
 }

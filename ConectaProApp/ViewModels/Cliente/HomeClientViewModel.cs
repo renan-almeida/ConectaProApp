@@ -20,10 +20,28 @@ namespace ConectaProApp.ViewModels.Cliente
         public HomeClientViewModel()
         {
             sService = new ServicoService();
-            ProximoPrestadorCommand = new Command(MostrarProximoPrestador);
-
+            InitializeCommands();
             Task.Run(async () => await BuscarPrestadorAsync());
             Task.Run(async () => await CarregarFotoEmpresaAsync());
+        }
+
+        private void InitializeCommands()
+        {
+            ProximoPrestadorCommand = new Command(MostrarProximoPrestador);
+            CriarServicoCommand = new Command(async () => await CriarSolicitacaoView());
+        }
+
+        private async Task CriarSolicitacaoView()
+        {
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new CriarSolicitacaoClient());
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage
+                    .DisplayAlert("Erro", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
+            }
         }
 
         private List<Models.Prestador> prestadorUf;

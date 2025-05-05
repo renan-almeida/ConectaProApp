@@ -39,10 +39,10 @@
                     </Image.GestureRecognizers>
                     <Image.Clip>
                         <EllipseGeometry 
-        Center="20,20"
-        RadiusX="20"
-        RadiusY="20"/>
-                    </Image.Clip>
+                            Center="20,20"
+                            RadiusX="20"
+                            RadiusY="20"/>  
+                    </Image.Clip>       
                 </Image>
             </Frame>
         </Grid>
@@ -85,7 +85,9 @@
                                />
                         <HorizontalStackLayout Spacing="8">
                             <Label Text="Prestador de , "
-                                    FontSize="12"/>
+                                    FontSize="12"
+                                   TextColor="Black"/>
+                            
                             <Label Text="{Binding Uf}"
                                     FontSize="12"
                                     TextColor="Black"/>

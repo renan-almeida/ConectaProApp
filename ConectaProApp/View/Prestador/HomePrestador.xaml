@@ -85,7 +85,8 @@
                                />
                         <HorizontalStackLayout Spacing="8">
                             <Label Text="Empresa, "
-                                    FontSize="12"/>
+                                    FontSize="12"
+                                   TextColor="Black"/>
                             <Label Text="{Binding Uf}"
                                     FontSize="12"
                                     TextColor="Black"/>

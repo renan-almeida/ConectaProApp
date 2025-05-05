@@ -2,53 +2,114 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Cliente.MinhaContaClient"
-             BackgroundColor="White">
+             BackgroundColor="#f1f1f1">
     
     <ScrollView>
-        <VerticalStackLayout Spacing="0">
-            <!-- Header com imagem de fundo -->
-            <Grid>
-                <Image x:Name="headerClienteImage" Source="fundoperfil.jpg" Aspect="AspectFill" HeightRequest="200">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnHeaderClienteTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
+        <Grid RowDefinitions="Auto, *">
+            <!-- Cabeçalho Azul -->
+            <Grid VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Logo ConectaPro -->
+                <Image Source="conectapro_logo.png"
+                HeightRequest="40"
+                VerticalOptions="Center"
+                Grid.Column="0"/>
+
+                <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
+
+                <!-- Foto da Empresa logada -->
+                <Frame HeightRequest="40" WidthRequest="40"
+                      CornerRadius="20"
+                      HasShadow="False"
+                      Padding="0"
+                      BackgroundColor="White"
+                      BorderColor="#0f5cc2"
+                      VerticalOptions="Center"
+                      HorizontalOptions="End"
+                      Grid.Column="2">
+                    <Image Source="{Binding FotoEmpresaUrl}" 
+                          Aspect="AspectFill" 
+                          HeightRequest="40" WidthRequest="40"
+                  >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
+                        </Image.GestureRecognizers>
+                        <Image.Clip>
+                            <EllipseGeometry 
+                               Center="20,20"
+                               RadiusX="20"
+                               RadiusY="20"/>
+                        </Image.Clip>
+                    </Image>
+                </Frame>
             </Grid>
+            <VerticalStackLayout Spacing="0">
+                <!-- Header com imagem de fundo -->
+                <Grid Margin="0,57,0,0">
+                    <Image x:Name="headerClienteImage" Source="fundoperfil.jpg" Aspect="AspectFill" HeightRequest="137">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnHeaderClienteTapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
 
-            <!-- Avatar sobreposto ao fundo -->
-            <Frame WidthRequest="130" HeightRequest="130" CornerRadius="65" IsClippedToBounds="True" BorderColor="White" BackgroundColor="White" Padding="0">
-                <Image x:Name="avatarImageClient" Source="minhaconta.png" Aspect="AspectFill">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnAvatarClientTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
-            </Frame>
+                <!-- Avatar sobreposto ao fundo -->
+                <Frame WidthRequest="120"
+                       HeightRequest="120"
+                       CornerRadius="65"
+                       IsClippedToBounds="True"
+                       BorderColor="White"
+                       BackgroundColor="White"
+                       Margin="0,20,0,0">
+                    
+                    <Image x:Name="avatarImageClient"
+                           Source="minhaconta.png"
+                           Aspect="AspectFill"
+                           WidthRequest="120"
+                           HeightRequest="120">
+                        
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnAvatarClientTapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Frame>
 
-            <!-- Informações do usuário -->
-            <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="White">
-                <!-- Nome do usuário -->
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
-                    <Entry x:Name="NomeEntry" Text="Etec Horácio Augusto" FontSize="20" FontAttributes="Bold" TextColor="Black" TextChanged="OnNomeChanged" />
-                    <ImageButton Source="edit.png" WidthRequest="24" HeightRequest="24" BackgroundColor="Transparent" />
+                <!-- Informações do usuário -->
+                <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="#f1f1f1">
+                    <!-- Nome do usuário -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                        <Entry x:Name="NomeEntry" Text="Etec Horácio Augusto" FontSize="20" FontAttributes="Bold" TextColor="Black" TextChanged="OnNomeChanged" />
+                        <ImageButton Source="edit.png" WidthRequest="24" HeightRequest="24" BackgroundColor="Transparent" />
+                    </HorizontalStackLayout>
+
+                    <!-- Descrição do usuário -->
+                    <Editor x:Name="DescricaoEditor" Text="Somos da Etec Horácio Augusto da Silveira."
+         FontSize="14" TextColor="Gray" HorizontalOptions="Fill" TextChanged="OnDescricaoChanged" />
+                </VerticalStackLayout>
+
+                <!-- Espaçamento entre a Label e os Botões -->
+                <BoxView HeightRequest="100" Color="#f1f1f1" />
+
+                <!-- Botões de navegação -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="18" Padding="0">
+                    <Button Text="Solicitações" BackgroundColor="#0f5cc2" TextColor="White"
+                            CornerRadius="20" WidthRequest="117"/>
+                    
+                    <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White"
+                            CornerRadius="20" WidthRequest="117" />
+                    
+                    <Button Text="Histórico" BackgroundColor="#0f5cc2" TextColor="White"
+                            CornerRadius="20" WidthRequest="117" />
                 </HorizontalStackLayout>
 
-                <!-- Descrição do usuário -->
-                <Editor x:Name="DescricaoEditor" Text="Somos da Etec Horácio Augusto da Silveira."
-         FontSize="14" TextColor="Gray" HorizontalOptions="Fill" TextChanged="OnDescricaoChanged" />
+                <!-- Avaliação -->
+
             </VerticalStackLayout>
-
-            <!-- Espaçamento entre a Label e os Botões -->
-            <BoxView HeightRequest="100" Color="White" />
-
-            <!-- Botões de navegação -->
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="15" Padding="0">
-                <Button Text="Solicitações" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="110" />
-                <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="120" />
-                <Button Text="Histórico" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="100" />
-            </HorizontalStackLayout>
-
-            <!-- Avaliação -->
-
-        </VerticalStackLayout>
+        </Grid>
     </ScrollView>
 </ContentPage>
