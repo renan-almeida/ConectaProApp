@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.Cliente.CriarSolicitacaoViews.CriarSolicitacaoClientFinal"
+             BackgroundColor="#f1f1f1">
+    <ScrollView>
+        <Grid RowDefinitions="Auto, *">
+            <!-- Cabeçalho Azul -->
+            <Grid Grid.Row="0" VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Icone voltar -->
+                <Image  Source="iconevoltar.png"
+                        HeightRequest="30"
+                        WidthRequest="30"
+                        VerticalOptions="Center"
+                        Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnVoltarClicked" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
+
+                <!-- Foto da Empresa logada -->
+                <Frame HeightRequest="40" WidthRequest="40"
+             CornerRadius="20"
+             HasShadow="False"
+             Padding="0"
+             BackgroundColor="White"
+             BorderColor="#0f5cc2"
+             VerticalOptions="Center"
+             HorizontalOptions="End"
+             Grid.Column="2">
+                    <Image Source="{Binding FotoEmpresaUrl}" 
+                 Aspect="AspectFill" 
+                 HeightRequest="40" WidthRequest="40"
+                 >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
+                        </Image.GestureRecognizers>
+                        <Image.Clip>
+                            <EllipseGeometry 
+                              Center="20,20"
+                              RadiusX="20"
+                              RadiusY="20"/>
+                        </Image.Clip>
+                    </Image>
+                </Frame>
+            </Grid>
+
+            <VerticalStackLayout Grid.Row="1">
+                <Image 
+                Source="logo_conectapro_preto.png" 
+                HeightRequest="150" 
+                WidthRequest="150"
+                HorizontalOptions="Center"/>
+
+                <Label Text="Para finalizar!"
+                   TextColor="Black"
+                   FontSize="20"
+                   HorizontalOptions="Center"/>
+  
+                <Frame BackgroundColor="White"
+                   WidthRequest="361"
+                   HeightRequest="358"
+                   Margin="16"
+                   CornerRadius="30"
+                   BorderColor="Black">
+
+                    <VerticalStackLayout Spacing="28" Padding="36">
+                        <Picker
+                            Title="Urgência do serviço"
+                            ItemsSource="{Binding UrgeciaServico}"
+                            SelectedItem="{Binding UrgenciaSelecionada}"
+                            HorizontalOptions="Center"/>
+
+                        <Picker
+                            Title="Forma de Pagamento"
+                            ItemsSource="{Binding FormaPagto}"
+                            SelectedItem="{Binding FormaPagtoSelecionado}"
+                            HorizontalOptions="Center"/>
+
+                        <Frame
+                            BackgroundColor="#E5E3E3"
+                            WidthRequest="249"
+                            HeightRequest="136"
+                            HorizontalOptions="Center"
+                            CornerRadius="20"
+                            BorderColor="Black">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnClickedImageServiceTapped"/>
+                            </Frame.GestureRecognizers>
+
+                            <HorizontalStackLayout>
+                                <Label
+                                       Text="Insira uma imagem para facilitar o entendimento dos prestadores
+                                             do problema. (opcional)"
+                                       TextColor="Black"
+                                       HorizontalTextAlignment="Center"
+                                       FontSize="12"/>
+
+                                <Image 
+                                    Source="exportimage.png"
+                                    Aspect="AspectFill"
+                                    WidthRequest="100"
+                                    HeightRequest="100"
+                                    HorizontalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            
+
+
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+                <Button Text="Próximo"
+                    WidthRequest="269"
+                    HeightRequest="65"
+                    CornerRadius="10"
+                    BackgroundColor="#0f5cc2"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    FontSize="28"/>
+
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

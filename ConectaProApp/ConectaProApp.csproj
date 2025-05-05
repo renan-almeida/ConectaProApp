@@ -104,6 +104,12 @@
 	  <MauiXaml Update="View\Cliente\CriarSolicitacaoClient.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="View\Cliente\CriarSolicitacaoViews\CriarSolicitacaoClientFinal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\Cliente\CriarSolicitacaoViews\CriarSolicitacaoClientTwo.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\Cliente\HomeClient.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
