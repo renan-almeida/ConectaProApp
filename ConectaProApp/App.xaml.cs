@@ -1,4 +1,6 @@
-﻿namespace ConectaProApp
+﻿using ConectaProApp.Services;
+
+namespace ConectaProApp
 {
     public partial class App : Application
     {
@@ -58,6 +60,24 @@
         protected override Window CreateWindow(IActivationState? activationState)
         {
             return new Window(MainPage);
+        }
+
+        protected override async void OnStart()
+        {
+            base.OnStart();
+
+            var tester = new ConnectionTester();
+            var conexaoOk = await tester.TestarConexaoAsync();
+
+            if (conexaoOk)
+            {
+                Console.WriteLine("Conexão com o back-end bem-sucedida!");
+            }
+            else
+            {
+                Console.WriteLine("Falha na conexão com o back-end.");
+                await Application.Current.MainPage.DisplayAlert("Erro", "Não foi possível conectar ao servidor.", "OK");
+            }
         }
 
     }
