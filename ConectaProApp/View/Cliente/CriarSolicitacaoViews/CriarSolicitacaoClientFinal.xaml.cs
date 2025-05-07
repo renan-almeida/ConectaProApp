@@ -1,6 +1,8 @@
 using ConectaProApp.ViewModels.Cliente;
 
 
+
+
 namespace ConectaProApp.View.Cliente.CriarSolicitacaoViews;
 
 public partial class CriarSolicitacaoClientFinal : ContentPage
@@ -47,12 +49,23 @@ public partial class CriarSolicitacaoClientFinal : ContentPage
             if (foto != null)
             {
                 using var stream = await foto.OpenReadAsync();
+                var memoryStream = new MemoryStream();
+                await stream.CopyToAsync(memoryStream);
+                var imageBytes = memoryStream.ToArray();
+
+                ImageServico.Source = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+            
+                if(BindingContext is CriarSolicitacaoViewModel vm)
+                {
+                    vm.FotoServicoBytes = imageBytes;
+                }
+                
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
-            throw;
+            await DisplayAlert("Erro", $"Erro ao carregar a imagem: {ex.Message}", "OK");
         }
     }
 }

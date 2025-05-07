@@ -27,15 +27,16 @@
                 <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
 
                 <!-- Foto da Empresa logada -->
-                <Frame HeightRequest="40" WidthRequest="40"
-             CornerRadius="20"
-             HasShadow="False"
-             Padding="0"
-             BackgroundColor="White"
-             BorderColor="#0f5cc2"
-             VerticalOptions="Center"
-             HorizontalOptions="End"
-             Grid.Column="2">
+                <Frame   HeightRequest="40"
+                         WidthRequest="40"
+                         CornerRadius="20"
+                         HasShadow="False"
+                         Padding="0"
+                         BackgroundColor="White"
+                         BorderColor="#0f5cc2"
+                         VerticalOptions="Center"
+                         HorizontalOptions="End"
+                         Grid.Column="2">
                     <Image Source="{Binding FotoEmpresaUrl}" 
                  Aspect="AspectFill" 
                  HeightRequest="40" WidthRequest="40"
@@ -86,25 +87,30 @@
                            WidthRequest="314"
                            HeightRequest="0"
                           BackgroundColor="Transparent"
+                               Text="{Binding Logradouro}"
                            />
                         <Entry Placeholder="Nro"
                                Keyboard="Numeric"
                            PlaceholderColor="Gray"
                            WidthRequest="314"
                            HeightRequest="0"
+                               Text="{Binding Nro}"
                                             />
 
                         <Entry Placeholder="CEP"
                                Keyboard="Numeric"
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
-                                HeightRequest="0"/>
+                                HeightRequest="0"
+                               Text="{Binding Cep}"/>
                         
-                        <Entry  Placeholder="Valor Proposto a pagar R$"
+                        <Entry  TextChanged="OnValorPropostoChanged"
+                                Placeholder="Valor Proposto a pagar R$"
                                 Keyboard="Numeric"
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
-                                HeightRequest="0"/>
+                                HeightRequest="0"
+                                Text="{Binding ValorProposto}"/>
 
                     </VerticalStackLayout>
                 </Frame>

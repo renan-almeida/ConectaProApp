@@ -17,7 +17,7 @@ namespace ConectaProApp.Models
         public string Especialidade { get; set; } // Exatamente qual tipo de profissional precisa
         public string Logradouro { get; set; }
         public string CepEmpresa { get; set; }
-        public string NroEmpresa { get; set; }
+        public int NroEmpresa { get; set; }
         public long Id_Plano { get; set; } 
         public long Id_Segmento { get; set; }
         public string  NomeSegmento { get; set; }

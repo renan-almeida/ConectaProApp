@@ -86,17 +86,20 @@
                            WidthRequest="314"
                            HeightRequest="0"
                           BackgroundColor="Transparent"
+                           Text="{Binding Titulo}"
                            />
                     <Entry Placeholder="De uma Descrição exata sobre o problema"
                            PlaceholderColor="Gray"
                            WidthRequest="314"
                            HeightRequest="0"
+                           Text="{Binding Descricao}"
                                             />
 
                         <Entry Placeholder="Especialidade do serviço"
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
-                                HeightRequest="0"/>
+                                HeightRequest="0"
+                               Text="{Binding Especialidade}"/>
 
                         <Picker Title="Segmento do serviço desejado"
                             TitleColor="Gray"

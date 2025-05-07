@@ -92,10 +92,6 @@
                             HorizontalOptions="Center"
                             CornerRadius="20"
                             BorderColor="Black">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnClickedImageServiceTapped"/>
-                            </Frame.GestureRecognizers>
-
                             <HorizontalStackLayout>
                                 <Label
                                        Text="Insira uma imagem para facilitar o entendimento dos prestadores
@@ -104,12 +100,17 @@
                                        HorizontalTextAlignment="Center"
                                        FontSize="12"/>
 
-                                <Image 
+                                <Image
+                                    x:Name="ImageServico"
                                     Source="exportimage.png"
                                     Aspect="AspectFill"
                                     WidthRequest="100"
                                     HeightRequest="100"
-                                    HorizontalOptions="Center"/>
+                                    HorizontalOptions="Center">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnClickedImageServiceTapped" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </HorizontalStackLayout>
 
                             
