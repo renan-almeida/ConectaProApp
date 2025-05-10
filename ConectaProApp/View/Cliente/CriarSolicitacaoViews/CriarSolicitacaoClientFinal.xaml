@@ -67,7 +67,7 @@
   
                 <Frame BackgroundColor="White"
                    WidthRequest="361"
-                   HeightRequest="358"
+                   HeightRequest="420"
                    Margin="16"
                    CornerRadius="30"
                    BorderColor="Black">
@@ -75,27 +75,31 @@
                     <VerticalStackLayout Spacing="28" Padding="36">
                         <Picker
                             Title="Urgência do serviço"
-                            ItemsSource="{Binding UrgeciaServico}"
+                            ItemsSource="{Binding NiveisUrgencia}"
                             SelectedItem="{Binding UrgenciaSelecionada}"
                             HorizontalOptions="Center"/>
 
                         <Picker
                             Title="Forma de Pagamento"
-                            ItemsSource="{Binding FormaPagto}"
+                            ItemsSource="{Binding FormasPagto }"
                             SelectedItem="{Binding FormaPagtoSelecionado}"
                             HorizontalOptions="Center"/>
 
                         <Frame
                             BackgroundColor="#E5E3E3"
                             WidthRequest="249"
-                            HeightRequest="136"
+                            HeightRequest="160"
                             HorizontalOptions="Center"
                             CornerRadius="20"
                             BorderColor="Black">
-                            <HorizontalStackLayout>
+                            <VerticalStackLayout>
                                 <Label
-                                       Text="Insira uma imagem para facilitar o entendimento dos prestadores
-                                             do problema. (opcional)"
+                                       Text="Insira uma imagem para facilitar o"
+                                       TextColor="Black"
+                                       HorizontalTextAlignment="Center"
+                                       FontSize="12"/>
+
+                                <Label Text="entendimento dos prestadores do problema. (opcional)"
                                        TextColor="Black"
                                        HorizontalTextAlignment="Center"
                                        FontSize="12"/>
@@ -111,7 +115,7 @@
                                         <TapGestureRecognizer Tapped="OnClickedImageServiceTapped" />
                                     </Image.GestureRecognizers>
                                 </Image>
-                            </HorizontalStackLayout>
+                            </VerticalStackLayout>
 
                             
 
@@ -119,7 +123,7 @@
                         </Frame>
                     </VerticalStackLayout>
                 </Frame>
-                <Button Text="Próximo"
+                <Button Text="Solicitar"
                     WidthRequest="269"
                     HeightRequest="65"
                     CornerRadius="10"

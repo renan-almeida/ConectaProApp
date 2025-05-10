@@ -73,7 +73,7 @@
 
                 <Frame BackgroundColor="White"
                    WidthRequest="361"
-                   HeightRequest="358"
+                   HeightRequest="420"
                    Margin="16"
                    CornerRadius="30"
                    BorderColor="Black">
@@ -95,6 +95,7 @@
                            WidthRequest="314"
                            HeightRequest="0"
                                Text="{Binding Nro}"
+                               MaxLength="10"
                                             />
 
                         <Entry Placeholder="CEP"
@@ -102,8 +103,9 @@
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
                                 HeightRequest="0"
-                               Text="{Binding Cep}"/>
-                        
+                               Text="{Binding Cep}"
+                               MaxLength="9"/>
+
                         <Entry  TextChanged="OnValorPropostoChanged"
                                 Placeholder="Valor Proposto a pagar R$"
                                 Keyboard="Numeric"
@@ -121,7 +123,8 @@
                     BackgroundColor="#0f5cc2"
                     BorderColor="Black"
                     BorderWidth="1"
-                    FontSize="28"/>
+                    FontSize="28"
+                    Command="{Binding EtapaFinalCommand}"/>
 
             </VerticalStackLayout>
         </Grid>

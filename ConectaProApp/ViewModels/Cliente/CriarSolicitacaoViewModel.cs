@@ -100,9 +100,24 @@ namespace ConectaProApp.ViewModels.Cliente
             get => cep;
             set
             {
-                cep = value;
+                cep = MascararCep(RemoverNaoNumericos(value));
                 OnPropertyChanged();
             }
+        }
+
+        private string MascararCep(string input)
+        {
+            input = new string(input.Where(char.IsDigit).ToArray());
+
+            if (input.Length > 8)
+                input = input.Substring(0, 8);
+
+            if (input.Length < 8)
+                return input;
+
+            return Convert.ToUInt64(input).ToString(@"00000\-000");
+
+
         }
 
         private decimal valorProposto;
@@ -117,25 +132,25 @@ namespace ConectaProApp.ViewModels.Cliente
         }
 
         public ObservableCollection<string> NiveisUrgencia { get; set; }
-        private string nvlUrgencia;
-        public string NvlUrgencia
+        private string urgenciaSelecionada;
+        public string UrgenciaSelecionada
         {
-            get => nvlUrgencia;
+            get => urgenciaSelecionada;
             set
             {
-                nvlUrgencia = value;
+                urgenciaSelecionada = value;
                 OnPropertyChanged();
             }
         }
 
         public ObservableCollection<string> FormasPagto { get; set; }
-        private string formaPagto;
-        public string FormaPagto
+        private string formaPagtoSelecionado;
+        public string FormaPagtoSelecionado
         {
-            get => formaPagto;
+            get => formaPagtoSelecionado;
             set
             {
-                formaPagto = value;
+                formaPagtoSelecionado = value;
                 OnPropertyChanged();
             }
         }
@@ -199,7 +214,12 @@ namespace ConectaProApp.ViewModels.Cliente
 
         private void ValidarCampos()
         {
+            
+        }
 
+        private string RemoverNaoNumericos(string input)
+        {
+            return new string(input.Where(char.IsDigit).ToArray());
         }
     }
 }

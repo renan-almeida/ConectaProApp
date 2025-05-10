@@ -72,7 +72,7 @@
 
             <Frame BackgroundColor="White"
                    WidthRequest="361"
-                   HeightRequest="358"
+                   HeightRequest="420"
                    Margin="16"
                    CornerRadius="30"
                    BorderColor="Black">
@@ -88,8 +88,11 @@
                           BackgroundColor="Transparent"
                            Text="{Binding Titulo}"
                            />
-                    <Entry Placeholder="De uma Descrição exata sobre o problema"
+                    <Editor Placeholder="De uma Descrição exata sobre o problema"
                            PlaceholderColor="Gray"
+                            FontSize="14"
+                            AutoSize="TextChanges"
+                            MaxLength="100"
                            WidthRequest="314"
                            HeightRequest="0"
                            Text="{Binding Descricao}"
