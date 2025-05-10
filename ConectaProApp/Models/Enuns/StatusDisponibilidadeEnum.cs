@@ -15,7 +15,7 @@ namespace ConectaProApp.Models.Enuns
         [Description("Indisponivel")]
         INDISPONIVEL,
 
-        [Description("Inativo")]
-        INATIVO
+        [Description("Em atendimento")]
+        EM_ATENDIMENTO
     }
 }

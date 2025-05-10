@@ -37,7 +37,7 @@
                          VerticalOptions="Center"
                          HorizontalOptions="End"
                          Grid.Column="2">
-                    <Image Source="{Binding FotoEmpresaUrl}" 
+                    <Image Source="{Binding FotoEmpresaUrl, Mode=OneWay}" 
                  Aspect="AspectFill" 
                  HeightRequest="40" WidthRequest="40"
                  >
@@ -87,14 +87,14 @@
                            WidthRequest="314"
                            HeightRequest="0"
                           BackgroundColor="Transparent"
-                               Text="{Binding Logradouro}"
+                               Text="{Binding Logradouro, Mode=TwoWay}"
                            />
                         <Entry Placeholder="Nro"
                                Keyboard="Numeric"
                            PlaceholderColor="Gray"
                            WidthRequest="314"
                            HeightRequest="0"
-                               Text="{Binding Nro}"
+                               Text="{Binding Nro, Mode=TwoWay}"
                                MaxLength="10"
                                             />
 
@@ -103,7 +103,7 @@
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
                                 HeightRequest="0"
-                               Text="{Binding Cep}"
+                               Text="{Binding Cep, Mode=TwoWay}"
                                MaxLength="9"/>
 
                         <Entry  TextChanged="OnValorPropostoChanged"
@@ -112,7 +112,7 @@
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
                                 HeightRequest="0"
-                                Text="{Binding ValorProposto}"/>
+                                Text="{Binding ValorProposto, Mode=TwoWay}"/>
 
                     </VerticalStackLayout>
                 </Frame>

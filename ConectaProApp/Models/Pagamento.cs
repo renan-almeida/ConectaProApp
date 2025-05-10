@@ -9,18 +9,11 @@ namespace ConectaProApp.Models
 {
     public class Pagamento
     {
-        public long  IdPagamento { get; set; }
-        public long Id_Servico { get; set; }
-        public double VlPagamento { get; set; }
-        public double VlPlataforma { get; set; }
-        public double VlPrestador { get; set; }
-
-        public Pagamento(Servico servico)
-        {
-            Id_Servico = servico.IdServico;
-            
-        }
-
-
+        public int  IdPagamento { get; set; }
+        public Servico IdServico { get; set; }
+        public float ValorPagamento { get; set; }
+        public float ValorPlataforma { get; set; }
+        public float ValorPrestador { get; set; }
+        public string SituacaoRepasse { get; set; }
     }
 }

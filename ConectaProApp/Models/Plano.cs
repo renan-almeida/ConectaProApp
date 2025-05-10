@@ -9,9 +9,10 @@ namespace ConectaProApp.Models
 {
     public class Plano
     {
-        public long IdPlano { get; set; }
+        public int IdPlano { get; set; }
+        public string DescPlano { get; set; }
+        public float ValorFixoPlano { get; set; }
+        public float PercentualPlano { get; set; }
         public TipoPlanoEnum TipoPlano { get; set; }
-        public float VfPlano { get; set; }
-        public float PlPlano { get; set; }
     }
 }

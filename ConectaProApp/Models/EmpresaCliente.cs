@@ -8,8 +8,10 @@ namespace ConectaProApp.Models
 {
    public  class EmpresaCliente: Usuario
     {
-        public long IdEmpresa { get; set; }
-        public string Cnpj { get; set; } = string.Empty;
-        public string NomeFantasia { get; set; } = string.Empty;
+        public string Cnpj { get; set; }
+        public string RazaoSocial { get; set; }
+        public string NomeFantasia { get; set; }
+        public List<Servico> Servicos { get; set; }
+
     }
 }

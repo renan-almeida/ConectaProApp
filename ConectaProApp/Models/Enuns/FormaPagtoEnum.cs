@@ -9,11 +9,11 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum FormaPagtoEnum
     {
-        [Description("Cartão de Credito")]
-        CRÉDITO,
+        [Description("Cartão")]
+        CARTÃO,
 
-        [Description("Cartão de Debito")]
-        DÉBITO,
+        [Description("Dinheiro")]
+        DINHEIRO,
 
         [Description("Pix")]
         PIX,

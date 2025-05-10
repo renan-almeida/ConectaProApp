@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ConectaProApp.Models
 {
-    public class Segmento
+    public class SegmentoPrestador
     {
-        public int IdSegmento { get; set; } 
-        public string DescSegmento { get; set; }
+        public Prestador IdPrestador { get; set; }
+        public Segmento IdSegmento { get; set; }
     }
 }

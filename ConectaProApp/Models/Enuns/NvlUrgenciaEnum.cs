@@ -9,8 +9,8 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum NvlUrgenciaEnum
     {
-        
-       EMERGÊNCIA,
+        EMERGENTE,
+
        URGENTE,
 
         [Description("POUCO URGENTE")]

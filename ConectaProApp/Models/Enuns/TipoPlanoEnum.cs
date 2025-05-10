@@ -15,6 +15,9 @@ namespace ConectaProApp.Models.Enuns
         [Description ("Padrão")]
         PADRÃO,
 
+        [Description("Básico")]
+        BÁSICA
+
 
 
     }

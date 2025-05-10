@@ -10,15 +10,15 @@ namespace ConectaProApp.Models
 {
     public class Prestador: Usuario
     {
-        public long IdPrestador { get; set; }
-        public long? Id_Plano { get; set; }
-        public TipoPlanoEnum TipoPlano { get; set; }
         public string DescPrestador { get; set; }
-        public List<TipoSegmentoEnum> Segmento { get; set; }
-        public ObservableCollection<string> Habilidades { get; set; }
         public string Cpf { get; set; }
-        public ObservableCollection<string> Especializacoes { get; set; }
+        public List<string> Especialidades { get; set; }
+        public ObservableCollection<string> Habilidades { get; set; }
         public DateTime DataNascimento { get; set; }
         public StatusDisponibilidadeEnum StatusDisponibilidade { get; set; }
+        public Plano idPlano { get; set; }
+        public List<Avaliacao> Avaliacoes { get; set; }
+        public List<Orcamento> Orcamentos { get; set; }
+        public List<Servico> Servicos { get; set; }
     }
 }

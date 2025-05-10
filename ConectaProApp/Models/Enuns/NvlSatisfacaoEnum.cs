@@ -9,11 +9,14 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum NvlSatisfacaoEnum
     {
-        [Description("Muito Satisfeito")]
+        [Description("Muito satisfeito")]
         MUITO_SATISFEITO,
 
         [Description("Satisfeito")]
         SATISFEITO,
+
+        [Description("Pouco satisfeito")]
+        POUCO_SATISFEITO,
 
         [Description("Insatisfeito")]
         INSATISFEITO

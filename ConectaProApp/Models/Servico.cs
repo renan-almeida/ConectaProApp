@@ -6,46 +6,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace ConectaProApp.Models
 {
     public class Servico: INotifyPropertyChanged
     {
-        public long IdServico { get; set; }
-        public string Nome { get; set; }
+        public int IdServico { get; set; }
+        public Prestador IdPrestador { get; set; }
+        public Segmento IdSegmento { get; set; }
+        public EmpresaCliente IdCliente { get; set; }
+        public float ValorContratacao { get; set; }
+        public DateTime DataInclusao { get; set; }
+        public DateTime DataAprovacao { get; set; }
+        public DateTime DataExecucao { get; set; }
+        public DateTime DataPagamento { get; set; }
+        public string Titulo { get; set; }
         public string Descricao { get; set; }
-        public string Especialidade { get; set; } // Exatamente qual tipo de profissional precisa
         public string Logradouro { get; set; }
         public string CepEmpresa { get; set; }
         public int NroEmpresa { get; set; }
-        public long Id_Plano { get; set; } 
-        public long Id_Segmento { get; set; }
-        public string  NomeSegmento { get; set; }
-        public long Id_Prestador { get; set; }
-        public Prestador Prestador { get; set; }
-        public string NomePrestador { get; set; }
-        public long Id_Cliente { get; set; }
-        public EmpresaCliente Cliente { get; set; }
-        public string NomeCliente { get; set; }
-        public long Id_Endereco { get; set; }
-        public float ValorServico { get; set; }
-        public DateTime DataInicio { get; set; }
-        public DateTime DataAgendamento { get; set; }
-        public DateTime DataConclusao { get; set; }
-        public DateTime DataPagamento { get; set; }
-        public StatusServicoEnum StServico { get; set; }
+        public StatusServicoEnum SituacaoServico { get; set; }
         public FormaPagtoEnum FormaPagamento { get; set; }
         public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
-
-        
-        public Servico(Plano plano, Segmento segmento, Prestador prestador, EmpresaCliente cliente)
-        {
-            Id_Plano = plano.IdPlano;
-            Id_Segmento = segmento.IdSegmento;
-            Id_Prestador = prestador.IdPrestador;
-            Id_Cliente = cliente.IdEmpresa;
-            VerMaisCommand = new Command(AtivarVerMais);
-        }
 
         /* Realizamos esse tratamento abaixo por conta que a classe servicos
          na resultadoBuscaViewModel é uma lista, graças a isso precisamos realizar esse tratamento
