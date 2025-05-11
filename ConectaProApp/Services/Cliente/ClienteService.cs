@@ -1,4 +1,6 @@
 ﻿using ConectaProApp.Models;
+using System.Text.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ConectaProApp.Services.Cliente
@@ -9,13 +11,14 @@ namespace ConectaProApp.Services.Cliente
 
         public async Task<EmpresaCliente> PostRegistrarClienteAsync(EmpresaCliente e)
         {
-            string urlComplementar = "/RegistrarCliente";
+            string urlComplementar = "/empresaCliente/registro";
 
-            e.IdUsuario = await PostReturnIntAsync(apiUrlBase + urlComplementar, e, string.Empty);
+            var clienteRegistrado = await PostAsync<EmpresaCliente, EmpresaCliente>(
+                apiUrlBase + urlComplementar, e, string.Empty);
 
-            return e;
+            return clienteRegistrado;
         }
 
-      
+
     }
 }

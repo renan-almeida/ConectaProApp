@@ -20,7 +20,7 @@ namespace ConectaProApp.Services
 
         public async Task<Usuario> PostRegistrarUsuarioAsync(Usuario u)
         {
-            string urlComplementar = "/RegistrarCliente";
+            string urlComplementar = "/Usuarios/registrar";
             u.IdUsuario = await _request
                 .PostReturnIntAsync(apiUrlBase + urlComplementar, u, string.Empty);
 
@@ -29,7 +29,7 @@ namespace ConectaProApp.Services
 
         public async Task<Usuario> PostAutenticarUsuarioAsync(Usuario u)
         {
-            string urlComplementar = "/prestadores";
+            string urlComplementar = "/login";
 
             var usuarioAutenticado = await _request
                 .PostAsync<Usuario, Usuario>(apiUrlBase + urlComplementar, u, string.Empty);

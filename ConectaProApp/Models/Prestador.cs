@@ -16,7 +16,7 @@ namespace ConectaProApp.Models
         public ObservableCollection<string> Habilidades { get; set; }
         public DateTime DataNascimento { get; set; }
         public StatusDisponibilidadeEnum StatusDisponibilidade { get; set; }
-        public Plano idPlano { get; set; }
+        public Plano IdPlano { get; set; }
         public List<Avaliacao> Avaliacoes { get; set; }
         public List<Orcamento> Orcamentos { get; set; }
         public List<Servico> Servicos { get; set; }

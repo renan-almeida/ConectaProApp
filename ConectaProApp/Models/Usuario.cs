@@ -20,6 +20,7 @@ namespace ConectaProApp.Models
         public TipoUsuarioEnum TipoUsuario { get; set; }
         public string CaminhoFoto { get; set; }
         public RoleEnum Role {get; set;}
+        public string Token { get; set; }
 
     }
     

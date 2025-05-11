@@ -103,9 +103,9 @@ namespace ConectaProApp.ViewModels.Cliente
 
         private async Task CarregarFotoPrestador()
         {
-            if (PrestadorAtual?.IdPrestador != null && PrestadorAtual.FotoUrl != null)
+            if (PrestadorAtual?.IdUsuario != null && PrestadorAtual.CaminhoFoto != null)
             {
-                FotoPrestadorUrl = ImageSource.FromStream(() => new MemoryStream(PrestadorAtual.FotoUrl));
+             /*   FotoPrestadorUrl = ImageSource.FromStream(() => new MemoryStream(PrestadorAtual.CaminhoFoto));*/
             }
             else
             {

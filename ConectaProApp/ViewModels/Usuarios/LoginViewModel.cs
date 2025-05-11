@@ -17,7 +17,7 @@ namespace ConectaProApp.ViewModels.Usuarios
     public class LoginViewModel : BaseViewModel
     {
 
-        private UsuarioServices uService;
+        private readonly UsuarioServices uService;
 
         public ICommand EsqueceuSenhaCommand { get; set; }
         public ICommand EtapaUmCommand { get; set; }
@@ -50,7 +50,8 @@ namespace ConectaProApp.ViewModels.Usuarios
 
         public LoginViewModel()
         {
-            InitializeCommands();     
+            InitializeCommands();
+            uService = new UsuarioServices();
         }
 
         private void InitializeCommands()
@@ -134,20 +135,26 @@ namespace ConectaProApp.ViewModels.Usuarios
                 if (usuarioAutenticado != null && usuarioAutenticado.IdUsuario > 0)
                 {
 
-                    Preferences.Set("UsuarioToken", usuarioAutenticado.Token);
+                    await SecureStorage.SetAsync("UsuarioToken", usuarioAutenticado.Token);
                     Preferences.Set("TipoUsuario", usuarioAutenticado.TipoUsuario.ToString());
-                    Preferences.Set("UfPrestador", usuarioAutenticado.Uf.ToString());
-                  
+                    if(usuarioAutenticado.Endereco != null)
+                    {
+                        Preferences.Set("UfPrestador", usuarioAutenticado.Endereco.Uf.ToString());
+                    }
+    
                     await Application.Current.MainPage.DisplayAlert("Bem-vindo!", $"Olá, {usuarioAutenticado.Nome}!", "Ok");
 
                  switch (usuarioAutenticado.TipoUsuario)
                     {
                         case TipoUsuarioEnum.EMPRESA:
-                            await Application.Current.MainPage.Navigation.PushAsync(new View.Cliente.HomeClient());
+                            Application.Current.MainPage = new AppShell();
+                            await Shell.Current.GoToAsync("//cliente"); 
                             break;
 
                         case TipoUsuarioEnum.PRESTADOR:
-                            await Application.Current.MainPage.Navigation.PushAsync(new View.Prestador.HomePrestador());
+                            Application.Current.MainPage = new AppShell();
+                            await Shell.Current.GoToAsync("//prestador");
+
                             break;
 
                         default:

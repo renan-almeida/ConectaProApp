@@ -324,9 +324,12 @@ namespace ConectaProApp.ViewModels.Cliente
                     NomeFantasia = this.NomeFantasia,
                     Cnpj = this.Cnpj,
                     Telefone = this.TelefoneCliente,
-                    Cep = this.CepCliente,
-                    Nro = this.NroEndCliente,
-                    Uf = ufEnum,
+                    Endereco = new Endereco
+                    {
+                        Cep = this.CepCliente,
+                        Numero = this.NroEndCliente,
+                        Uf = (UfEnum)Enum.Parse(typeof(UfEnum), ufSelecionada)
+                    },
                     Senha = this.SenhaCliente,
                     TipoUsuario = Models.Enuns.TipoUsuarioEnum.EMPRESA
                 };

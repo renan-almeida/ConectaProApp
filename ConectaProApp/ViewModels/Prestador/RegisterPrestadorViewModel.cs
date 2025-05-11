@@ -184,7 +184,7 @@ namespace ConectaProApp.ViewModels.Prestador
 
 
 
-        public ObservableCollection<string> Especializacoes { get; set; } = new();
+        public List<string> Especializacoes { get; set; } = new();
 
         private string especializacaoAtual;
         public string EspecializacaoAtual
@@ -498,15 +498,20 @@ namespace ConectaProApp.ViewModels.Prestador
                     Email = this.EmailPrestador,
                     Cpf = this.CpfPrestador,
                     Habilidades = this.Habilidades,
-                    Especializacoes = this.Especializacoes,
-                    Segmento = this.SegmentosSelecionados,
+                    Especialidades = this.Especializacoes,
+                     /*= this.SegmentosSelecionados, */
                     DescPrestador = this.DescPrestador,
                     Telefone = this.TelefonePrestador,
-                    Cep = this.CepPrestador,
-                    Nro = this.NroResidencia,
-                    Uf = ufEnum,
-                    Id_Plano = null,
-                    TipoPlano = planoEnum,
+                    Endereco = new Endereco
+                    {
+                        Cep = this.CepPrestador,
+                        Numero = this.NroResidencia,
+                        Uf = ufEnum
+                    },
+                    IdPlano = new Plano
+                    {
+                        TipoPlano = planoEnum
+                    },
                     Senha = this.SenhaPrestador,
                     TipoUsuario = Models.Enuns.TipoUsuarioEnum.PRESTADOR
                 };
