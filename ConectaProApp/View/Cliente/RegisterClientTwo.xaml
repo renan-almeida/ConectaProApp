@@ -28,6 +28,14 @@
             HorizontalOptions="Center" />
 
             <Entry
+                TextColor="Black"
+                Placeholder="Razao Social"
+                FontSize="15"
+                HorizontalOptions="Fill"
+                WidthRequest="314"
+                Text="{Binding RazaoSocial, Mode=TwoWay}"/>
+
+            <Entry
             TextColor="Black"
             Placeholder="Nome Fantasia"
             FontSize="15"

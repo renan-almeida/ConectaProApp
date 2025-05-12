@@ -78,6 +78,16 @@ namespace ConectaProApp.ViewModels.Cliente
             return regex.IsMatch(email);
         }
 
+        private string razaoSocial;
+        public string RazaoSocial
+        {
+            get => razaoSocial;
+            set
+            {
+                razaoSocial = value;
+                OnPropertyChanged();
+            }
+        }
 
         private string nomeFantasia;
         public string NomeFantasia
@@ -320,6 +330,7 @@ namespace ConectaProApp.ViewModels.Cliente
                 var novoCliente = new EmpresaCliente
                 {
                     Nome = this.NomeCliente,
+                    RazaoSocial = this.RazaoSocial,
                     Email = this.EmailCliente,
                     NomeFantasia = this.NomeFantasia,
                     Cnpj = this.Cnpj,
@@ -331,7 +342,6 @@ namespace ConectaProApp.ViewModels.Cliente
                         Uf = (UfEnum)Enum.Parse(typeof(UfEnum), ufSelecionada)
                     },
                     Senha = this.SenhaCliente,
-                    TipoUsuario = Models.Enuns.TipoUsuarioEnum.EMPRESA
                 };
 
                 var clienteRegistrado = await eService.PostRegistrarClienteAsync(novoCliente);

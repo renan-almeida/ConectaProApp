@@ -11,34 +11,34 @@ namespace ConectaProApp.Models.Enuns
     {
         [Description("Limpeza")]
 
-        LIMPEZA,
+        LIMPEZA = 1,
 
         [Description("Reparos")]
-        REPAROS,
+        REPAROS = 2,
 
         [Description("Tecnologia")]
-        TECNOLOGIA,
+        TECNOLOGIA = 3,
 
         [Description("Design")]
-        DESIGN,
+        DESIGN = 4,
 
         [Description("Construção")]
-        CONSTRUÇÃO,
+        CONSTRUÇÃO = 5,
 
         [Description("Jardinagem")]
-        JARDINAGEM,
+        JARDINAGEM = 6,
 
         [Description("Pintura")]
-        PINTURA,
+        PINTURA = 7,
 
         [Description("Mecânico")]
-        MECANICO,
+        MECANICO = 8,
 
         [Description("Motorista")]
-        MOTORISTA,
+        MOTORISTA = 9,
 
         [Description("Outros")]
-        OUTROS
+        OUTROS = 10
     }
 }
 

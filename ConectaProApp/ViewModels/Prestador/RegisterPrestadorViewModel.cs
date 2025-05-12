@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.ComponentModel.Design;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ConectaProApp.ViewModels.Prestador
 {
@@ -40,6 +41,7 @@ namespace ConectaProApp.ViewModels.Prestador
             CarregarSegmentos();
             Ufs = [.. Enum.GetNames(typeof(UfEnum))];
             TiposPlano = [.. Enum.GetNames(typeof(TipoPlanoEnum))];
+            TiposDisponibilidade = [.. Enum.GetNames(typeof(StatusDisponibilidadeEnum))];
            
         }
         // spin de carregamento quando o prestador clicar em criar a conta.
@@ -304,6 +306,17 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
 
+        private string complemento;
+        public string Complemento
+        {
+            get => complemento;
+            set
+            {
+                complemento = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<string> Ufs { get; set; }
 
         private string ufSelecionada;
@@ -329,6 +342,19 @@ namespace ConectaProApp.ViewModels.Prestador
 
             }
         }
+
+        public ObservableCollection<string> TiposDisponibilidade { get; set; }
+        private string disponibilidadeSelecionada;
+        public string DisponibilidadeSelecionada
+        {
+            get => disponibilidadeSelecionada;
+            set
+            {
+                disponibilidadeSelecionada = value;
+                OnPropertyChanged();            
+            }
+        }
+
         private string senhaPrestador;
         public string SenhaPrestador
         {
@@ -490,8 +516,10 @@ namespace ConectaProApp.ViewModels.Prestador
                 // convertendo a string selecionada no picker para uma enum
                 Enum.TryParse(UfSelecionada, out UfEnum ufEnum);
                 Enum.TryParse(PlanoSelecionado, out TipoPlanoEnum planoEnum);
-
-
+                Enum.TryParse
+                    (DisponibilidadeSelecionada, out StatusDisponibilidadeEnum disponibilidadeEnum);
+ 
+               
                 var novoPrestador = new Models.Prestador
                 {
                     Nome = this.NomePrestador,
@@ -499,35 +527,42 @@ namespace ConectaProApp.ViewModels.Prestador
                     Cpf = this.CpfPrestador,
                     Habilidades = this.Habilidades,
                     Especialidades = this.Especializacoes,
-                     /*= this.SegmentosSelecionados, */
+                    Segmento = SegmentosSelecionados
+
+                        .Select(segEnum => new Segmento
+                        {
+                            IdSegmento = (int)segEnum,
+                            DescSegmento = segEnum.GetDescription()
+                        })
+                        .ToList(),
+
+
                     DescPrestador = this.DescPrestador,
                     Telefone = this.TelefonePrestador,
                     Endereco = new Endereco
                     {
                         Cep = this.CepPrestador,
                         Numero = this.NroResidencia,
+                        Complemento = this.Complemento,
                         Uf = ufEnum
                     },
                     IdPlano = new Plano
                     {
-                        TipoPlano = planoEnum
+                        IdPlano = (int)planoEnum
                     },
+                    StatusDisponibilidade = disponibilidadeEnum,
                     Senha = this.SenhaPrestador,
-                    TipoUsuario = Models.Enuns.TipoUsuarioEnum.PRESTADOR
                 };
 
                 var prestadorRegistrado = await pService.PostRegistrarUsuarioAsync(novoPrestador);
 
                 if (prestadorRegistrado != null && prestadorRegistrado.IdUsuario > 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert($"Bem Vindo {NomePrestador}", "Cadastro realizado com sucesso, vamos trilhar essa carreira de prestador juntos!", "Ok");
+                    await Application.Current.MainPage
+                        .DisplayAlert("Sucesso", "Cadastro concluído! Agora faça login para continuar.", "OK");
 
-                    Preferences.Set("UsuarioLogado", true);
-                    Preferences.Set("TipoUsuario", "PRESTADOR");
-                    Preferences.Set("UfPrestador", ufEnum.ToString());
+                    await Application.Current.MainPage.Navigation.PushAsync(new View.Usuario.LoginView());
 
-                    Application.Current.MainPage = new AppShell();
-                    await Shell.Current.GoToAsync("//prestador");
                 }
                 else
                 {

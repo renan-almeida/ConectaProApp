@@ -11,7 +11,8 @@
                     IsRunning="{Binding IsBusy}" 
                     Color="#0f5cc2" 
                     HorizontalOptions="Center" 
-                    VerticalOptions="Center" 
+                    VerticalOptions="Center"
+                    Margin="250"
                     WidthRequest="50" 
                     HeightRequest="50"/>
             </Grid>
@@ -35,13 +36,26 @@
                  FontSize="14"
                  TextColor="#B2A9A9"
                  HorizontalOptions="Center" />
+            <HorizontalStackLayout Spacing="32" HorizontalOptions="Center">
+                <Picker
+                    Title="Tipo de plano"
+                    TitleColor="#b2a9a9"
+                    FontSize="15"
+                    HorizontalTextAlignment="Center"
+                    ItemsSource="{Binding TiposPlano}"
+                    SelectedItem="{Binding PlanoSelecionado}"
+                    WidthRequest="145"/>
 
-            <Picker
-                Title="Selecione o tipo de plano"
-                HorizontalTextAlignment="Center"
-                ItemsSource="{Binding TiposPlano}"
-                SelectedItem="{Binding PlanoSelecionado}"
-                WidthRequest="314"/>
+                <Picker
+                    Title="Disponibilidade"
+                    TitleColor="#b2a9a9"
+                    FontSize="15"
+                    HorizontalTextAlignment="Center"
+                    ItemsSource="{Binding TiposDisponibilidade}"
+                    SelectedItem="{Binding DisponibilidadeSelecionada}"
+                    WidthRequest="185"/>
+            </HorizontalStackLayout>
+            
 
             <Entry
                  TextColor="Black"

@@ -36,7 +36,7 @@
              VerticalOptions="Center"
              HorizontalOptions="End"
              Grid.Column="2">
-                <Image Source="{Binding FotoEmpresaUrl}" 
+                <Image Source="{Binding FotoEmpresaUrl, Mode=OneWay}" 
                  Aspect="AspectFill" 
                  HeightRequest="40" WidthRequest="40"
                  >
@@ -86,7 +86,7 @@
                            WidthRequest="314"
                            HeightRequest="0"
                           BackgroundColor="Transparent"
-                           Text="{Binding Titulo}"
+                           Text="{Binding Titulo, Mode=TwoWay}"
                            />
                     <Editor Placeholder="De uma Descrição exata sobre o problema"
                            PlaceholderColor="Gray"
@@ -95,14 +95,14 @@
                             MaxLength="100"
                            WidthRequest="314"
                            HeightRequest="0"
-                           Text="{Binding Descricao}"
+                           Text="{Binding Descricao, Mode=TwoWay}"
                                             />
 
                         <Entry Placeholder="Especialidade do serviço"
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
                                 HeightRequest="0"
-                               Text="{Binding Especialidade}"/>
+                               Text="{Binding Especialidade, Mode=TwoWay}"/>
 
                         <Picker Title="Segmento do serviço desejado"
                             TitleColor="Gray"

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConectaProApp.Models.Enuns;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
