@@ -29,8 +29,11 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             ProximoPrestadorCommand = new Command(MostrarProximoPrestador);
             CriarServicoCommand = new Command(async () => await CriarSolicitacaoView());
+            PropostaCommand = new Command(async () => await Shell.Current.GoToAsync("///PropostaClient"));
         }
 
+
+       
         private async Task CriarSolicitacaoView()
         {
             try

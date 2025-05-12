@@ -8,7 +8,7 @@ namespace ConectaProApp
         {
             InitializeComponent();
 
-            bool modoDev = false;
+            bool modoDev = true;
 
             if (modoDev)
             {
@@ -16,7 +16,7 @@ namespace ConectaProApp
 
                 Dispatcher.Dispatch(async () =>
                 {
-                    await Shell.Current.GoToAsync("//cliente");
+                    await Shell.Current.GoToAsync("//prestador");
                 });
             }
             else

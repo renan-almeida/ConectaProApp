@@ -8,12 +8,17 @@
     Shell.FlyoutBehavior="Flyout"
     Title="ConectaProApp">
 
+    <ShellContent Title="PropostaClient" ContentTemplate="{DataTemplate cliente:PropostaClient}" Route="PropostaClient" />
+
+    <ShellContent Title="CandidatarPrestador" ContentTemplate="{DataTemplate prestador:CandidatarPrestador}" Route="CandidatarPrestador" />
+
+
+
     <TabBar Route="prestador">
         <ShellContent
             Icon="home.png"
             ContentTemplate="{DataTemplate prestador:HomePrestador}"
             Route="MainPage" />
-          
 
         <ShellContent
              Icon="busca.png"
@@ -21,27 +26,25 @@
              Route="MainPage" />
 
         <ShellContent
-     Icon="minhaconta.png"
-     ContentTemplate="{DataTemplate prestador:MinhaContaPrestador}"
-     Route="MainPage" />
-
+            Icon="minhaconta.png"
+            ContentTemplate="{DataTemplate prestador:MinhaContaPrestador}"
+            Route="MainPage" />
     </TabBar>
 
     <TabBar Route="cliente">
         <ShellContent
-         Icon="home.png"
-         ContentTemplate="{DataTemplate cliente:HomeClient}"
-         Route="MainPage" />
+            Icon="home.png"
+            ContentTemplate="{DataTemplate cliente:HomeClient}"
+            Route="MainPage" />
 
         <ShellContent
-          Icon="busca.png"
-          ContentTemplate="{DataTemplate cliente:BuscaClient}"
-          Route="MainPage" />
+            Icon="busca.png"
+            ContentTemplate="{DataTemplate cliente:BuscaClient}"
+            Route="MainPage" />
 
         <ShellContent
-          Icon="minhaconta.png"
-          ContentTemplate="{DataTemplate cliente:MinhaContaClient}"
-          Route="MainPage" />
-
+            Icon="minhaconta.png"
+            ContentTemplate="{DataTemplate cliente:MinhaContaClient}"
+            Route="MainPage" />
     </TabBar>
 </Shell>

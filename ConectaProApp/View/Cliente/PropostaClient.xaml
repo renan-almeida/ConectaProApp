@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.Cliente.PropostaClient"
+             Title="PropostaClient"
+             BackgroundColor="White">
+    
+    <ScrollView>
+        <Grid RowDefinitions="Auto, *">
+            <!-- Cabeçalho Azul -->
+            <Grid Grid.Row="0" VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Logo ConectaPro -->
+                <Image  Source="iconevoltar.png"
+                        HeightRequest="30"
+                        WidthRequest="30"
+                        VerticalOptions="Center"
+                        Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnVoltarClicked" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
+
+                <!-- Foto da Empresa logada -->
+                <Frame HeightRequest="40" WidthRequest="40"
+             CornerRadius="20"
+             HasShadow="False"
+             Padding="0"
+             BackgroundColor="White"
+             BorderColor="#0f5cc2"
+             VerticalOptions="Center"
+             HorizontalOptions="End"
+             Grid.Column="2">
+                    <Image Source="{Binding FotoEmpresaUrl}" 
+                 Aspect="AspectFill" 
+                 HeightRequest="40" WidthRequest="40"
+                 >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
+                        </Image.GestureRecognizers>
+                        <Image.Clip>
+                            <EllipseGeometry 
+                              Center="20,20"
+                              RadiusX="20"
+                              RadiusY="20"/>
+                        </Image.Clip>
+                    </Image>
+                </Frame>
+            </Grid>
+
+            <VerticalStackLayout Grid.Row="1">
+                <Image 
+                Source="logo_conectapro_preto.png" 
+                HeightRequest="150" 
+                WidthRequest="150"
+                HorizontalOptions="Center"/>
+
+                <Frame WidthRequest="120"
+                HeightRequest="120"
+                 CornerRadius="65"
+                 IsClippedToBounds="True"
+                 BorderColor="White"
+                 BackgroundColor="White"
+                 Margin="0,20,0,0">
+
+                    <Image x:Name="avatarImageClient"
+                     Source="minhaconta.png"
+                     Aspect="AspectFill"
+                     WidthRequest="120"
+                     HeightRequest="120">
+
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnAvatarClientTapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Frame>
+
+                <Label Text="Descreva o seu problema"
+                   TextColor="Black"
+                   FontSize="20"
+                   HorizontalOptions="Center"/>
+                <Label Text="para nós."
+                   TextColor="Black"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   />
+
+                <Frame BackgroundColor="White"
+                   WidthRequest="361"
+                   HeightRequest="420"
+                   Margin="16"
+                   CornerRadius="30"
+                   BorderColor="Black">
+
+                    <VerticalStackLayout Spacing="28" Padding="36">
+
+
+
+                        <Entry Placeholder="Qual problema o seu negócio enfrenta?"
+                           PlaceholderColor="Gray"
+                           WidthRequest="314"
+                           HeightRequest="0"
+                          BackgroundColor="Transparent"
+                           Text="{Binding Titulo}"
+                           />
+                        <Editor Placeholder="De uma Descrição exata sobre o problema"
+                           PlaceholderColor="Gray"
+                            FontSize="14"
+                            AutoSize="TextChanges"
+                            MaxLength="100"
+                           WidthRequest="314"
+                           HeightRequest="0"
+                           Text="{Binding Descricao}"
+                                            />
+
+                        <Entry Placeholder="Digite o valor proposto a pagar"
+                                PlaceholderColor="Gray"
+                                WidthRequest="314"
+                                HeightRequest="0"
+                               Text="{Binding Especialidade}"/>
+
+                      
+                    </VerticalStackLayout>
+                </Frame>
+                <Button Text="Enviar proposta"
+                    WidthRequest="269"
+                    HeightRequest="65"
+                    CornerRadius="10"
+                    BackgroundColor="#0f5cc2"
+                    BorderColor="White"
+                    BorderWidth="1"
+                    FontSize="28"
+                    Command="{Binding EtapaDoisCommand}"/>
+
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>
