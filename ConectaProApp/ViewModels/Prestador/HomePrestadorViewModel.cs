@@ -25,10 +25,15 @@ namespace ConectaProApp.ViewModels.Prestador
             sService = new ServicoService();
             BuscarServicosCommand = new Command(async () => await BuscarServicosAsync());
             ProximoServicoCommand = new Command(MostrarProximoServico);
+            CandidatarServicoCommand = new Command(async () => await Shell.Current.GoToAsync("///CandidatarPrestador"));
             // busca os serviços ao inicializar a tela
             Task.Run(async () => await BuscarServicosAsync());
             Task.Run(async () => await CarregarFotoPrestadorAsync());
         }
+
+      
+
+
 
         private List<Servico> servicosUf;
         private int indice = 0;
