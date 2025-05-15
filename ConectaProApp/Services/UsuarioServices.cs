@@ -32,7 +32,7 @@ namespace ConectaProApp.Services
             string urlComplementar = "/login";
 
             var usuarioAutenticado = await _request
-                .PostAsync<Usuario, Usuario>(apiUrlBase + urlComplementar, u, string.Empty);
+                .PostAsyncFlex<Usuario, Usuario>(apiUrlBase + urlComplementar, u, string.Empty);
 
             return usuarioAutenticado;
         }

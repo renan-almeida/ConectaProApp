@@ -135,11 +135,11 @@ namespace ConectaProApp.ViewModels.Usuarios
                 if (usuarioAutenticado != null && usuarioAutenticado.IdUsuario > 0)
                 {
 
-                    await SecureStorage.SetAsync("UsuarioToken", usuarioAutenticado.Token);
-                    Preferences.Set("TipoUsuario", usuarioAutenticado.TipoUsuario.ToString());
+                    await SecureStorage.SetAsync("token", usuarioAutenticado.Token);
+                    Preferences.Set("tipoUsuario", usuarioAutenticado.TipoUsuario.ToString());
                     if(usuarioAutenticado.Endereco != null)
                     {
-                        Preferences.Set("UfPrestador", usuarioAutenticado.Endereco.Uf.ToString());
+                        Preferences.Set("uf", usuarioAutenticado.Endereco.Uf.ToString());
                     }
     
                     await Application.Current.MainPage.DisplayAlert("Bem-vindo!", $"Olá, {usuarioAutenticado.Nome}!", "Ok");

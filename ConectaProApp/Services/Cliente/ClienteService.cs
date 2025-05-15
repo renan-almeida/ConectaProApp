@@ -9,11 +9,11 @@ namespace ConectaProApp.Services.Cliente
     {
         private const string apiUrlBase = "https://conectapro-api.azurewebsites.net";
 
-        public async Task<EmpresaCliente> PostRegistrarClienteAsync(EmpresaCliente e)
+        public async Task<EmpresaCreateDTO> PostRegistrarClienteAsync(EmpresaCreateDTO e)
         {
             string urlComplementar = "/empresaCliente/registro";
 
-            var clienteRegistrado = await PostAsync<EmpresaCliente, EmpresaCliente>(
+            var clienteRegistrado = await PostAsyncFlex<EmpresaCreateDTO, EmpresaCreateDTO>(
                 apiUrlBase + urlComplementar, e, string.Empty);
 
             return clienteRegistrado;

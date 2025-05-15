@@ -51,7 +51,7 @@ namespace ConectaProApp.Services
             return result;
         }
 
-        public async Task<TRetorno> PostAsync<TEnvio, TRetorno>(string uri, TEnvio data, string token)
+        public async Task<TRetorno> PostAsyncFlex<TEnvio, TRetorno>(string uri, TEnvio data, string token)
         {
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", token);

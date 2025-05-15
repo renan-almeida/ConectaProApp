@@ -12,6 +12,8 @@ namespace ConectaProApp.Models
         public string RazaoSocial { get; set; }
         public string NomeFantasia { get; set; }
         public List<Servico> Servicos { get; set; }
+       
+
 
     }
 }

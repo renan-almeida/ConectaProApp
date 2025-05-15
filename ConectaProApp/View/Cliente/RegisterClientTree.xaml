@@ -48,6 +48,16 @@
              WidthRequest="314"
              Text="{Binding CepCliente, Mode=TwoWay}"/>
 
+            <Entry
+                  TextColor="Black"
+                  Placeholder="Complemento (ex: casa, apto)"
+                  PlaceholderColor="#B2A9A9"
+                  FontSize="15"
+                  HorizontalOptions="Fill"
+                  WidthRequest="314"
+                  Text="{Binding Complemento, Mode=TwoWay}"
+                    /> 
+
             <HorizontalStackLayout Spacing="40">
                 <Entry
                     TextColor="Black"

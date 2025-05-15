@@ -140,7 +140,7 @@ namespace ConectaProApp.ViewModels.Prestador
             return idade >= 18;
         }
 
-        public ObservableCollection<string> Habilidades { get; set; } = new();
+        public List<string> Habilidades { get; set; } = new();
 
         private string habilidadeAtual;
         public string HabilidadeAtual
@@ -518,45 +518,32 @@ namespace ConectaProApp.ViewModels.Prestador
                 Enum.TryParse(PlanoSelecionado, out TipoPlanoEnum planoEnum);
                 Enum.TryParse
                     (DisponibilidadeSelecionada, out StatusDisponibilidadeEnum disponibilidadeEnum);
- 
-               
-                var novoPrestador = new Models.Prestador
+
+
+                var novoPrestador = new PrestadorCreateDTO
                 {
                     Nome = this.NomePrestador,
                     Email = this.EmailPrestador,
                     Cpf = this.CpfPrestador,
                     Habilidades = this.Habilidades,
                     Especialidades = this.Especializacoes,
-                    Segmento = SegmentosSelecionados
-
-                        .Select(segEnum => new Segmento
-                        {
-                            IdSegmento = (int)segEnum,
-                            DescSegmento = segEnum.GetDescription()
-                        })
+                    Segmentos = SegmentosSelecionados
+                        .Select(segEnum => (int)segEnum)
                         .ToList(),
-
-
                     DescPrestador = this.DescPrestador,
-                    Telefone = this.TelefonePrestador,
-                    Endereco = new Endereco
-                    {
+                    Telefone = this.TelefonePrestador, 
                         Cep = this.CepPrestador,
                         Numero = this.NroResidencia,
                         Complemento = this.Complemento,
-                        Uf = ufEnum
-                    },
-                    IdPlano = new Plano
-                    {
-                        IdPlano = (int)planoEnum
-                    },
+                        Uf = ufEnum,
+                    IdPlano = (long)planoEnum,
                     StatusDisponibilidade = disponibilidadeEnum,
                     Senha = this.SenhaPrestador,
                 };
 
-                var prestadorRegistrado = await pService.PostRegistrarUsuarioAsync(novoPrestador);
+                var prestadorRegistrado = await pService.PostRegistrarPrestadorAsync(novoPrestador);
 
-                if (prestadorRegistrado != null && prestadorRegistrado.IdUsuario > 0)
+                if (prestadorRegistrado != null)
                 {
                     await Application.Current.MainPage
                         .DisplayAlert("Sucesso", "Cadastro concluído! Agora faça login para continuar.", "OK");

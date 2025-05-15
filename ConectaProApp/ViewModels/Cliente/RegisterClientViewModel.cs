@@ -170,6 +170,17 @@ namespace ConectaProApp.ViewModels.Cliente
             }
         }
 
+        private string complemento;
+        public string Complemento
+        {
+            get => complemento;
+            set
+            {
+                complemento = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string MascararCep(string input)
         {
             input = new string(input.Where(char.IsDigit).ToArray());
@@ -327,7 +338,7 @@ namespace ConectaProApp.ViewModels.Cliente
 
                 Enum.TryParse(UfSelecionada, out UfEnum ufEnum);
 
-                var novoCliente = new EmpresaCliente
+                var novoCliente = new EmpresaCreateDTO
                 {
                     Nome = this.NomeCliente,
                     RazaoSocial = this.RazaoSocial,
@@ -335,29 +346,23 @@ namespace ConectaProApp.ViewModels.Cliente
                     NomeFantasia = this.NomeFantasia,
                     Cnpj = this.Cnpj,
                     Telefone = this.TelefoneCliente,
-                    Endereco = new Endereco
-                    {
                         Cep = this.CepCliente,
                         Numero = this.NroEndCliente,
-                        Uf = (UfEnum)Enum.Parse(typeof(UfEnum), ufSelecionada)
-                    },
+                        Complemento = this.Complemento,
+                        Uf = (UfEnum)Enum.Parse(typeof(UfEnum), ufSelecionada),
                     Senha = this.SenhaCliente,
                 };
 
                 var clienteRegistrado = await eService.PostRegistrarClienteAsync(novoCliente);
 
-                if (clienteRegistrado != null && clienteRegistrado.IdUsuario > 0)
+                if (clienteRegistrado != null)
                 {
                     await Application.Current.MainPage.DisplayAlert
                         ($"Bem Vindo {NomeCliente}", "Cadastro realizado com sucesso," +
                         " juntos vamos encontrar soluções rapidas e simples" +
                         " para o seu negócio!", "Ok");
 
-                    Preferences.Set("UsuarioLogado", true);
-                    Preferences.Set("TipoUsuario", "CLIENTE");
-
-                    Application.Current.MainPage = new AppShell();
-                    await Shell.Current.GoToAsync("//cliente");
+                    await Application.Current.MainPage.Navigation.PushAsync(new View.Usuario.LoginView());
                 }
                 else
                 {

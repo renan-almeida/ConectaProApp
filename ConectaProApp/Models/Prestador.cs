@@ -14,10 +14,10 @@ namespace ConectaProApp.Models
         public string Cpf { get; set; }
         public List<string> Especialidades { get; set; }
         public ObservableCollection<string> Habilidades { get; set; }
-        public List<Segmento> Segmento { get; set; }
+        public List<int> Segmentos { get; set; }
         public DateTime DataNascimento { get; set; }
         public StatusDisponibilidadeEnum StatusDisponibilidade { get; set; }
-        public Plano IdPlano { get; set; }
+        public long IdPlano { get; set; }
         public List<Avaliacao> Avaliacoes { get; set; }
         public List<Orcamento> Orcamentos { get; set; }
         public List<Servico> Servicos { get; set; }
