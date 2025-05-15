@@ -1,3 +1,6 @@
+using CommunityToolkit.Maui.Views;
+using ConectaProApp.View.PopUp;
+
 namespace ConectaProApp.View.Cliente;
 
 public partial class PropostaClient : ContentPage
@@ -31,5 +34,11 @@ public partial class PropostaClient : ContentPage
             await Task.Delay(500);
             await image.ScaleTo(1.0, 250, Easing.CubicInOut);
         }
+    }
+
+    private async void EnviarProposta_Clicked(object sender, EventArgs e)
+    {
+        var popup = new PropostaSucesso();
+        await this.ShowPopupAsync(popup);
     }
 }

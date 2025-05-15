@@ -3,24 +3,22 @@ using System;
 using Microsoft.Maui.Controls;
 using Mopups.Pages;
 using ConectaProApp.ViewModels.Usuarios;
+using CommunityToolkit.Maui.Views;
 
 namespace ConectaProApp.PopUp
 {
-    public partial class TipoContaAlert : PopupPage
+    public partial class TipoContaAlert : Popup
     {
-        private LoginViewModel _loginViewModel;
-        public TipoContaAlert()
+
+        public TipoContaAlert(Action closePopupCallback)
         {
             InitializeComponent();
-
-            _loginViewModel = new LoginViewModel();
-            BindingContext = _loginViewModel;
-            
+            BindingContext = new LoginViewModel(closePopupCallback);
         }
 
-        private async void CancelPopup(object sender, EventArgs e)
+        private void CancelPopup(object sender, EventArgs e)
         {
-            await MopupService.Instance.PopAsync(); // Fecha o popup sem fazer nada
+            this.Close();
         }
     }
 }

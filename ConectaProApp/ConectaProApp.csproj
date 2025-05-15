@@ -92,6 +92,9 @@
 	  <Compile Update="View\Busca\ResultadoBuscaPrestadorView.xaml.cs">
 	    <DependentUpon>ResultadoBuscaPrestadorView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="View\PopUp\CandidatarSucesso.xaml.cs">
+	    <DependentUpon>CandidatarSucesso.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -141,6 +144,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\LoginView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\PopUp\CandidatarSucesso.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\PopUp\PropostaSucesso.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\PopUp\TipoContaAlert.xaml">

@@ -1,3 +1,6 @@
+using CommunityToolkit.Maui.Views;
+using ConectaProApp.View.PopUp;
+
 namespace ConectaProApp.View.Prestador;
 
 public partial class CandidatarPrestador : ContentPage
@@ -31,5 +34,11 @@ public partial class CandidatarPrestador : ContentPage
             await Task.Delay(500);
             await image.ScaleTo(1.0, 500, Easing.CubicInOut);
         }
+    }
+
+    private async void EnviarProposta_Clicked(object sender, EventArgs e)
+    {
+        var popup = new TestePopup();
+        await this.ShowPopupAsync(popup);
     }
 }

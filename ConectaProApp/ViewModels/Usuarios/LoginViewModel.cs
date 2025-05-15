@@ -11,6 +11,7 @@ using ConectaProApp.View.EsqueceuSenha;
 using ConectaProApp.Models;
 using System.ComponentModel.Design;
 using ConectaProApp.Models.Enuns;
+using CommunityToolkit.Maui.Views;
 
 namespace ConectaProApp.ViewModels.Usuarios
 {
@@ -18,6 +19,18 @@ namespace ConectaProApp.ViewModels.Usuarios
     {
 
         private readonly UsuarioServices uService;
+        private readonly Action _closePopupCallback;
+
+        // Construtor padrão para uso normal
+        public LoginViewModel() : this(null) { }
+
+        // Construtor que recebe o callback
+        public LoginViewModel(Action closePopupCallback)
+        {
+            _closePopupCallback = closePopupCallback;
+            InitializeCommands();
+            uService = new UsuarioServices();
+        }
 
         public ICommand EsqueceuSenhaCommand { get; set; }
         public ICommand EtapaUmCommand { get; set; }
@@ -48,11 +61,7 @@ namespace ConectaProApp.ViewModels.Usuarios
         }
 
 
-        public LoginViewModel()
-        {
-            InitializeCommands();
-            uService = new UsuarioServices();
-        }
+       
 
         private void InitializeCommands()
         {
@@ -71,9 +80,9 @@ namespace ConectaProApp.ViewModels.Usuarios
         {
             try
             {
-                
 
-                    await MopupService.Instance.PopAsync();
+
+                _closePopupCallback?.Invoke(); // Fecha o popup
                 await Application.Current.MainPage.Navigation.PushAsync(new View.Cliente.RegisterClient());
 
 
@@ -88,7 +97,7 @@ namespace ConectaProApp.ViewModels.Usuarios
         {
             try
             {
-                await MopupService.Instance.PopAsync();
+                _closePopupCallback?.Invoke(); // Fecha o popup
                 await Application.Current.MainPage.Navigation.PushAsync(new View.Prestador.RegisterPrestador());
 
 
@@ -103,8 +112,9 @@ namespace ConectaProApp.ViewModels.Usuarios
         {
             try
             {
-                await Mopups.Services.MopupService.Instance.PushAsync(new PopUp.TipoContaAlert());
-
+                TipoContaAlert popup = null;
+                popup = new TipoContaAlert(() => popup.Close());
+                await Application.Current.MainPage.ShowPopupAsync(popup);
             }
             catch (Exception ex)
             {

@@ -139,7 +139,7 @@
                  BorderColor="White"
                  BorderWidth="1"
                  FontSize="28"
-                 Command="{Binding EtapaDoisCommand}"/>
+                 Clicked="EnviarProposta_Clicked"/>
 
             </VerticalStackLayout>
         </Grid>
