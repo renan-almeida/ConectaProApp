@@ -134,7 +134,7 @@ namespace ConectaProApp.ViewModels.Usuarios
                     return;
                 }
 
-                var usuario = new Usuario
+                var usuario = new LoginRequestDTO
                 {
                     Email = this.Email,
                     Senha = this.Senha
@@ -142,26 +142,23 @@ namespace ConectaProApp.ViewModels.Usuarios
 
                 var usuarioAutenticado = await uService.PostAutenticarUsuarioAsync(usuario);
 
-                if (usuarioAutenticado != null && usuarioAutenticado.IdUsuario > 0)
+                if (usuarioAutenticado != null && usuarioAutenticado.Id > 0)
                 {
 
                     await SecureStorage.SetAsync("token", usuarioAutenticado.Token);
-                    Preferences.Set("tipoUsuario", usuarioAutenticado.TipoUsuario.ToString());
-                    if(usuarioAutenticado.Endereco != null)
-                    {
-                        Preferences.Set("uf", usuarioAutenticado.Endereco.Uf.ToString());
-                    }
+                    Preferences.Set("tipoUsuario", usuarioAutenticado.TipoUsuario);
+                        Preferences.Set("uf", usuarioAutenticado.Uf);
     
-                    await Application.Current.MainPage.DisplayAlert("Bem-vindo!", $"Olá, {usuarioAutenticado.Nome}!", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Bem-vindo!", $"Olá,!", "Ok");
 
                  switch (usuarioAutenticado.TipoUsuario)
                     {
-                        case TipoUsuarioEnum.EMPRESA:
+                        case "EMPRESA":
                             Application.Current.MainPage = new AppShell();
                             await Shell.Current.GoToAsync("//cliente"); 
                             break;
 
-                        case TipoUsuarioEnum.PRESTADOR:
+                        case "PRESTADOR":
                             Application.Current.MainPage = new AppShell();
                             await Shell.Current.GoToAsync("//prestador");
 

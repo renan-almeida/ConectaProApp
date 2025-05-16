@@ -17,25 +17,24 @@ namespace ConectaProApp.Services
         {
             _request = new Request();
         }
-
-        public async Task<Usuario> PostRegistrarUsuarioAsync(Usuario u)
+        public async Task<LoginResponseDTO> PostAutenticarUsuarioAsync(LoginRequestDTO u)
         {
-            string urlComplementar = "/Usuarios/registrar";
-            u.IdUsuario = await _request
-                .PostReturnIntAsync(apiUrlBase + urlComplementar, u, string.Empty);
+            try
+            {
+                string urlComplementar = "/login";
+                var usuarioAutenticado = await _request
+                    .PostAsyncFlex<LoginRequestDTO, LoginResponseDTO>(apiUrlBase + urlComplementar, u, string.Empty);
 
-            return u;
+                return usuarioAutenticado;
+            }
+            catch (Exception ex)
+            {
+                // Aqui você pode logar o erro, se quiser
+                Console.WriteLine($"Erro ao autenticar: {ex.Message}");
+                    throw;
+            }
         }
 
-        public async Task<Usuario> PostAutenticarUsuarioAsync(Usuario u)
-        {
-            string urlComplementar = "/login";
-
-            var usuarioAutenticado = await _request
-                .PostAsyncFlex<Usuario, Usuario>(apiUrlBase + urlComplementar, u, string.Empty);
-
-            return usuarioAutenticado;
-        }
 
 
         public class EmailRequest

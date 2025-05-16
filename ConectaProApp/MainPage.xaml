@@ -51,7 +51,7 @@
         CornerRadius="15"
         BorderColor="White"
         BorderWidth="2"
-        BackgroundColor="Transparent"
+        BackgroundColor="#0f5cc2"
         WidthRequest="178"
         HeightRequest="49" />
         </VerticalStackLayout>

@@ -493,17 +493,32 @@ namespace ConectaProApp.ViewModels.Prestador
                     return;
                 }
 
+                var cpfLimpo = Regex.Replace(CpfPrestador, "[^0-9]", "");
+                var telefoneLimpo = Regex.Replace(TelefonePrestador, "[^0-9]", "");
+
+
+                Console.WriteLine($"📌 CPF limpado: {CpfPrestador}");
+                Console.WriteLine($"📌 Telefone limpado: {TelefonePrestador}");
+
+
                 if (!EmailValido(EmailPrestador))
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", "Email inválido", "Ok");
                     return;
                 }
 
-                if (TelefonePrestador.Length < 10 || !ValidarTelefone(TelefonePrestador))
+                if (cpfLimpo.Length != 11)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Erro", "Telefone inválido", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Erro", "CPF deve conter 11 dígitos numéricos.", "OK");
                     return;
                 }
+
+                if (telefoneLimpo.Length < 10 || telefoneLimpo.Length > 11)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Telefone inválido.", "OK");
+                    return;
+                }
+
 
                 if (!MaiorDeIdade(DtNascimento))
                 {
@@ -524,19 +539,22 @@ namespace ConectaProApp.ViewModels.Prestador
                 {
                     Nome = this.NomePrestador,
                     Email = this.EmailPrestador,
-                    Cpf = this.CpfPrestador,
+                    Cpf = cpfLimpo,
                     Habilidades = this.Habilidades,
                     Especialidades = this.Especializacoes,
                     Segmentos = SegmentosSelecionados
                         .Select(segEnum => (int)segEnum)
                         .ToList(),
                     DescPrestador = this.DescPrestador,
-                    Telefone = this.TelefonePrestador, 
+                    Telefone = telefoneLimpo, 
                         Cep = this.CepPrestador,
                         Numero = this.NroResidencia,
                         Complemento = this.Complemento,
                         Uf = ufEnum,
-                    IdPlano = (long)planoEnum,
+                    IdPlano = new Plano
+                    {
+                        IdPlano = (long)planoEnum
+                    },
                     StatusDisponibilidade = disponibilidadeEnum,
                     Senha = this.SenhaPrestador,
                 };
