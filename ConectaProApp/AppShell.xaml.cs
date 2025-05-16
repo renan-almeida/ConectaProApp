@@ -1,6 +1,7 @@
 ﻿using ConectaProApp.View.Cliente;
 using ConectaProApp.View.Usuario;
 using ConectaProApp.View.Prestador;
+using ConectaProApp.View.Busca;
 
 namespace ConectaProApp
 {
@@ -12,7 +13,7 @@ namespace ConectaProApp
 
             Routing.RegisterRoute("prestador", typeof(HomePrestador));
             Routing.RegisterRoute("cliente", typeof(HomeClient));
-            
+            Routing.RegisterRoute(nameof(ResultadoBuscaPrestadorView), typeof(ResultadoBuscaPrestadorView));
 
         }
 

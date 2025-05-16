@@ -8,7 +8,7 @@ namespace ConectaProApp
         {
             InitializeComponent();
 
-            bool modoDev = false;
+            bool modoDev = true;
 
             if (modoDev)
             {
@@ -62,23 +62,7 @@ namespace ConectaProApp
             return new Window(MainPage);
         }
 
-        protected override async void OnStart()
-        {
-            base.OnStart();
-
-            var tester = new ConnectionTester();
-            var conexaoOk = await tester.TestarConexaoAsync();
-
-            if (conexaoOk)
-            {
-                Console.WriteLine("Conexão com o back-end bem-sucedida!");
-            }
-            else
-            {
-                Console.WriteLine("Falha na conexão com o back-end.");
-                await Application.Current.MainPage.DisplayAlert("Erro", "Não foi possível conectar ao servidor.", "OK");
-            }
-        }
+       
 
     }
 }
