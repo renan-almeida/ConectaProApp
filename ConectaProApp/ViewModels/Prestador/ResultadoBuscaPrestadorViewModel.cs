@@ -1,5 +1,4 @@
-﻿using ConectaProApp.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,25 +6,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ConectaProApp.ViewModels.Servico;
+using ServicoModel = ConectaProApp.Models.Servico; // Alias para a classe Servico
 
 namespace ConectaProApp.ViewModels.Prestador
 {
-    public class ResultadoBuscaPrestadorViewModel: INotifyPropertyChanged
+    public class ResultadoBuscaPrestadorViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Servico> Servicos { get; set; }
+        private readonly ServicoModel servico; // Usando o alias ServicoModel
+
+        public ObservableCollection<ServicoViewModel> Servicos { get; } // Corrigido para evitar duplicidade
+
         public ICommand VerMaisCommand { get; set; }
 
-        public ResultadoBuscaPrestadorViewModel(List<Servico> servicos)
+        public ResultadoBuscaPrestadorViewModel(List<ServicoModel> servicos) // Usando o alias ServicoModel
         {
-            Servicos = new ObservableCollection<Servico>(servicos);
-            VerMaisCommand = new Command(AtivarVerMais);
+            Servicos = new ObservableCollection<ServicoViewModel>(
+                servicos.Select(s => new ServicoViewModel(s))
+            );
         }
 
         private void AtivarVerMais()
         {
             MostrarDescricao = !MostrarDescricao;
         }
-
 
         private bool mostrarDescricao;
         public bool MostrarDescricao
@@ -44,7 +48,7 @@ namespace ConectaProApp.ViewModels.Prestador
         // Evento que será disparado para notificar a interface sobre a alteração
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Metódo para disparar o evento propertyChanged
+        // Método para disparar o evento PropertyChanged
         public virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

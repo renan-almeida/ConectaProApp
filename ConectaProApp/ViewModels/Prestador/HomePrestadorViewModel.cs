@@ -4,15 +4,17 @@ using ConectaProApp.Services.Servico;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ServicoModel = ConectaProApp.Models.Servico; // Alias para a classe Servico
 
 namespace ConectaProApp.ViewModels.Prestador
 {
-    public class HomePrestadorViewModel: BaseViewModel
+    public class HomePrestadorViewModel : BaseViewModel
     {
         private ServicoService sService;
 
@@ -31,22 +33,17 @@ namespace ConectaProApp.ViewModels.Prestador
             Task.Run(async () => await CarregarFotoPrestadorAsync());
         }
 
-      
-
-
-
-        private List<Servico> servicosUf;
+        private List<ServicoModel> servicosUf; // Usando o alias ServicoModel
         private int indice = 0;
 
-        private Servico servicoAtual;
-        public Servico ServicoAtual
+        private ServicoModel servicoAtual; // Usando o alias ServicoModel
+        public ServicoModel ServicoAtual
         {
             get => servicoAtual;
             set
             {
                 servicoAtual = value;
                 OnPropertyChanged();
-              
             }
         }
 
@@ -80,6 +77,7 @@ namespace ConectaProApp.ViewModels.Prestador
             indice = 0;
             MostrarProximoServico();
         }
+
         private void MostrarProximoServico()
         {
             if (servicosUf == null || !servicosUf.Any())
@@ -89,7 +87,7 @@ namespace ConectaProApp.ViewModels.Prestador
 
             ServicoAtual = servicosUf[indice];
             CarregarFotoEmpresa();
-            indice++;    
+            indice++;
         }
 
         private async Task CarregarFotoPrestadorAsync()
@@ -98,7 +96,6 @@ namespace ConectaProApp.ViewModels.Prestador
 
             if (!string.IsNullOrEmpty(fotoSalva))
                 FotoPrestadorUrl = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(fotoSalva)));
-
             else
                 FotoPrestadorUrl = ImageSource.FromFile("prestadorsemfoto.png");
         }
@@ -107,7 +104,7 @@ namespace ConectaProApp.ViewModels.Prestador
         {
             if (ServicoAtual?.IdCliente != null && ServicoAtual.IdCliente.CaminhoFoto != null)
             {
-             /*   FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(ServicoAtual.IdCliente.CaminhoFoto));*/
+                /* FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(ServicoAtual.IdCliente.CaminhoFoto)); */
             }
             else
             {

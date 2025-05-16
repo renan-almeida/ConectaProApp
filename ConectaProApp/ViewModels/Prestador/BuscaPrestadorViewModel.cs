@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using ConectaProApp.Models;
 using ConectaProApp.Services.Prestador;
 using ConectaProApp.Services.Servico;
 using ConectaProApp.View.Busca;
 using ConectaProApp.View.Usuario;
+using ServicoModel = ConectaProApp.Models.Servico; // Alias para a classe Servico
 
 namespace ConectaProApp.ViewModels.Prestador
 {
@@ -19,7 +19,7 @@ namespace ConectaProApp.ViewModels.Prestador
         private readonly ServicoService _servicoService;
 
         // Coleção observável com os serviços encontrados
-        public ObservableCollection<Servico> ServicosEncontrados { get; set; }
+        public ObservableCollection<ServicoModel> ServicosEncontrados { get; set; } // Usando o alias
 
         // Comandos para cada categoria
         public ICommand TecnologiaSolicitacoesCommand { get; }
@@ -34,7 +34,7 @@ namespace ConectaProApp.ViewModels.Prestador
         public BuscaPrestadorViewModel()
         {
             _servicoService = new ServicoService();
-            ServicosEncontrados = new ObservableCollection<Servico>();
+            ServicosEncontrados = new ObservableCollection<ServicoModel>();
 
             // Inicialização dos comandos com suas respectivas ações
             TecnologiaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Tecnologia"));
