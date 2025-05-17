@@ -8,7 +8,7 @@ namespace ConectaProApp
         {
             InitializeComponent();
 
-            bool modoDev = true;
+            bool modoDev = false;
 
             if (modoDev)
             {
