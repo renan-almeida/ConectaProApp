@@ -337,6 +337,8 @@ namespace ConectaProApp.ViewModels.Cliente
                 }
 
                 Enum.TryParse(UfSelecionada, out UfEnum ufEnum);
+                var cnpjLimpo = Regex.Replace(Cnpj, "[^0-9]", "");
+                var telefoneLimpo = Regex.Replace(TelefoneCliente, "[^0-9]", "");
 
                 var novoCliente = new EmpresaCreateDTO
                 {
@@ -344,8 +346,8 @@ namespace ConectaProApp.ViewModels.Cliente
                     RazaoSocial = this.RazaoSocial,
                     Email = this.EmailCliente,
                     NomeFantasia = this.NomeFantasia,
-                    Cnpj = this.Cnpj,
-                    Telefone = this.TelefoneCliente,
+                    Cnpj = cnpjLimpo,
+                    Telefone = telefoneLimpo,
                         Cep = this.CepCliente,
                         Numero = this.NroEndCliente,
                         Complemento = this.Complemento,
@@ -358,7 +360,7 @@ namespace ConectaProApp.ViewModels.Cliente
                 if (clienteRegistrado != null)
                 {
                     await Application.Current.MainPage.DisplayAlert
-                        ($"Bem Vindo {NomeCliente}", "Cadastro realizado com sucesso," +
+                        ("Bem Vindo! ", $"Cadastro realizado com sucesso {NomeCliente}," +
                         " juntos vamos encontrar soluções rapidas e simples" +
                         " para o seu negócio!", "Ok");
 

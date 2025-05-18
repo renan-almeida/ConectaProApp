@@ -20,44 +20,43 @@ public partial class CriarSolicitacaoClientTwo : ContentPage
 
     private async void OnVoltarClicked(object sender, EventArgs e)
     {
-        await Application.Current.MainPage.Navigation.PushAsync(new CriarSolicitacaoClient());
+        await Shell.Current.GoToAsync("..");
+
     }
 
-    private bool isUpdatingValor = false;
+    private bool _isUpdatingValorDisposto = false;
 
-    private void OnValorPropostoChanged(object sender, TextChangedEventArgs e)
+    private void OnValorDispostoTextChanged(object sender, TextChangedEventArgs e)
     {
-        if (isUpdatingValor)
+        if (_isUpdatingValorDisposto)
             return;
 
-        isUpdatingValor = true;
+        _isUpdatingValorDisposto = true;
 
         var entry = sender as Entry;
-        string texto = new string(entry.Text.Where(char.IsDigit).ToArray());
+        if (entry == null) return;
 
-        if (string.IsNullOrEmpty(texto))
+        // Remove tudo que não é número
+        string digitsOnly = new string(e.NewTextValue.Where(char.IsDigit).ToArray());
+
+        if (string.IsNullOrWhiteSpace(digitsOnly))
         {
-            entry.Text = "";
-            isUpdatingValor = false;
+            entry.Text = string.Empty;
+            _isUpdatingValorDisposto = false;
             return;
         }
-        
-            // Convertendo para decimal e formatando como moeda
-            if (decimal.TryParse(texto, out decimal valorDecimal))
-        {
-            valorDecimal /= 100; // aqui formatamos para ter ponto apos duas casas(ex: 1234 = 12.34)
-            entry.Text = string.Format(System.Globalization.CultureInfo.GetCultureInfo("pt-br"), "R$ {0:N2}", valorDecimal);
 
+        // Converte para decimal (assumindo 2 casas decimais)
+        if (decimal.TryParse(digitsOnly, out decimal valorDecimal))
+        {
+            valorDecimal /= 100; // Para colocar as casas decimais
+            entry.Text = valorDecimal.ToString("C", new System.Globalization.CultureInfo("pt-BR"));
         }
 
-            // Movendo o cursor para o final
-            entry.CursorPosition = entry.Text.Length;
+        // Move o cursor pro final
+        entry.CursorPosition = entry.Text.Length;
 
-            // Enviando o valor para a ViewModel
-            if (BindingContext is CriarSolicitacaoViewModel vm)
-            {
-                vm.ValorProposto = valorDecimal;
-            }
-                isUpdatingValor = false;
-        }        
+        _isUpdatingValorDisposto = false;
     }
+
+}

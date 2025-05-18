@@ -58,7 +58,7 @@
                   Text="{Binding Complemento, Mode=TwoWay}"
                     /> 
 
-            <HorizontalStackLayout Spacing="40">
+            <HorizontalStackLayout Spacing="40" HorizontalOptions="Center">
                 <Entry
                     TextColor="Black"
                     Placeholder="Nro"

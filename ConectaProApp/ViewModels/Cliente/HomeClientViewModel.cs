@@ -85,7 +85,7 @@ namespace ConectaProApp.ViewModels.Cliente
 
         private async Task BuscarPrestadorAsync()
         {
-            var uf = Preferences.Get("UfEmpresa", string.Empty);
+            var uf = Preferences.Get("uf", string.Empty);
             prestadorUf = await sService.BuscarPrestadorUfAsync(uf);
 
             indice = 0;

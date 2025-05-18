@@ -40,6 +40,16 @@ namespace ConectaProApp.ViewModels.Cliente
             PrestadorPinturaCommand =  new Command(async () => GetAllPintura());
             PrestadorMotoristaCommand = new Command(async () => GetAllMotorista());
         }
+        private ImageSource fotoEmpresaUrl;
+        public ImageSource FotoEmpresaUrl
+        {
+            get => fotoEmpresaUrl;
+            set
+            {
+                fotoEmpresaUrl = value;
+                OnPropertyChanged();
+            }
+        }
 
         private async Task GetAllTecnologia()
         {
@@ -143,6 +153,20 @@ namespace ConectaProApp.ViewModels.Cliente
 
                 await Application.Current.MainPage.DisplayAlert("Erro", ex.Message + "Detalhes: ", ex.InnerException + "Ok");
             }
+        }
+        private async Task CarregarFotoEmpresaAsync()
+        {
+            var fotoSalva = await SecureStorage.GetAsync("FotoEmpresa");
+
+            if (!string.IsNullOrEmpty(fotoSalva))
+            {
+                FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(fotoSalva)));
+            }
+            else
+            {
+                FotoEmpresaUrl = ImageSource.FromFile("empresasemfoto.png");
+            }
+
         }
     }
 }

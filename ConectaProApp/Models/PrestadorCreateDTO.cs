@@ -10,7 +10,7 @@ namespace ConectaProApp.Models
 {
     public class PrestadorCreateDTO
     {
-        public int Id { get; set; }
+        public int IdUsuario { get; set; }
         [JsonProperty ("nome")]
         public string Nome { get; set; }
         [JsonProperty("email")]
@@ -34,7 +34,7 @@ namespace ConectaProApp.Models
         [JsonProperty("statusDisponibilidade")]
         public StatusDisponibilidadeEnum StatusDisponibilidade { get; set; }
         [JsonProperty("idPlano")]
-        public Plano IdPlano { get; set; }
+        public long IdPlano { get; set; }
 
         // Endereço achatado
         [JsonProperty("cep")]

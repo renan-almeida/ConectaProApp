@@ -19,6 +19,7 @@ public partial class CriarSolicitacaoClient : ContentPage
 
     private  async void OnVoltarClicked(object sender, EventArgs e)
     {
-        await Application.Current.MainPage.Navigation.PushAsync(new HomeClient());
+        await Shell.Current.GoToAsync("..");
+
     }
 }

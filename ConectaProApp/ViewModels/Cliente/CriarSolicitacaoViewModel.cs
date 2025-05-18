@@ -1,5 +1,6 @@
 ﻿
 
+using ConectaProApp.Models;
 using ConectaProApp.Models.Enuns;
 using ConectaProApp.Services.Servico;
 using ConectaProApp.View.Cliente.CriarSolicitacaoViews;
@@ -120,16 +121,19 @@ namespace ConectaProApp.ViewModels.Cliente
 
         }
 
-        private decimal valorProposto;
-        public decimal ValorProposto
+        private float valorProposto;
+        public float ValorProposto
         {
             get => valorProposto;
             set
             {
                 valorProposto = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(ValorPropostoFormatado));
             }
         }
+
+        public string ValorPropostoFormatado => $"{valorProposto:C}";
 
         public ObservableCollection<string> NiveisUrgencia { get; set; }
         private string urgenciaSelecionada;
@@ -155,13 +159,13 @@ namespace ConectaProApp.ViewModels.Cliente
             }
         }
 
-        private byte[] fotoSevicoBytes;
-        public byte[] FotoServicoBytes
+        private string fotoServico;
+        public string FotoServico
         {
-            get => fotoSevicoBytes;
+            get => fotoServico;
             set
             {
-                fotoSevicoBytes = value;
+                fotoServico = value;
                 OnPropertyChanged();
             }
         }
@@ -212,9 +216,55 @@ namespace ConectaProApp.ViewModels.Cliente
             }
         }
 
-        private void ValidarCampos()
+        public async Task FinalizarSolicitacao()
         {
-            
+            if(!ValidarCampos(out string mensagemErro))
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "Ok");
+                return;
+            }
+
+            Enum.TryParse(UrgenciaSelecionada, out NvlUrgenciaEnum urgenciaEnum);
+            Enum.TryParse(FormaPagtoSelecionado, out FormaPagtoEnum formaPagtoEnum);
+            Enum.TryParse(SegmentoSelecionado, out TipoSegmentoEnum tipoSegmentoEnum);
+
+            var novaSolicitacao = new ServicoCreateDTO
+            {
+                Titulo = this.Titulo,
+                Descricao = this.Descricao,
+                Segmento = (int)tipoSegmentoEnum,
+                Logradouro = this.Logradouro,
+                Numero = this.Nro,
+                Cep = this.Cep,
+                ValorContratacao = this.ValorProposto,
+                NvlUrgenciaEnum = (int)urgenciaEnum,
+                FormaPagamento = (int)formaPagtoEnum,
+                FotoServico = FotoServico
+            };
+
+            var servicoRegistrado = await sService.P
+        }
+
+        public bool ValidarCampos(out string mensagemErro)
+        {
+            if (string.IsNullOrWhiteSpace(Titulo) ||
+                 string.IsNullOrWhiteSpace(Descricao) ||
+                 string.IsNullOrWhiteSpace(Especialidade) ||
+                 string.IsNullOrWhiteSpace(SegmentoSelecionado) ||
+                 string.IsNullOrWhiteSpace(Logradouro) ||
+                 Nro == 0 ||
+                 string.IsNullOrWhiteSpace(Cep) ||
+                 ValorProposto == null ||
+                 string.IsNullOrWhiteSpace(UrgenciaSelecionada) ||
+                 string.IsNullOrWhiteSpace(FormaPagtoSelecionado))
+            {
+                mensagemErro = "Por favor, preencha todos os campos antes de criar a solicitação!";
+                return false;
+            }
+
+            mensagemErro = string.Empty;
+            return true;
+                
         }
 
         private string RemoverNaoNumericos(string input)

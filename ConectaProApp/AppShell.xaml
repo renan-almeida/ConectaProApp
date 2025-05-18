@@ -18,33 +18,33 @@
         <ShellContent
             Icon="home.png"
             ContentTemplate="{DataTemplate prestador:HomePrestador}"
-            Route="MainPage" />
+            Route="HomePrestador" />
 
         <ShellContent
              Icon="busca.png"
              ContentTemplate="{DataTemplate prestador:BuscaPrestador}"
-             Route="MainPage" />
+             Route="BuscaPrestador" />
 
         <ShellContent
             Icon="minhaconta.png"
             ContentTemplate="{DataTemplate prestador:MinhaContaPrestador}"
-            Route="MainPage" />
+            Route="MinhaContaPrestador" />
     </TabBar>
 
     <TabBar Route="cliente">
         <ShellContent
             Icon="home.png"
             ContentTemplate="{DataTemplate cliente:HomeClient}"
-            Route="MainPage" />
+            Route="HomeCliente" />
 
         <ShellContent
             Icon="busca.png"
             ContentTemplate="{DataTemplate cliente:BuscaClient}"
-            Route="MainPage" />
+            Route="BuscaCliente" />
 
         <ShellContent
             Icon="minhaconta.png"
             ContentTemplate="{DataTemplate cliente:MinhaContaClient}"
-            Route="MainPage" />
+            Route="MinhaContaCliente" />
     </TabBar>
 </Shell>

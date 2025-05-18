@@ -20,11 +20,11 @@ namespace ConectaProApp.Services.Prestador
             _request = new Request();
         }
 
-        public async Task<PrestadorCreateDTO> PostRegistrarPrestadorAsync(PrestadorCreateDTO p)
+        public async Task<PrestadorResponseDTO> PostRegistrarPrestadorAsync(PrestadorCreateDTO p)
         {
             string urlComplementar = "/prestador/registro";
             var prestadorRegistrado = await _request
-                .PostAsyncFlex<PrestadorCreateDTO, PrestadorCreateDTO>(apiUrlBase + urlComplementar, p, string.Empty);
+                .PostAsyncFlex<PrestadorCreateDTO, PrestadorResponseDTO>(apiUrlBase + urlComplementar, p, string.Empty);
 
             return prestadorRegistrado;
         }

@@ -67,7 +67,7 @@
   
                 <Frame BackgroundColor="White"
                    WidthRequest="361"
-                   HeightRequest="420"
+                   HeightRequest="432"
                    Margin="16"
                    CornerRadius="30"
                    BorderColor="Black">
@@ -88,7 +88,7 @@
                         <Frame
                             BackgroundColor="#E5E3E3"
                             WidthRequest="249"
-                            HeightRequest="160"
+                            HeightRequest="180"
                             HorizontalOptions="Center"
                             CornerRadius="20"
                             BorderColor="Black">
@@ -124,9 +124,9 @@
                     </VerticalStackLayout>
                 </Frame>
                 <Button Text="Solicitar"
-                    WidthRequest="269"
-                    HeightRequest="65"
-                    CornerRadius="10"
+                    WidthRequest="240"
+                    HeightRequest="50"
+                    CornerRadius="15"
                     BackgroundColor="#0f5cc2"
                     BorderColor="Black"
                     BorderWidth="1"

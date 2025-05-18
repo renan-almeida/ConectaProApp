@@ -22,7 +22,8 @@ public partial class CriarSolicitacaoClientFinal : ContentPage
 
     private async void OnVoltarClicked(object sender, EventArgs e)
     {
-        await Application.Current.MainPage.Navigation.PushAsync(new CriarSolicitacaoClientTwo());
+        await Shell.Current.GoToAsync("..");
+
     }
 
     private async void OnClickedImageServiceTapped(object sender, EventArgs e)

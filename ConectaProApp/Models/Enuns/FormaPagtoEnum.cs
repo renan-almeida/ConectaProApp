@@ -10,16 +10,16 @@ namespace ConectaProApp.Models.Enuns
     public enum FormaPagtoEnum
     {
         [Description("Cartão")]
-        CARTÃO,
+        CARTÃO = 1,
 
         [Description("Dinheiro")]
-        DINHEIRO,
+        DINHEIRO = 2,
 
         [Description("Pix")]
-        PIX,
+        PIX = 3,
 
         [Description("Boleto")]
-        BOLETO
+        BOLETO = 4
 
        
     }

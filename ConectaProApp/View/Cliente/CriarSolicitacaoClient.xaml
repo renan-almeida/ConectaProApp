@@ -112,11 +112,11 @@
                     </VerticalStackLayout>
                 </Frame>
             <Button Text="Próximo"
-                    WidthRequest="269"
-                    HeightRequest="65"
-                    CornerRadius="10"
+                    WidthRequest="240"
+                    HeightRequest="50"
+                    CornerRadius="15"
                     BackgroundColor="#0f5cc2"
-                    BorderColor="White"
+                    BorderColor="Black"
                     BorderWidth="1"
                     FontSize="28"
                     Command="{Binding EtapaDoisCommand}"/>

@@ -9,14 +9,14 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum NvlUrgenciaEnum
     {
-        EMERGENTE,
+        EMERGENTE = 1,
 
-       URGENTE,
+       URGENTE = 2,
 
         [Description("POUCO URGENTE")]
-       POUCO_URGENTE,
+       POUCO_URGENTE = 3,
 
         [Description("NÃO URGENTE")]
-       NÃO_URGENTE
+       NÃO_URGENTE = 4
     }
 }

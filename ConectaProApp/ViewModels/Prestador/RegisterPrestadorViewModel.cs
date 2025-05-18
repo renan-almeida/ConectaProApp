@@ -551,10 +551,7 @@ namespace ConectaProApp.ViewModels.Prestador
                         Numero = this.NroResidencia,
                         Complemento = this.Complemento,
                         Uf = ufEnum,
-                    IdPlano = new Plano
-                    {
-                        IdPlano = (long)planoEnum
-                    },
+                        IdPlano = (long)planoEnum,
                     StatusDisponibilidade = disponibilidadeEnum,
                     Senha = this.SenhaPrestador,
                 };
@@ -564,7 +561,7 @@ namespace ConectaProApp.ViewModels.Prestador
                 if (prestadorRegistrado != null)
                 {
                     await Application.Current.MainPage
-                        .DisplayAlert("Sucesso", "Cadastro concluído! Agora faça login para continuar.", "OK");
+                        .DisplayAlert("Sucesso", $"Cadastro concluído! {NomePrestador} Agora faça login para continuar.", "OK");
 
                     await Application.Current.MainPage.Navigation.PushAsync(new View.Usuario.LoginView());
 

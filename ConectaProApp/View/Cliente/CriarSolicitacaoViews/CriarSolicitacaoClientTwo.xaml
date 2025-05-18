@@ -106,20 +106,21 @@
                                Text="{Binding Cep, Mode=TwoWay}"
                                MaxLength="9"/>
 
-                        <Entry  TextChanged="OnValorPropostoChanged"
+                        <Entry TextChanged="OnValorDispostoTextChanged"
                                 Placeholder="Valor Proposto a pagar R$"
                                 Keyboard="Numeric"
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
                                 HeightRequest="0"
-                                Text="{Binding ValorProposto, Mode=TwoWay}"/>
+                                Text="{Binding ValorProposto, Mode=TwoWay}"
+                                />
 
                     </VerticalStackLayout>
                 </Frame>
                 <Button Text="Próximo"
-                    WidthRequest="269"
-                    HeightRequest="65"
-                    CornerRadius="10"
+                    WidthRequest="240"
+                    HeightRequest="50"
+                    CornerRadius="15"
                     BackgroundColor="#0f5cc2"
                     BorderColor="Black"
                     BorderWidth="1"
