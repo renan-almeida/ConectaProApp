@@ -22,14 +22,15 @@ namespace ConectaProApp.ViewModels.Prestador
         public ObservableCollection<ServicoModel> ServicosEncontrados { get; set; } // Usando o alias
 
         // Comandos para cada categoria
-        public ICommand TecnologiaSolicitacoesCommand { get; }
-        public ICommand ConstrucaoSolicitacoesCommand { get; }
-        public ICommand LimpezaSolicitacoesCommand { get; }
-        public ICommand ReparosSolicitacoesCommand { get; }
-        public ICommand JardinagemSolicitacoesCommand { get; }
-        public ICommand MecanicoSolicitacoesCommand { get; }
-        public ICommand PinturaSolicitacoesCommand { get; }
-        public ICommand MotoristaSolicitacoesCommand { get; }
+        public ICommand TecnologiaSolicitacoesCommand { get; set; }
+        public ICommand ConstrucaoSolicitacoesCommand { get; set; }
+        public ICommand LimpezaSolicitacoesCommand { get; set; }
+        public ICommand ReparosSolicitacoesCommand { get; set; }
+        public ICommand JardinagemSolicitacoesCommand { get; set; }
+        public ICommand MecanicoSolicitacoesCommand { get; set; }
+        public ICommand PinturaSolicitacoesCommand { get; set; }
+        public ICommand MotoristaSolicitacoesCommand { get; set; }
+        public ICommand AcionarBuscaCommand { get; set; }
 
         public BuscaPrestadorViewModel()
         {
@@ -45,13 +46,52 @@ namespace ConectaProApp.ViewModels.Prestador
             MecanicoSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Mecanico"));
             PinturaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Pintura"));
             MotoristaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Motorista"));
-        }
+            AcionarBuscaCommand = new Command(async () => await BuscarServicosPorTermo(TermoBusca));        }
 
+        private string termoBusca;
+        public string TermoBusca
+        {
+            get => termoBusca;
+            set
+            {
+                termoBusca = value;
+                OnPropertyChanged();
+            }
+        }
         private async Task BuscarServicosPorCategoria(string categoria)
         {
             try
             {
-                var listaServicos = await _servicoService.BuscarServicoAsync(categoria);
+                var listaServicos = await _servicoService.BuscarServicoPorCategoriaAsync(categoria);
+
+                if(listaServicos == null || !listaServicos.Any())
+                {
+                    await App.Current.MainPage.DisplayAlert("Aviso", "Nenhum serviço encontrado.", "OK");
+                    return;
+                }
+
+                if (listaServicos != null)
+                {
+                    ServicosEncontrados.Clear();
+                    foreach (var servico in listaServicos)
+                        ServicosEncontrados.Add(servico);
+
+                    // (Opcional) Redireciona para uma página que exibe os resultados
+                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
+                        new Dictionary<string, object> { { "Servicos", listaServicos } });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro ao buscar serviços por categoria: " + ex.Message);
+            }
+        }
+
+        private async Task BuscarServicosPorTermo(string termo)
+        {
+            try
+            {
+                var listaServicos = await _servicoService.BuscarServicoAsync(termo);
 
                 if (listaServicos != null)
                 {

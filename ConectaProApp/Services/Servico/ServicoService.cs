@@ -47,18 +47,17 @@ namespace ConectaProApp.Services.Servico
             return new List<Models.Servico>();
         }
 
-        // Exibe ao prestador apenas servicos com base na sua UF
-        public async Task<List<Models.Servico>> BuscarServicoUfAsync(string uf)
+        public async Task<List<Models.Servico>> BuscarServicoPorCategoriaAsync(string categoria)
         {
             try
             {
-                var token = Preferences.Get("UsuarioToken", string.Empty);
+                var token = Preferences.Get("token", string.Empty);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                const string urlComplementar = "/Servicos/Uf";
-                uf = Uri.EscapeDataString(uf);
+                const string buscaServicoEndpoint = "/servicos/buscar";
+                categoria = Uri.EscapeDataString(categoria);
 
-                var response = await client.GetAsync($"{apiUrlBase}{urlComplementar}?uf={uf}");
+                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -68,10 +67,40 @@ namespace ConectaProApp.Services.Servico
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Erro ao buscar por UF: " + ex.Message);
+                Console.WriteLine("Erro ao buscar serviço: " + ex.Message);
             }
 
             return new List<Models.Servico>();
+        }
+
+        // Exibe ao prestador apenas servicos com base na sua UF
+        public async Task<List<ServicoHomeDTO>> BuscarServicoUfAsync(string uf)
+        {
+            try
+            {
+                var token = Preferences.Get("token", string.Empty);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                const string urlComplementar = "/Servicos";
+                uf = Uri.EscapeDataString(uf);
+
+                var response = await client.GetAsync($"{apiUrlBase}{urlComplementar}?uf={uf}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<List<ServicoHomeDTO>>(json, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro ao buscar por UF: " + ex.Message);
+            }
+
+            return new List<ServicoHomeDTO>();
         }
 
         // Exibe Empresa apenas prestadores correspondentes a sua UF
@@ -103,9 +132,9 @@ namespace ConectaProApp.Services.Servico
 
                 
 
-    public async Task<ServicoCreateDTO> PostRegistrarClienteAsync(ServicoCreateDTO s)
+    public async Task<ServicoCreateDTO> PostRegistrarServicoAsync(ServicoCreateDTO s)
                     {
-     var token = Preferences.Get("UsuarioToken", string.Empty);
+     var token = Preferences.Get("token", string.Empty);
      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             string urlComplementar = "/servicos/registro";

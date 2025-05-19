@@ -1,6 +1,7 @@
 ﻿using ConectaProApp.Models;
 using ConectaProApp.Services.Prestador;
 using ConectaProApp.Services.Servico;
+using ConectaProApp.ViewModels.Servico;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,11 +34,23 @@ namespace ConectaProApp.ViewModels.Prestador
             Task.Run(async () => await CarregarFotoPrestadorAsync());
         }
 
-        private List<ServicoModel> servicosUf; // Usando o alias ServicoModel
+        private List<ServicoHomeDTO> servicosUf; // Usando o alias ServicoModel
         private int indice = 0;
+        /*
+                private ServicoModel servicoAtual; // Usando o alias ServicoModel
+                public ServicoModel ServicoAtual
+                {
+                    get => servicoAtual;
+                    set
+                    {
+                        servicoAtual = value;
+                        OnPropertyChanged();
+                    }
+                }
+        */
 
-        private ServicoModel servicoAtual; // Usando o alias ServicoModel
-        public ServicoModel ServicoAtual
+        private ServicoHomeDTO servicoAtual;
+        public ServicoHomeDTO ServicoAtual
         {
             get => servicoAtual;
             set
@@ -46,7 +59,6 @@ namespace ConectaProApp.ViewModels.Prestador
                 OnPropertyChanged();
             }
         }
-
         private ImageSource fotoPrestadorUrl;
         public ImageSource FotoPrestadorUrl
         {
@@ -71,7 +83,7 @@ namespace ConectaProApp.ViewModels.Prestador
 
         private async Task BuscarServicosAsync()
         {
-            var uf = Preferences.Get("UfPrestador", string.Empty);
+            var uf = Preferences.Get("uf", string.Empty);
             servicosUf = await sService.BuscarServicoUfAsync(uf);
 
             indice = 0;
@@ -82,11 +94,11 @@ namespace ConectaProApp.ViewModels.Prestador
         {
             if (servicosUf == null || !servicosUf.Any())
                 return;
+
             if (indice >= servicosUf.Count)
                 indice = 0;
 
             ServicoAtual = servicosUf[indice];
-            CarregarFotoEmpresa();
             indice++;
         }
 
@@ -98,18 +110,6 @@ namespace ConectaProApp.ViewModels.Prestador
                 FotoPrestadorUrl = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(fotoSalva)));
             else
                 FotoPrestadorUrl = ImageSource.FromFile("prestadorsemfoto.png");
-        }
-
-        private async Task CarregarFotoEmpresa()
-        {
-            if (ServicoAtual?.IdCliente != null && ServicoAtual.IdCliente.CaminhoFoto != null)
-            {
-                /* FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(ServicoAtual.IdCliente.CaminhoFoto)); */
-            }
-            else
-            {
-                FotoEmpresaUrl = ImageSource.FromFile("empresasemfoto.png");
-            }
         }
     }
 }

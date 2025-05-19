@@ -98,6 +98,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="View\Busca\ResultadoBuscaClientView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\Busca\ResultadoBuscaPrestadorView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

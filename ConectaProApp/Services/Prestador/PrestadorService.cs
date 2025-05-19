@@ -34,13 +34,39 @@ namespace ConectaProApp.Services.Prestador
         {
             try
             {
-                var token = Preferences.Get("UsuarioToken", string.Empty);
+                var token = Preferences.Get("token", string.Empty);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                const string buscaServicoEndpoint = "/prestador/";
+                
+                const string buscaServicoEndpoint = "/prestador/buscar";
                 termo = Uri.EscapeDataString(termo);
 
                 var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?termo={termo}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<List<Models.Prestador>>(json);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro ao buscar prestador: " + ex.Message);
+            }
+
+            return new List<Models.Prestador>();
+        }
+
+    public async Task<List<Models.Prestador>> BuscarPrestadorPorCategoriaAsync(string categoria)
+        {
+            try
+            {
+                var token = Preferences.Get("token", string.Empty);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                const string buscaServicoEndpoint = "/prestador/buscar";
+                categoria = Uri.EscapeDataString(categoria);
+
+                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
 
                 if (response.IsSuccessStatusCode)
                 {

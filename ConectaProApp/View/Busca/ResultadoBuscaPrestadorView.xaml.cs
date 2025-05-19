@@ -15,7 +15,7 @@ public partial class ResultadoBuscaPrestadorView : ContentPage
         set
         {
             _servicosJson = Uri.UnescapeDataString(value);
-            var servicos = JsonSerializer.Deserialize<List<Servico>>(_servicosJson);
+            var servicos = JsonSerializer.Deserialize<List<Servico>>(_servicosJson) ?? new();
             BindingContext = new ResultadoBuscaPrestadorViewModel(servicos);
         }
     }

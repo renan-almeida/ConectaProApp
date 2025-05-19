@@ -28,7 +28,6 @@ namespace ConectaProApp.ViewModels.Cliente
             NiveisUrgencia = [.. Enum.GetNames(typeof(NvlUrgenciaEnum))];
             FormasPagto = [.. Enum.GetNames(typeof(FormaPagtoEnum))];
         }
-
         private string titulo;
         public string Titulo
         {
@@ -227,6 +226,7 @@ namespace ConectaProApp.ViewModels.Cliente
             Enum.TryParse(UrgenciaSelecionada, out NvlUrgenciaEnum urgenciaEnum);
             Enum.TryParse(FormaPagtoSelecionado, out FormaPagtoEnum formaPagtoEnum);
             Enum.TryParse(SegmentoSelecionado, out TipoSegmentoEnum tipoSegmentoEnum);
+            
 
             var novaSolicitacao = new ServicoCreateDTO
             {
@@ -242,7 +242,7 @@ namespace ConectaProApp.ViewModels.Cliente
                 FotoServico = FotoServico
             };
 
-            var servicoRegistrado = await sService.P
+            var servicoRegistrado = await sService.PostRegistrarServicoAsync(novaSolicitacao);
         }
 
         public bool ValidarCampos(out string mensagemErro)

@@ -58,7 +58,7 @@ public partial class CriarSolicitacaoClientFinal : ContentPage
             
                 if(BindingContext is CriarSolicitacaoViewModel vm)
                 {
-                    vm.FotoServicoBytes = imageBytes;
+                    vm.FotoServico = Convert.ToBase64String(imageBytes);
                 }
                 
             }

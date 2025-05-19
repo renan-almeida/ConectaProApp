@@ -9,7 +9,7 @@ using ServicoModel = ConectaProApp.Models.Servico; // Alias para a classe Servic
 
 namespace ConectaProApp.ViewModels.Servico
 {
-    public class ServicoViewModel : INotifyPropertyChanged
+    public class ServicoViewModel : BaseViewModel
     {
         private readonly ServicoModel servico; // Usando o alias ServicoModel
 
@@ -19,7 +19,7 @@ namespace ConectaProApp.ViewModels.Servico
             VerMaisCommand = new Command(() => MostrarDescricao = !MostrarDescricao);
         }
 
-        public string Nome => servico.IdPrestador?.Nome;
+        public string Nome => servico.Titulo;
         public string StServico => servico.SituacaoServico.ToString();
         public string ValorServico => servico.ValorContratacao.ToString("C");
         public string NvlUrgenciaEnum => servico.NvlUrgenciaEnum.ToString();
@@ -29,6 +29,24 @@ namespace ConectaProApp.ViewModels.Servico
         public string Especialidade => servico.IdPrestador?.Especialidades?.FirstOrDefault(); // Ajustado para pegar a primeira especialidade
         public string Logradouro => servico.Logradouro;
         public string Nro => servico.NroEmpresa.ToString();
+        public string FotoServico => servico.FotoServico;
+        public string NomeFantasia => servico.IdCliente.NomeFantasia;
+        public string FotoPerfilEmpresa => servico.IdCliente?.CaminhoFoto;
+
+        public ImageSource ImagemFundoHome
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(FotoServico))
+                    return ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(FotoServico)));
+
+                if (string.IsNullOrEmpty(FotoPerfilEmpresa))
+                    return ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(FotoPerfilEmpresa)));
+
+                return "empresasemfoto.png";
+
+            }
+        }
 
         private bool mostrarDescricao;
         public bool MostrarDescricao
@@ -46,8 +64,5 @@ namespace ConectaProApp.ViewModels.Servico
 
         public ICommand VerMaisCommand { get; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

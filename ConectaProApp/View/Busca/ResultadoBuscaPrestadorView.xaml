@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ConectaProApp.View.Busca.ResultadoBuscaPrestadorView"
-             Title="ResultadoBuscaPrestador">
+             x:Class="ConectaProApp.View.Busca.ResultadoBuscaPrestadorView">
     <VerticalStackLayout>
 
         <CollectionView ItemsSource="{Binding Servicos}">
@@ -12,45 +11,64 @@
                             BackgroundColor="White"
                             StrokeThickness="1"
                             Margin="10"
-                            Padding="10">
+                            Padding="10"
+                            HeightRequest="112"
+                            WidthRequest="381">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="10"/>
                         </Border.StrokeShape>
 
                         <StackLayout Padding="10">
                                 <Label Text="{Binding Nome, Mode=OneWay}" FontAttributes="Bold" FontSize="15"/>
-                                
+
+                            <HorizontalStackLayout Spacing="24">
                                 <HorizontalStackLayout>
                                     <Label Text="STATUS: " FontSize="10" FontAttributes="Bold"/>
                                     <Label Text="{Binding StServico, Mode=OneWay}" FontSize="10" FontAttributes="Bold"/>
                                 </HorizontalStackLayout>
 
                                 <HorizontalStackLayout>
-                                    <Label Text="VALOR: " FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding ValorServico, Mode=OneWay}" FontSize="10" FontAttributes="Bold"/>
-                                </HorizontalStackLayout>
-                               
-                                <HorizontalStackLayout>
                                     <Label Text="URGÊNCIA: " FontSize="10" FontAttributes="Bold"/>
                                     <Label Text="{Binding NvlUrgenciaEnum, Mode=OneWay}"/>
                                 </HorizontalStackLayout>
-
-                            <HorizontalStackLayout>
-                                <Label Text="CATEGORIA: " FontSize="10" FontAttributes="Bold"/>
-                                <Label Text="{Binding NomeSegmento, Mode=OneWay}"/>
                             </HorizontalStackLayout>
-                            
-                                
+
+                            <HorizontalStackLayout Spacing="24">
+                                <HorizontalStackLayout>
+                                    <Label Text="VALOR: " FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding ValorServico, Mode=OneWay}" FontSize="10" FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout>
+                                    <Label Text="CATEGORIA: " FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding NomeSegmento, Mode=OneWay}"/>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
                             <HorizontalStackLayout>
                                 <Label Text="PAGAMENTO: " FontSize="10" FontAttributes="Bold"/>
                                 <Label Text="{Binding FormaPagamento, Mode=OneWay}" FontSize="10"/>
                             </HorizontalStackLayout>
 
-                            <Label Text="Ver mais" TextColor="#2886CA" FontSize="12">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding VerMaisCommand}"/>
-                                </Label.GestureRecognizers>
-                            </Label>
+                            <HorizontalStackLayout Spacing="202">
+                                <Label Text="VER MAIS"
+                                       TextColor="#2886CA"
+                                       FontSize="10"
+                                       HorizontalTextAlignment="Start">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding VerMaisCommand}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+
+                                <Label
+                                    Text="CANDIDATAR-SE" 
+                                    FontSize="14"
+                                    TextColor="#0f5cc2">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CriarOrcamentoCommand}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+                            
 
                             <Label Text="{Binding Descricao, Mode=OneWay}"
                                    IsVisible="{Binding MostrarDescricao}"
