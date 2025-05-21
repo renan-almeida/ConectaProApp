@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConectaProApp.ViewModels.Prestador;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,6 +10,15 @@ namespace ConectaProApp.ViewModels.Cliente
 {
     public class ResultadoBuscaClientViewModel: BaseViewModel
     {
+        public ObservableCollection<PrestadorViewModel> Prestadores { get; set; }
+
+        public ResultadoBuscaClientViewModel(List<prestadorModel> prestadores)
+        {
+            Prestadores = new ObservableCollection<PrestadorViewModel>(
+                prestadores.Select(p => new PrestadorViewModel(p))
+            );
+        }
+
      
     }
 }

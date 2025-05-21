@@ -65,7 +65,7 @@ namespace ConectaProApp.ViewModels.Prestador
             {
                 var listaServicos = await _servicoService.BuscarServicoPorCategoriaAsync(categoria);
 
-                if(listaServicos == null || !listaServicos.Any())
+                if (listaServicos == null || !listaServicos.Any())
                 {
                     await App.Current.MainPage.DisplayAlert("Aviso", "Nenhum serviço encontrado.", "OK");
                     return;
@@ -77,9 +77,9 @@ namespace ConectaProApp.ViewModels.Prestador
                     foreach (var servico in listaServicos)
                         ServicosEncontrados.Add(servico);
 
-                    // (Opcional) Redireciona para uma página que exibe os resultados
-                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
-                        new Dictionary<string, object> { { "Servicos", listaServicos } });
+                    
+                    var json = JsonSerializer.Serialize(listaServicos);
+                    await Shell.Current.GoToAsync($"resultadoBuscaPrestadorView?Servicos={Uri.EscapeDataString(json)}");
                 }
             }
             catch (Exception ex)
@@ -92,12 +92,24 @@ namespace ConectaProApp.ViewModels.Prestador
         {
             try
             {
+                if(string.IsNullOrWhiteSpace(termo))
+                {
+                    await Application.Current.MainPage
+                        .DisplayAlert("Aviso",
+                        "Digite o nome ou categoria do serviço que deseja buscar",
+                        "OK");
+                }
                 var listaServicos = await _servicoService.BuscarServicoAsync(termo);
 
                 if (listaServicos != null && listaServicos.Any())
                 {
                     var json = JsonSerializer.Serialize(listaServicos);
                     await Shell.Current.GoToAsync($"resultadoBuscaPrestadorView?Servicos={Uri.EscapeDataString(json)}");
+                }
+                else
+                {
+                    await Application.Current.MainPage
+                        .DisplayAlert("Não encontrado", "Nenhum serviço foi encontrado", "OK");
                 }
             }
             catch (Exception ex)

@@ -79,6 +79,7 @@
                         <Entry 
                             Grid.Column="1"
                             Placeholder="Busque suas solicitações"
+                            Text="{Binding TermoDigitado, Mode=TwoWay}"
                             FontSize="16"
                             WidthRequest="300"
                             HeightRequest="44"

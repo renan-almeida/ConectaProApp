@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConectaProApp.View.Prestador;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace ConectaProApp.ViewModels.Servico
         {
             this.servico = servico;
             VerMaisCommand = new Command(() => MostrarDescricao = !MostrarDescricao);
-            CandidatarCommand = new Command((async () => CriarOrcamento());
+            CandidatarCommand = new Command((async () => CriarOrcamento()));
         }
 
         public string Nome => servico.Titulo;
@@ -65,6 +66,19 @@ namespace ConectaProApp.ViewModels.Servico
 
         public ICommand VerMaisCommand { get; }
         public ICommand CandidatarCommand { get;}
+
+        private async Task CriarOrcamento()
+        {
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new CandidatarPrestador());
+            }
+            catch (Exception ex)
+            {
+
+                await Application.Current.MainPage.DisplayAlert("Erro", ex.Message + "Não foi possivel se candidatar", "OK");
+            }
+        }
 
       
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -12,7 +13,7 @@ namespace ConectaProApp.ViewModels.Cliente
 {
     public class BuscaClientViewModel: BaseViewModel
     {
-        private PrestadorService pService;
+        private readonly PrestadorService pService;
         public ObservableCollection<Models.Prestador> PrestadoresEncontrados { get; set; }
         public ICommand AcionarBuscaCommand { get; set; }
         public ICommand PrestadorTecnologiaCommand { get; set; }
@@ -30,6 +31,7 @@ namespace ConectaProApp.ViewModels.Cliente
             pService = new PrestadorService();
             InitializeCommands();
             CarregarFotoEmpresaAsync();
+            PrestadoresEncontrados = new ObservableCollection<Models.Prestador>();
         }
 
         private void InitializeCommands()
@@ -42,6 +44,7 @@ namespace ConectaProApp.ViewModels.Cliente
             PrestadorMecanicoCommand = new Command(async () => await BuscarPrestadorPorCategoria("Mecanico"));
             PrestadorPinturaCommand =  new Command(async () => await BuscarPrestadorPorCategoria("Pintura"));
             PrestadorMotoristaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Motorista"));
+            AcionarBuscaCommand = new Command(async () => await BuscarPrestadorPorTermo(TermoDigitado));
         }
         private ImageSource fotoEmpresaUrl;
         public ImageSource FotoEmpresaUrl
@@ -50,6 +53,17 @@ namespace ConectaProApp.ViewModels.Cliente
             set
             {
                 fotoEmpresaUrl = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string termoDigitado;
+        public string TermoDigitado
+        {
+            get => termoDigitado;
+            set
+            {
+                termoDigitado = value;
                 OnPropertyChanged();
             }
         }
@@ -67,8 +81,8 @@ namespace ConectaProApp.ViewModels.Cliente
                         PrestadoresEncontrados.Add(prestador);
 
                     // (Opcional) Redireciona para uma página que exibe os resultados
-                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaClientView),
-                        new Dictionary<string, object> { { "Prestadores", listaPrestadores } });
+                    var json = JsonSerializer.Serialize(listaPrestadores);
+                    await Shell.Current.GoToAsync($"resultadoBuscaClienteView?Prestadores={Uri.EscapeDataString(json)}");
                 }
             }
             catch (Exception ex)

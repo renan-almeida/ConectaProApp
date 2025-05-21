@@ -8,13 +8,13 @@ namespace ConectaProApp.ViewModels.Prestador
 {
     public class ResultadoBuscaPrestadorViewModel : BaseViewModel
     {
-        public ObservableCollection<ServicoViewModel> Servicos { get; }
+        public ObservableCollection<ServicoViewModel> Servicos { get; set; }
 
         public ResultadoBuscaPrestadorViewModel(List<ServicoModel> servicos)
         {
             Servicos = new ObservableCollection<ServicoViewModel>(
-                servicos.Select(s => new ServicoViewModel(s))
-            );
+                    (servicos ?? new List<ServicoModel>()).Select(s => new ServicoViewModel(s))
+    );
         }
     }
 }

@@ -5,10 +5,10 @@ using System.Text.Json;
 
 namespace ConectaProApp.View.Busca;
 
-//[QueryProperty(nameof(PrestadoresJson), "Prestadores")]
+[QueryProperty(nameof(PrestadoresJson), "Prestadores")]
 public partial class ResultadoBuscaClientView : ContentPage
 {
-    /*   private string _prestadoresJson;
+       private string _prestadoresJson;
 
         public string PrestadoresJson
         {
@@ -19,7 +19,7 @@ public partial class ResultadoBuscaClientView : ContentPage
                 var prestadores = JsonSerializer.Deserialize<List<Models.Prestador>>(_prestadoresJson);
                 BindingContext = new ResultadoBuscaClientViewModel(prestadores);
             }
-        }*/
+        }
 public ResultadoBuscaClientView()
 	{
 		InitializeComponent();

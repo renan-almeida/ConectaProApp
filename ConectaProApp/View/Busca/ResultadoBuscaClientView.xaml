@@ -2,11 +2,102 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Busca.ResultadoBuscaClientView"
-             Title="ResultadoBuscaClientView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             BackgroundColor="#f1f1f1">
+    <ScrollView>
+        <VerticalStackLayout>
+        <Grid RowDefinitions="Auto, *">
+            <!-- Cabeçalho Azul -->
+            <Grid Grid.Row="0" VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Icone voltar -->
+                <Image  Source="iconevoltar.png"
+                 HeightRequest="30"
+                 WidthRequest="30"
+                 VerticalOptions="Center"
+                 Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnVoltarClicked" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
+
+                <!-- Foto da Empresa logada -->
+                <Frame  HeightRequest="40" 
+                        WidthRequest="40"
+                        CornerRadius="20"
+                        HasShadow="False"
+                        Padding="0"
+                        BackgroundColor="White"
+                        BorderColor="#0f5cc2"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"
+                        Grid.Column="2">
+                    <Image Source="{Binding FotoEmpresaUrl, Mode=OneWay}" 
+                          Aspect="AspectFill" 
+                          HeightRequest="40" WidthRequest="40"
+          >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
+                        </Image.GestureRecognizers>
+                        <Image.Clip>
+                            <EllipseGeometry 
+                               Center="20,20"
+                               RadiusX="20"
+                               RadiusY="20"/>
+                        </Image.Clip>
+                    </Image>
+                </Frame>
+            </Grid>
+
+                <CollectionView ItemsSource="{Binding Prestadores}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Stroke="Black"
+                                    BackgroundColor="White"
+                                    StrokeThickness="1"
+                                    Margin="10"
+                                    Padding="10"
+                                    HeightRequest="112"
+                                    WidthRequest="381">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10"/>
+                                </Border.StrokeShape>
+
+                                <HorizontalStackLayout Spacing="10">
+                                    <Border 
+                                        BackgroundColor="#D9D9D9"
+                                        WidthRequest="40"
+                                        HeightRequest="40">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="100"/>
+                                        </Border.StrokeShape>
+                                        <Image Source="{Binding FotoPrestador}"
+                                               WidthRequest="30"
+                                               HeightRequest="30"/>
+                                    </Border>
+                                    <VerticalStackLayout Spacing="8">
+                                        <Label Text="{Binding Nome}"
+                                               FontSize="15"
+                                               FontAttributes="Bold"/>
+                                        <HorizontalStackLayout Spacing="3">
+                                            <Label Text="CATEGORIA: "
+                                               FontSize="10"/>
+                                            <Label Text="{Binding Segmento}"
+                                                   FontSize="10"/>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
