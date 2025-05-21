@@ -17,6 +17,7 @@ namespace ConectaProApp.ViewModels.Servico
         {
             this.servico = servico;
             VerMaisCommand = new Command(() => MostrarDescricao = !MostrarDescricao);
+            CandidatarCommand = new Command((async () => CriarOrcamento());
         }
 
         public string Nome => servico.Titulo;
@@ -63,6 +64,9 @@ namespace ConectaProApp.ViewModels.Servico
         }
 
         public ICommand VerMaisCommand { get; }
+        public ICommand CandidatarCommand { get;}
+
+      
 
     }
 }

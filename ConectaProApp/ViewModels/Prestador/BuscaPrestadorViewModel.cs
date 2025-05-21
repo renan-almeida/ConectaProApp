@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ConectaProApp.Services.Prestador;
@@ -93,15 +94,10 @@ namespace ConectaProApp.ViewModels.Prestador
             {
                 var listaServicos = await _servicoService.BuscarServicoAsync(termo);
 
-                if (listaServicos != null)
+                if (listaServicos != null && listaServicos.Any())
                 {
-                    ServicosEncontrados.Clear();
-                    foreach (var servico in listaServicos)
-                        ServicosEncontrados.Add(servico);
-
-                    // (Opcional) Redireciona para uma página que exibe os resultados
-                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
-                        new Dictionary<string, object> { { "Servicos", listaServicos } });
+                    var json = JsonSerializer.Serialize(listaServicos);
+                    await Shell.Current.GoToAsync($"resultadoBuscaPrestadorView?Servicos={Uri.EscapeDataString(json)}");
                 }
             }
             catch (Exception ex)
@@ -109,5 +105,6 @@ namespace ConectaProApp.ViewModels.Prestador
                 Console.WriteLine("Erro ao buscar serviços por categoria: " + ex.Message);
             }
         }
+
     }
 }
