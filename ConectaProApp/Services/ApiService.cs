@@ -69,6 +69,12 @@ namespace ConectaProApp.Services
             }
         }
 
+        public async Task<bool> DeleteAsync(string endpoint)
+        {
+            var response = await _httpClient.DeleteAsync(endpoint);
+            return response.IsSuccessStatusCode;
+        }
+
         public class TokenResponse
         {
             public string Token { get; set; }

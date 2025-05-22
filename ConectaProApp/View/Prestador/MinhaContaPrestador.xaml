@@ -1,62 +1,188 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:ConectaProApp.Converters"
              x:Class="ConectaProApp.View.Prestador.MinhaContaPrestador"
-             Title="MinhaContaPrestador">
-    
+             x:Name="PageRef"
+             BackgroundColor="White"
+             xmlns:viewmodels="clr-namespace:ConectaProApp.ViewModels.Orcamentos">
+
+    <ContentPage.BindingContext>
+        <viewmodels:OrcamentoViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:AbaSelecionadaConverter x:Key="AbaSelecionadaConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ScrollView>
-        <VerticalStackLayout Spacing="0">
-            <!-- Header com imagem de fundo -->
-            <Grid>
-                <Image x:Name="HeaderPrestadorImage" Source="fundoperfil.jpg" Aspect="AspectFill" HeightRequest="200">
+        <VerticalStackLayout Spacing="10" Padding="0">
+
+            <!-- Header -->
+            <Grid HeightRequest="150">
+                <Image x:Name="HeaderPrestadorImage"
+                       Aspect="AspectFill"
+                       HeightRequest="150"
+                       WidthRequest="400"
+                       Source="fundoperfil.jpg"
+                                             >
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnHeaderPrestadorTapped" />
                     </Image.GestureRecognizers>
                 </Image>
             </Grid>
 
-            <!-- Avatar sobreposto ao fundo -->
-            <Frame WidthRequest="130" HeightRequest="130" CornerRadius="65" IsClippedToBounds="True" BorderColor="White" BackgroundColor="White" Padding="0">
-                <Image x:Name="avatarPrestadorImage" Source="minhaconta.png" Aspect="AspectFill">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnAvatarTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
+            <!-- Avatar + Editar -->
+            <Grid HorizontalOptions="Center" Margin="0,-60,0,0">
+                <Frame WidthRequest="120" HeightRequest="120"
+                       CornerRadius="60"
+                       BackgroundColor="White"
+                       IsClippedToBounds="True"
+                       BorderColor="#eeeeee"
+                       VerticalOptions="Center">
+                    <Image x:Name="avatarPrestadorImage"
+                           Aspect="AspectFill"
+                           Source="minhaconta.png"
+                           >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnAvatarTapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Frame>
+            </Grid>
+
+            <!-- Nome e Descrição com Edição -->
+            <VerticalStackLayout Padding="20,0" Spacing="5">
+                <Entry x:Name="NomeEntry"
+                       TextColor="Black"
+                       Placeholder="Seu nome"
+                       FontAttributes="Bold"
+                       FontSize="20"
+                       HorizontalTextAlignment="Center"
+                       TextChanged="OnNomeChanged" />
+
+                <Editor x:Name="DescricaoEditor"
+                        TextColor="Black"
+                        Placeholder="Fale um pouco sobre você"
+                        FontSize="14"
+                        AutoSize="TextChanges"
+                        TextChanged="OnDescricaoChanged"
+                        Margin="0,0,0,10"
+                        HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <!-- Botões de Aba -->
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="10"
+                         Margin="0,10">
+                <Button Text="Serviços"
+                        
+                        Command="{Binding SelecionarAbaCommand}"
+                        CommandParameter="ServicosPrestador"
+                       BackgroundColor="#0f5cc2"/>
+                
+                <Button Text="Candidaturas"
+                        Command="{Binding SelecionarAbaCommand}"
+                        CommandParameter="CandidaturasPrestador"
+                        BackgroundColor="#0f5cc2"/>
+
+                <Button Text="Propostas"
+                        Command="{Binding SelecionarAbaCommand}"
+                        CommandParameter="PropostasPrestador"
+                        
+                        BackgroundColor="#0f5cc2">
+                </Button>
+            </StackLayout>
+
+            <!-- CollectionViews -->
+            <CollectionView ItemsSource="{Binding ServicosAtivosPrestador}" IsVisible="{Binding ServicosPrestadorVisivel}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="5" BorderColor="LightGray">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Descricao}" FontAttributes="Bold" />
+                                <Label Text="{Binding ValorProposto, StringFormat='R${0:F2}'}" />
+                                <Button Text="Finalizar" HorizontalOptions="End" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <CollectionView ItemsSource="{Binding OrcamentosRecebidos}" IsVisible="{Binding CandidaturasPrestadorVisivel}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="5" BorderColor="LightGray">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Descricao}" FontAttributes="Bold" />
+                                <Label Text="{Binding ValorProposto, StringFormat='R${0:F2}'}" />
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="10">
+                                    <Button Text="Aceitar"
+                                            Command="{Binding BindingContext.AceitarOrcamentoCommand, Source={x:Reference PageRef}}"
+                                            CommandParameter="{Binding .}" />
+                                    <Button Text="Recusar"
+                                            Command="{Binding BindingContext.RecusarOrcamentoCommand, Source={x:Reference PageRef}}"
+                                            CommandParameter="{Binding .}" />
+                                </StackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <CollectionView ItemsSource="{Binding OrcamentosRecusados}" IsVisible="{Binding PropostasPrestadorVisivel}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="5" BorderColor="LightGray">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Descricao}" FontAttributes="Bold" />
+                                <Label Text="{Binding ValorProposto, StringFormat='R${0:F2}'}" />
+                                <Button Text="Reofertar"
+
+                                        Command="{Binding BindingContext.ReofertarOrcamentoCommand, Source={x:Reference PageRef}}"
+                                        CommandParameter="{Binding .}" 
+                                        HorizontalOptions="End"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Frame BackgroundColor="White"
+                Margin="20,10"
+                Padding="10"
+                BorderColor="#eeeeee"
+                CornerRadius="20"
+                HasShadow="True"
+                HorizontalOptions="Center">
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="5">
+
+                    <!-- Estrela e Nota -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                    <Image Source="star.png" WidthRequest="40" HeightRequest="40" />
+                    <Label Text="4,7"
+                        FontSize="32"
+                        FontAttributes="Bold"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                    <Label Text="(44)"
+                    FontSize="14"
+                    TextColor="Black"
+                    VerticalOptions="End" />
+                    </HorizontalStackLayout>
+
+                    <!-- Texto -->
+                <Label Text="Claudio é um prestador ConectaPro 4,7. Recomendamos ele!"
+                    FontSize="14"
+                    TextColor="Black"
+                    HorizontalTextAlignment="Center"
+                    Margin="10,0,10,5" />
+                </VerticalStackLayout>
             </Frame>
 
-            <!-- Informações do usuário -->
-            <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="White">
-                <!-- Nome do usuário -->
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
-                    <Entry x:Name="NomeEntry" Text="Claudio de Freitas Silva" FontSize="20" FontAttributes="Bold" TextColor="Black" TextChanged="OnNomeChanged" />
-                    <ImageButton Source="edit.png" WidthRequest="24" HeightRequest="24" BackgroundColor="Transparent" />
-                </HorizontalStackLayout>
-
-                <!-- Descrição do usuário -->
-                <Editor x:Name="DescricaoEditor" Text="Olá, me chamo Claudio, tenho 33 anos e sou programador Back-End Sênior."
-        FontSize="14" TextColor="Gray" HorizontalOptions="Fill" TextChanged="OnDescricaoChanged" />
-            </VerticalStackLayout>
-
-            <!-- Espaçamento entre a Label e os Botões -->
-            <BoxView HeightRequest="200" Color="White" />
-
-            <!-- Botões de navegação -->
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="15" Padding="0">
-                <Button Text="Serviços" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="100" />
-                <Button Text="Candidaturas" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="120" />
-                <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White" CornerRadius="20" WidthRequest="100" />
-            </HorizontalStackLayout>
-
-            <!-- Avaliação -->
-            <VerticalStackLayout HorizontalOptions="Center" Spacing="5" Padding="20">
-
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10" Padding="20">
-                    <Image Source="star.png" WidthRequest="200" HeightRequest="130" />
-                    <Label Text="4,7" FontSize="40" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-                <Label Text="Claudio é um prestador ConectaPro 4,7. Recomendamos ele!"
-               FontSize="14" TextColor="Gray" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
-            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

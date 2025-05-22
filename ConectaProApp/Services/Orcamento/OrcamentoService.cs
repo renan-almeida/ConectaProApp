@@ -87,5 +87,10 @@ namespace ConectaProApp.Services.Orcamento
             if (!response.IsSuccessStatusCode)
                 throw new Exception("Erro ao enviar proposta");
         }
+
+        public async Task<bool> RemoverOrcamento(int id)
+        {
+            return await _apiService.DeleteAsync($"orcamentos/{id}");
+        }
     }
 }

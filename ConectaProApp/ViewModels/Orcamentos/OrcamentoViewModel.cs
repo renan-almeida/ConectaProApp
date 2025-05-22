@@ -11,11 +11,15 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ConectaProApp.Services;
 using ConectaProApp.Services.Orcamento;
+using ConectaProApp.ViewModels;
+using Microsoft.Maui.Storage;
+
 
 namespace ConectaProApp.ViewModels.Orcamentos
 {
     public class OrcamentoViewModel : INotifyPropertyChanged
     {
+        private readonly ApiService _apiService = new ApiService();
         private readonly OrcamentoService _orcamentoService;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -37,6 +41,10 @@ namespace ConectaProApp.ViewModels.Orcamentos
         public ICommand ReofertarOrcamentoCommand { get; }
         public ICommand SelecionarAbaCommand { get; }
 
+        public ICommand RemoverSolicitacaoCommand { get; }
+
+
+
         public OrcamentoViewModel()
         {
             _orcamentoService = new OrcamentoService(new HttpClient(), new ApiService());
@@ -46,7 +54,7 @@ namespace ConectaProApp.ViewModels.Orcamentos
             RecusarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.RECUSADO));
             FinalizarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.FINALIZADO));
             ReofertarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.PENDENTE));
-
+            RemoverSolicitacaoCommand = new Command<int>(async (id) => await RemoverSolicitacaoAsync(id));
             SelecionarAbaCommand = new Command<string>(aba => AbaAtual = aba);
         }
 
@@ -179,6 +187,23 @@ namespace ConectaProApp.ViewModels.Orcamentos
             storage = value;
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public async Task RemoverSolicitacaoAsync(int id)
+        {
+            bool confirmacao = await Application.Current.MainPage.DisplayAlert("Confirmar", "Deseja remover esta solicitação?", "Sim", "Não");
+            if (!confirmacao) return;
+
+            var sucesso = await _apiService.DeleteAsync($"/orcamentos/{id}");
+            if (sucesso)
+            {
+                await Application.Current.MainPage.DisplayAlert("Sucesso", "Solicitação removida com sucesso!", "OK");
+                await CarregarPropostasCliente(Preferences.Get("IdCliente", 0));
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", "Erro ao remover a solicitação.", "OK");
+            }
         }
     }
 }
