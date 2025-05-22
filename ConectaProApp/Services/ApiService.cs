@@ -59,7 +59,7 @@ namespace ConectaProApp.Services
             throw new Exception($"Erro ao buscar dados: {response.ReasonPhrase}");
         }
 
-        private async Task ConfigureAuthorizationHeaderAsync()
+        public async Task ConfigureAuthorizationHeaderAsync()
         {
             var token = await SecureStorage.GetAsync("jwt_token");
 

@@ -10,7 +10,8 @@ namespace ConectaProApp.Models.Enuns
     {
         ACEITO,
         PENDENTE, 
-        RECUSADO
+        RECUSADO,
+        FINALIZADO
 
     }
 }
