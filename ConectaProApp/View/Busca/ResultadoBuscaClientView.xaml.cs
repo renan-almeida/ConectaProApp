@@ -3,6 +3,7 @@ using ConectaProApp.ViewModels.Cliente;
 using ConectaProApp.ViewModels.Prestador;
 using System.Text.Json;
 using Microsoft.Maui.Controls;
+using System.Collections.ObjectModel;
 
 namespace ConectaProApp.View.Busca;
 
@@ -24,16 +25,14 @@ public partial class ResultadoBuscaClientView : ContentPage
 
     public void OnVoltarClicked(object sender, TappedEventArgs e)
     {
-        // Exemplo: Voltar para a página anterior
         Navigation.PopAsync();
-        DisplayAlert("Info", "Foto da empresa clicada.", "OK");
     }
 
     public void OnFotoEmpresaClicked(object sender, TappedEventArgs e)
     {
-        // Lógica simples apenas para corrigir o erro
-        DisplayAlert("Info", "Foto da empresa clicada.", "OK");
+        Shell.Current.FlyoutIsPresented = true; 
     }
+
 
     public ResultadoBuscaClientView()
 	{

@@ -94,6 +94,14 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(termo))
+                {
+                    await Application.Current.MainPage
+                        .DisplayAlert("Aviso",
+                        "Digite o nome ou categoria do prestador que deseja buscar",
+                        "OK");
+                }
+
                 var listaPrestadores = await pService.BuscarPrestadorAsync(termo);
 
                 if (listaPrestadores != null)
@@ -102,9 +110,8 @@ namespace ConectaProApp.ViewModels.Cliente
                     foreach (var prestador in listaPrestadores)
                         PrestadoresEncontrados.Add(prestador);
 
-                    // (Opcional) Redireciona para uma página que exibe os resultados
-                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaClientView),
-                        new Dictionary<string, object> { { "Prestadores", listaPrestadores } });
+                    var json = JsonSerializer.Serialize(listaPrestadores);
+                    await Shell.Current.GoToAsync($"resultadoBuscaClientView?Prestadores={Uri.EscapeDataString(json)}");
                 }
             }
             catch (Exception ex)
