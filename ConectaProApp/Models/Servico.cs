@@ -31,6 +31,10 @@ namespace ConectaProApp.Models
         public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
         public string FotoServico { get; set; }
 
+        public int IdSolicitacao { get; set; }
+
+        public StatusOrcamentoEnum StatusOrcamento { get; set; }
+            = StatusOrcamentoEnum.ORCAMENTO;
     }
 }
 

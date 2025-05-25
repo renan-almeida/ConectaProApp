@@ -12,6 +12,8 @@ namespace ConectaProApp.Models
     {
         [JsonProperty("idUsuario")]
         public int Id { get; set; }
+
+
         [JsonProperty("titulo")]
         public string Titulo { get; set; }
         [JsonProperty("descricao")]
@@ -34,5 +36,11 @@ namespace ConectaProApp.Models
         public int NvlUrgenciaEnum { get; set; }
         [JsonProperty("fotoServico")]
         public string FotoServico { get; set; }
+
+        [JsonProperty("idSolicitacao")]
+        public int IdSolicitacao { get; set; }
+
+        [JsonProperty("idPrestador")]
+        public int IdPrestador { get; set; }
     }
 }

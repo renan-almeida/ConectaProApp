@@ -123,7 +123,7 @@
                             
                             BorderColor="White"
                             BorderWidth="1"
-                            Command="{Binding PropostaCommand}"/>
+                            Command="{Binding CriarSolicitacaoCommand}"/>
                     
                     <Button Text="➕"
                             FontSize="16"

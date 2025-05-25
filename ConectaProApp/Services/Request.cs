@@ -86,6 +86,21 @@ namespace ConectaProApp.Services
             }
         }
 
+        public async Task<HttpResponseMessage> PutAsync<T>(string uri, T data, string token)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = null;
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            var content = new StringContent(JsonConvert.SerializeObject(data));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            return await httpClient.PutAsync(uri, content);
+        }
+
 
 
     }
