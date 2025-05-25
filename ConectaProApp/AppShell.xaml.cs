@@ -14,7 +14,7 @@ namespace ConectaProApp
             Routing.RegisterRoute("prestador", typeof(HomePrestador));
             Routing.RegisterRoute("cliente", typeof(HomeClient));
             Routing.RegisterRoute("resultadoBuscaPrestadorView", typeof(ResultadoBuscaPrestadorView));
-            Routing.RegisterRoute("resultadoBuscaClienteView", typeof(ResultadoBuscaClientView));
+            Routing.RegisterRoute("resultadoBuscaClientView", typeof(ResultadoBuscaClientView));
 
         }
 
