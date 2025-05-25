@@ -39,13 +39,14 @@ namespace ConectaProApp.ViewModels.Servico
         {
             get
             {
-                if (string.IsNullOrEmpty(FotoServico))
+                if (!string.IsNullOrEmpty(FotoServico))
                     return ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(FotoServico)));
 
-                if (string.IsNullOrEmpty(FotoPerfilEmpresa))
+                if (!string.IsNullOrEmpty(FotoPerfilEmpresa))
                     return ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(FotoPerfilEmpresa)));
 
                 return "empresasemfoto.png";
+
 
             }
         }

@@ -124,13 +124,14 @@
                     </VerticalStackLayout>
                 </Frame>
                 <Button Text="Solicitar"
-                    WidthRequest="240"
-                    HeightRequest="50"
-                    CornerRadius="15"
-                    BackgroundColor="#0f5cc2"
-                    BorderColor="Black"
-                    BorderWidth="1"
-                    FontSize="28"/>
+                        Clicked="OnFinalizarClicked"
+                        WidthRequest="240"
+                        HeightRequest="50"
+                        CornerRadius="15"
+                        BackgroundColor="#0f5cc2"
+                        BorderColor="Black"
+                        BorderWidth="1"
+                        FontSize="28"/>
 
             </VerticalStackLayout>
         </Grid>

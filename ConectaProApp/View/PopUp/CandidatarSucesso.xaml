@@ -21,7 +21,7 @@
              HorizontalOptions="Center"
              Margin="0,10,0,0"/>
             <Label 
-             Text="Aguarde o contato da Etec Horácio"
+             Text="Aguarde o contato da Empresa"
              FontSize="14"
              TextColor="#888"
              HorizontalOptions="Center"

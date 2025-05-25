@@ -70,17 +70,18 @@ namespace ConectaProApp.ViewModels.Prestador
                     await App.Current.MainPage.DisplayAlert("Aviso", "Nenhum serviço encontrado.", "OK");
                     return;
                 }
-
-                if (listaServicos != null)
-                {
                     ServicosEncontrados.Clear();
                     foreach (var servico in listaServicos)
                         ServicosEncontrados.Add(servico);
 
-                    
-                    var json = JsonSerializer.Serialize(listaServicos);
-                    await Shell.Current.GoToAsync($"resultadoBuscaPrestadorView?Servicos={Uri.EscapeDataString(json)}");
-                }
+
+                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
+                          new Dictionary<string, object>
+                          {
+                            { "Servicos", listaServicos },
+                            { "TituloBusca", $"Resultados encontrados para \"{categoria}\""}
+                          });
+                
             }
             catch (Exception ex)
             {
@@ -103,8 +104,12 @@ namespace ConectaProApp.ViewModels.Prestador
 
                 if (listaServicos != null && listaServicos.Any())
                 {
-                    var json = JsonSerializer.Serialize(listaServicos);
-                    await Shell.Current.GoToAsync($"resultadoBuscaPrestadorView?Servicos={Uri.EscapeDataString(json)}");
+                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
+                         new Dictionary<string, object>
+                         {
+                            { "Prestadores", listaServicos },
+                            { "TituloBusca", $"Resultados encontrados para \"{termo}\""}
+                         });
                 }
                 else
                 {

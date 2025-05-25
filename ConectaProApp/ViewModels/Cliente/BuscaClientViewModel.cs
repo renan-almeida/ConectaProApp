@@ -1,4 +1,5 @@
-﻿using ConectaProApp.Services.Prestador;
+﻿using ConectaProApp.Models;
+using ConectaProApp.Services.Prestador;
 using ConectaProApp.View.Busca;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace ConectaProApp.ViewModels.Cliente
     public class BuscaClientViewModel: BaseViewModel
     {
         private readonly PrestadorService pService;
-        public ObservableCollection<Models.Prestador> PrestadoresEncontrados { get; set; }
+        public ObservableCollection<PrestadorResponseBuscaDTO> PrestadoresEncontrados { get; set; }
         public ICommand AcionarBuscaCommand { get; set; }
         public ICommand PrestadorTecnologiaCommand { get; set; }
         public ICommand PrestadorConstrucaoCommand { get; set; }
@@ -31,7 +32,7 @@ namespace ConectaProApp.ViewModels.Cliente
             pService = new PrestadorService();
             InitializeCommands();
             CarregarFotoEmpresaAsync();
-            PrestadoresEncontrados = new ObservableCollection<Models.Prestador>();
+            PrestadoresEncontrados = new ObservableCollection<PrestadorResponseBuscaDTO>();
         }
 
         private void InitializeCommands()
@@ -80,11 +81,14 @@ namespace ConectaProApp.ViewModels.Cliente
                     foreach (var prestador in listaPrestadores)
                         PrestadoresEncontrados.Add(prestador);
 
-                    // (Opcional) Redireciona para uma página que exibe os resultados
-                    var json = JsonSerializer.Serialize(listaPrestadores);
-                    await Shell.Current.GoToAsync($"resultadoBuscaClienteView?Prestadores={Uri.EscapeDataString(json)}");
+                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaClientView),
+                        new Dictionary<string, object>
+                        {
+                            { "Prestadores", listaPrestadores },
+                            { "TituloBusca", $"Prestadores encontrados para \"{categoria}\""}
+                        });
                 }
-            }
+             }
             catch (Exception ex)
             {
                 Console.WriteLine("Erro ao buscar Prestadores: " + ex.Message);
@@ -104,7 +108,11 @@ namespace ConectaProApp.ViewModels.Cliente
 
                     // (Opcional) Redireciona para uma página que exibe os resultados
                     await Shell.Current.GoToAsync(nameof(ResultadoBuscaClientView),
-                        new Dictionary<string, object> { { "Prestadores", listaPrestadores } });
+                        new Dictionary<string, object> 
+                        {
+                            { "Prestadores", listaPrestadores },
+                            { "TituloBusca", $"Resultados encontrados para \"{termo}\""}
+                        });
                 }
             }
             catch (Exception ex)

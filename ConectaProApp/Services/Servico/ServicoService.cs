@@ -25,7 +25,7 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string buscaServicoEndpoint = "/servicos/buscar";
@@ -51,7 +51,7 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string buscaServicoEndpoint = "/servicos/buscar";
@@ -78,7 +78,7 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string urlComplementar = "/Servicos";
@@ -109,7 +109,7 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string urlComplementar = "/Prestador/Uf";
@@ -134,10 +134,10 @@ namespace ConectaProApp.Services.Servico
 
     public async Task<ServicoCreateDTO> PostRegistrarServicoAsync(ServicoCreateDTO s)
                     {
-     var token = Preferences.Get("token", string.Empty);
-     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            string urlComplementar = "/servicos/registro";
+            string urlComplementar = "/solicitacao/registro";
 
             var servicoRegistrado = await PostAsyncFlex<ServicoCreateDTO, ServicoCreateDTO>(
                 apiUrlBase + urlComplementar, s, string.Empty);

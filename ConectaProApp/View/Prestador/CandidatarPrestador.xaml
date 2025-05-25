@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Prestador.CandidatarPrestador"
-             Title="CandidatarPrestador"
-             BackgroundColor="White">
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
+             BackgroundColor="#f1f1f1">
     <ScrollView>
         <Grid RowDefinitions="Auto, *">
             <!-- Cabeçalho Azul -->
@@ -104,6 +104,7 @@
 
                         <Entry Placeholder="Defina um orçamento"
                         PlaceholderColor="Gray"
+                         Keyboard="Numeric"
                         WidthRequest="314"
                         HeightRequest="0"
                        BackgroundColor="Transparent"
@@ -115,18 +116,24 @@
                         ItemsSource="{Binding FormasPagto }"
                         SelectedItem="{Binding FormaPagtoSelecionado}"
                         HorizontalOptions="Center"/>
-                        
-                        <Entry Placeholder="Data inicial do serviço"
-                             PlaceholderColor="Gray"
-                             WidthRequest="314"
-                             HeightRequest="0"
-                            Text="{Binding DataInicial}"/>
 
-                        <Entry Placeholder="Data final do serviço"
-                         PlaceholderColor="Gray"
-                         WidthRequest="314"
-                         HeightRequest="0"
-                         Text="{Binding DataFinal}"/>
+                        <Label Text="Data inicial do serviço"
+                               TextColor="#b2a9a9"
+                               HorizontalOptions="Center"/>
+                        <DatePicker
+                                    MaximumDate="{x:Static sys:DateTime.Today}"
+                                    Format="dd/MM/yyyy"
+                                     WidthRequest="314"
+                                     HeightRequest="0"
+                                    Date="{Binding DataInicial, Mode=TwoWay}"/>
+
+                        <DatePicker 
+                            TextColor="Black"
+                            WidthRequest="314"
+                            FontSize="15"
+                            Date="{Binding DataFinal, Mode=TwoWay}"
+                            Format="dd/MM/yyyy"
+                            MaximumDate="{x:Static sys:DateTime.Today}"/>
 
 
                     </VerticalStackLayout>

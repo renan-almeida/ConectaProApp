@@ -1,24 +1,45 @@
-﻿using ConectaProApp.ViewModels.Prestador;
-using System;
+﻿using ConectaProApp.Models;
+using ConectaProApp.ViewModels.Prestador;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using prestadorModel = ConectaProApp.Models.Prestador;
+
 namespace ConectaProApp.ViewModels.Cliente
 {
-    public class ResultadoBuscaClientViewModel: BaseViewModel
+    [QueryProperty(nameof(PrestadoresOriginais), "Prestadores")]
+    [QueryProperty(nameof(TituloBusca), "TituloBusca")]
+    public partial class ResultadoBuscaClientViewModel : BaseViewModel
     {
-        public ObservableCollection<PrestadorViewModel> Prestadores { get; set; }
+        [ObservableProperty]
+        private List<PrestadorResponseBuscaDTO> prestadoresOriginais;
 
-        public ResultadoBuscaClientViewModel(List<prestadorModel> prestadores)
+        [ObservableProperty]
+        private string tituloBusca;
+
+        public ObservableCollection<PrestadorViewModel> Prestadores { get; } = new();
+
+        public ResultadoBuscaClientViewModel()
         {
-            Prestadores = new ObservableCollection<PrestadorViewModel>(
-                prestadores.Select(p => new PrestadorViewModel(p))
-            );
+            // Lista inicializada acima
         }
 
-     
+        // Este método é gerado automaticamente quando a propriedade "PrestadoresOriginais" muda
+        partial void OnPrestadoresOriginaisChanged(List<PrestadorResponseBuscaDTO> value)
+        {
+            CarregarPrestadores();
+        }
+
+        private void CarregarPrestadores()
+        {
+            Prestadores.Clear();
+
+            if (prestadoresOriginais == null)
+                return;
+
+            foreach (var p in prestadoresOriginais)
+            {
+                Prestadores.Add(new PrestadorViewModel(p));
+            }
+        }
     }
 }

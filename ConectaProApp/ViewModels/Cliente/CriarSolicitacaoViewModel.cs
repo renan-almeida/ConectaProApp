@@ -4,6 +4,8 @@ using ConectaProApp.Models;
 using ConectaProApp.Models.Enuns;
 using ConectaProApp.Services.Servico;
 using ConectaProApp.View.Cliente.CriarSolicitacaoViews;
+using ConectaProApp.View.PopUp;
+using CommunityToolkit.Maui.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -230,20 +232,27 @@ namespace ConectaProApp.ViewModels.Cliente
 
             var novaSolicitacao = new ServicoCreateDTO
             {
-                Titulo = this.Titulo,
-                Descricao = this.Descricao,
-                Segmento = (int)tipoSegmentoEnum,
+                TituloSolicitacao = this.Titulo,
+                DescSolicitacao = this.Descricao,
+                TipoCategoriaEnum = tipoSegmentoEnum,
                 Logradouro = this.Logradouro,
                 Numero = this.Nro,
                 Cep = this.Cep,
-                ValorContratacao = this.ValorProposto,
-                NvlUrgenciaEnum = (int)urgenciaEnum,
-                FormaPagamento = (int)formaPagtoEnum,
+                ValorProposto = this.ValorProposto,
+                NvlUrgenciaEnum = urgenciaEnum,
+                FormaPagtoEnum = formaPagtoEnum,
                 FotoServico = FotoServico
             };
 
             var servicoRegistrado = await sService.PostRegistrarServicoAsync(novaSolicitacao);
+
+            if (servicoRegistrado != null)
+            {
+                Preferences.Set("idSolicitacao", servicoRegistrado.Id);
+            }
+
         }
+        
 
         public bool ValidarCampos(out string mensagemErro)
         {
@@ -254,7 +263,7 @@ namespace ConectaProApp.ViewModels.Cliente
                  string.IsNullOrWhiteSpace(Logradouro) ||
                  Nro == 0 ||
                  string.IsNullOrWhiteSpace(Cep) ||
-                 ValorProposto == null ||
+                 ValorProposto == 0 ||
                  string.IsNullOrWhiteSpace(UrgenciaSelecionada) ||
                  string.IsNullOrWhiteSpace(FormaPagtoSelecionado))
             {

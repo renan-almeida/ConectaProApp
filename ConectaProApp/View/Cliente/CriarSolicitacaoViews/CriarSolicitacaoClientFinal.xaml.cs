@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Views;
+using ConectaProApp.View.PopUp;
 using ConectaProApp.ViewModels.Cliente;
 
 
@@ -14,6 +16,22 @@ public partial class CriarSolicitacaoClientFinal : ContentPage
 		_criarSolicitacaoViewModel = new CriarSolicitacaoViewModel();
 		this.BindingContext = _criarSolicitacaoViewModel;
 	}
+
+    private async void OnFinalizarClicked(object sender, EventArgs e)
+    {
+        if (BindingContext is CriarSolicitacaoViewModel vm)
+        {
+            await vm.FinalizarSolicitacao();
+
+            var popup = new CriarSolicitacaoSucessoPopup();
+            await this.ShowPopupAsync(popup);
+
+            await Task.Delay(3000);
+
+            await Navigation.PushAsync(new HomeClient());
+        }
+    }
+
 
     private void OnFotoEmpresaClicked(object sender, EventArgs e)
     {

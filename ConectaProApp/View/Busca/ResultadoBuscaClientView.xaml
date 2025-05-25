@@ -54,7 +54,12 @@
                     </Image>
                 </Frame>
             </Grid>
-
+            
+               <Label Text="{Binding TituloBusca}"
+                      FontSize="Title"
+                      HorizontalOptions="Center"
+                      TextColor="Black"/>
+            
                 <CollectionView ItemsSource="{Binding Prestadores}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

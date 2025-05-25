@@ -4,8 +4,60 @@
              x:Class="ConectaProApp.View.Busca.ResultadoBuscaPrestadorView">
     <ScrollView>
         <VerticalStackLayout>
+            <Grid RowDefinitions="Auto, *">
+                <!-- Cabeçalho Azul -->
+                <Grid Grid.Row="0" VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-        <CollectionView ItemsSource="{Binding Servicos}">
+                    <!-- Icone voltar -->
+                    <Image  Source="iconevoltar.png"
+                             HeightRequest="30"
+                             WidthRequest="30"
+                             VerticalOptions="Center"
+                             Grid.Column="0">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnVoltarClicked" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
+
+                    <!-- Foto da Empresa logada -->
+                    <Frame  HeightRequest="40" 
+                WidthRequest="40"
+                CornerRadius="20"
+                HasShadow="False"
+                Padding="0"
+                BackgroundColor="White"
+                BorderColor="#0f5cc2"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                Grid.Column="2">
+                        <Image Source="{Binding FotoEmpresaUrl, Mode=OneWay}" 
+                  Aspect="AspectFill" 
+                  HeightRequest="40" WidthRequest="40"
+  >
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
+                            </Image.GestureRecognizers>
+                            <Image.Clip>
+                                <EllipseGeometry 
+                       Center="20,20"
+                       RadiusX="20"
+                       RadiusY="20"/>
+                            </Image.Clip>
+                        </Image>
+                    </Frame>
+                </Grid>
+                <Label Text="{Binding TituloBusca}"
+                       FontSize="Title"
+                       HorizontalOptions="Center"
+                       TextColor="Black"/>
+            <CollectionView ItemsSource="{Binding Servicos}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border Stroke="Black"
@@ -107,7 +159,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-    </VerticalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

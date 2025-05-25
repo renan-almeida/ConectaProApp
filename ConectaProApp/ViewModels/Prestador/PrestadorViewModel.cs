@@ -11,9 +11,9 @@ namespace ConectaProApp.ViewModels.Prestador
 {
     public class PrestadorViewModel: BaseViewModel
     {
-        private readonly prestadorModel prestador;
+        private readonly PrestadorResponseBuscaDTO prestador;
 
-        public PrestadorViewModel(prestadorModel prestador)
+        public PrestadorViewModel(PrestadorResponseBuscaDTO prestador)
         {
             this.prestador = prestador;
 
