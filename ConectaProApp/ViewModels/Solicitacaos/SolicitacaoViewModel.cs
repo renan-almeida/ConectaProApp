@@ -14,6 +14,7 @@ using ConectaProApp.Services.Solicitacao;
 using ConectaProApp.ViewModels;
 
 
+/*oi*/
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
     public class SolicitacaoViewModel : INotifyPropertyChanged
