@@ -15,4 +15,8 @@ public partial class ResultadoBuscaPrestadorView : ContentPage
         Shell.Current.GoToAsync("..");
     }
 
+    private void OnFotoEmpresaClicked(object sender, EventArgs e)
+    {
+        Shell.Current.FlyoutIsPresented = true;
+    }
 }

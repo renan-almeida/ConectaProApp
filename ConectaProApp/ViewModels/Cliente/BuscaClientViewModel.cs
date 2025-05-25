@@ -98,6 +98,14 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(termo))
+                {
+                    await Application.Current.MainPage
+                        .DisplayAlert("Aviso",
+                        "Digite o nome ou categoria do prestador que deseja buscar",
+                        "OK");
+                }
+
                 var listaPrestadores = await pService.BuscarPrestadorAsync(termo);
 
                 if (listaPrestadores != null)
@@ -113,6 +121,7 @@ namespace ConectaProApp.ViewModels.Cliente
                             { "Prestadores", listaPrestadores },
                             { "TituloBusca", $"Resultados encontrados para \"{termo}\""}
                         });
+
                 }
             }
             catch (Exception ex)

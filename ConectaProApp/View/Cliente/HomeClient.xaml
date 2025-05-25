@@ -84,7 +84,7 @@
                                TextColor="Black"
                                />
                         <HorizontalStackLayout Spacing="8">
-                            <Label Text="Prestador de , "
+                            <Label Text="Prestador André, "
                                     FontSize="12"
                                    TextColor="Black"/>
                             
@@ -123,7 +123,7 @@
                             
                             BorderColor="White"
                             BorderWidth="1"
-                            Command="{Binding PropostaCommand}"/>
+                            Command="{Binding CriarSolicitacaoCommand}"/>
                     
                     <Button Text="➕"
                             FontSize="16"

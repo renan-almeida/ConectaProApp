@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:ConectaProApp.ViewModels.Solicitacaos"
              x:Class="ConectaProApp.View.Cliente.MinhaContaClient"
              BackgroundColor="#f1f1f1">
-    
+
+    <ContentPage.BindingContext>
+        <viewmodels:SolicitacaoViewModel />
+    </ContentPage.BindingContext>
+
     <ScrollView>
         <Grid RowDefinitions="Auto, *">
             <!-- Cabeçalho Azul -->
-            <Grid VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
+            <Grid VerticalOptions="Start" BackgroundColor="#0f5cc2" HeightRequest="58" Padding="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Logo ConectaPro -->
-                <Image Source="conectapro_logo.png"
-                HeightRequest="40"
-                VerticalOptions="Center"
-                Grid.Column="0"/>
+                <Image Source="conectapro_logo.png" HeightRequest="40" VerticalOptions="Center" Grid.Column="0" />
 
-                <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
-
-                <!-- Foto da Empresa logada -->
                 <Frame HeightRequest="40" WidthRequest="40"
                       CornerRadius="20"
                       HasShadow="False"
@@ -32,82 +30,119 @@
                       VerticalOptions="Center"
                       HorizontalOptions="End"
                       Grid.Column="2">
-                    <Image Source="{Binding FotoEmpresaUrl}" 
-                          Aspect="AspectFill" 
-                          HeightRequest="40" WidthRequest="40"
-                  >
+                    <Image Source="{Binding FotoEmpresaUrl}"
+                           Aspect="AspectFill"
+                           HeightRequest="40" WidthRequest="40">
                         <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
+                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked" />
                         </Image.GestureRecognizers>
                         <Image.Clip>
-                            <EllipseGeometry 
-                               Center="20,20"
-                               RadiusX="20"
-                               RadiusY="20"/>
+                            <EllipseGeometry Center="20,20" RadiusX="20" RadiusY="20" />
                         </Image.Clip>
                     </Image>
                 </Frame>
             </Grid>
-            <VerticalStackLayout Spacing="0">
-                <!-- Header com imagem de fundo -->
-                <Grid Margin="0,57,0,0">
-                    <Image x:Name="headerClienteImage" Source="fundoperfil.jpg" Aspect="AspectFill" HeightRequest="137">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnHeaderClienteTapped" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                </Grid>
 
-                <!-- Avatar sobreposto ao fundo -->
-                <Frame WidthRequest="120"
-                       HeightRequest="120"
-                       CornerRadius="65"
-                       IsClippedToBounds="True"
-                       BorderColor="White"
+            <Grid>
+                <Image x:Name="headerClienteImage"
+                       Source="fundoperfil.jpg"
+                       Aspect="AspectFill"
+                       HeightRequest="150">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnHeaderClienteTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+
+            <Grid HorizontalOptions="Center" Margin="0,-60,0,0">
+                <Frame WidthRequest="120" HeightRequest="120"
+                       CornerRadius="60"
                        BackgroundColor="White"
-                       Margin="0,20,0,0">
-                    
+                       IsClippedToBounds="True"
+                       BorderColor="#eeeeee"
+                       VerticalOptions="Center">
                     <Image x:Name="avatarImageClient"
                            Source="minhaconta.png"
-                           Aspect="AspectFill"
-                           WidthRequest="120"
-                           HeightRequest="120">
-                        
+                           Aspect="AspectFill">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnAvatarClientTapped" />
                         </Image.GestureRecognizers>
                     </Image>
                 </Frame>
+            </Grid>
 
-                <!-- Informações do usuário -->
-                <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="#f1f1f1">
-                    <!-- Nome do usuário -->
-                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
-                        <Entry x:Name="NomeEntry" Text="Etec Horácio Augusto" FontSize="20" FontAttributes="Bold" TextColor="Black" TextChanged="OnNomeChanged" />
-                        <ImageButton Source="edit.png" WidthRequest="24" HeightRequest="24" BackgroundColor="Transparent" />
-                    </HorizontalStackLayout>
+            <VerticalStackLayout Spacing="0">
+                <!-- Nome e descrição -->
+                <VerticalStackLayout Padding="20,0" Spacing="5">
+                    <Entry x:Name="NomeEntry"
+                       TextColor="Black"
+                       Placeholder="Nome do Cliente"
+                       FontAttributes="Bold"
+                       FontSize="20"
+                       HorizontalTextAlignment="Center"
+                       TextChanged="OnNomeChanged" />
 
-                    <!-- Descrição do usuário -->
-                    <Editor x:Name="DescricaoEditor" Text="Somos da Etec Horácio Augusto da Silveira."
-         FontSize="14" TextColor="Gray" HorizontalOptions="Fill" TextChanged="OnDescricaoChanged" />
+                    <Editor x:Name="DescricaoEditor"
+                        TextColor="Black"
+                        Placeholder="Sobre o cliente"
+                        FontSize="14"
+                        AutoSize="TextChanges"
+                        TextChanged="OnDescricaoChanged"
+                        Margin="0,0,0,10"
+                        HorizontalOptions="Center" />
                 </VerticalStackLayout>
 
-                <!-- Espaçamento entre a Label e os Botões -->
-                <BoxView HeightRequest="100" Color="#f1f1f1" />
-
-                <!-- Botões de navegação -->
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="18" Padding="0">
+                <!-- Abas -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="18" Padding="10">
                     <Button Text="Solicitações" BackgroundColor="#0f5cc2" TextColor="White"
-                            CornerRadius="20" WidthRequest="117"/>
-                    
+                            CornerRadius="20" WidthRequest="117" Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasCliente" />
+
                     <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White"
-                            CornerRadius="20" WidthRequest="117" />
-                    
+                            CornerRadius="20" WidthRequest="117" Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasPrestador" />
+
                     <Button Text="Histórico" BackgroundColor="#0f5cc2" TextColor="White"
-                            CornerRadius="20" WidthRequest="117" />
+                            CornerRadius="20" WidthRequest="117" Command="{Binding SelecionarAbaCommand}" CommandParameter="HistoricoCliente" />
                 </HorizontalStackLayout>
 
-                <!-- Avaliação -->
+                <CollectionView ItemsSource="{Binding PropostasCliente}" IsVisible="{Binding PropostasClienteVisivel}" />
+                <CollectionView ItemsSource="{Binding ServicosAtivosPrestador}" IsVisible="{Binding ServicosPrestadorVisivel}" />
+                <CollectionView ItemsSource="{Binding HistoricoCliente}" IsVisible="{Binding HistoricoClienteVisivel}" />
+
+                <!-- Lista de Solicitações -->
+                <CollectionView ItemsSource="{Binding PropostasCliente}" Margin="15,10" IsVisible="{Binding PropostasClienteVisivel}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Descricao}" FontAttributes="Bold" FontSize="16" />
+                                    <Label Text="Valor: {Binding ValorProposto, StringFormat='R$ {0:F2}'}" FontSize="14" />
+                                    <HorizontalStackLayout HorizontalOptions="End">
+                                        <Button Text="ACEITAR" Command="{Binding AceitarSolicitacaoCommand}" CommandParameter="{Binding IdSolicitacao}" />
+                                        <Button Text="RECUSAR" Command="{Binding RecusarSolicitacaoCommand}" CommandParameter="{Binding IdSolicitacao}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Lista de Histórico -->
+                <CollectionView ItemsSource="{Binding PropostasPrestador}" Margin="15,10" IsVisible="{Binding PropostasPrestadorVisivel}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Descricao}" FontAttributes="Bold" FontSize="16" />
+                                    <Label Text="Valor: {Binding ValorProposto, StringFormat='R$ {0:F2}'}" FontSize="14" />
+                                    <Button Text="Reofertar"
+                            Command="{Binding ReofertarSolicitacaoCommand}"
+                            CommandParameter="{Binding IdSolicitacao}"
+                            HorizontalOptions="End"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
             </VerticalStackLayout>
         </Grid>

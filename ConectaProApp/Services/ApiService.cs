@@ -59,7 +59,7 @@ namespace ConectaProApp.Services
             throw new Exception($"Erro ao buscar dados: {response.ReasonPhrase}");
         }
 
-        private async Task ConfigureAuthorizationHeaderAsync()
+        public async Task ConfigureAuthorizationHeaderAsync()
         {
             var token = await SecureStorage.GetAsync("jwt_token");
 
@@ -67,6 +67,12 @@ namespace ConectaProApp.Services
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
+        }
+
+        public async Task<bool> DeleteAsync(string endpoint)
+        {
+            var response = await _httpClient.DeleteAsync(endpoint);
+            return response.IsSuccessStatusCode;
         }
 
         public class TokenResponse
