@@ -10,37 +10,35 @@ namespace ConectaProApp.Models
 {
     public class ServicoCreateDTO
     {
-        [JsonProperty("idUsuario")]
+        [JsonProperty("idSolicitacao")]
         public int Id { get; set; }
 
 
-        [JsonProperty("titulo")]
-        public string Titulo { get; set; }
-        [JsonProperty("descricao")]
-        public string Descricao { get; set; }
-        [JsonProperty("especialidade")]
+        [JsonProperty("tituloSolicitacao")]
+        public string TituloSolicitacao { get; set; }
+        [JsonProperty("descSolicitacao")]
+        public string DescSolicitacao { get; set; }
+        [JsonProperty("dataInclusao")]
+        public string dataInclusao { get; set; }
         public string Especialidade { get; set; }
-        [JsonProperty("segmento")]
-        public int Segmento { get; set; }
-        [JsonProperty("valorContratacao")]
-        public float ValorContratacao { get; set; }
+        [JsonProperty("tipoCategoriaEnum")]
+        public TipoSegmentoEnum TipoCategoriaEnum { get; set; }
+        [JsonProperty("valorProposto")]
+        public decimal ValorProposto { get; set; }
         [JsonProperty("logradouro")]
         public string Logradouro { get; set; }
         [JsonProperty("cep")]
         public string Cep { get; set; }
         [JsonProperty("numero")]
         public int Numero { get; set; }
-        [JsonProperty("formaPagamento")]
-        public int FormaPagamento { get; set; }
-        [JsonProperty("nivelUrgencia")]
-        public int NvlUrgenciaEnum { get; set; }
+        [JsonProperty("formaPagtoEnum")]
+        public FormaPagtoEnum FormaPagtoEnum { get; set; }
+        [JsonProperty("nvlUrgenciaEnum")]
+        public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
+        [JsonProperty("statusSolicitacaoEnum")]
+        public StatusServicoEnum StatusSolicitacaoEnum { get; set; }
+
         [JsonProperty("fotoServico")]
         public string FotoServico { get; set; }
-
-        [JsonProperty("idSolicitacao")]
-        public int IdSolicitacao { get; set; }
-
-        [JsonProperty("idPrestador")]
-        public int IdPrestador { get; set; }
     }
 }

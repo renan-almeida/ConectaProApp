@@ -39,13 +39,14 @@ namespace ConectaProApp.ViewModels.Servico
         {
             get
             {
-                if (string.IsNullOrEmpty(FotoServico))
+                if (!string.IsNullOrEmpty(FotoServico))
                     return ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(FotoServico)));
 
-                if (string.IsNullOrEmpty(FotoPerfilEmpresa))
+                if (!string.IsNullOrEmpty(FotoPerfilEmpresa))
                     return ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(FotoPerfilEmpresa)));
 
                 return "empresasemfoto.png";
+
 
             }
         }
@@ -65,7 +66,7 @@ namespace ConectaProApp.ViewModels.Servico
         }
 
         public ICommand VerMaisCommand { get; }
-        public ICommand CandidatarCommand { get;}
+        public ICommand CandidatarCommand { get; }
 
         private async Task CriarOrcamento()
         {
@@ -80,7 +81,7 @@ namespace ConectaProApp.ViewModels.Servico
             }
         }
 
-      
+
 
     }
 }

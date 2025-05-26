@@ -63,9 +63,9 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             _solicitacaoService = new SolicitacaoService(new HttpClient(), new ApiService());
 
             EnviarPropostaCommand = new Command<int>(async (idSolicitacao) => await EnviarPropostaAsync(idSolicitacao));
-            AceitarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.ACEITO));
-            RecusarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.RECUSADO));
-            FinalizarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.FINALIZADO));
+            AceitarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.ACEITA));
+            RecusarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.RECUSADA));
+            FinalizarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.FINALIZADA));
             ReofertarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.PENDENTE));
             RemoverSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await RemoverSolicitacaoAsync(idSolicitacao));
             SelecionarAbaCommand = new Command<string>(aba => AbaAtual = aba);
@@ -138,7 +138,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             var propostas = await _solicitacaoService.BuscarSolicitacoesPorClienteAsync(idCliente);
             foreach (var p in propostas)
             {
-                if (p.StatusOrcamentoEnum == StatusOrcamentoEnum.ACEITO || p.StatusOrcamentoEnum == StatusOrcamentoEnum.FINALIZADO)
+                if (p.StatusOrcamentoEnum == StatusOrcamentoEnum.ACEITA || p.StatusOrcamentoEnum == StatusOrcamentoEnum.FINALIZADA)
                     HistoricoCliente.Add(p);
                 else
                     PropostasCliente.Add(p);
@@ -159,10 +159,10 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                     case StatusOrcamentoEnum.PENDENTE:
                         SolicitacoesRecebidas.Add(o);
                         break;
-                    case StatusOrcamentoEnum.ACEITO:
+                    case StatusOrcamentoEnum.ACEITA:
                         ServicosAtivosPrestador.Add(o);
                         break;
-                    case StatusOrcamentoEnum.RECUSADO:
+                    case StatusOrcamentoEnum.RECUSADA:
                         SolicitacoesRecusadas.Add(o);
                         break;
                 }

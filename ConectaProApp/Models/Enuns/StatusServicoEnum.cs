@@ -8,10 +8,10 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum StatusServicoEnum
     {
-        ORCAMENTO,
-        APROVADO,
-        AGENDADO,
-        CANCELADO,
-        FINALIZADO
+        ORCAMENTO = 1,
+        APROVADO = 2,
+        PENDENTE_PAGTO = 3,
+        CANCELADO = 4,
+        FINALIZADO = 5
     }
 }

@@ -47,7 +47,8 @@ namespace ConectaProApp.ViewModels.Prestador
             MecanicoSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Mecanico"));
             PinturaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Pintura"));
             MotoristaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Motorista"));
-            AcionarBuscaCommand = new Command(async () => await BuscarServicosPorTermo(TermoBusca));        }
+            AcionarBuscaCommand = new Command(async () => await BuscarServicosPorTermo(TermoBusca));
+        }
 
         private string termoBusca;
         public string TermoBusca
@@ -70,17 +71,18 @@ namespace ConectaProApp.ViewModels.Prestador
                     await App.Current.MainPage.DisplayAlert("Aviso", "Nenhum serviço encontrado.", "OK");
                     return;
                 }
+                ServicosEncontrados.Clear();
+                foreach (var servico in listaServicos)
+                    ServicosEncontrados.Add(servico);
 
-                if (listaServicos != null)
-                {
-                    ServicosEncontrados.Clear();
-                    foreach (var servico in listaServicos)
-                        ServicosEncontrados.Add(servico);
 
-                    
-                    var json = JsonSerializer.Serialize(listaServicos);
-                    await Shell.Current.GoToAsync($"resultadoBuscaPrestadorView?Servicos={Uri.EscapeDataString(json)}");
-                }
+                await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
+                      new Dictionary<string, object>
+                      {
+                            { "Servicos", listaServicos },
+                            { "TituloBusca", $"Resultados encontrados para \"{categoria}\""}
+                      });
+
             }
             catch (Exception ex)
             {
@@ -92,7 +94,7 @@ namespace ConectaProApp.ViewModels.Prestador
         {
             try
             {
-                if(string.IsNullOrWhiteSpace(termo))
+                if (string.IsNullOrWhiteSpace(termo))
                 {
                     await Application.Current.MainPage
                         .DisplayAlert("Aviso",
@@ -103,8 +105,12 @@ namespace ConectaProApp.ViewModels.Prestador
 
                 if (listaServicos != null && listaServicos.Any())
                 {
-                    var json = JsonSerializer.Serialize(listaServicos);
-                    await Shell.Current.GoToAsync($"resultadoBuscaPrestadorView?Servicos={Uri.EscapeDataString(json)}");
+                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
+                         new Dictionary<string, object>
+                         {
+                            { "Prestadores", listaServicos },
+                            { "TituloBusca", $"Resultados encontrados para \"{termo}\""}
+                         });
                 }
                 else
                 {

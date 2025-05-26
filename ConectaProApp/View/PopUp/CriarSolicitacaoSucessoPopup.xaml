@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="ConectaProApp.View.PopUp.CriarSolicitacaoSucessoPopup">
+    <Frame
+         BackgroundColor="White"
+         CornerRadius="12"
+         BorderColor="Black"
+         Padding="29"
+         HasShadow="False"
+         HorizontalOptions="Center"
+         VerticalOptions="Center">
+        <VerticalStackLayout>
+            <Label 
+                 Text="Candidatura formalizada com sucesso!"
+                 FontAttributes="Bold"
+                 TextColor="Black"
+                 FontSize="18"
+                 HorizontalOptions="Center"
+                 Margin="0,10,0,0"/>
+            <Label 
+                 Text="Aguarde o contato da Empresa"
+                 FontSize="14"
+                 TextColor="#888"
+                 HorizontalOptions="Center"
+                 Margin="0,20,0,10"/>
+            <Image 
+                 Source="confirme.png" 
+                 HeightRequest="80"
+                 WidthRequest="80"
+                 HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </Frame>
+</toolkit:Popup>

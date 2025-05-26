@@ -34,7 +34,7 @@ namespace ConectaProApp.Models
         public int IdSolicitacao { get; set; }
 
         public StatusOrcamentoEnum StatusOrcamento { get; set; }
-            = StatusOrcamentoEnum.ORCAMENTO;
+           
     }
 }
 

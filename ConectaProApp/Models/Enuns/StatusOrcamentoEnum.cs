@@ -8,11 +8,10 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum StatusOrcamentoEnum
     {
-        ORCAMENTO,
-        ACEITO,
-        PENDENTE, 
-        RECUSADO,
-        FINALIZADO
+        ACEITA = 1,
+        PENDENTE = 2,
+        RECUSADA = 3, 
+        FINALIZADA = 4
 
     }
 }

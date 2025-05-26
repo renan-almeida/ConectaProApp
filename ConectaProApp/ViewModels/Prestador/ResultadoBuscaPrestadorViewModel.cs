@@ -1,20 +1,47 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ConectaProApp.ViewModels.Servico;
 using ServicoModel = ConectaProApp.Models.Servico;
 
 namespace ConectaProApp.ViewModels.Prestador
 {
-    public class ResultadoBuscaPrestadorViewModel : BaseViewModel
+    [QueryProperty(nameof(ServicosOriginais), "Servicos")]
+    [QueryProperty(nameof(TituloBusca), "TituloBusca")]
+    public partial class ResultadoBuscaPrestadorViewModel : BaseViewModel
     {
-        public ObservableCollection<ServicoViewModel> Servicos { get; set; }
+        // O CommunityToolkit vai gerar a propriedade pública automaticamente
+        [ObservableProperty]
+        private List<ServicoModel> servicosOriginais;
 
-        public ResultadoBuscaPrestadorViewModel(List<ServicoModel> servicos)
+        [ObservableProperty]
+        private string tituloBusca;
+
+        // Lista observável usada para a tela (exibida na UI)
+        public ObservableCollection<ServicoViewModel> Servicos { get; } = new();
+
+        public ResultadoBuscaPrestadorViewModel()
         {
-            Servicos = new ObservableCollection<ServicoViewModel>(
-                    (servicos ?? new List<ServicoModel>()).Select(s => new ServicoViewModel(s))
-    );
+            // Nada a fazer aqui já que a lista Servicos é inicializada diretamente
+        }
+
+        // Método parcial gerado automaticamente quando servicosOriginais muda
+        partial void OnServicosOriginaisChanged(List<ServicoModel> value)
+        {
+            CarregarServicos();
+        }
+
+        private void CarregarServicos()
+        {
+            Servicos.Clear();
+
+            if (ServicosOriginais == null)
+                return;
+
+            foreach (var servico in ServicosOriginais)
+            {
+                Servicos.Add(new ServicoViewModel(servico));
+            }
         }
     }
 }

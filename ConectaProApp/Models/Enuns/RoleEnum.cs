@@ -10,6 +10,8 @@ namespace ConectaProApp.Models.Enuns
     public enum RoleEnum
     {
             ADMIN,
-            USER
+            USER,
+            PRESTADOR,
+            CLIENTE
     }
 }

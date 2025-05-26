@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ConectaProApp.Models.Enuns;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +10,13 @@ namespace ConectaProApp.Models
 {
     public class PrestadorResponseBuscaDTO
     {
-        public string CaminhoFoto { get; set; } 
+        [JsonProperty("idPrestador")]
+        public int idPrestador { get; set; }
+        [JsonProperty("caminhoFoto")]
+        public string CaminhoFoto { get; set; }
+        [JsonProperty("nome")]
         public string Nome { get; set; }
-        public string Segmento { get; set; }
+        [JsonProperty("tipoCategoria")]
+        public List<string> TipoCategoria { get; set; }
     }
 }

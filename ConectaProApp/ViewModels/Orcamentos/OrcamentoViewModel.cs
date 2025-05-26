@@ -50,9 +50,9 @@ namespace ConectaProApp.ViewModels.Orcamentos
             _orcamentoService = new OrcamentoService(new HttpClient(), new ApiService());
 
             EnviarPropostaCommand = new Command(async () => await EnviarPropostaAsync());
-            AceitarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.ACEITO));
-            RecusarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.RECUSADO));
-            FinalizarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.FINALIZADO));
+            AceitarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.ACEITA));
+            RecusarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.RECUSADA));
+            FinalizarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.FINALIZADA));
             ReofertarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.PENDENTE));
             RemoverSolicitacaoCommand = new Command<int>(async (id) => await RemoverSolicitacaoAsync(id));
             SelecionarAbaCommand = new Command<string>(aba => AbaAtual = aba);
@@ -128,7 +128,7 @@ namespace ConectaProApp.ViewModels.Orcamentos
             var propostas = await _orcamentoService.BuscarOrcamentosPorClienteAsync(idCliente);
             foreach (var p in propostas)
             {
-                if (p.StatusOrcamentoEnum == StatusOrcamentoEnum.ACEITO || p.StatusOrcamentoEnum == StatusOrcamentoEnum.FINALIZADO)
+                if (p.StatusOrcamentoEnum == StatusOrcamentoEnum.ACEITA || p.StatusOrcamentoEnum == StatusOrcamentoEnum.FINALIZADA)
                     HistoricoCliente.Add(p);
                 else
                     PropostasCliente.Add(p);
@@ -149,10 +149,10 @@ namespace ConectaProApp.ViewModels.Orcamentos
                     case StatusOrcamentoEnum.PENDENTE:
                         OrcamentosRecebidos.Add(o);
                         break;
-                    case StatusOrcamentoEnum.ACEITO:
+                    case StatusOrcamentoEnum.ACEITA:
                         ServicosAtivosPrestador.Add(o);
                         break;
-                    case StatusOrcamentoEnum.RECUSADO:
+                    case StatusOrcamentoEnum.RECUSADA:
                         OrcamentosRecusados.Add(o);
                         break;
                 }

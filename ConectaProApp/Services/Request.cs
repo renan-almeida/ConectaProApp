@@ -86,6 +86,36 @@ namespace ConectaProApp.Services
             }
         }
 
+        public async Task<TRetorno> PostAsyncFlexToken<TEnvio, TRetorno>(string uri, TEnvio data, string token)
+        {
+            httpClient.DefaultRequestHeaders.Authorization
+            = new AuthenticationHeaderValue("Bearer", token);
+
+            var content = new StringContent(JsonConvert.SerializeObject(data));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await httpClient.PostAsync(uri, content);
+            string serialized = await response.Content.ReadAsStringAsync();
+
+
+            var jsonBody = JsonConvert.SerializeObject(data);
+            Console.WriteLine("🔵 JSON ENVIADO:");
+            Console.WriteLine(jsonBody);
+
+
+            Console.WriteLine("🔴 ERRO DA API:");
+            Console.WriteLine(serialized);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<TRetorno>(serialized);
+            }
+            else
+            {
+                throw new Exception($"Erro na requisição: {response.StatusCode} - {serialized}");
+            }
+        }
+
         public async Task<HttpResponseMessage> PutAsync<T>(string uri, T data, string token)
         {
             httpClient.DefaultRequestHeaders.Authorization = null;

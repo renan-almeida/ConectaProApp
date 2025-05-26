@@ -9,14 +9,14 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum TipoPlanoEnum
     {
-        [Description ("Premium")]
-        PREMIUM = 1,
+        [Description ("Start")]
+        START = 1,
 
-        [Description ("Padrão")]
-        PADRÃO = 2,
+        [Description ("Pro")]
+        PRO = 2,
 
-        [Description("Básico")]
-        BÁSICA = 3
+        [Description("Executive")]
+        EXECUTIVE = 3
 
 
 

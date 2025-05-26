@@ -30,22 +30,22 @@ namespace ConectaProApp.Services.Prestador
         }
 
         // Buscar prestador pelo nome ou segmento
-        public async Task<List<Models.Prestador>> BuscarPrestadorAsync(string termo)
+        public async Task<List<PrestadorResponseBuscaDTO>> BuscarPrestadorAsync(string termo)
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 
-                const string buscaServicoEndpoint = "/prestador/buscar";
+                const string buscaServicoEndpoint = "/busca-prestadores";
                 termo = Uri.EscapeDataString(termo);
-
+                
                 var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?termo={termo}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<Models.Prestador>>(json);
+                    return JsonSerializer.Deserialize<List<PrestadorResponseBuscaDTO>>(json);
                 }
             }
             catch (Exception ex)
@@ -53,14 +53,14 @@ namespace ConectaProApp.Services.Prestador
                 Console.WriteLine("Erro ao buscar prestador: " + ex.Message);
             }
 
-            return new List<Models.Prestador>();
+            return new List<PrestadorResponseBuscaDTO>();
         }
 
-    public async Task<List<Models.Prestador>> BuscarPrestadorPorCategoriaAsync(string categoria)
+    public async Task<List<PrestadorResponseBuscaDTO>> BuscarPrestadorPorCategoriaAsync(string categoria)
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string buscaServicoEndpoint = "/prestador/buscar";
@@ -71,7 +71,7 @@ namespace ConectaProApp.Services.Prestador
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<Models.Prestador>>(json);
+                    return JsonSerializer.Deserialize<List<PrestadorResponseBuscaDTO>>(json);
                 }
             }
             catch (Exception ex)
@@ -79,7 +79,7 @@ namespace ConectaProApp.Services.Prestador
                 Console.WriteLine("Erro ao buscar prestador: " + ex.Message);
             }
 
-            return new List<Models.Prestador>();
+            return new List<PrestadorResponseBuscaDTO>();
         }
     }
 }

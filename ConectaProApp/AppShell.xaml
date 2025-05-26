@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prestador="clr-namespace:ConectaProApp.View.Prestador"
     xmlns:cliente="clr-namespace:ConectaProApp.View.Cliente"
-    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutBehavior="Disabled"
     Title="ConectaProApp">
 
     <ShellContent Title="PropostaClient" ContentTemplate="{DataTemplate cliente:PropostaClient}" Route="PropostaClient" />

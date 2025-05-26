@@ -9,7 +9,7 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum StatusDisponibilidadeEnum
     {
-        [Description("Disponivel")]
+        [Description("DisponÍvel")]
         DISPONIVEL,
 
         [Description("Indisponivel")]

@@ -1,4 +1,5 @@
-﻿using ConectaProApp.Services.Prestador;
+﻿using ConectaProApp.Models;
+using ConectaProApp.Services.Prestador;
 using ConectaProApp.View.Busca;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ using System.Windows.Input;
 
 namespace ConectaProApp.ViewModels.Cliente
 {
-    public class BuscaClientViewModel: BaseViewModel
+    public class BuscaClientViewModel : BaseViewModel
     {
         private readonly PrestadorService pService;
-        public ObservableCollection<Models.Prestador> PrestadoresEncontrados { get; set; }
+        public ObservableCollection<PrestadorResponseBuscaDTO> PrestadoresEncontrados { get; set; }
         public ICommand AcionarBuscaCommand { get; set; }
         public ICommand PrestadorTecnologiaCommand { get; set; }
         public ICommand PrestadorConstrucaoCommand { get; set; }
@@ -31,18 +32,18 @@ namespace ConectaProApp.ViewModels.Cliente
             pService = new PrestadorService();
             InitializeCommands();
             CarregarFotoEmpresaAsync();
-            PrestadoresEncontrados = new ObservableCollection<Models.Prestador>();
+            PrestadoresEncontrados = new ObservableCollection<PrestadorResponseBuscaDTO>();
         }
 
         private void InitializeCommands()
         {
-           PrestadorTecnologiaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Tecnologia"));
+            PrestadorTecnologiaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Tecnologia"));
             PrestadorConstrucaoCommand = new Command(async () => await BuscarPrestadorPorCategoria("Construcao"));
             PrestadorLimpezaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Limpeza"));
-            PrestadorReparosCommand =  new Command(async () => await BuscarPrestadorPorCategoria("Reparos"));
+            PrestadorReparosCommand = new Command(async () => await BuscarPrestadorPorCategoria("Reparos"));
             PrestadorJardinagemCommand = new Command(async () => await BuscarPrestadorPorCategoria("Jardinagem"));
             PrestadorMecanicoCommand = new Command(async () => await BuscarPrestadorPorCategoria("Mecanico"));
-            PrestadorPinturaCommand =  new Command(async () => await BuscarPrestadorPorCategoria("Pintura"));
+            PrestadorPinturaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Pintura"));
             PrestadorMotoristaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Motorista"));
             AcionarBuscaCommand = new Command(async () => await BuscarPrestadorPorTermo(TermoDigitado));
         }
@@ -80,9 +81,12 @@ namespace ConectaProApp.ViewModels.Cliente
                     foreach (var prestador in listaPrestadores)
                         PrestadoresEncontrados.Add(prestador);
 
-                    // (Opcional) Redireciona para uma página que exibe os resultados
-                    var json = JsonSerializer.Serialize(listaPrestadores);
-                    await Shell.Current.GoToAsync($"resultadoBuscaClienteView?Prestadores={Uri.EscapeDataString(json)}");
+                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaClientView),
+                        new Dictionary<string, object>
+                        {
+                            { "Prestadores", listaPrestadores },
+                            { "TituloBusca", $"Prestadores encontrados para \"{categoria}\""}
+                        });
                 }
             }
             catch (Exception ex)
@@ -110,8 +114,14 @@ namespace ConectaProApp.ViewModels.Cliente
                     foreach (var prestador in listaPrestadores)
                         PrestadoresEncontrados.Add(prestador);
 
-                    var json = JsonSerializer.Serialize(listaPrestadores);
-                    await Shell.Current.GoToAsync($"resultadoBuscaClientView?Prestadores={Uri.EscapeDataString(json)}");
+                    // (Opcional) Redireciona para uma página que exibe os resultados
+                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaClientView),
+                        new Dictionary<string, object>
+                        {
+                            { "Prestadores", listaPrestadores },
+                            { "TituloBusca", $"Resultados encontrados para \"{termo}\""}
+                        });
+
                 }
             }
             catch (Exception ex)
@@ -125,7 +135,7 @@ namespace ConectaProApp.ViewModels.Cliente
 
             if (!string.IsNullOrEmpty(fotoSalva))
             {
-                FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(fotoSalva)));
+                 FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(fotoSalva)));
             }
             else
             {

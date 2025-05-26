@@ -3,101 +3,122 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Busca.ResultadoBuscaClientView"
              BackgroundColor="#f1f1f1">
+
     <ScrollView>
-        <VerticalStackLayout>
-        <Grid RowDefinitions="Auto, *">
-            <!-- Cabeçalho Azul -->
-            <Grid Grid.Row="0" VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
+        <!-- Aqui definimos o espaçamento entre o conteúdo e as bordas da tela -->
+        <VerticalStackLayout Spacing="15" Padding="20,10">
+
+            <!-- Cabeçalho -->
+            <Grid BackgroundColor="#020202"
+                  HeightRequest="58"
+                  Padding="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Icone voltar -->
-                <Image  Source="iconevoltar.png"
-                 HeightRequest="30"
-                 WidthRequest="30"
-                 VerticalOptions="Center"
-                 Grid.Column="0">
+                <Image Source="iconevoltar.png"
+                       HeightRequest="30"
+                       WidthRequest="30"
+                       VerticalOptions="Center"
+                       Grid.Column="0">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnVoltarClicked" />
                     </Image.GestureRecognizers>
                 </Image>
 
-                <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
-
-                <!-- Foto da Empresa logada -->
-                <Frame  HeightRequest="40" 
-                        WidthRequest="40"
-                        CornerRadius="20"
-                        HasShadow="False"
-                        Padding="0"
-                        BackgroundColor="White"
-                        BorderColor="#0f5cc2"
-                        VerticalOptions="Center"
-                        HorizontalOptions="End"
-                        Grid.Column="2">
-                    <Image Source="{Binding FotoEmpresaUrl, Mode=OneWay}" 
-                          Aspect="AspectFill" 
-                          HeightRequest="40" WidthRequest="40"
-          >
+                <Frame HeightRequest="40"
+                       WidthRequest="40"
+                       CornerRadius="20"
+                       HasShadow="False"
+                       Padding="0"
+                       BackgroundColor="White"
+                       BorderColor="#0f5cc2"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"
+                       Grid.Column="2">
+                    <Image Source="{Binding FotoEmpresaUrl}"
+                           Aspect="AspectFill"
+                           HeightRequest="40"
+                           WidthRequest="40">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
                         </Image.GestureRecognizers>
                         <Image.Clip>
-                            <EllipseGeometry 
-                               Center="20,20"
-                               RadiusX="20"
-                               RadiusY="20"/>
+                            <EllipseGeometry Center="20,20"
+                                             RadiusX="20"
+                                             RadiusY="20"/>
                         </Image.Clip>
                     </Image>
                 </Frame>
             </Grid>
 
-                <CollectionView ItemsSource="{Binding Prestadores}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Stroke="Black"
-                                    BackgroundColor="White"
-                                    StrokeThickness="1"
-                                    Margin="10"
-                                    Padding="10"
-                                    HeightRequest="112"
-                                    WidthRequest="381">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="10"/>
-                                </Border.StrokeShape>
+            <!-- Título -->
+            <Label Text="{Binding TituloBusca}"
+                   FontSize="Title"
+                   HorizontalOptions="Center"
+                   TextColor="Black"
+                   Margin="0,10,0,0"/>
 
-                                <HorizontalStackLayout Spacing="10">
-                                    <Border 
-                                        BackgroundColor="#D9D9D9"
+            <!-- Lista de Prestadores -->
+            <CollectionView ItemsSource="{Binding Prestadores}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Stroke="Black"
+                                BackgroundColor="White"
+                                StrokeThickness="1"
+                                Margin="0"
+                                Padding="10"
+                                HeightRequest="112">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+
+                            <HorizontalStackLayout Spacing="10">
+                                <Border BackgroundColor="#D9D9D9"
                                         WidthRequest="40"
                                         HeightRequest="40">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="100"/>
-                                        </Border.StrokeShape>
-                                        <Image Source="{Binding FotoPrestador}"
-                                               WidthRequest="30"
-                                               HeightRequest="30"/>
-                                    </Border>
-                                    <VerticalStackLayout Spacing="8">
-                                        <Label Text="{Binding Nome}"
-                                               FontSize="15"
-                                               FontAttributes="Bold"/>
-                                        <HorizontalStackLayout Spacing="3">
-                                            <Label Text="CATEGORIA: "
-                                               FontSize="10"/>
-                                            <Label Text="{Binding Segmento}"
-                                                   FontSize="10"/>
-                                        </HorizontalStackLayout>
-                                    </VerticalStackLayout>
-                                </HorizontalStackLayout>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Grid>
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="100"/>
+                                    </Border.StrokeShape>
+                                    <Image Source="{Binding FotoPrestador}"
+                                           WidthRequest="30"
+                                           HeightRequest="30"
+                                           Aspect="AspectFill"/>
+                                </Border>
+
+                                <VerticalStackLayout Spacing="10" Margin="0,32,10,10">
+                                    <Label Text="{Binding Nome}"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="Black"/>
+                                    <HorizontalStackLayout 
+                                        Spacing="3"
+                                        
+                                        HorizontalOptions="Start">
+                                        <Label Text="CATEGORIA:"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               
+                                             />
+                                        <Label Text="{Binding Segmento}"
+                                               FontSize="10"
+                                               TextColor="Black"/>
+                                    </HorizontalStackLayout>
+
+                                    <Label Text="VER MAIS"
+                                           FontSize="10"
+                                           />
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

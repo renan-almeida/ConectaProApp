@@ -34,13 +34,13 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                const string buscaServicoEndpoint = "/servicos/buscar";
+                
+                const string buscaServicoEndpoint = "/busca-solicitacoes/";
                 termo = Uri.EscapeDataString(termo);
 
-                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?termo={termo}");
+                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}termo={termo}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -60,7 +60,7 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string buscaServicoEndpoint = "/servicos/buscar";
@@ -87,7 +87,7 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string urlComplementar = "/Servicos";
@@ -143,12 +143,12 @@ namespace ConectaProApp.Services.Servico
 
         public async Task<ServicoCreateDTO> PostRegistrarServicoAsync(ServicoCreateDTO s)
                     {
-     var token = Preferences.Get("token", string.Empty);
-     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            string urlComplementar = "/servicos/registro";
+            string urlComplementar = "/solicitacao/registro";
 
-            var servicoRegistrado = await PostAsyncFlex<ServicoCreateDTO, ServicoCreateDTO>(
+            var servicoRegistrado = await PostAsyncFlexToken<ServicoCreateDTO, ServicoCreateDTO>(
                 apiUrlBase + urlComplementar, s, string.Empty);
 
             return servicoRegistrado;
@@ -156,7 +156,7 @@ namespace ConectaProApp.Services.Servico
 
         public async Task<ServicoModel> EnviarPropostaAsync(ServicoCreateDTO proposta)
         {
-            var token = Preferences.Get("token", string.Empty);
+            var token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             const string url = "/servicos/propostas";

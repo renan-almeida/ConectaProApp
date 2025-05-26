@@ -7,22 +7,10 @@ using System.Collections.ObjectModel;
 
 namespace ConectaProApp.View.Busca;
 
-[QueryProperty(nameof(PrestadoresJson), "Prestadores")]
 public partial class ResultadoBuscaClientView : ContentPage
 {
-       private string _prestadoresJson;
 
-        public string PrestadoresJson
-        {
-            get => _prestadoresJson;
-            set
-            {
-                _prestadoresJson = Uri.UnescapeDataString(value);
-                var prestadores = JsonSerializer.Deserialize<List<Models.Prestador>>(_prestadoresJson);
-                BindingContext = new ResultadoBuscaClientViewModel(prestadores);
-            }
-        }
-
+    private ResultadoBuscaClientViewModel rsBuscaClientViewModel = new ResultadoBuscaClientViewModel();
     public void OnVoltarClicked(object sender, TappedEventArgs e)
     {
         Navigation.PopAsync();
@@ -37,5 +25,6 @@ public partial class ResultadoBuscaClientView : ContentPage
     public ResultadoBuscaClientView()
 	{
 		InitializeComponent();
+        BindingContext = rsBuscaClientViewModel;
 	}
 }

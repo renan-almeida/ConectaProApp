@@ -153,7 +153,7 @@ namespace ConectaProApp.ViewModels.Usuarios
 
                  switch (usuarioAutenticado.TipoUsuario)
                     {
-                        case "EMPRESA":
+                        case "CLIENTE":
                             Application.Current.MainPage = new AppShell();
                             await Shell.Current.GoToAsync("//cliente"); 
                             break;

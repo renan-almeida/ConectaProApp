@@ -9,18 +9,21 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum FormaPagtoEnum
     {
-        [Description("Cartão")]
-        CARTÃO = 1,
-
         [Description("Dinheiro")]
-        DINHEIRO = 2,
+        DINHEIRO = 1,
+
+        [Description("Debito")]
+        DEBITO = 2,
+
+        [Description("Credito")]
+        CREDITO = 3,
 
         [Description("Pix")]
-        PIX = 3,
+        PIX = 4,
 
         [Description("Boleto")]
-        BOLETO = 4
+        BOLETO = 5
 
-       
+
     }
 }

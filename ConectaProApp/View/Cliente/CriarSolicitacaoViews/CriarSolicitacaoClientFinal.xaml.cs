@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Views;
+using ConectaProApp.View.PopUp;
 using ConectaProApp.ViewModels.Cliente;
 
 
@@ -7,13 +9,29 @@ namespace ConectaProApp.View.Cliente.CriarSolicitacaoViews;
 
 public partial class CriarSolicitacaoClientFinal : ContentPage
 {
-	private CriarSolicitacaoViewModel _criarSolicitacaoViewModel;
-	public CriarSolicitacaoClientFinal()
-	{
-		InitializeComponent();
-		_criarSolicitacaoViewModel = new CriarSolicitacaoViewModel();
-		this.BindingContext = _criarSolicitacaoViewModel;
-	}
+    private CriarSolicitacaoViewModel _criarSolicitacaoViewModel;
+    public CriarSolicitacaoClientFinal()
+    {
+        InitializeComponent();
+        _criarSolicitacaoViewModel = new CriarSolicitacaoViewModel();
+        this.BindingContext = _criarSolicitacaoViewModel;
+    }
+
+    private async void OnFinalizarClicked(object sender, EventArgs e)
+    {
+        if (BindingContext is CriarSolicitacaoViewModel vm)
+        {
+            await vm.FinalizarSolicitacao();
+
+            var popup = new CriarSolicitacaoSucessoPopup();
+            await this.ShowPopupAsync(popup);
+
+            await Task.Delay(3000);
+
+            await Navigation.PushAsync(new HomeClient());
+        }
+    }
+
 
     private void OnFotoEmpresaClicked(object sender, EventArgs e)
     {
@@ -55,12 +73,12 @@ public partial class CriarSolicitacaoClientFinal : ContentPage
                 var imageBytes = memoryStream.ToArray();
 
                 ImageServico.Source = ImageSource.FromStream(() => new MemoryStream(imageBytes));
-            
-                if(BindingContext is CriarSolicitacaoViewModel vm)
+
+                if (BindingContext is CriarSolicitacaoViewModel vm)
                 {
                     vm.FotoServico = Convert.ToBase64String(imageBytes);
                 }
-                
+
             }
         }
         catch (Exception ex)

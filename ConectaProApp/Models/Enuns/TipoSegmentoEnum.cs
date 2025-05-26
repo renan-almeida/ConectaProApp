@@ -9,36 +9,61 @@ namespace ConectaProApp.Models.Enuns
 {
     public enum TipoSegmentoEnum
     {
-        [Description("Limpeza")]
-
-        LIMPEZA = 1,
-
-        [Description("Reparos")]
-        REPAROS = 2,
-
         [Description("Tecnologia")]
-        TECNOLOGIA = 3,
+
+        TECNOLOGIA = 1,
+
+        [Description("Marketing")]
+        MARKETING = 2,
 
         [Description("Design")]
-        DESIGN = 4,
+        DESIGN = 3,
+
+        [Description("Redes")]
+        REDES = 4,
+
+        [Description("Internet")]
+        INTERNET = 5,
+
+        [Description("Telecomunicações")]
+        TELECOMUNICAÇÕES = 6,
+
+        [Description("Segurança")]
+        SEGURANÇA = 7,
+
+        [Description("Monitoramento")]
+        MONITORAMENTO = 8,
+
+        [Description("Residencial")]
+        RESIDENCIAL = 9,
+
+        [Description("Refrigeração")]
+        REFRIGERAÇÃO = 10,
+
+        [Description("Eletrica")]
+        ELETRICA = 11,
 
         [Description("Construção")]
-        CONSTRUÇÃO = 5,
+        CONSTRUÇÃO = 12,
+
+        [Description("Reparos")]
+        REPAROS = 13,
 
         [Description("Jardinagem")]
-        JARDINAGEM = 6,
+        JARDINAGEM = 14,
 
-        [Description("Pintura")]
-        PINTURA = 7,
+        [Description("Contabil")]
+        CONTABIL = 15,
 
-        [Description("Mecânico")]
-        MECANICO = 8,
+        [Description("Beleza")]
+        BELEZA = 16,
 
-        [Description("Motorista")]
-        MOTORISTA = 9,
+        [Description("Estetica")]
+        ESTETICA = 17,
 
         [Description("Outros")]
-        OUTROS = 10
+        OUTROS = 18
+
     }
 }
 
