@@ -84,7 +84,7 @@
                                TextColor="Black"
                                />
                         <HorizontalStackLayout Spacing="8">
-                            <Label Text="Prestador André, "
+                            <Label Text="Prestador, "
                                     FontSize="12"
                                    TextColor="Black"/>
                             

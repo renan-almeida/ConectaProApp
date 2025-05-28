@@ -65,10 +65,10 @@ namespace ConectaProApp.Services.Prestador
                 var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                const string buscaServicoEndpoint = "/prestador/buscar";
+                const string buscaServicoEndpoint = "/busca-prestadores";
                 categoria = Uri.EscapeDataString(categoria);
 
-                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
+                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?{categoria}");
 
                 if (response.IsSuccessStatusCode)
                 {

@@ -144,13 +144,17 @@
                                     Source="prestadortecnologia.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170" />
+                                    WidthRequest="170" >
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding TecnologiaSolicitacoesCommand}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
                                     <BoxView 
                                     BackgroundColor="#00000066" 
                                     HeightRequest="40"/>
                                     <Label 
                                     Text="Tecnologia"
-                                    TextColor="White"
+                                    TextColor="Black"
                                     FontAttributes="Bold"
                                     FontSize="15"
                                     HorizontalOptions="Center"
@@ -181,7 +185,11 @@
                                 Source="prestadorconstrucao.png" 
                                 Aspect="AspectFill"
                                 HeightRequest="93"
-                                WidthRequest="170" />
+                                WidthRequest="170" >
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding TecnologiaSolicitacoesCommand}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
                                     <BoxView 
                                     BackgroundColor="#00000066" 
                                     HeightRequest="40"/>
@@ -219,7 +227,11 @@
                                     Source="prestadorlimpeza.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170" />
+                                    WidthRequest="170" >
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding LimpezaSolicitacoesCommand}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
                                     <BoxView 
                                     BackgroundColor="#00000066" 
                                     HeightRequest="40"/>
@@ -256,7 +268,11 @@
                                     Source="prestadorreparos.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170" />
+                                    WidthRequest="170" >
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ReparosSolicitacoesCommand}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
                                     <BoxView 
                                     BackgroundColor="#00000066" 
                                     VerticalOptions="End"
@@ -293,7 +309,11 @@
                                     Source="prestadorjardinagem.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170" />
+                                    WidthRequest="170" >
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding JardinagemSolicitacoesCommand}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
                                     <BoxView 
                                     BackgroundColor="#00000066" 
                                     VerticalOptions="End"
@@ -316,7 +336,7 @@
                                 </Grid>
                             </Frame>
 
-                            <!-- Mecânico -->
+                            <!-- Estética -->
                             <Frame
                              CornerRadius="20"
                              Padding="0"

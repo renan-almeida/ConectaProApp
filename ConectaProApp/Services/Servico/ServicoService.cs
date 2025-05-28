@@ -64,6 +64,9 @@ namespace ConectaProApp.Services.Servico
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string buscaServicoEndpoint = "/servicos/buscar";
+
+                //busca-solicitacoes/uf=${}&termo=${}
+
                 categoria = Uri.EscapeDataString(categoria);
 
                 var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
