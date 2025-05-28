@@ -124,7 +124,7 @@
                     </VerticalStackLayout>
                 </Frame>
                 <Button Text="Solicitar"
-                        Clicked="OnFinalizarClicked"
+                        Command="{Binding FinalizarSolicitacaoCommand}"
                         WidthRequest="240"
                         HeightRequest="50"
                         CornerRadius="15"

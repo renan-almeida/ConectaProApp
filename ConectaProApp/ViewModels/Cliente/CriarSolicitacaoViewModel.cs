@@ -13,6 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Maui.Controls;
+using ConectaProApp.View.Cliente;
+using System.Globalization;
 
 namespace ConectaProApp.ViewModels.Cliente
 {
@@ -21,6 +24,7 @@ namespace ConectaProApp.ViewModels.Cliente
         private ServicoService sService;
         public ICommand EtapaDoisCommand { get; set; }
         public ICommand EtapaFinalCommand { get; set; }
+        public ICommand FinalizarSolicitacaoCommand { get; set; }
 
         public CriarSolicitacaoViewModel()
         {
@@ -75,13 +79,25 @@ namespace ConectaProApp.ViewModels.Cliente
             }
         }
 
-        private string logradouro;
-        public string Logradouro
+        private DateTime previsaoInicio;
+        public DateTime PrevisaoInicio
         {
-            get => logradouro;
+            get => previsaoInicio;
             set
             {
-                logradouro = value;
+                previsaoInicio = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private int duracaoServico;
+        public int DuracaoServico
+        {
+            get => duracaoServico;
+            set
+            {
+                duracaoServico = value;
                 OnPropertyChanged();
             }
         }
@@ -176,6 +192,7 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             EtapaDoisCommand = new Command(async () => await EtapaDois());
             EtapaFinalCommand = new Command(async () => await EtapaFinal());
+            FinalizarSolicitacaoCommand = new Command(async () => await FinalizarSolicitacao());
         }
 
         public async Task EtapaDois()
@@ -225,19 +242,25 @@ namespace ConectaProApp.ViewModels.Cliente
             Enum.TryParse(UrgenciaSelecionada, out NvlUrgenciaEnum urgenciaEnum);
             Enum.TryParse(FormaPagtoSelecionado, out FormaPagtoEnum formaPagtoEnum);
             Enum.TryParse(SegmentoSelecionado, out TipoSegmentoEnum tipoSegmentoEnum);
+            var previsaoInicioFormatada = PrevisaoInicio.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
+            if (!ValidarCampos(out string mensagemErro))
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "Ok");
+                return;
+            }
 
             var novaSolicitacao = new ServicoCreateDTO
             {
                 TituloSolicitacao = this.Titulo,
                 DescSolicitacao = this.Descricao,
-                TipoCategoriaEnum = tipoSegmentoEnum,
-                Logradouro = this.Logradouro,
-                Numero = this.Nro,
-                Cep = this.Cep,
                 ValorProposto = this.ValorProposto,
+                TipoCategoriaEnum = tipoSegmentoEnum,
+                PrevisaoInicio = previsaoInicioFormatada,
+                DuracaoServico = this.DuracaoServico, 
                 NvlUrgenciaEnum = urgenciaEnum,
                 FormaPagtoEnum = formaPagtoEnum,
+                StatusSolicitacaoEnum = StatusOrcamentoEnum.PENDENTE,
                 FotoServico = FotoServico
             };
 
@@ -246,6 +269,13 @@ namespace ConectaProApp.ViewModels.Cliente
             if (servicoRegistrado != null)
             {
                 Preferences.Set("idSolicitacao", servicoRegistrado.Id);
+
+                await Application.Current.MainPage.
+                    DisplayAlert("Solicitacao criada com sucesso!",
+                    "Aguarde o contato de um prestador", "OK");
+                await Task.Delay(1000);
+
+                await Application.Current.MainPage.Navigation.PushAsync(new HomeClient());
             }
 
         }
@@ -255,16 +285,12 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             if (string.IsNullOrWhiteSpace(Titulo) ||
                  string.IsNullOrWhiteSpace(Descricao) ||
-                 string.IsNullOrWhiteSpace(Especialidade) ||
-                 string.IsNullOrWhiteSpace(SegmentoSelecionado) ||
-                 string.IsNullOrWhiteSpace(Logradouro) ||
-                 Nro == 0 ||
-                 string.IsNullOrWhiteSpace(Cep) ||
+                 string.IsNullOrWhiteSpace(SegmentoSelecionado)  ||
                  ValorProposto == 0 ||
                  string.IsNullOrWhiteSpace(UrgenciaSelecionada) ||
                  string.IsNullOrWhiteSpace(FormaPagtoSelecionado))
             {
-                mensagemErro = "Por favor, preencha todos os campos antes de criar a solicitação!";
+                mensagemErro = "Por favor, preencha todos os campos nescessários antes de criar a solicitação!";
                 return false;
             }
 

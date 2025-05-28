@@ -149,7 +149,7 @@ namespace ConectaProApp.Services.Servico
             string urlComplementar = "/solicitacao/registro";
 
             var servicoRegistrado = await PostAsyncFlexToken<ServicoCreateDTO, ServicoCreateDTO>(
-                apiUrlBase + urlComplementar, s, string.Empty);
+                apiUrlBase + urlComplementar, s, token);
 
             return servicoRegistrado;
         }

@@ -16,7 +16,7 @@ public partial class CriarSolicitacaoClientFinal : ContentPage
         _criarSolicitacaoViewModel = new CriarSolicitacaoViewModel();
         this.BindingContext = _criarSolicitacaoViewModel;
     }
-
+    /*
     private async void OnFinalizarClicked(object sender, EventArgs e)
     {
         if (BindingContext is CriarSolicitacaoViewModel vm)
@@ -29,8 +29,8 @@ public partial class CriarSolicitacaoClientFinal : ContentPage
             await Task.Delay(3000);
 
             await Navigation.PushAsync(new HomeClient());
-        }
-    }
+       }
+    }*/
 
 
     private void OnFotoEmpresaClicked(object sender, EventArgs e)

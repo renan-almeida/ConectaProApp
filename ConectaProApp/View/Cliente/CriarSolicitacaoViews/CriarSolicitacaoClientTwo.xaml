@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Cliente.CriarSolicitacaoViews.CriarSolicitacaoClientTwo"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
              BackgroundColor="#f1f1f1">
     <ScrollView>
         <Grid RowDefinitions="Auto, *">
@@ -81,40 +82,25 @@
                     <VerticalStackLayout Spacing="28" Padding="36">
 
 
-
-                        <Entry Placeholder="Logradouro"
-                           PlaceholderColor="Gray"
-                           WidthRequest="314"
-                           HeightRequest="0"
-                          BackgroundColor="Transparent"
-                               Text="{Binding Logradouro, Mode=TwoWay}"
-                           />
-                        <Entry Placeholder="Nro"
+                        <Label Text="Estipule a previsão para o ínicio do serviço"
+                               FontSize="15"
+                               TextColor="Gray" />
+                        <DatePicker 
+                                x:Name="pickerPrevisaoInicio"
+                                Format="dd/MM/yyyy"
+                                WidthRequest="314"
+                                HeightRequest="0"
+                                BackgroundColor="White"
+                               Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
+                           
+                        <Entry Placeholder="Estipule a duração em dias do serviço"
                                Keyboard="Numeric"
                            PlaceholderColor="Gray"
                            WidthRequest="314"
                            HeightRequest="0"
-                               Text="{Binding Nro, Mode=TwoWay}"
-                               MaxLength="10"
+                               Text="{Binding duracaoServico, Mode=TwoWay}"
+                               MaxLength="2"
                                             />
-
-                        <Entry Placeholder="CEP"
-                               Keyboard="Numeric"
-                                PlaceholderColor="Gray"
-                                WidthRequest="314"
-                                HeightRequest="0"
-                               Text="{Binding Cep, Mode=TwoWay}"
-                               MaxLength="8"/>
-
-                        <Entry TextChanged="OnValorDispostoTextChanged"
-                                Placeholder="Valor Proposto a pagar R$"
-                                Keyboard="Numeric"
-                                PlaceholderColor="Gray"
-                                WidthRequest="314"
-                                HeightRequest="0"
-                                Text="{Binding ValorProposto, Mode=TwoWay}"
-                                />
-
                     </VerticalStackLayout>
                 </Frame>
                 <Button Text="Próximo"

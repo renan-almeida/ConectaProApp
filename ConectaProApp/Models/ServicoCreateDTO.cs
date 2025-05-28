@@ -20,6 +20,7 @@ namespace ConectaProApp.Models
         public string DescSolicitacao { get; set; }
         [JsonProperty("dataInclusao")]
         public string dataInclusao { get; set; }
+        [JsonProperty("especialidade")]
         public string Especialidade { get; set; }
         [JsonProperty("tipoCategoriaEnum")]
         public TipoSegmentoEnum TipoCategoriaEnum { get; set; }
@@ -35,10 +36,13 @@ namespace ConectaProApp.Models
         public FormaPagtoEnum FormaPagtoEnum { get; set; }
         [JsonProperty("nvlUrgenciaEnum")]
         public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
-        [JsonProperty("statusSolicitacaoEnum")]
-        public StatusServicoEnum StatusSolicitacaoEnum { get; set; }
-
         [JsonProperty("fotoServico")]
         public string FotoServico { get; set; }
+        [JsonProperty("previsaoInicio")]
+        public string PrevisaoInicio { get; set; }
+        [JsonProperty("duracaoServico")]
+        public int DuracaoServico { get; set; }
+        [JsonProperty("statusSolicitacaoEnum")]
+        public StatusOrcamentoEnum StatusSolicitacaoEnum { get; set; }
     }
 }

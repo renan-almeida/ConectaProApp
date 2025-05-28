@@ -98,11 +98,12 @@
                            Text="{Binding Descricao, Mode=TwoWay}"
                                             />
 
-                        <Entry Placeholder="Especialidade do serviço"
+                        <Entry Placeholder="Valor disposto a pagar R$"
                                 PlaceholderColor="Gray"
+                               Keyboard="Numeric"
                                 WidthRequest="314"
                                 HeightRequest="0"
-                               Text="{Binding Especialidade, Mode=TwoWay}"/>
+                               Text="{Binding ValorProposto, Mode=TwoWay}"/>
 
                         <Picker Title="Segmento do serviço desejado"
                             TitleColor="Gray"
