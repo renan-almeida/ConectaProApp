@@ -98,7 +98,7 @@
                            PlaceholderColor="Gray"
                            WidthRequest="314"
                            HeightRequest="0"
-                               Text="{Binding duracaoServico, Mode=TwoWay}"
+                               Text="{Binding DuracaoServico, Mode=TwoWay}"
                                MaxLength="2"
                                             />
                     </VerticalStackLayout>

@@ -16,21 +16,30 @@ public partial class CriarSolicitacaoClientFinal : ContentPage
         _criarSolicitacaoViewModel = new CriarSolicitacaoViewModel();
         this.BindingContext = _criarSolicitacaoViewModel;
     }
-    /*
+
     private async void OnFinalizarClicked(object sender, EventArgs e)
     {
         if (BindingContext is CriarSolicitacaoViewModel vm)
         {
-            await vm.FinalizarSolicitacao();
+            bool sucesso = await vm.FinalizarSolicitacao();
 
-            var popup = new CriarSolicitacaoSucessoPopup();
-            await this.ShowPopupAsync(popup);
+            if (sucesso)
+            {
+                var popup = new CriarSolicitacaoSucessoPopup();
+                popup.Closed += async (s, args) =>
+                {
+                    await Navigation.PushAsync(new HomeClient());
+                };
 
-            await Task.Delay(3000);
+                await this.ShowPopupAsync(popup);
+            }
+            else
+            {
+                await DisplayAlert("Erro", "Não foi possível criar a solicitação.", "OK");
+            }
+        }
+    }
 
-            await Navigation.PushAsync(new HomeClient());
-       }
-    }*/
 
 
     private void OnFotoEmpresaClicked(object sender, EventArgs e)

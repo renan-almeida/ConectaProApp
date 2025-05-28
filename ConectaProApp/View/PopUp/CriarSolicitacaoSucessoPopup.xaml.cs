@@ -6,5 +6,11 @@ public partial class CriarSolicitacaoSucessoPopup : Popup
 	public CriarSolicitacaoSucessoPopup()
 	{
 		InitializeComponent();
-	}
+
+        Task.Run(async () =>
+        {
+            await Task.Delay(3000);
+            MainThread.BeginInvokeOnMainThread(() => Close());
+        });
+    }
 }

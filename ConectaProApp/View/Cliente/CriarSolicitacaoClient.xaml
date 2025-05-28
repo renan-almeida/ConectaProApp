@@ -98,7 +98,8 @@
                            Text="{Binding Descricao, Mode=TwoWay}"
                                             />
 
-                        <Entry Placeholder="Valor disposto a pagar R$"
+                        <Entry  TextChanged="OnValorDispostoTextChanged"
+                                Placeholder="Valor disposto a pagar R$"
                                 PlaceholderColor="Gray"
                                Keyboard="Numeric"
                                 WidthRequest="314"

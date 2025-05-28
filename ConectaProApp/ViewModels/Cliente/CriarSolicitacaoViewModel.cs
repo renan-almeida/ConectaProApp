@@ -235,7 +235,7 @@ namespace ConectaProApp.ViewModels.Cliente
             }
         }
 
-        public async Task FinalizarSolicitacao()
+        public async Task<bool> FinalizarSolicitacao()
         {
       
 
@@ -247,7 +247,7 @@ namespace ConectaProApp.ViewModels.Cliente
             if (!ValidarCampos(out string mensagemErro))
             {
                 await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "Ok");
-                return;
+                return false;
             }
 
             var novaSolicitacao = new ServicoCreateDTO
@@ -265,19 +265,16 @@ namespace ConectaProApp.ViewModels.Cliente
             };
 
             var servicoRegistrado = await sService.PostRegistrarServicoAsync(novaSolicitacao);
-
+           
             if (servicoRegistrado != null)
             {
                 Preferences.Set("idSolicitacao", servicoRegistrado.Id);
-
-                await Application.Current.MainPage.
-                    DisplayAlert("Solicitacao criada com sucesso!",
-                    "Aguarde o contato de um prestador", "OK");
-                await Task.Delay(1000);
-
-                await Application.Current.MainPage.Navigation.PushAsync(new HomeClient());
+                await Application.Current.MainPage
+                    .DisplayAlert("Solicitação criada com sucesso!",
+                                    "Aguarde o contato de um prestador", "OK");
+                return true;
             }
-
+            return false; 
         }
 
 
@@ -286,7 +283,7 @@ namespace ConectaProApp.ViewModels.Cliente
             if (string.IsNullOrWhiteSpace(Titulo) ||
                  string.IsNullOrWhiteSpace(Descricao) ||
                  string.IsNullOrWhiteSpace(SegmentoSelecionado)  ||
-                 ValorProposto == 0 ||
+                 ValorProposto != 0 ||
                  string.IsNullOrWhiteSpace(UrgenciaSelecionada) ||
                  string.IsNullOrWhiteSpace(FormaPagtoSelecionado))
             {

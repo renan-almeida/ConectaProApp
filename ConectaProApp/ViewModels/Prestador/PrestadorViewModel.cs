@@ -17,21 +17,21 @@ namespace ConectaProApp.ViewModels.Prestador
         public PrestadorViewModel(PrestadorResponseBuscaDTO prestador)
         {
             this.prestador = prestador;
-            Nome = prestador.Nome;
-            Segmento = prestador.TipoCategoria;
+            Nome = string.IsNullOrEmpty(prestador.Nome) ? "Sem nome" : prestador.Nome;
+            Segmento = prestador.TipoCategoria != null && prestador.TipoCategoria.Any()
+             ? string.Join(", ", prestador.TipoCategoria)
+            : "Sem segmento";
+
             FotoPrestador = string.IsNullOrEmpty(prestador.CaminhoFoto) ? "prestadorsemfoto.png" : prestador.CaminhoFoto;
         }
 
         public string FotoPrestador { get; set; }
         public string Nome { get; set; }
-        public List<string> Segmento { get; set; }
-
+        public string Segmento { get; set; }
 
 
         public ICommand VerMaisCommand { get; set; }
         public ICommand CriarPropostaCommand { get; set; }
-
-
-
     }
 }
+

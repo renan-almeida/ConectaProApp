@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
+
 using System.Threading.Tasks;
 
 namespace ConectaProApp.Services.Prestador
@@ -45,7 +46,8 @@ namespace ConectaProApp.Services.Prestador
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<PrestadorResponseBuscaDTO>>(json);
+                    return JsonConvert.DeserializeObject<List<PrestadorResponseBuscaDTO>>(json);
+                    ;
                 }
             }
             catch (Exception ex)
@@ -71,7 +73,7 @@ namespace ConectaProApp.Services.Prestador
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<PrestadorResponseBuscaDTO>>(json);
+                    return JsonConvert.DeserializeObject<List<PrestadorResponseBuscaDTO>>(json);
                 }
             }
             catch (Exception ex)

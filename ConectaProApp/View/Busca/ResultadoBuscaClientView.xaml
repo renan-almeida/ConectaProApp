@@ -95,9 +95,9 @@
                                     <Label Text="{Binding Nome}"
                                            FontSize="15"
                                            FontAttributes="Bold"
-                                           TextColor="Black"/>
+                                           TextColor="black"/>
                                     <HorizontalStackLayout 
-                                        Spacing="3"
+                                        Spacing="5"
                                         
                                         HorizontalOptions="Start">
                                         <Label Text="CATEGORIA:"
@@ -106,12 +106,14 @@
                                                
                                              />
                                         <Label Text="{Binding Segmento}"
-                                               FontSize="10"
-                                               TextColor="Black"/>
+                                               FontSize="11"
+                                               TextColor="Black"
+                                               FontAttributes="Bold"/>
                                     </HorizontalStackLayout>
 
                                     <Label Text="VER MAIS"
                                            FontSize="10"
+                                           TextColor="black"
                                            />
                                 </VerticalStackLayout>
                             </HorizontalStackLayout>
