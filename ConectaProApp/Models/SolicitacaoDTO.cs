@@ -16,5 +16,7 @@ namespace ConectaProApp.Models
         public decimal ValorProposto { get; set; }
         public StatusOrcamentoEnum StatusOrcamentoEnum { get; set; } // PENDENTE, ACEITO, RECUSADO
         public DateTime DataCriacao { get; set; }
+
+        public string CaminhoFoto { get; set; }
     }
 }

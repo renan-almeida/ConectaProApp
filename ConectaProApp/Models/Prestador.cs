@@ -22,5 +22,9 @@ namespace ConectaProApp.Models
         public List<Avaliacao> Avaliacoes { get; set; }
         public List<Orcamento> Orcamentos { get; set; }
         public List<Servico> Servicos { get; set; }
+
+        public string CaminhoAvatar { get; set; }
+
+        public string CaminhoHeader { get; set; }
     }
 }

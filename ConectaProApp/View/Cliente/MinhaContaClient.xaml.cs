@@ -1,24 +1,23 @@
+using ConectaProApp.Services.Azure;
+
 namespace ConectaProApp.View.Cliente;
 
 public partial class MinhaContaClient : ContentPage
 {
-	public MinhaContaClient()
-	{
-		InitializeComponent();
+    private readonly BlobService _blobService = new BlobService();
 
-        var avatarPath = Path.Combine(FileSystem.AppDataDirectory, "avatar_client.png");
-        var headerPath = Path.Combine(FileSystem.AppDataDirectory, "header_cliente.png");
+    public MinhaContaClient()
+    {
+        InitializeComponent();
 
-        // Verificar se as imagens existem e carregá-las
-        if (File.Exists(avatarPath))
-        {
-            avatarImageClient.Source = ImageSource.FromFile(avatarPath);
-        }
+        var avatarUrl = Preferences.Get("CaminhoAvatarCliente", null);
+        var headerUrl = Preferences.Get("CaminhoHeaderCliente", null);
 
-        if (File.Exists(headerPath))
-        {
-            headerClienteImage.Source = ImageSource.FromFile(headerPath);
-        }
+        if (!string.IsNullOrEmpty(avatarUrl))
+            avatarImageClient.Source = ImageSource.FromUri(new Uri(avatarUrl));
+
+        if (!string.IsNullOrEmpty(headerUrl))
+            headerClienteImage.Source = ImageSource.FromUri(new Uri(headerUrl));
 
         NomeEntry.Text = Preferences.Get("NomeCliente", "Etec Horácio Augusto");
         DescricaoEditor.Text = Preferences.Get("DescricaoCliente", "Somos da Etec Horácio Augusto da Silveira.");
@@ -28,31 +27,21 @@ public partial class MinhaContaClient : ContentPage
     {
         try
         {
-            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
-            {
-                Title = "Selecione uma foto"
-            });
+            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions { Title = "Selecione uma foto" });
 
             if (photo != null)
             {
-                var stream = await photo.OpenReadAsync();
-
-                // Caminho para salvar a imagem localmente
-                var filePath = Path.Combine(FileSystem.AppDataDirectory, "avatar_client.png");
-
-                // Salvar a imagem no sistema de arquivos
-                using (var fileStream = File.Create(filePath))
+                var url = await _blobService.UploadImagemAsync(photo);
+                if (url != null)
                 {
-                    await stream.CopyToAsync(fileStream);
+                    Preferences.Set("CaminhoAvatarCliente", url);
+                    avatarImageClient.Source = ImageSource.FromUri(new Uri(url));
                 }
-
-                // Atualizar a imagem do avatar
-                avatarImageClient.Source = ImageSource.FromFile(filePath);
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erro", "Não foi possível selecionar a foto: " + ex.Message, "OK");
+            await DisplayAlert("Erro", "Erro ao selecionar a foto: " + ex.Message, "OK");
         }
     }
 
@@ -60,41 +49,29 @@ public partial class MinhaContaClient : ContentPage
     {
         try
         {
-            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
-            {
-                Title = "Selecione uma imagem para tecnologia"
-            });
+            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions { Title = "Selecione uma imagem para tecnologia" });
 
             if (photo != null)
             {
-                var stream = await photo.OpenReadAsync();
-
-                // Caminho para salvar a imagem localmente
-                var filePath = Path.Combine(FileSystem.AppDataDirectory, "header_cliente.png");
-
-                // Salvar a imagem no sistema de arquivos
-                using (var fileStream = File.Create(filePath))
+                var url = await _blobService.UploadImagemAsync(photo);
+                if (url != null)
                 {
-                    await stream.CopyToAsync(fileStream);
+                    Preferences.Set("CaminhoHeaderCliente", url);
+                    headerClienteImage.Source = ImageSource.FromUri(new Uri(url));
                 }
-
-                // Atualizar a imagem de "tecnologia"
-                headerClienteImage.Source = ImageSource.FromFile(filePath);
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erro", "Não foi possível selecionar a imagem: " + ex.Message, "OK");
+            await DisplayAlert("Erro", "Erro ao selecionar a imagem: " + ex.Message, "OK");
         }
     }
+
     private void OnNomeChanged(object sender, TextChangedEventArgs e)
     {
         try
         {
-            // Obter o novo valor do nome
             string novoNome = e.NewTextValue;
-
-            // Salvar o nome localmente
             Preferences.Set("NomeCliente", novoNome);
         }
         catch (Exception ex)
@@ -107,10 +84,7 @@ public partial class MinhaContaClient : ContentPage
     {
         try
         {
-            // Obter o novo valor da descrição
             string novaDescricao = e.NewTextValue;
-
-            // Salvar a descrição localmente
             Preferences.Set("DescricaoCliente", novaDescricao);
         }
         catch (Exception ex)

@@ -68,6 +68,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.22.0" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.3" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />

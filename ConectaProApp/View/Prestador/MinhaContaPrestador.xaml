@@ -36,12 +36,14 @@
                       VerticalOptions="Center"
                       HorizontalOptions="End"
                       Grid.Column="2">
-                    <Image Source="{Binding FotoPrestadorUrl}"
+                    <Image Source="{Binding FotoVM.FonteImagem}"
                            Aspect="AspectFill"
                            HeightRequest="40" WidthRequest="40">
                         <Image.Clip>
                             <EllipseGeometry Center="20,20" RadiusX="20" RadiusY="20" />
                         </Image.Clip>
+
+                        
                     </Image>
                 </Frame>
             </Grid>
@@ -50,7 +52,7 @@
                 <!-- Imagem de fundo -->
                 <Grid>
                     <Image x:Name="HeaderPrestadorImage"
-                       Source="fundoperfil.jpg"
+                       Source="{Binding FotoVM.FonteImagem}"
                        Aspect="AspectFill"
                        HeightRequest="150">
                         <Image.GestureRecognizers>
@@ -68,11 +70,14 @@
                        BorderColor="#eeeeee"
                        VerticalOptions="Center">
                         <Image x:Name="avatarPrestadorImage"
-                           Source="minhaconta.png"
+                           Source="{Binding FotoVM.FonteImagem}"
                            Aspect="AspectFill">
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnAvatarTapped" />
+                                <TapGestureRecognizer Tapped="OnAvatarPrestadorTapped" />
                             </Image.GestureRecognizers>
+                            <Image.Clip>
+                                <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60" />
+                            </Image.Clip>
                         </Image>
                     </Frame>
                 </Grid>

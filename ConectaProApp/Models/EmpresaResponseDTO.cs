@@ -22,6 +22,8 @@ namespace ConectaProApp.Models
         // Endereco
         public Endereco Endereco { get; set; }
 
+        public string CaminhoAvatar { get; set; }
 
+        public string CaminhoHeader { get; set; }
     }
 }

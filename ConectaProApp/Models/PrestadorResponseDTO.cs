@@ -25,5 +25,8 @@ namespace ConectaProApp.Models
         public Plano IdPlano { get; set; }
         public Endereco Endereco { get; set; }
 
+        public string CaminhoAvatar { get; set; }
+
+        public string CaminhoHeader { get; set; }
     }
 }

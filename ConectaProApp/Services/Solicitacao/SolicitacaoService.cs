@@ -129,5 +129,21 @@ namespace ConectaProApp.Services.Solicitacao
         {
             return await _apiService.DeleteAsync($"/solicitacoes/{id}");
         }
+
+        public async Task<string> UploadFotoAsync(int idSolicitacao, Stream fotoStream)
+        {
+            var content = new MultipartFormDataContent();
+            var streamContent = new StreamContent(fotoStream);
+            content.Add(streamContent, "file", "foto.jpg");
+
+            var response = await _httpClient.PostAsync($"api/solicitacoes/{idSolicitacao}/uploadFoto", content);
+
+            response.EnsureSuccessStatusCode();
+
+            // Supondo que sua API retorna a URL no corpo da resposta como texto simples
+            var url = await response.Content.ReadAsStringAsync();
+
+            return url;
+        }
     }
 }

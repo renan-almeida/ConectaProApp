@@ -1,89 +1,69 @@
+using ConectaProApp.Services.Azure;
+
 namespace ConectaProApp.View.Prestador;
 
 public partial class MinhaContaPrestador : ContentPage
 {
-	public MinhaContaPrestador()
-	{
-		InitializeComponent();
+    private readonly BlobService _blobService = new BlobService();
 
-        var avatarPath = Path.Combine(FileSystem.AppDataDirectory, "avatar_prestador.png");
-        var headerPath = Path.Combine(FileSystem.AppDataDirectory, "header_prestador.png");
+    public MinhaContaPrestador()
+    {
+        InitializeComponent();
 
-        if (File.Exists(avatarPath))
-        {
-            avatarPrestadorImage.Source = ImageSource.FromFile(avatarPath);
-        }
+        var avatarUrl = Preferences.Get("CaminhoAvatarPrestador", null);
+        var headerUrl = Preferences.Get("CaminhoHeaderPrestador", null);
 
-        if (File.Exists(headerPath))
-        {
-            HeaderPrestadorImage.Source = ImageSource.FromFile(headerPath);
-        }
+        if (!string.IsNullOrEmpty(avatarUrl))
+            avatarPrestadorImage.Source = ImageSource.FromUri(new Uri(avatarUrl));
+
+        if (!string.IsNullOrEmpty(headerUrl))
+            HeaderPrestadorImage.Source = ImageSource.FromUri(new Uri(headerUrl));
 
         NomeEntry.Text = Preferences.Get("NomePrestador", "Claudio de Freitas Silva");
         DescricaoEditor.Text = Preferences.Get("DescricaoPrestador", "Olá, me chamo Claudio, tenho 33 anos e sou programador Back-End Sênior.");
     }
 
-    private async void OnAvatarTapped(object sender, EventArgs e)
+    public async void OnAvatarPrestadorTapped(object sender, EventArgs e)
     {
         try
         {
-            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
-            {
-                Title = "Selecione uma foto"
-            });
+            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions { Title = "Selecione uma foto" });
 
             if (photo != null)
             {
-                var stream = await photo.OpenReadAsync();
-
-                // Caminho para salvar a imagem localmente
-                var filePath = Path.Combine(FileSystem.AppDataDirectory, "avatar_prestador.png");
-
-                // Salvar a imagem no sistema de arquivos
-                using (var fileStream = File.Create(filePath))
+                var url = await _blobService.UploadImagemAsync(photo);
+                if (url != null)
                 {
-                    await stream.CopyToAsync(fileStream);
+                    Preferences.Set("CaminhoAvatarPrestador", url);
+                    avatarPrestadorImage.Source = ImageSource.FromUri(new Uri(url));
                 }
-
-                // Atualizar a imagem do avatar
-                avatarPrestadorImage.Source = ImageSource.FromFile(filePath);
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erro", "Não foi possível selecionar a foto: " + ex.Message, "OK");
+            await DisplayAlert("Erro", "Erro ao selecionar a foto: " + ex.Message, "OK");
         }
     }
 
-    private async void OnHeaderPrestadorTapped(object sender, EventArgs e)
+    public async void OnHeaderPrestadorTapped(object sender, EventArgs e)
     {
         try
         {
-            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
-            {
-                Title = "Selecione uma imagem para tecnologia"
-            });
+            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions { Title = "Selecione uma imagem para tecnologia" });
 
             if (photo != null)
             {
-                var stream = await photo.OpenReadAsync();
-
-                // Caminho para salvar a imagem localmente
-                var filePath = Path.Combine(FileSystem.AppDataDirectory, "header_prestador.png");
-
-                // Salvar a imagem no sistema de arquivos
-                using (var fileStream = File.Create(filePath))
+                var url = await _blobService.UploadImagemAsync(photo);
+                if (url != null)
                 {
-                    await stream.CopyToAsync(fileStream);
+                    Preferences.Set("CaminhoHeaderPrestador", url);
+                    HeaderPrestadorImage.Source = ImageSource.FromUri(new Uri(url));
                 }
-
-                // Atualizar a imagem de "tecnologia"
-                HeaderPrestadorImage.Source = ImageSource.FromFile(filePath);
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Erro", "Não foi possível selecionar a imagem: " + ex.Message, "OK");
+            await DisplayAlert("Erro", "Erro ao selecionar a imagem: " + ex.Message, "OK");
         }
     }
 
@@ -91,10 +71,7 @@ public partial class MinhaContaPrestador : ContentPage
     {
         try
         {
-            // Obter o novo valor do nome
             string novoNome = e.NewTextValue;
-
-            // Salvar o nome localmente (exemplo: Preferences ou arquivo)
             Preferences.Set("NomePrestador", novoNome);
         }
         catch (Exception ex)
@@ -107,15 +84,17 @@ public partial class MinhaContaPrestador : ContentPage
     {
         try
         {
-            // Obter o novo valor da descrição
             string novaDescricao = e.NewTextValue;
-
-            // Salvar a descrição localmente (exemplo: Preferences ou arquivo)
             Preferences.Set("DescricaoPrestador", novaDescricao);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Erro ao salvar a descrição: {ex.Message}");
         }
+    }
+
+    private void OnFotoPrestadorClicked(object sender, EventArgs e)
+    {
+        Shell.Current.FlyoutIsPresented = true;
     }
 }

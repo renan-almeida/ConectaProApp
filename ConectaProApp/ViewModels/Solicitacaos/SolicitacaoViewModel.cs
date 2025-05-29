@@ -11,7 +11,9 @@ using System.Windows.Input;
 using ConectaProApp.Services;
 using ConectaProApp.Models;
 using ConectaProApp.Services.Solicitacao;
-using ConectaProApp.ViewModels;
+using ConectaProApp.ViewModels.Foto;
+using System.Diagnostics;
+using ConectaProApp.Services.Azure;
 
 
 /*oi*/
@@ -21,6 +23,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly SolicitacaoService _solicitacaoService;
+      
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string Descricao { get; set; }
@@ -29,6 +32,11 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         public int IdPrestador { get; set; }
         public int IdSolicitacao { get; set; }
         public int IdServico { get; set; } // ID do serviço associado à proposta
+
+       
+
+
+       
 
         private string _abaAtual;
         public string AbaAtual
@@ -39,6 +47,22 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 if (_abaAtual != value)
                 {
                     _abaAtual = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+       
+
+        private bool _isUploading;
+        public bool IsUploading
+        {
+            get => _isUploading;
+            set
+            {
+                if (_isUploading != value)
+                {
+                    _isUploading = value;
                     OnPropertyChanged();
                 }
             }
@@ -58,9 +82,21 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         public ICommand SelecionarAbaCommand { get; }
         public ICommand RemoverSolicitacaoCommand { get; }
 
+        public ICommand SelecionarFotoCommand { get; }
+
+        public FotoViewModel FotoVM { get;}
+
         public SolicitacaoViewModel()
         {
             _solicitacaoService = new SolicitacaoService(new HttpClient(), new ApiService());
+
+            var blobService = new BlobService();
+            var apiService = new ApiService(); // instância única e reutilizável
+
+            var endpointApi = "solicitacoes/foto"; // caminho relativo
+            var chavePreferencia = "foto_solicitacao";
+
+            FotoVM = new FotoViewModel(blobService, apiService, endpointApi, chavePreferencia);
 
             EnviarPropostaCommand = new Command<int>(async (idSolicitacao) => await EnviarPropostaAsync(idSolicitacao));
             AceitarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.ACEITA));
@@ -81,7 +117,9 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                     IdPrestador = IdPrestador,
                     IdSolicitacao = idSolicitacao, // Passando o ID da solicitação corretamente
                     Descricao = Descricao,
-                    ValorProposto = ValorProposto
+                    ValorProposto = ValorProposto,
+
+                   
                 };
 
                 await _solicitacaoService.EnviarPropostaAsync(idSolicitacao, proposta);
@@ -92,6 +130,8 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 await App.Current.MainPage.DisplayAlert("Erro", $"Falha ao enviar proposta: {ex.Message}", "OK");
             }
         }
+
+      
 
         private async Task AtualizarStatusAsync(int idSolicitacao, int idServico, StatusOrcamentoEnum novoStatus)
         {

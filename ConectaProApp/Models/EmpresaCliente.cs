@@ -13,7 +13,9 @@ namespace ConectaProApp.Models
         public string NomeFantasia { get; set; }
         public List<Servico> Servicos { get; set; }
        
+        public string CaminhoAvatar { get; set; }
 
+        public string CaminhoHeader { get; set; }
 
     }
 }

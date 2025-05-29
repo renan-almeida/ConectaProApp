@@ -36,6 +36,12 @@ namespace ConectaProApp.Models
         [JsonProperty("uf")]
         public UfEnum Uf { get; set; }
 
+        [JsonProperty("caminhoAvatar")]
+        public string CaminhoAvatar { get; set; }
+
+        [JsonProperty("caminhoHeader")]
+        public string CaminhoHeader { get; set; }
+
 
     }
 }

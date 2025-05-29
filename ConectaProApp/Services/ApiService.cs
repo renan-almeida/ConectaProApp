@@ -12,14 +12,20 @@ namespace ConectaProApp.Services
     // Fazer login e guardar o token de autenticação. Fazer chamadas GET autenticadas com esse token. Centralizar toda a comunicação segura com a API.
 
 
-
+    
 
     public class ApiService
     {
-        private static readonly HttpClient _httpClient = new HttpClient
+        private readonly HttpClient _httpClient;
+
+
+        public ApiService()
         {
-            BaseAddress = new Uri("https://conectapro-api.azurewebsites.net")
-        };
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://conectapro-api.azurewebsites.net/")
+            };
+        }
 
         public async Task<string> LoginAsync(string email, string senha)
         {
@@ -78,6 +84,21 @@ namespace ConectaProApp.Services
         public class TokenResponse
         {
             public string Token { get; set; }
+        }
+
+        public async Task<bool> AtualizarFotoPerfilAsync(string endpointApi, string urlFoto)
+        {
+            var token = await SecureStorage.GetAsync("jwt_token");
+            if (!string.IsNullOrEmpty(token))
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            else
+                _httpClient.DefaultRequestHeaders.Authorization = null;
+
+            var json = JsonSerializer.Serialize(new { FotoUrl = urlFoto });
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync(endpointApi, content);
+            return response.IsSuccessStatusCode;
         }
     }
 }
