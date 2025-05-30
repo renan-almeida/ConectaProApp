@@ -26,11 +26,13 @@ namespace ConectaProApp.ViewModels.Prestador
         public ICommand TecnologiaSolicitacoesCommand { get; set; }
         public ICommand ConstrucaoSolicitacoesCommand { get; set; }
         public ICommand LimpezaSolicitacoesCommand { get; set; }
-        public ICommand ReparosSolicitacoesCommand { get; set; }
+        public ICommand MarketingSolicitacoesCommand { get; set; }
         public ICommand JardinagemSolicitacoesCommand { get; set; }
-        public ICommand MecanicoSolicitacoesCommand { get; set; }
-        public ICommand PinturaSolicitacoesCommand { get; set; }
-        public ICommand MotoristaSolicitacoesCommand { get; set; }
+        public ICommand EsteticaSolicitacoesCommand { get; set; }
+        public ICommand RefrigeracaoSolicitacoesCommand { get; set; }
+        public ICommand EletricaSolicitacoesCommand { get; set; }
+        public ICommand DesignSolicitacoesCommand { get; set; }
+        public ICommand OutrosSolicitacoesCommand { get; set; }
         public ICommand AcionarBuscaCommand { get; set; }
 
         public BuscaPrestadorViewModel()
@@ -39,14 +41,16 @@ namespace ConectaProApp.ViewModels.Prestador
             ServicosEncontrados = new ObservableCollection<ServicoModel>();
 
             // Inicialização dos comandos com suas respectivas ações
-            TecnologiaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Tecnologia"));
-            ConstrucaoSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Construcao"));
-            LimpezaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Limpeza"));
-            ReparosSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Reparos"));
-            JardinagemSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Jardinagem"));
-            MecanicoSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Mecanico"));
-            PinturaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Pintura"));
-            MotoristaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("Motorista"));
+            TecnologiaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("TECNOLOGIA"));
+            ConstrucaoSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("CONSTRUCAO"));
+            LimpezaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("LIMPEZA"));
+            MarketingSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("MARKETING"));
+            JardinagemSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("JARDINAGEM"));
+            EsteticaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("ESTETICA"));
+            RefrigeracaoSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("REFRIGERACAO"));
+            EletricaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("ELETRICA"));
+            DesignSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("DESIGN"));
+          //  OutrosSolicitacoesCommand = new Command(await OutrasSolicitacoes());
             AcionarBuscaCommand = new Command(async () => await BuscarServicosPorTermo(TermoBusca));
         }
 
@@ -122,7 +126,20 @@ namespace ConectaProApp.ViewModels.Prestador
             {
                 Console.WriteLine("Erro ao buscar serviços por categoria: " + ex.Message);
             }
-        }
 
+            
+        }
+        private async Task OutrasSolicitacoes()
+        {
+            try
+            {
+             //   await Application.Current.MainPage.Navigation.PushAsync(new )
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

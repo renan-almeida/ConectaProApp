@@ -1,4 +1,5 @@
-﻿using ConectaProApp.Models;
+﻿
+using ConectaProApp.Models;
 using ConectaProApp.Services.Prestador;
 using ConectaProApp.View.Busca;
 using System;
@@ -20,13 +21,21 @@ namespace ConectaProApp.ViewModels.Cliente
         public ICommand PrestadorTecnologiaCommand { get; set; }
         public ICommand PrestadorConstrucaoCommand { get; set; }
         public ICommand PrestadorLimpezaCommand { get; set; }
-        public ICommand PrestadorReparosCommand { get; set; }
+        public ICommand PrestadorMarketingCommand { get; set; }
         public ICommand PrestadorJardinagemCommand { get; set; }
-        public ICommand PrestadorMecanicoCommand { get; set; }
-        public ICommand PrestadorPinturaCommand { get; set; }
-        public ICommand PrestadorMotoristaCommand { get; set; }
-
-
+        public ICommand PrestadorEsteticaCommand { get; set; }
+        public ICommand PrestadorRefrigeracaoCommand { get; set; }
+        public ICommand PrestadorEletricaCommand { get; set; }
+        public ICommand PrestadorDesignCommand { get; set; }
+        public ICommand PrestadorOutrosCommand { get; set; }
+        public ICommand PrestadorRedesCommand { get; set; }
+        public ICommand PrestadorTelecomunicacoesCommand { get; set; }
+        public ICommand PrestadorSegurancaCommand { get; set; }
+        public ICommand PrestadorMonitoramentoCommand { get; set; }
+        public ICommand PrestadorReparosCommand { get; set; }
+        public ICommand PrestadorContabilCommand { get; set; }
+        public ICommand PrestadorBelezaCommand { get; set; }
+        public ICommand PrestadorAutomotivoCommand { get; set; }
         public BuscaClientViewModel()
         {
             pService = new PrestadorService();
@@ -37,14 +46,24 @@ namespace ConectaProApp.ViewModels.Cliente
 
         private void InitializeCommands()
         {
-            PrestadorTecnologiaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Tecnologia"));
-            PrestadorConstrucaoCommand = new Command(async () => await BuscarPrestadorPorCategoria("Construcao"));
-            PrestadorLimpezaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Limpeza"));
-            PrestadorReparosCommand = new Command(async () => await BuscarPrestadorPorCategoria("Reparos"));
-            PrestadorJardinagemCommand = new Command(async () => await BuscarPrestadorPorCategoria("Jardinagem"));
-            PrestadorMecanicoCommand = new Command(async () => await BuscarPrestadorPorCategoria("Mecanico"));
-            PrestadorPinturaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Pintura"));
-            PrestadorMotoristaCommand = new Command(async () => await BuscarPrestadorPorCategoria("Motorista"));
+            PrestadorTecnologiaCommand = new Command(async () => await BuscarPrestadorPorCategoria("TECNOLOGIA"));
+            PrestadorConstrucaoCommand = new Command(async () => await BuscarPrestadorPorCategoria("CONSTRUCAO"));
+            PrestadorLimpezaCommand = new Command(async () => await BuscarPrestadorPorCategoria("LIMPEZA"));
+            PrestadorMarketingCommand = new Command(async () => await BuscarPrestadorPorCategoria("MARKETING"));
+            PrestadorJardinagemCommand = new Command(async () => await BuscarPrestadorPorCategoria("JARDINAGEM"));
+            PrestadorEsteticaCommand = new Command(async () => await BuscarPrestadorPorCategoria("ESTETICA"));
+            PrestadorRefrigeracaoCommand = new Command(async () => await BuscarPrestadorPorCategoria("REFRIGERACAO"));
+            PrestadorEletricaCommand = new Command(async () => await BuscarPrestadorPorCategoria("ELETRICA"));
+            PrestadorDesignCommand = new Command(async () => await BuscarPrestadorPorCategoria("DESIGN"));
+            PrestadorOutrosCommand = new Command(async () => await BuscarOutrasCategorias());
+            PrestadorRedesCommand = new Command(async () => await BuscarPrestadorPorCategoria("REDES"));
+            PrestadorTelecomunicacoesCommand = new Command(async () => await BuscarPrestadorPorCategoria("TELECOMUNICACOES"));
+            PrestadorSegurancaCommand = new Command(async () => await BuscarPrestadorPorCategoria("SEGURANÇA"));
+            PrestadorMonitoramentoCommand = new Command(async () => await BuscarPrestadorPorCategoria("MONITORAMENTO"));
+            PrestadorReparosCommand = new Command(async () => await BuscarPrestadorPorCategoria("REPAROS"));
+            PrestadorContabilCommand = new Command(async () => await BuscarPrestadorPorCategoria("CONTABIL"));
+            PrestadorBelezaCommand = new Command(async () => await BuscarPrestadorPorCategoria("BELEZA"));
+            PrestadorAutomotivoCommand = new Command(async () => await BuscarPrestadorPorCategoria("AUTOMOTIVO"));
             AcionarBuscaCommand = new Command(async () => await BuscarPrestadorPorTermo(TermoDigitado));
         }
         private ImageSource fotoEmpresaUrl;
@@ -131,7 +150,7 @@ namespace ConectaProApp.ViewModels.Cliente
         }
         private async Task CarregarFotoEmpresaAsync()
         {
-            var fotoSalva = await SecureStorage.GetAsync("FotoEmpresa");
+            var fotoSalva = await SecureStorage.GetAsync("caminhoFoto");
 
             if (!string.IsNullOrEmpty(fotoSalva))
             {
@@ -142,6 +161,20 @@ namespace ConectaProApp.ViewModels.Cliente
                 FotoEmpresaUrl = ImageSource.FromFile("empresasemfoto.png");
             }
 
+        }
+
+        private async Task BuscarOutrasCategorias()
+        {
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new View.Cliente.BuscaClientOutros());
+            }
+            catch (Exception ex)
+            {
+
+                await Application.Current.MainPage
+                    .DisplayAlert("Erro", ex.Message, "Detalhes: " + ex.InnerException + "OK");
+            }
         }
     }
 }

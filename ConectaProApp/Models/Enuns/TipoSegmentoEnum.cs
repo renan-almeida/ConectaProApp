@@ -22,8 +22,8 @@ namespace ConectaProApp.Models.Enuns
         [Description("Redes")]
         REDES = 4,
 
-        [Description("Internet")]
-        INTERNET = 5,
+        [Description("Limpeza")]
+        LIMPEZA = 5,
 
         [Description("Telecomunicações")]
         TELECOMUNICAÇÕES = 6,
@@ -62,7 +62,10 @@ namespace ConectaProApp.Models.Enuns
         ESTETICA = 17,
 
         [Description("Outros")]
-        OUTROS = 18
+        OUTROS = 18,
+
+        [Description("Automotivo")]
+        AUTOMOTIVO = 19
 
     }
 }

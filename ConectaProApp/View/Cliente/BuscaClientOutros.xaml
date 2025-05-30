@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConectaProApp.View.Cliente.BuscaClientOutros"
+             BackgroundColor="#f1f1f1">
+    <ScrollView>
+        <Grid RowDefinitions="Auto, *">
+            <!-- Cabeçalho Azul -->
+            <Grid VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+
+                <!-- Icone voltar -->
+                <Image  Source="iconevoltar.png"
+                        HeightRequest="30"
+                        WidthRequest="30"
+                        VerticalOptions="Center"
+                        Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnVoltarClicked" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+
+                <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
+                
+                
+
+                <!-- Foto da Empresa logada -->
+                <Frame HeightRequest="40" WidthRequest="40"
+                     CornerRadius="20"
+                     HasShadow="False"
+                     Padding="0"
+                     BackgroundColor="White"
+                     BorderColor="#0f5cc2"
+                     VerticalOptions="Center"
+                     HorizontalOptions="End"
+                     Grid.Column="2">
+                    <Image Source="{Binding FotoEmpresaUrl}" 
+                         Aspect="AspectFill" 
+                         HeightRequest="40" WidthRequest="40"
+                         >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
+                        </Image.GestureRecognizers>
+                        <Image.Clip>
+                            <EllipseGeometry 
+                          Center="20,20"
+                          RadiusX="20"
+                          RadiusY="20"/>
+                        </Image.Clip>
+                    </Image>
+                </Frame>
+            </Grid>
+
+            <VerticalStackLayout>
+
+                <!-- Logo -->
+                <!-- <Image Source="logo_conectapro_preto.png" HeightRequest="100" WidthRequest="100" /> -->
+
+                <HorizontalStackLayout>
+                    <!-- Barra de Pesquisa -->
+                    <Frame 
+                    Padding="0"
+                    Margin="16,100,0,20"
+                    BackgroundColor="White"
+                    CornerRadius="15"
+                    BorderColor="#0F5CC2"
+                    HasShadow="False"
+                    HeightRequest="44"
+                    WidthRequest="300">
+
+                        <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
+                            <!-- Ícone de lupa -->
+                            <Image 
+                            Source="lupabusca.png" 
+                            HeightRequest="16"
+                            WidthRequest="16"
+                            Margin="10,0"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Start" />
+
+                            <!-- Campo de texto -->
+                            <Entry 
+                            Grid.Column="1"
+                            Placeholder="Busque suas solicitações"
+                            Text="{Binding TermoDigitado, Mode=TwoWay}"
+                            FontSize="16"
+                            WidthRequest="300"
+                            HeightRequest="44"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            TextColor="Black"
+                            PlaceholderColor="Gray"
+                            Margin="0"/>
+                        </Grid>
+                    </Frame>
+
+                    <Button
+                    x:Name="AcionarBusca"
+                    Text="➤" FontSize="18" CornerRadius="100"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    BackgroundColor="#0f5cc2"
+                    Command="{Binding AcionarBuscaCommand}"
+                    Margin="15,100,0,20"/>
+                </HorizontalStackLayout>
+
+                <!-- Categorias -->
+                <Frame 
+                Padding="0"
+                Margin="10"
+                BackgroundColor="White"
+                CornerRadius="15"
+                HasShadow="False"
+                HeightRequest="650"
+                HorizontalOptions="Center"
+                WidthRequest="413">
+
+                    <VerticalStackLayout>
+                        <Label Text="Categorias"
+                           TextColor="Black"
+                           FontSize="25"
+                           FontAttributes="Bold"
+                           Padding="23"/>
+
+                        <FlexLayout 
+                            Wrap="Wrap"
+                            Direction="Row"
+                            JustifyContent="Start"
+                            AlignItems="Start"
+                            AlignContent="Start"
+                            Margin="10">
+
+                            <!-- Redes -->
+                            <Frame
+                            CornerRadius="20"
+                            Padding="0"
+                            HasShadow="False"
+                            HeightRequest="93"
+                            WidthRequest="160"
+                            Margin="4,0,25,0"
+                            IsClippedToBounds="True"
+                            BorderColor="Transparent">
+
+                                <Grid>
+                                    <Image 
+                                    Source="redes.jpeg" 
+                                    Aspect="AspectFill"
+                                    HeightRequest="93"
+                                    WidthRequest="170" >
+                                    </Image>
+                                    <BoxView 
+                                    BackgroundColor="#00000066" 
+                                    HeightRequest="40"/>
+                                    <Label 
+                                    Text="Redes"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Start"
+                                    Margin="0,10"
+                                    Padding="4,0,100,0"/>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                        Command="{Binding PrestadorRedesCommand}" 
+                                        CommandParameter="REDES" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Frame>
+
+                            <!-- Telecomunicações  -->
+                            <Frame
+                            CornerRadius="20"
+                            Padding="0"
+                            HasShadow="False"
+                            HeightRequest="93"
+                            WidthRequest="160"
+                            Margin="0,0,0,25"
+                            IsClippedToBounds="True"
+                            BorderColor="Transparent">
+
+                                <Grid>
+                                    <Image 
+                                Source="telecomunicacoes.jpg" 
+                                Aspect="AspectFill"
+                                HeightRequest="93"
+                                WidthRequest="170" >
+                                   
+                                    </Image>
+                                    <BoxView 
+                                    BackgroundColor="#00000066" 
+                                    HeightRequest="40"/>
+                                    <Label 
+                                    Text="Telecomunicações"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="13"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Start"
+                                    Margin="0,10"
+                                    Padding="10,1,20,20"
+                        />
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                        Command="{Binding PrestadorTelecomunicacoesCommand}" 
+                                        CommandParameter="TELECOMUNICACOES" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Frame>
+
+                            <!-- Seguranca -->
+                            <Frame
+                            CornerRadius="20"
+                            Padding="0"
+                            HasShadow="False"
+                            HeightRequest="93"
+                            WidthRequest="160"
+                            Margin="4,0,25,0"
+                            IsClippedToBounds="True"
+                            BorderColor="Transparent">
+
+                                <Grid>
+                                    <Image 
+                                    Source="seguranca.jpg" 
+                                    Aspect="AspectFill"
+                                    HeightRequest="93"
+                                    WidthRequest="170" >
+                                    </Image>
+                                    <BoxView 
+                                    BackgroundColor="#00000066" 
+                                    HeightRequest="40"/>
+                                    <Label 
+                                    Text="Segurança"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="13"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Start"
+                                    Margin="0,10"
+                                    Padding="4,0,75,0"/>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                    Command="{Binding PrestadorSegurancaCommand}" 
+                                    CommandParameter="SEGURANÇA" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Frame>
+
+                            <!-- Monitoramento -->
+                            <Frame
+                            CornerRadius="20"
+                            Padding="0"
+                            HasShadow="False"
+                            HeightRequest="93"
+                            WidthRequest="160"
+                            Margin="0,0,0,25"
+                            IsClippedToBounds="True"
+                            BorderColor="Transparent">
+
+                                <Grid>
+                                    <Image 
+                                    Source="monitoramento.jpeg" 
+                                    Aspect="AspectFill"
+                                    HeightRequest="93"
+                                    WidthRequest="170" >
+                                    </Image>
+                                    <BoxView 
+                                    BackgroundColor="#00000066" 
+                                    VerticalOptions="End"
+                                    HeightRequest="40"/>
+                                    <Label 
+                                    Text="Monitoramento"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Start"
+                                    Margin="4,10,80,0"/>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                        Command="{Binding PrestadorMonitoramentoCommand}" 
+                                        CommandParameter="MONITORAMENTO" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Frame>
+
+                            <!-- Reparos -->
+                            <Frame
+                            CornerRadius="20"
+                            Padding="0"
+                            HasShadow="False"
+                            HeightRequest="93"
+                            WidthRequest="160"
+                            Margin="4,0,25,0"
+                            IsClippedToBounds="True"
+                            BorderColor="Transparent">
+
+                                <Grid>
+                                    <Image 
+                                    Source="prestadorreparos.png" 
+                                    Aspect="AspectFill"
+                                    HeightRequest="93"
+                                    WidthRequest="170" >
+                                    </Image>
+                                    <BoxView 
+                                    BackgroundColor="#00000066" 
+                                    VerticalOptions="End"
+                                    HeightRequest="40"/>
+                                    <Label 
+                                    Text="Reparos"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Start"
+                                    Margin="4,10"
+                                     Padding="0,0,60,0"/>
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                        Command="{Binding PrestadorReparosCommand}" 
+                                        CommandParameter="REPAROS" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Frame>
+
+                            <!-- Contabil -->
+                            <Frame
+                             CornerRadius="20"
+                             Padding="0"
+                             HasShadow="False"
+                             HeightRequest="93"
+                             WidthRequest="160"
+                             Margin="0,0,0,25"
+                             IsClippedToBounds="True"
+                             BorderColor="Transparent">
+
+                                <Grid>
+                                    <Image 
+                                    Source="contabil.jpg" 
+                                    Aspect="AspectFill"
+                                    HeightRequest="93"
+                                    WidthRequest="170" >
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding PrestadorContabilCommand}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <BoxView 
+                                    BackgroundColor="#00000066" 
+                                    VerticalOptions="End"
+                                    HeightRequest="40"/>
+                                    <Label 
+                                    Text="Contabil"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Start"
+                                    Margin="2,10,70,0"/>
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                        Command="{Binding PrestadorContabilCommand}" 
+                                        CommandParameter="CONTABIL" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Frame>
+
+
+                            <!-- Beleza -->
+                            <Frame
+                            CornerRadius="20"
+                            Padding="0"
+                            HasShadow="False"
+                            HeightRequest="93"
+                            WidthRequest="160"
+                            Margin="4,0,25,0"
+                            IsClippedToBounds="True"
+                            BorderColor="Transparent">
+
+                                <Grid>
+
+                                    <Image 
+                                  Source="beleza.jpg" 
+                                  Aspect="AspectFill"
+                                  HeightRequest="93"
+                                  WidthRequest="170" >
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding PrestadorBelezaCommand}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+
+                                    <BoxView 
+                                      BackgroundColor="#00000066" 
+                                      VerticalOptions="End"
+                                      HeightRequest="40"/>
+
+                                    <Label 
+                                    Text="Beleza"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Start"
+                                    Margin="4,10"
+                                     Padding="0,0,90,0"/>
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                        Command="{Binding PrestadorBelezaCommand}" 
+                                        CommandParameter="BELEZA" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Frame>
+
+                            <!-- Automotivo -->
+                            <Frame CornerRadius="20"
+                                Padding="0"
+                                HasShadow="False"
+                                HeightRequest="93"
+                                WidthRequest="160"
+                                Margin="0,0,0,25"
+                                IsClippedToBounds="True"
+                                BorderColor="Transparent">
+
+                                <Grid>
+                                    <Image Source="automotivo.jpg"
+                                       Aspect="AspectFill"
+                                       HeightRequest="93"
+                                       WidthRequest="170">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding PrestadorAutomotivoCommand}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <BoxView 
+                                    BackgroundColor="#00000066" 
+                                    VerticalOptions="End"
+                                    HeightRequest="40"/>
+                                    <Label Text="Automotivo"
+                                       TextColor="White"
+                                       FontAttributes="Bold"
+                                       FontSize="15"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Start"
+                                       Margin="0,10,65,0"/>
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                        Command="{Binding PrestadorAutomotivoCommand}"
+                                        CommandParameter="AUTOMOTIVO"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Frame>
+                        </FlexLayout>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>
