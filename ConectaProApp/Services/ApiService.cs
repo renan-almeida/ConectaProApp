@@ -94,7 +94,8 @@ namespace ConectaProApp.Services
             else
                 _httpClient.DefaultRequestHeaders.Authorization = null;
 
-            var json = JsonSerializer.Serialize(new { FotoUrl = urlFoto });
+            // Use o campo correto conforme o DTO do backend
+            var json = JsonSerializer.Serialize(new { caminhoFoto = urlFoto });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PutAsync(endpointApi, content);

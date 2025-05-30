@@ -1,54 +1,38 @@
+using ConectaProApp.ViewModels.Solicitacaos;
 using ConectaProApp.Services.Azure;
+using Microsoft.Maui.ApplicationModel; // Para Permissions
 
 namespace ConectaProApp.View.Cliente;
 
 public partial class MinhaContaClient : ContentPage
 {
-    private readonly BlobService _blobService = new BlobService();
-
     public MinhaContaClient()
     {
         InitializeComponent();
 
-        var avatarUrl = Preferences.Get("CaminhoAvatarCliente", null);
-        var headerUrl = Preferences.Get("CaminhoHeaderCliente", null);
+        int idCliente = Preferences.Get("id", 0); // ou de onde você obtém o id do cliente logado
+        var vm = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Cliente, idCliente);
+        this.BindingContext = vm;
 
-        if (!string.IsNullOrEmpty(avatarUrl))
-            avatarImageClient.Source = ImageSource.FromUri(new Uri(avatarUrl));
-
-        if (!string.IsNullOrEmpty(headerUrl))
-            headerClienteImage.Source = ImageSource.FromUri(new Uri(headerUrl));
+        // O binding do XAML já cuida da exibição da imagem do avatar pelo ViewModel.
 
         NomeEntry.Text = Preferences.Get("NomeCliente", "Etec Horácio Augusto");
         DescricaoEditor.Text = Preferences.Get("DescricaoCliente", "Somos da Etec Horácio Augusto da Silveira.");
     }
 
-    private async void OnAvatarClientTapped(object sender, EventArgs e)
-    {
-        try
-        {
-            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions { Title = "Selecione uma foto" });
-
-            if (photo != null)
-            {
-                var url = await _blobService.UploadImagemAsync(photo);
-                if (url != null)
-                {
-                    Preferences.Set("CaminhoAvatarCliente", url);
-                    avatarImageClient.Source = ImageSource.FromUri(new Uri(url));
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Erro", "Erro ao selecionar a foto: " + ex.Message, "OK");
-        }
-    }
+    // Apenas para o header/banner, se quiser manter a troca local
+    private readonly BlobService _blobService = new BlobService();
 
     private async void OnHeaderClienteTapped(object sender, EventArgs e)
     {
         try
         {
+            if (!await VerificarPermissoesAsync())
+            {
+                await DisplayAlert("Permissão negada", "O app precisa de permissão para acessar suas fotos.", "OK");
+                return;
+            }
+
             var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions { Title = "Selecione uma imagem para tecnologia" });
 
             if (photo != null)
@@ -66,6 +50,31 @@ public partial class MinhaContaClient : ContentPage
             await DisplayAlert("Erro", "Erro ao selecionar a imagem: " + ex.Message, "OK");
         }
     }
+
+   private async Task<bool> VerificarPermissoesAsync()
+{
+#if ANDROID
+    if (DeviceInfo.Version.Major >= 13)
+    {
+        var status = await Permissions.CheckStatusAsync<Permissions.Media>();
+        if (status != PermissionStatus.Granted)
+            status = await Permissions.RequestAsync<Permissions.Media>();
+        return status == PermissionStatus.Granted;
+    }
+    else
+    {
+        var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+        if (status != PermissionStatus.Granted)
+            status = await Permissions.RequestAsync<Permissions.StorageRead>();
+        return status == PermissionStatus.Granted;
+    }
+#else
+    var status = await Permissions.CheckStatusAsync<Permissions.Photos>();
+    if (status != PermissionStatus.Granted)
+        status = await Permissions.RequestAsync<Permissions.Photos>();
+    return status == PermissionStatus.Granted;
+#endif
+}
 
     private void OnNomeChanged(object sender, TextChangedEventArgs e)
     {

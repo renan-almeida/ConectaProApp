@@ -1,3 +1,4 @@
+using ConectaProApp.ViewModels.Solicitacaos;
 using ConectaProApp.Services.Azure;
 
 namespace ConectaProApp.View.Prestador;
@@ -9,6 +10,10 @@ public partial class MinhaContaPrestador : ContentPage
     public MinhaContaPrestador()
     {
         InitializeComponent();
+
+        int idPrestador = Preferences.Get("id", 0); // ou de onde você obtém o id do prestador logado
+        var vm = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Prestador, idPrestador);
+        this.BindingContext = vm;
 
         var avatarUrl = Preferences.Get("CaminhoAvatarPrestador", null);
         var headerUrl = Preferences.Get("CaminhoHeaderPrestador", null);

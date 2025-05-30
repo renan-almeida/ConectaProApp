@@ -16,4 +16,9 @@ public partial class BuscaClientOutros : ContentPage
     {
         Shell.Current.FlyoutIsPresented = true;
     }
+
+    private void OnVoltarClicked(object sender, TappedEventArgs e)
+    {
+        Navigation.PopAsync();
+    }
 }

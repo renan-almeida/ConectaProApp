@@ -15,15 +15,13 @@ using ConectaProApp.ViewModels.Foto;
 using System.Diagnostics;
 using ConectaProApp.Services.Azure;
 
-
-/*oi*/
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
     public class SolicitacaoViewModel : INotifyPropertyChanged
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly SolicitacaoService _solicitacaoService;
-      
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string Descricao { get; set; }
@@ -31,12 +29,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         public int IdCliente { get; set; }
         public int IdPrestador { get; set; }
         public int IdSolicitacao { get; set; }
-        public int IdServico { get; set; } // ID do serviço associado à proposta
-
-       
-
-
-       
+        public int IdServico { get; set; }
 
         private string _abaAtual;
         public string AbaAtual
@@ -51,8 +44,6 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 }
             }
         }
-
-       
 
         private bool _isUploading;
         public bool IsUploading
@@ -81,20 +72,40 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         public ICommand ReofertarSolicitacaoCommand { get; }
         public ICommand SelecionarAbaCommand { get; }
         public ICommand RemoverSolicitacaoCommand { get; }
-
         public ICommand SelecionarFotoCommand { get; }
 
-        public FotoViewModel FotoVM { get;}
+        public FotoViewModel FotoVM { get; }
 
-        public SolicitacaoViewModel()
+        // Enum para tipo de usuário
+        public enum TipoUsuario
+        {
+            Cliente,
+            Prestador
+        }
+
+        // Novo construtor flexível
+        public SolicitacaoViewModel(TipoUsuario tipoUsuario, int idUsuario)
         {
             _solicitacaoService = new SolicitacaoService(new HttpClient(), new ApiService());
 
             var blobService = new BlobService();
-            var apiService = new ApiService(); // instância única e reutilizável
+            var apiService = new ApiService();
 
-            var endpointApi = "solicitacoes/foto"; // caminho relativo
-            var chavePreferencia = "foto_solicitacao";
+            string endpointApi;
+            string chavePreferencia;
+
+            if (tipoUsuario == TipoUsuario.Cliente)
+            {
+                IdCliente = idUsuario;
+                endpointApi = $"/clientes/{IdCliente}";
+                chavePreferencia = "foto_cliente";
+            }
+            else // Prestador
+            {
+                IdPrestador = idUsuario;
+                endpointApi = $"/prestadores/{IdPrestador}";
+                chavePreferencia = "foto_prestador";
+            }
 
             FotoVM = new FotoViewModel(blobService, apiService, endpointApi, chavePreferencia);
 
@@ -105,7 +116,11 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             ReofertarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.PENDENTE));
             RemoverSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await RemoverSolicitacaoAsync(idSolicitacao));
             SelecionarAbaCommand = new Command<string>(aba => AbaAtual = aba);
+            SelecionarFotoCommand = FotoVM.SelecionarFotoCommand;
         }
+
+        // Construtor padrão para compatibilidade (opcional)
+        public SolicitacaoViewModel() : this(TipoUsuario.Cliente, Preferences.Get("id", 0)) { }
 
         private async Task EnviarPropostaAsync(int idSolicitacao)
         {
@@ -115,11 +130,9 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 {
                     IdCliente = IdCliente,
                     IdPrestador = IdPrestador,
-                    IdSolicitacao = idSolicitacao, // Passando o ID da solicitação corretamente
+                    IdSolicitacao = idSolicitacao,
                     Descricao = Descricao,
                     ValorProposto = ValorProposto,
-
-                   
                 };
 
                 await _solicitacaoService.EnviarPropostaAsync(idSolicitacao, proposta);
@@ -131,8 +144,6 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
-      
-
         private async Task AtualizarStatusAsync(int idSolicitacao, int idServico, StatusOrcamentoEnum novoStatus)
         {
             try
@@ -140,7 +151,6 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 await _solicitacaoService.AtualizarStatusSolicitacaoAsync(idSolicitacao, idServico, novoStatus);
                 await App.Current.MainPage.DisplayAlert("Sucesso", "Status atualizado com sucesso", "OK");
 
-                // Atualiza após mudança de status
                 await CarregarSolicitacoesPrestador(IdPrestador);
                 await CarregarPropostasCliente(IdCliente);
             }
@@ -209,5 +219,4 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
     }
-
 }

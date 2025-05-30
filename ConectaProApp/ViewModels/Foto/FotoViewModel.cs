@@ -1,14 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using ConectaProApp.Services.Azure;
 using ConectaProApp.Services;
-using ConectaProApp.Models;
-using System.Diagnostics;
+using Microsoft.Maui.Controls;
 
 namespace ConectaProApp.ViewModels.Foto
 {
@@ -29,7 +26,7 @@ namespace ConectaProApp.ViewModels.Foto
             FotoUrl = Preferences.Get(_chavePreferencia, string.Empty);
             if (!string.IsNullOrEmpty(FotoUrl))
             {
-                FonteImagem = ImageSource.FromUri(new Uri(FotoUrl));
+                FonteImagem = FotoUrl;
             }
 
             FotografarCommand = new AsyncRelayCommand(FotografarAsync);
@@ -38,7 +35,7 @@ namespace ConectaProApp.ViewModels.Foto
         }
 
         [ObservableProperty] private string fotoUrl;
-        [ObservableProperty] private ImageSource fonteImagem;
+        [ObservableProperty] private string fonteImagem;
         [ObservableProperty] private bool isUploading;
 
         public IRelayCommand FotografarCommand { get; }
@@ -47,6 +44,7 @@ namespace ConectaProApp.ViewModels.Foto
 
         private async Task SelecionarFotoAsync()
         {
+            System.Diagnostics.Debug.WriteLine(">>> SelecionarFotoAsync chamado!");
             var escolha = await App.Current.MainPage.DisplayActionSheet(
                 "Selecionar foto", "Cancelar", null, "Fotografar", "Escolher da Galeria");
 
@@ -100,9 +98,10 @@ namespace ConectaProApp.ViewModels.Foto
                 if (!string.IsNullOrEmpty(url))
                 {
                     FotoUrl = url;
-                    FonteImagem = ImageSource.FromUri(new Uri(url));
+                    FonteImagem = url;
                     Preferences.Set(_chavePreferencia, url);
 
+                    // Aqui o endpointApi deve ser, por exemplo, "/clientes/{id}" ou "/prestadores/{id}"
                     bool sucesso = await _apiService.AtualizarFotoPerfilAsync(_endpointApi, url);
 
                     if (sucesso)
