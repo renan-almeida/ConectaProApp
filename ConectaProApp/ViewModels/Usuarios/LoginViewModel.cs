@@ -12,6 +12,7 @@ using ConectaProApp.Models;
 using System.ComponentModel.Design;
 using ConectaProApp.Models.Enuns;
 using CommunityToolkit.Maui.Views;
+using System.Diagnostics;
 
 namespace ConectaProApp.ViewModels.Usuarios
 {
@@ -145,28 +146,40 @@ namespace ConectaProApp.ViewModels.Usuarios
                 if (usuarioAutenticado != null && usuarioAutenticado.Id > 0)
                 {
                     Preferences.Set("id", usuarioAutenticado.Id);
-                    await SecureStorage.SetAsync("token", usuarioAutenticado.Token);
-                    Preferences.Set("tipoUsuario", usuarioAutenticado.TipoUsuario);
-                        Preferences.Set("uf", usuarioAutenticado.Uf);
-    
-                    await Application.Current.MainPage.DisplayAlert("Bem-vindo!", $"Olá,!", "Ok");
+                    await SecureStorage.SetAsync("jwt_token", usuarioAutenticado.Token);
+                    Debug.WriteLine($"✅ Token salvo no SecureStorage: {usuarioAutenticado.Token}");
 
-                 switch (usuarioAutenticado.TipoUsuario)
+                    var storedToken = await SecureStorage.GetAsync("jwt_token");
+                    Debug.WriteLine($"🔹 Token recuperado do SecureStorage: {storedToken}");
+
+                    if (string.IsNullOrEmpty(storedToken))
                     {
-                        case "CLIENTE":
-                            Application.Current.MainPage = new AppShell();
-                            await Shell.Current.GoToAsync("//cliente"); 
-                            break;
+                        Debug.WriteLine("⚠️ Token não foi salvo corretamente!");
+                    }
 
-                        case "PRESTADOR":
-                            Application.Current.MainPage = new AppShell();
-                            await Shell.Current.GoToAsync("//prestador");
+                    try
+                    {
+                        switch (usuarioAutenticado.TipoUsuario)
+                        {
+                            case "CLIENTE":
+                                Application.Current.MainPage = new AppShell();
+                                await Shell.Current.GoToAsync("//cliente");
+                                break;
 
-                            break;
+                            case "PRESTADOR":
+                                Application.Current.MainPage = new AppShell();
+                                await Shell.Current.GoToAsync("//prestador");
+                                break;
 
-                        default:
-                            await Application.Current.MainPage.DisplayAlert("Erro", "Tipo de Usuario não encontrado", "Ok");
-                            break;
+                            default:
+                                await Application.Current.MainPage.DisplayAlert("Erro", "Tipo de usuário não encontrado", "Ok");
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Erro ao navegar: {ex.Message}");
+                        await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao navegar: {ex.Message}", "OK");
                     }
                 }
                 else
@@ -180,8 +193,8 @@ namespace ConectaProApp.ViewModels.Usuarios
             }
         }
 
-           
-        
+
+
         private async Task NavegarParaPasswordEmail()
         {
             // Navega para a página PasswordEmail

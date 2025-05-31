@@ -88,8 +88,8 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         {
             _solicitacaoService = new SolicitacaoService(new HttpClient(), new ApiService());
 
-            var blobService = new BlobService();
-            var apiService = new ApiService();
+            var apiService = new ApiService(); // Criando ApiService corretamente
+            var blobService = new BlobService(apiService); ;
 
             string endpointApi;
             string chavePreferencia;
