@@ -90,10 +90,23 @@ namespace ConectaProApp.ViewModels.Foto
         {
             try
             {
+                Debug.WriteLine("Iniciando ProcessarImagemAsync...");
                 IsUploading = true;
 
+                if (arquivo == null)
+                {
+                    Debug.WriteLine("Arquivo recebido é nulo.");
+                    await App.Current.MainPage.DisplayAlert("Erro", "Arquivo inválido.", "OK");
+                    return;
+                }
+
+                Debug.WriteLine($"Nome do arquivo: {arquivo.FileName}, ContentType: {arquivo.ContentType}");
+
                 using var stream = await arquivo.OpenReadAsync();
+                Debug.WriteLine("Stream do arquivo aberto com sucesso.");
+
                 var url = await _blobService.UploadImagemAsync(arquivo);
+                Debug.WriteLine($"Resultado do UploadImagemAsync: '{url}'");
 
                 if (!string.IsNullOrEmpty(url))
                 {
@@ -101,8 +114,11 @@ namespace ConectaProApp.ViewModels.Foto
                     FonteImagem = url;
                     Preferences.Set(_chavePreferencia, url);
 
-                    // Aqui o endpointApi deve ser, por exemplo, "/clientes/{id}" ou "/prestadores/{id}"
+                    Debug.WriteLine($"URL da imagem salva: {url}");
+                    Debug.WriteLine($"Endpoint para atualização: {_endpointApi}");
+
                     bool sucesso = await _apiService.AtualizarFotoPerfilAsync(_endpointApi, url);
+                    Debug.WriteLine($"Resultado da atualização no servidor: {sucesso}");
 
                     if (sucesso)
                     {
@@ -115,17 +131,19 @@ namespace ConectaProApp.ViewModels.Foto
                 }
                 else
                 {
+                    Debug.WriteLine("URL retornada pelo upload está vazia ou nula.");
                     await App.Current.MainPage.DisplayAlert("Erro", "Erro ao obter URL da imagem", "OK");
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Erro no processamento da imagem: {ex.Message}");
+                Debug.WriteLine($"Erro no processamento da imagem: {ex}");
                 await App.Current.MainPage.DisplayAlert("Erro", $"Erro interno: {ex.Message}", "OK");
             }
             finally
             {
                 IsUploading = false;
+                Debug.WriteLine("ProcessarImagemAsync finalizado.");
             }
         }
     }
