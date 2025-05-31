@@ -1,25 +1,31 @@
 using CommunityToolkit.Maui.Views;
 using ConectaProApp.View.PopUp;
+using ConectaProApp.ViewModels.Cliente;
 
 namespace ConectaProApp.View.Cliente;
 
 public partial class PropostaClient : ContentPage
 {
-	public PropostaClient()
+    private PropostaClientViewModel propostaClientViewModel;
+	public PropostaClient( int idPrestador)
 	{
 		InitializeComponent();
-	}
+        pickerPrevisaoInicio.MinimumDate = DateTime.Today;
+        pickerPrevisaoInicio.MaximumDate = DateTime.Today.AddDays(365);
+        pickerPrevisaoInicio.Date = DateTime.Today;
+        propostaClientViewModel = new PropostaClientViewModel(idPrestador);
+        BindingContext = propostaClientViewModel;
+    }
+
+    private void OnFotoEmpresaClicked(object sender, EventArgs e)
+    {
+        Shell.Current.FlyoutIsPresented = true;
+    }
 
     private async void OnVoltarClicked(object sender, EventArgs e)
     {
-        // Navega para a página anterior
-        await Shell.Current.GoToAsync("///cliente");
-    }
+        await Shell.Current.GoToAsync("..");
 
-    private async void OnFotoEmpresaClicked(object sender, EventArgs e)
-    {
-        // Exemplo de ação ao clicar na foto da empresa
-        await Application.Current.MainPage.DisplayAlert("Foto da Empresa", "Você clicou na foto da empresa.", "OK");
     }
 
     private async void OnAvatarClientTapped(object sender, EventArgs e)
@@ -34,11 +40,5 @@ public partial class PropostaClient : ContentPage
             await Task.Delay(500);
             await image.ScaleTo(1.0, 250, Easing.CubicInOut);
         }
-    }
-
-    private async void EnviarProposta_Clicked(object sender, EventArgs e)
-    {
-        var popup = new PropostaSucesso();
-        await this.ShowPopupAsync(popup);
     }
 }

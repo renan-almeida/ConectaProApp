@@ -154,12 +154,12 @@ namespace ConectaProApp.Services.Servico
             return servicoRegistrado;
         }
 
-        public async Task<ServicoModel> EnviarPropostaAsync(ServicoCreateDTO proposta)
+        public async Task<ServicoModel> EnviarPropostaAsync(PropostaCreateDTO proposta)
         {
             var token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            const string url = "/servicos/propostas";
+            const string url = "/servico/registro";
 
             // Serializando com Newtonsoft.Json
             var json = JsonConvert.SerializeObject(proposta);

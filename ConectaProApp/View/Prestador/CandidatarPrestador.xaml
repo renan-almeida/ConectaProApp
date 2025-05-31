@@ -81,11 +81,11 @@
                     </Image>
                 </Frame>
 
-                <Label Text="Descreva suas clausulas"
+                <Label Text="Descreva suas clausulas para"
                 TextColor="Black"
                 FontSize="20"
                 HorizontalOptions="Center"/>
-                <Label Text="para nós."
+                <Label Text="{Binding NomeEmpresa}"
                 TextColor="Black"
                 FontSize="20"
                 HorizontalOptions="Center"
@@ -112,7 +112,7 @@
                         />
 
                         <Picker
-                        Title="Forma de Pagamento"
+                        Title="Forma de Pagamento exigida"
                         ItemsSource="{Binding FormasPagto }"
                         SelectedItem="{Binding FormaPagtoSelecionado}"
                         HorizontalOptions="Center"/>
@@ -120,20 +120,25 @@
                         <Label Text="Data inicial do serviço"
                                TextColor="#b2a9a9"
                                HorizontalOptions="Center"/>
-                        <DatePicker
-                                    MaximumDate="{x:Static sys:DateTime.Today}"
-                                    Format="dd/MM/yyyy"
-                                     WidthRequest="314"
-                                     HeightRequest="0"
-                                    Date="{Binding DataInicial, Mode=TwoWay}"/>
-
                         <DatePicker 
-                            TextColor="Black"
-                            WidthRequest="314"
-                            FontSize="15"
-                            Date="{Binding DataFinal, Mode=TwoWay}"
-                            Format="dd/MM/yyyy"
-                            MaximumDate="{x:Static sys:DateTime.Today}"/>
+                                x:Name="pickerPrevisaoInicio"
+                                Format="dd/MM/yyyy"
+                                WidthRequest="314"
+                                HeightRequest="0"
+                                BackgroundColor="White"
+                               Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
+
+                        <Label Text="Data inicial do serviço"
+                               TextColor="#b2a9a9"
+                               HorizontalOptions="Center"/>
+                        <DatePicker 
+                                x:Name="pickerPrevisaoFim"
+                                Format="dd/MM/yyyy"
+                                WidthRequest="314"
+                                HeightRequest="0"
+                                BackgroundColor="White"
+                               Date="{Binding PrevisaoFim, Mode=TwoWay}"/>
+
 
 
                     </VerticalStackLayout>

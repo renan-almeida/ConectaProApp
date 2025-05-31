@@ -8,18 +8,12 @@ public partial class CandidatarPrestador : ContentPage
 	public CandidatarPrestador()
 	{
 		InitializeComponent();
-	}
-
-    private async void OnVoltarClicked(object sender, EventArgs e)
-    {
-        // Navega para a página anterior
-        await Shell.Current.GoToAsync("///prestador");
-    }
-
-    private async void OnFotoPrestadorClicked(object sender, EventArgs e)
-    {
-        // Exemplo de ação ao clicar na foto do prestador
-        await Application.Current.MainPage.DisplayAlert("Foto do Prestador", "Você clicou na foto do prestador.", "OK");
+        pickerPrevisaoInicio.MinimumDate = DateTime.Today;
+        pickerPrevisaoInicio.MaximumDate = DateTime.Today.AddDays(365);
+        pickerPrevisaoInicio.Date = DateTime.Today;
+        pickerPrevisaoFim.MinimumDate = DateTime.Today;
+        pickerPrevisaoFim.MaximumDate = DateTime.Today.AddDays(365);
+        pickerPrevisaoFim.Date = DateTime.Today;
     }
 
     private async void OnAvatarPrestadorTapped(object sender, EventArgs e)
@@ -35,6 +29,17 @@ public partial class CandidatarPrestador : ContentPage
             await image.ScaleTo(1.0, 500, Easing.CubicInOut);
         }
     }
+    private void OnFotoPrestadorClicked(object sender, EventArgs e)
+    {
+        Shell.Current.FlyoutIsPresented = true;
+    }
+
+    private async void OnVoltarClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("..");
+
+    }
+
 
     private async void EnviarProposta_Clicked(object sender, EventArgs e)
     {

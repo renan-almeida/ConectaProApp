@@ -29,11 +29,23 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             ProximoPrestadorCommand = new Command(MostrarProximoPrestador);
             CriarServicoCommand = new Command(async () => await CriarSolicitacaoView());
-            PropostaCommand = new Command(async () => await Shell.Current.GoToAsync("///PropostaClient"));
+            PropostaCommand = new Command(async () =>
+            {
+                var idPrestador = PrestadorAtual?.Id ?? 0;
+                if (idPrestador > 0)
+                {
+                    await Application.Current.MainPage.Navigation.PushAsync(new PropostaClient(idPrestador));
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Nenhum prestador selecionado.", "OK");
+                }
+            });
+
         }
 
 
-       
+
         private async Task CriarSolicitacaoView()
         {
             try

@@ -7,6 +7,7 @@ using System.Text;
 using Newtonsoft.Json;
 
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace ConectaProApp.Services.Prestador
 {
@@ -83,5 +84,22 @@ namespace ConectaProApp.Services.Prestador
 
             return new List<PrestadorResponseBuscaDTO>();
         }
+
+        public async Task<Models.Prestador> BuscarPrestadorPorIdAsync(int id)
+        {
+            const string buscaServicoEndpoint = "/prestador/";
+            var resposta = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}{id}");
+
+            if (resposta.IsSuccessStatusCode)
+            {
+                var json = await resposta.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Models.Prestador>(json);
+            }
+
+            return null;
+        }
+
     }
+
+
 }

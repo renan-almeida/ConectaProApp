@@ -82,11 +82,11 @@
                     </Image>
                 </Frame>
 
-                <Label Text="Descreva o seu problema"
+                <Label Text="Descreva o seu problema para o prestador"
                    TextColor="Black"
                    FontSize="20"
                    HorizontalOptions="Center"/>
-                <Label Text="para nós."
+                <Label Text= "{Binding NomePrestador}"
                    TextColor="Black"
                    FontSize="20"
                    HorizontalOptions="Center"
@@ -108,7 +108,7 @@
                            WidthRequest="314"
                            HeightRequest="0"
                           BackgroundColor="Transparent"
-                           Text="{Binding Titulo}"
+                           Text="{Binding TituloProposta}"
                            />
                         <Editor Placeholder="De uma Descrição exata sobre o problema"
                            PlaceholderColor="Gray"
@@ -117,16 +117,43 @@
                             MaxLength="100"
                            WidthRequest="314"
                            HeightRequest="0"
-                           Text="{Binding Descricao}"
+                           Text="{Binding DescProposta}"
                                             />
 
                         <Entry Placeholder="Digite o valor proposto a pagar"
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
                                 HeightRequest="0"
-                               Text="{Binding Especialidade}"/>
+                               Text="{Binding ValorProposto}"/>
 
-                      
+
+                        <Label Text="Estipule a previsão para o ínicio do serviço"
+                               FontSize="15"
+                               TextColor="Gray" />
+                        <DatePicker 
+                                x:Name="pickerPrevisaoInicio"
+                                Format="dd/MM/yyyy"
+                                WidthRequest="314"
+                                HeightRequest="0"
+                                BackgroundColor="White"
+                               Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
+
+                        <HorizontalStackLayout Spacing="48" HorizontalOptions="Center">
+                            <Picker
+                                Title="Urgência do serviço"
+                                ItemsSource="{Binding NiveisUrgencia}"
+                                SelectedItem="{Binding UrgenciaSelecionada}"
+                                HorizontalOptions="Center"/>
+
+                            <Picker
+                                Title="Forma de Pagamento"
+                                ItemsSource="{Binding FormasPagto }"
+                                SelectedItem="{Binding FormaPagtoSelecionado}"
+                                HorizontalOptions="Center"/>
+
+                        </HorizontalStackLayout>
+
+
                     </VerticalStackLayout>
                 </Frame>
                 <Button Text="Enviar proposta"
