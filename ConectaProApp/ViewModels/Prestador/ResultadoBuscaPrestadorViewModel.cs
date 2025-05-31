@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ConectaProApp.Models;
 using ConectaProApp.ViewModels.Servico;
 using ServicoModel = ConectaProApp.Models.Servico;
 
 namespace ConectaProApp.ViewModels.Prestador
 {
-    [QueryProperty(nameof(ServicosOriginais), "Servicos")]
+    [QueryProperty(nameof(ServicosOriginais), "ServicosOriginais")]
     [QueryProperty(nameof(TituloBusca), "TituloBusca")]
     public partial class ResultadoBuscaPrestadorViewModel : BaseViewModel
     {
         // O CommunityToolkit vai gerar a propriedade pública automaticamente
+
         [ObservableProperty]
         private List<ServicoModel> servicosOriginais;
 

@@ -1,4 +1,5 @@
-﻿using ConectaProApp.View.Prestador;
+﻿using ConectaProApp.Models;
+using ConectaProApp.View.Prestador;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,19 +22,19 @@ namespace ConectaProApp.ViewModels.Servico
             CandidatarCommand = new Command((async () => CriarOrcamento()));
         }
 
-        public string Nome => servico.Titulo;
-        public string StServico => servico.SituacaoServico.ToString();
-        public string ValorServico => servico.ValorContratacao.ToString("C");
+        public string Nome => servico.TituloSolicitacao;
+        public string StServico => servico.StatusSolicitacaoEnum.ToString();
+        public string ValorServico => servico.ValorProposto.ToString("C");
         public string NvlUrgenciaEnum => servico.NvlUrgenciaEnum.ToString();
-        public string NomeSegmento => servico.IdSegmento?.DescSegmento; // Corrigido para DescSegmento
-        public string FormaPagamento => servico.FormaPagamento.ToString();
-        public string Descricao => servico.Descricao;
-        public string Especialidade => servico.IdPrestador?.Especialidades?.FirstOrDefault(); // Ajustado para pegar a primeira especialidade
-        public string Logradouro => servico.Logradouro;
-        public string Nro => servico.NroEmpresa.ToString();
+        public string NomeSegmento => servico.TipoCategoriaEnum.ToString(); // Corrigido para DescSegmento
+        public string FormaPagamento => servico.FormaPagtoEnum.ToString();
+        public string Descricao => servico.DescSolicitacao;
+        // public string Especialidade => servico.IdPrestador?.Especialidades?.FirstOrDefault(); // Ajustado para pegar a primeira especialidade
+        // public string Logradouro => servico.Logradouro;
+        // public string Nro => servico.NroEmpresa.ToString();
         public string FotoServico => servico.FotoServico;
-        public string NomeFantasia => servico.IdCliente.NomeFantasia;
-        public string FotoPerfilEmpresa => servico.IdCliente?.CaminhoFoto;
+        public string NomeFantasia => servico.NomeFantasia;
+        public string FotoPerfilEmpresa => string.IsNullOrEmpty(servico.CaminhoFoto) ? "empresasemfoto.png" : (servico.CaminhoFoto);
 
         public ImageSource ImagemFundoHome
         {

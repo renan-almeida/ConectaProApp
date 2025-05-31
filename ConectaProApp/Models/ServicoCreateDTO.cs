@@ -44,5 +44,11 @@ namespace ConectaProApp.Models
         public int DuracaoServico { get; set; }
         [JsonProperty("statusSolicitacaoEnum")]
         public StatusOrcamentoEnum StatusSolicitacaoEnum { get; set; }
+
+        // Informações adicionais para tela de busca de servicos
+        [JsonProperty("nomeFantasia")]
+        public string NomeFantasia { get; set; }
+        [JsonProperty("caminhoFoto")]
+        public string CaminhoFoto { get; set; }
     }
 }
