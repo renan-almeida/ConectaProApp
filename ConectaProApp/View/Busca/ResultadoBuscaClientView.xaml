@@ -111,9 +111,9 @@
                                                FontAttributes="Bold"/>
                                     </HorizontalStackLayout>
 
-                                    <Label Text="VER MAIS"
+                                    <Label Text="CONTRATAR"
                                            FontSize="10"
-                                           TextColor="black"
+                                           TextColor="#0F5CC2"
                                            />
                                 </VerticalStackLayout>
                             </HorizontalStackLayout>

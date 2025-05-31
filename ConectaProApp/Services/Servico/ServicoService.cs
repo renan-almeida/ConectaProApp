@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using ConectaProApp.Models;
+using Newtonsoft.Json;
 using ServicoModel = ConectaProApp.Models.Servico;
 
 namespace ConectaProApp.Services.Servico
@@ -30,22 +30,22 @@ namespace ConectaProApp.Services.Servico
         }
 
         // Tela de busca de prestador
-        public async Task<List<Models.Servico>> BuscarServicoAsync(string termo)
+        public async Task<List<ServicoModel>> BuscarServicoAsync(string termo)
         {
             try
             {
                 var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                
+
                 const string buscaServicoEndpoint = "/busca-solicitacoes/";
                 termo = Uri.EscapeDataString(termo);
 
-                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}termo={termo}");
+                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?termo={termo}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<Models.Servico>>(json);
+                    return JsonConvert.DeserializeObject<List<ServicoModel>>(json);
                 }
             }
             catch (Exception ex)
@@ -53,28 +53,28 @@ namespace ConectaProApp.Services.Servico
                 Console.WriteLine("Erro ao buscar serviço: " + ex.Message);
             }
 
-            return new List<Models.Servico>();
+            return new List<ServicoModel>();
         }
 
-        public async Task<List<Models.Servico>> BuscarServicoPorCategoriaAsync(string categoria)
+        public async Task<List<ServicoModel>> BuscarServicoPorCategoriaAsync(string categoria)
         {
             try
             {
                 var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                const string buscaServicoEndpoint = "/servicos/buscar";
+                const string buscaServicoEndpoint = "/solicitacoes-busca";
 
                 //busca-solicitacoes/uf=${}&termo=${}
 
                 categoria = Uri.EscapeDataString(categoria);
 
-                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
+                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?{categoria}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<Models.Servico>>(json);
+                    return JsonConvert.DeserializeObject<List<ServicoModel>>(json);
                 }
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace ConectaProApp.Services.Servico
                 Console.WriteLine("Erro ao buscar serviço: " + ex.Message);
             }
 
-            return new List<Models.Servico>();
+            return new List<ServicoModel>();
         }
 
         // Exibe ao prestador apenas servicos com base na sua UF
@@ -93,7 +93,7 @@ namespace ConectaProApp.Services.Servico
                 var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                const string urlComplementar = "/Servicos";
+                const string urlComplementar = "/solicitacoes-busca";
                 uf = Uri.EscapeDataString(uf);
 
                 var response = await client.GetAsync($"{apiUrlBase}{urlComplementar}?uf={uf}");
@@ -101,10 +101,7 @@ namespace ConectaProApp.Services.Servico
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<ServicoHomeDTO>>(json, new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    });
+                    return JsonConvert.DeserializeObject<List<ServicoHomeDTO>>(json);
                 }
             }
             catch (Exception ex)
@@ -131,7 +128,7 @@ namespace ConectaProApp.Services.Servico
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<Models.Prestador>>(json);
+                    return JsonConvert.DeserializeObject<List<Models.Prestador>>(json);
                 }
             }
             catch (Exception ex)
@@ -145,7 +142,7 @@ namespace ConectaProApp.Services.Servico
 
 
         public async Task<ServicoCreateDTO> PostRegistrarServicoAsync(ServicoCreateDTO s)
-                    {
+        {
             var token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -164,7 +161,8 @@ namespace ConectaProApp.Services.Servico
 
             const string url = "/servicos/propostas";
 
-            var json = JsonSerializer.Serialize(proposta);
+            // Serializando com Newtonsoft.Json
+            var json = JsonConvert.SerializeObject(proposta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync($"{apiUrlBase}{url}", content);
@@ -176,11 +174,11 @@ namespace ConectaProApp.Services.Servico
             }
 
             var responseBody = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<ServicoModel>(responseBody, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+
+            // Desserializando com Newtonsoft.Json
+            return JsonConvert.DeserializeObject<ServicoModel>(responseBody);
         }
+
 
         public async Task AceitarPropostaAsync(int idServicoAceito, int idSolicitacao)
         {
@@ -222,19 +220,15 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = Preferences.Get("token", string.Empty); // ou SecureStorage.GetAsync("token") se for mais seguro
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                // Ajuste o endpoint conforme sua API — aqui é um exemplo:
                 var response = await client.GetAsync($"{apiUrlBase}/servicos/propostas?solicitacaoId={idSolicitacao}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<ServicoModel>>(json, new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    });
+                    return JsonConvert.DeserializeObject<List<ServicoModel>>(json);
                 }
                 else
                 {
@@ -248,5 +242,6 @@ namespace ConectaProApp.Services.Servico
 
             return new List<ServicoModel>();
         }
+
     }
 }
