@@ -1,3 +1,4 @@
+using ConectaProApp.Services;
 using ConectaProApp.ViewModels.Solicitacaos;
 using ConectaProApp.Services.Azure;
 using Microsoft.Maui.ApplicationModel; // Para Permissions
@@ -6,9 +7,15 @@ namespace ConectaProApp.View.Cliente;
 
 public partial class MinhaContaClient : ContentPage
 {
+
+    private readonly ApiService _apiService;
+    private readonly BlobService _blobService;
     public MinhaContaClient()
     {
         InitializeComponent();
+
+        _apiService = new ApiService();
+        _blobService = new BlobService(_apiService);
 
         int idCliente = Preferences.Get("id", 0); // ou de onde você obtém o id do cliente logado
         var vm = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Cliente, idCliente);
@@ -20,8 +27,7 @@ public partial class MinhaContaClient : ContentPage
         DescricaoEditor.Text = Preferences.Get("DescricaoCliente", "Somos da Etec Horácio Augusto da Silveira.");
     }
 
-    // Apenas para o header/banner, se quiser manter a troca local
-    private readonly BlobService _blobService = new BlobService();
+    // 
 
     private async void OnHeaderClienteTapped(object sender, EventArgs e)
     {
