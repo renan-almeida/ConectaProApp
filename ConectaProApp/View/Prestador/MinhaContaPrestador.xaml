@@ -29,23 +29,7 @@
 
                 <Image Source="conectapro_logo.png" HeightRequest="40" VerticalOptions="Center" Grid.Column="0" />
 
-                <Frame HeightRequest="40" WidthRequest="40"
-                      CornerRadius="20"
-                      BackgroundColor="White"
-                      BorderColor="#0f5cc2"
-                      VerticalOptions="Center"
-                      HorizontalOptions="End"
-                      Grid.Column="2">
-                    <Image Source="{Binding FotoVM.FonteImagem}"
-                           Aspect="AspectFill"
-                           HeightRequest="40" WidthRequest="40">
-                        <Image.Clip>
-                            <EllipseGeometry Center="20,20" RadiusX="20" RadiusY="20" />
-                        </Image.Clip>
-
-                        
-                    </Image>
-                </Frame>
+     
             </Grid>
 
             <VerticalStackLayout Spacing="0">
@@ -54,35 +38,39 @@
                     <Image x:Name="HeaderPrestadorImage"
                        Source="{Binding FotoVM.FonteImagem}"
                        Aspect="AspectFill"
-                       HeightRequest="150">
+                       HeightRequest="150"
+                           ZIndex="1">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnHeaderPrestadorTapped" />
                         </Image.GestureRecognizers>
                     </Image>
                 </Grid>
 
-                <!-- Avatar -->
-                <Grid HorizontalOptions="Center" Margin="0,-60,0,0">
-                    <Frame WidthRequest="120" HeightRequest="120"
-                       CornerRadius="60"
-                       BackgroundColor="White"
-                       IsClippedToBounds="True"
-                       BorderColor="#eeeeee"
-                       VerticalOptions="Center">
-                        <Image x:Name="avatarPrestadorImage"
-                           Source="{Binding FotoVM.FonteImagem}"
-                           Aspect="AspectFill">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnAvatarPrestadorTapped" />
-                            </Image.GestureRecognizers>
-                            <Image.Clip>
-                                <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60" />
-                            </Image.Clip>
-                        </Image>
-                    </Frame>
-                </Grid>
+                <Frame WidthRequest="120" HeightRequest="120"
+                        CornerRadius="60"
+                        BackgroundColor="White"
+                        IsClippedToBounds="True"
+                        BorderColor="#eeeeee"
+                        VerticalOptions="Center"
+                      HorizontalOptions="Center"
+                      Margin="0,-60,0,0"
+                     ZIndex="2">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FotoVM.SelecionarFotoCommand}" />
+                    </Frame.GestureRecognizers>
+                    <Image x:Name="avatarPrestadorImage"
+                    Source="{Binding FotoVM.FonteImagem}"
+                    Aspect="AspectFill"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Image.Clip>
+                            <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60" />
+                        </Image.Clip>
+                    </Image>
+                </Frame>
+        
 
-                <!-- Nome e descrição -->
+        <!-- Nome e descrição -->
                 <VerticalStackLayout Padding="20,0" Spacing="5">
                     <Entry x:Name="NomeEntry"
                        TextColor="Black"
