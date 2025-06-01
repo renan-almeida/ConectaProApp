@@ -24,5 +24,9 @@ namespace ConectaProApp.Models
         public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
         [JsonProperty("StatusServicoEnum")]
         public StatusServicoEnum StatusServicoEnum { get; set; }
+        [JsonProperty("previsaoFim")]
+        public string PrevisaoFim { get; set; }
+        [JsonProperty("nomeFantasia")]
+        public string NomeFantasia { get; set; }
     }
 }

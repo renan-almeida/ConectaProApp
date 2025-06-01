@@ -87,6 +87,10 @@ namespace ConectaProApp.Services.Prestador
 
         public async Task<Models.Prestador> BuscarPrestadorPorIdAsync(int id)
         {
+
+            var token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); 
+
             const string buscaServicoEndpoint = "/prestador/";
             var resposta = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}{id}");
 
@@ -97,6 +101,31 @@ namespace ConectaProApp.Services.Prestador
             }
 
             return null;
+        }
+
+        public async Task<PropostaCreateDTO> EnviarCandidaturaAsync(PropostaCreateDTO proposta, int idSolicitacao)
+        {
+            var token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            const string url = $"/solicitacao/solicitacoes/";
+
+            // Serializando com Newtonsoft.Json
+            var json = JsonConvert.SerializeObject(proposta);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"{apiUrlBase}{url}{idSolicitacao}/candidatar", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var erro = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Erro ao enviar proposta: {erro}");
+            }
+
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            // Desserializando com Newtonsoft.Json
+            return JsonConvert.DeserializeObject<PropostaCreateDTO>(responseBody);
         }
 
     }

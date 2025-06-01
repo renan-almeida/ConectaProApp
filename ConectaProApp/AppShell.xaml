@@ -8,12 +8,6 @@
     Shell.FlyoutBehavior="Disabled"
     Title="ConectaProApp">
 
-    <ShellContent Title="PropostaClient" ContentTemplate="{DataTemplate cliente:PropostaClient}" Route="PropostaClient" />
-
-    <ShellContent Title="CandidatarPrestador" ContentTemplate="{DataTemplate prestador:CandidatarPrestador}" Route="CandidatarPrestador" />
-
-
-
     <TabBar Route="prestador">
         <ShellContent
             Icon="home.png"

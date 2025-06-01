@@ -164,7 +164,8 @@
                     BorderColor="White"
                     BorderWidth="1"
                     FontSize="28"
-                    Clicked="EnviarProposta_Clicked"/>
+                     />
+                <!--Clicked="EnviarProposta_Clicked" -->
 
             </VerticalStackLayout>
         </Grid>

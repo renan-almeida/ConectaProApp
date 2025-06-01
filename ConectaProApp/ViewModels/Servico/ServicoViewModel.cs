@@ -19,7 +19,7 @@ namespace ConectaProApp.ViewModels.Servico
         {
             this.servico = servico;
             VerMaisCommand = new Command(() => MostrarDescricao = !MostrarDescricao);
-            CandidatarCommand = new Command((async () => CriarOrcamento()));
+           // CandidatarCommand = new Command((async () => CriarOrcamento()));
         }
 
         public string Nome => servico.TituloSolicitacao;
@@ -69,7 +69,7 @@ namespace ConectaProApp.ViewModels.Servico
         public ICommand VerMaisCommand { get; }
         public ICommand CandidatarCommand { get; }
 
-        private async Task CriarOrcamento()
+        /*private async Task CriarOrcamento()
         {
             try
             {
@@ -81,7 +81,7 @@ namespace ConectaProApp.ViewModels.Servico
                 await Application.Current.MainPage.DisplayAlert("Erro", ex.Message + "Não foi possivel se candidatar", "OK");
             }
         }
-
+        */
 
 
     }

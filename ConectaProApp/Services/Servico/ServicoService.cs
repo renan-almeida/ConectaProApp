@@ -243,5 +243,23 @@ namespace ConectaProApp.Services.Servico
             return new List<ServicoModel>();
         }
 
+        public async Task<PropostaCreateDTO> BuscarSolicitacaoPorIdAsync(int id)
+        {
+
+            var token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            const string buscaServicoEndpoint = "/orcamento/";
+            var resposta = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}{id}");
+
+            if (resposta.IsSuccessStatusCode)
+            {
+                var json = await resposta.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<PropostaCreateDTO>(json);
+            }
+
+            return null;
+        }
+
     }
 }

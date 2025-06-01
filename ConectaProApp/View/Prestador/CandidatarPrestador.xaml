@@ -37,7 +37,7 @@
           VerticalOptions="Center"
           HorizontalOptions="End"
           Grid.Column="2">
-                    <Image Source="{Binding FotoPrestadorUrl}" 
+                    <Image Source="{Binding FotoEmpresa}" 
               Aspect="AspectFill" 
               HeightRequest="40" WidthRequest="40"
               >
@@ -108,7 +108,7 @@
                         WidthRequest="314"
                         HeightRequest="0"
                        BackgroundColor="Transparent"
-                        Text="{Binding Titulo}"
+                        Text="{Binding ValorProposto}"
                         />
 
                         <Picker
@@ -128,7 +128,7 @@
                                 BackgroundColor="White"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
 
-                        <Label Text="Data inicial do serviço"
+                        <Label Text="Data final do serviço"
                                TextColor="#b2a9a9"
                                HorizontalOptions="Center"/>
                         <DatePicker 
@@ -151,7 +151,7 @@
                  BorderColor="White"
                  BorderWidth="1"
                  FontSize="28"
-                 Clicked="EnviarProposta_Clicked"/>
+                 Command="{Binding CriarCandidaturaCommand}"/>
 
             </VerticalStackLayout>
         </Grid>

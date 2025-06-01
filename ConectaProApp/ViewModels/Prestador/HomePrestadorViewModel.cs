@@ -1,6 +1,7 @@
 ﻿using ConectaProApp.Models;
 using ConectaProApp.Services.Prestador;
 using ConectaProApp.Services.Servico;
+using ConectaProApp.View.Prestador;
 using ConectaProApp.ViewModels.Servico;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,18 @@ namespace ConectaProApp.ViewModels.Prestador
             sService = new ServicoService();
             BuscarServicosCommand = new Command(async () => await BuscarServicosAsync());
             ProximoServicoCommand = new Command(MostrarProximoServico);
-            CandidatarServicoCommand = new Command(async () => await Shell.Current.GoToAsync("///CandidatarPrestador"));
+            CandidatarServicoCommand = new Command(async () =>
+            {
+                var idSolicitacao = ServicoAtual?.IdSolicitacao ?? 0;
+                if (idSolicitacao > 0)
+                {
+                    await Application.Current.MainPage.Navigation.PushAsync(new CandidatarPrestador(idSolicitacao));
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Nenhum serviço selecionado.", "OK");
+                }
+            });
             // busca os serviços ao inicializar a tela
             Task.Run(async () => await BuscarServicosAsync());
             Task.Run(async () => await CarregarFotoPrestadorAsync());

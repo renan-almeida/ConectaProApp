@@ -283,7 +283,6 @@ namespace ConectaProApp.ViewModels.Cliente
             if (string.IsNullOrWhiteSpace(Titulo) ||
                  string.IsNullOrWhiteSpace(Descricao) ||
                  string.IsNullOrWhiteSpace(SegmentoSelecionado)  ||
-                 ValorProposto == 0 ||
                  string.IsNullOrWhiteSpace(UrgenciaSelecionada) ||
                  string.IsNullOrWhiteSpace(FormaPagtoSelecionado))
             {

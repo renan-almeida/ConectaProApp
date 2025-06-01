@@ -107,7 +107,7 @@ namespace ConectaProApp.ViewModels.Cliente
             var prestador = await pService.BuscarPrestadorPorIdAsync(IdPrestador);
             if (prestador != null)
             {
-                NomePrestador = prestador.Nome;
+                NomePrestador = prestador.Nome ?? "prestador";
                 OnPropertyChanged(nameof(NomePrestador));
             }
         }
@@ -154,13 +154,13 @@ namespace ConectaProApp.ViewModels.Cliente
             if (string.IsNullOrWhiteSpace(TituloProposta) ||
                  string.IsNullOrWhiteSpace(DescProposta) ||
                  ValorProposto == 0 ||
+                 PrevisaoInicio == default ||
                  string.IsNullOrWhiteSpace(UrgenciaSelecionada) ||
-                 string.IsNullOrWhiteSpace(FormaPagtoSelecionado)) 
+                 string.IsNullOrWhiteSpace(FormaPagtoSelecionado))
             {
                 mensagemErro = "Por favor, preencha todos os campos nescessários antes de criar a solicitação!";
                 return false;
             }
-
             mensagemErro = string.Empty;
             return true;
 

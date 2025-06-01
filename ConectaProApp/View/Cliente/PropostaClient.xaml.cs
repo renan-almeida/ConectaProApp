@@ -7,7 +7,7 @@ namespace ConectaProApp.View.Cliente;
 public partial class PropostaClient : ContentPage
 {
     private PropostaClientViewModel propostaClientViewModel;
-	public PropostaClient( int idPrestador)
+	public PropostaClient(int idPrestador)
 	{
 		InitializeComponent();
         pickerPrevisaoInicio.MinimumDate = DateTime.Today;

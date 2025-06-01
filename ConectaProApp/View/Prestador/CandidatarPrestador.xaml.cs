@@ -1,11 +1,14 @@
 using CommunityToolkit.Maui.Views;
+using ConectaProApp.View.Cliente;
 using ConectaProApp.View.PopUp;
+using ConectaProApp.ViewModels.Prestador;
 
 namespace ConectaProApp.View.Prestador;
 
 public partial class CandidatarPrestador : ContentPage
 {
-	public CandidatarPrestador()
+    private CandidaturaPrestadorViewModel candidaturaPrestadorViewModel;
+	public CandidatarPrestador(int idSolicitacao)
 	{
 		InitializeComponent();
         pickerPrevisaoInicio.MinimumDate = DateTime.Today;
@@ -14,6 +17,8 @@ public partial class CandidatarPrestador : ContentPage
         pickerPrevisaoFim.MinimumDate = DateTime.Today;
         pickerPrevisaoFim.MaximumDate = DateTime.Today.AddDays(365);
         pickerPrevisaoFim.Date = DateTime.Today;
+        candidaturaPrestadorViewModel = new CandidaturaPrestadorViewModel(idSolicitacao);
+        BindingContext = candidaturaPrestadorViewModel;
     }
 
     private async void OnAvatarPrestadorTapped(object sender, EventArgs e)
