@@ -146,10 +146,10 @@ namespace ConectaProApp.ViewModels.Usuarios
                 if (usuarioAutenticado != null && usuarioAutenticado.Id > 0)
                 {
                     Preferences.Set("id", usuarioAutenticado.Id);
-                    await SecureStorage.SetAsync("jwt_token", usuarioAutenticado.Token);
+                    await SecureStorage.SetAsync("token", usuarioAutenticado.Token);
                     Debug.WriteLine($"✅ Token salvo no SecureStorage: {usuarioAutenticado.Token}");
 
-                    var storedToken = await SecureStorage.GetAsync("jwt_token");
+                    var storedToken = await SecureStorage.GetAsync("token");
                     Debug.WriteLine($"🔹 Token recuperado do SecureStorage: {storedToken}");
 
                     if (string.IsNullOrEmpty(storedToken))

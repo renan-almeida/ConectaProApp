@@ -50,7 +50,7 @@
         <!-- Conteúdo Principal -->
         <Grid Grid.Row="1">
             <!-- Foto da Empresa como Fundo -->
-            <Image Source="{Binding ServicoAtual.IdCliente.FotoPerfilEmpresa}" 
+            <Image Source="{Binding CaminhoFotoFundo}" 
                    Aspect="AspectFill" 
                    Opacity="0.7"/>
 
@@ -65,7 +65,7 @@
                            Padding="0"
                            BackgroundColor="White"
                            BorderColor="#0f5cc2">
-                        <Image Source="{Binding ServicoAtual.CaminhoFoto}" 
+                        <Image Source="{Binding CaminhoFotoEmpresa}" 
                                Aspect="AspectFill" 
                                HeightRequest="53" WidthRequest="53"
                                >
@@ -79,7 +79,7 @@
                     </Frame>
 
                     <VerticalStackLayout Spacing="2" Margin="16,22,0,0">
-                        <Label Text="{Binding ServicoAtual.NomeFantasia}"
+                        <Label Text="{Binding NomeFantasia, Mode=OneWay}"
                                FontSize="30"
                                TextColor="Black"
                                />
@@ -87,7 +87,7 @@
                             <Label Text="Empresa, "
                                     FontSize="12"
                                    TextColor="Black"/>
-                            <Label Text="{Binding ServicoAtual.Uf}"
+                            <Label Text="{Binding Uf}"
                                     FontSize="12"
                                     TextColor="Black"/>
                         </HorizontalStackLayout>
@@ -105,7 +105,7 @@
                     HeightRequest="82"
                     BorderColor="#0f5cc2"
                        >
-                    <Label Text="{Binding ServicoAtual.DescServico}"
+                    <Label Text="{Binding DescSolicitacao, Mode=OneWay}"
                            FontSize="14"
                            TextColor="Black"/>
                 </Frame>

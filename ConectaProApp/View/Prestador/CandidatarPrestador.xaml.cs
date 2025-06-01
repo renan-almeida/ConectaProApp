@@ -21,19 +21,6 @@ public partial class CandidatarPrestador : ContentPage
         BindingContext = candidaturaPrestadorViewModel;
     }
 
-    private async void OnAvatarPrestadorTapped(object sender, EventArgs e)
-    {
-        // Exemplo de ação ao clicar na imagem do prestador
-        if (sender is Image image)
-        {
-            // Realiza o zoom (aumenta o tamanho da imagem)
-            await image.ScaleTo(1.5, 500, Easing.CubicInOut);
-
-            // Opcional: Retorna ao tamanho original após um pequeno atraso
-            await Task.Delay(500);
-            await image.ScaleTo(1.0, 500, Easing.CubicInOut);
-        }
-    }
     private void OnFotoPrestadorClicked(object sender, EventArgs e)
     {
         Shell.Current.FlyoutIsPresented = true;
@@ -45,10 +32,37 @@ public partial class CandidatarPrestador : ContentPage
 
     }
 
-
-    private async void EnviarProposta_Clicked(object sender, EventArgs e)
+    private bool _isUpdatingValorDisposto = false;
+    private void OnValorDispostoTextChanged(object sender, TextChangedEventArgs e)
     {
-        var popup = new TestePopup();
-        await this.ShowPopupAsync(popup);
+        if (_isUpdatingValorDisposto)
+            return;
+
+        _isUpdatingValorDisposto = true;
+
+        var entry = sender as Entry;
+        if (entry == null) return;
+
+        // Remove tudo que não é número
+        string digitsOnly = new string(e.NewTextValue.Where(char.IsDigit).ToArray());
+
+        if (string.IsNullOrWhiteSpace(digitsOnly))
+        {
+            entry.Text = string.Empty;
+            _isUpdatingValorDisposto = false;
+            return;
+        }
+
+        // Converte para decimal (assumindo 2 casas decimais)
+        if (decimal.TryParse(digitsOnly, out decimal valorDecimal))
+        {
+            valorDecimal /= 100; // Para colocar as casas decimais
+            entry.Text = valorDecimal.ToString("C", new System.Globalization.CultureInfo("pt-BR"));
+        }
+
+        // Move o cursor pro final
+        entry.CursorPosition = entry.Text.Length;
+
+        _isUpdatingValorDisposto = false;
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ConectaProApp.Models;
 using ConectaProApp.Services.Prestador;
 using ConectaProApp.Services.Servico;
 using ConectaProApp.View.Busca;
@@ -20,7 +21,7 @@ namespace ConectaProApp.ViewModels.Prestador
         private readonly ServicoService _servicoService;
 
         // Coleção observável com os serviços encontrados
-        public ObservableCollection<ServicoModel> ServicosEncontrados { get; set; } // Usando o alias
+        public ObservableCollection<ServicoHomeDTO> ServicosEncontrados { get; set; } // Usando o alias
 
         // Comandos para cada categoria
         public ICommand TecnologiaSolicitacoesCommand { get; set; }
@@ -38,7 +39,7 @@ namespace ConectaProApp.ViewModels.Prestador
         public BuscaPrestadorViewModel()
         {
             _servicoService = new ServicoService();
-            ServicosEncontrados = new ObservableCollection<ServicoModel>();
+            ServicosEncontrados = new ObservableCollection<ServicoHomeDTO>();
 
             // Inicialização dos comandos com suas respectivas ações
             TecnologiaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("TECNOLOGIA"));

@@ -16,4 +16,11 @@ public partial class HomePrestador : ContentPage
 	{
 		Shell.Current.FlyoutIsPresented = true;
 	}
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _homePrestadorViewModel.InitAsync();
+    }
+
 }

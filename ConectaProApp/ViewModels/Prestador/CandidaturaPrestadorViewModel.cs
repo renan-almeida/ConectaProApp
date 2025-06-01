@@ -25,7 +25,7 @@ namespace ConectaProApp.ViewModels.Prestador
             IdSolicitacao = idSolicitacao;
             FormasPagto = [.. Enum.GetNames(typeof(FormaPagtoEnum))];
             CriarCandidaturaCommand = new Command(async () => await FinalizarCandidatura());
-            _ = CarregarNomeEmpresa();
+          //  _ = CarregarNomeEmpresa();
             CarregarFotoEmpresaAsync();
         }
 
@@ -76,7 +76,7 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
 
-        private async Task CarregarNomeEmpresa()
+    /*0    private async Task CarregarNomeEmpresa()
         {
             var empresa = await sService.BuscarSolicitacaoPorIdAsync(IdSolicitacao);
             if (empresa != null)
@@ -85,6 +85,7 @@ namespace ConectaProApp.ViewModels.Prestador
                 OnPropertyChanged(nameof(NomeEmpresa));
             }
         }
+    */
 
         private ImageSource fotoEmpresa;
         public ImageSource FotoEmpresa

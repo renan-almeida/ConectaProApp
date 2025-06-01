@@ -32,9 +32,9 @@ namespace ConectaProApp.Models
         public string Cep { get; set; }
         [JsonProperty("numero")]
         public int Numero { get; set; }
-        [JsonProperty("formaPagtoEnum")]
+        [JsonProperty("formaPagto")]
         public FormaPagtoEnum FormaPagtoEnum { get; set; }
-        [JsonProperty("nvlUrgenciaEnum")]
+        [JsonProperty("nvlUrgencia")]
         public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
         [JsonProperty("fotoServico")]
         public string FotoServico { get; set; }
@@ -42,7 +42,7 @@ namespace ConectaProApp.Models
         public string PrevisaoInicio { get; set; }
         [JsonProperty("duracaoServico")]
         public int DuracaoServico { get; set; }
-        [JsonProperty("statusSolicitacaoEnum")]
+        [JsonProperty("statusSolicitacao")]
         public StatusOrcamentoEnum StatusSolicitacaoEnum { get; set; }
 
         // Informações adicionais para tela de busca de servicos

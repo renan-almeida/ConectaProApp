@@ -260,7 +260,7 @@ namespace ConectaProApp.ViewModels.Cliente
                 DuracaoServico = this.DuracaoServico, 
                 NvlUrgenciaEnum = urgenciaEnum,
                 FormaPagtoEnum = formaPagtoEnum,
-                StatusSolicitacaoEnum = StatusOrcamentoEnum.PENDENTE,
+                StatusSolicitacaoEnum = StatusOrcamentoEnum.ATIVA,
                 FotoServico = FotoServico
             };
 

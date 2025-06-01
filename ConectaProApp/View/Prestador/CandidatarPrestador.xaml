@@ -69,15 +69,11 @@
               BackgroundColor="White"
               Margin="0,20,0,0">
 
-                    <Image x:Name="avatarImagePrestador"
-                  Source="minhaconta.png"
-                  Aspect="AspectFill"
-                  WidthRequest="120"
-                  HeightRequest="120">
-
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnAvatarPrestadorTapped" />
-                        </Image.GestureRecognizers>
+                    <Image
+                              Source="{Binding FotoEmpresa}"
+                              Aspect="AspectFill"
+                              WidthRequest="80"
+                              HeightRequest="80">
                     </Image>
                 </Frame>
 
@@ -93,7 +89,7 @@
 
                 <Frame BackgroundColor="White"
                 WidthRequest="361"
-                HeightRequest="420"
+                HeightRequest="480"
                 Margin="16"
                 CornerRadius="30"
                 BorderColor="Black">
@@ -103,12 +99,13 @@
 
 
                         <Entry Placeholder="Defina um orçamento"
-                        PlaceholderColor="Gray"
-                         Keyboard="Numeric"
-                        WidthRequest="314"
-                        HeightRequest="0"
-                       BackgroundColor="Transparent"
-                        Text="{Binding ValorProposto}"
+                               TextChanged="OnValorDispostoTextChanged"
+                                PlaceholderColor="Gray"
+                                 Keyboard="Numeric"
+                                WidthRequest="180"
+                                HeightRequest="0"
+                               BackgroundColor="Transparent"
+                                Text="{Binding ValorProposto}"
                         />
 
                         <Picker
@@ -123,7 +120,7 @@
                         <DatePicker 
                                 x:Name="pickerPrevisaoInicio"
                                 Format="dd/MM/yyyy"
-                                WidthRequest="314"
+                                WidthRequest="180"
                                 HeightRequest="0"
                                 BackgroundColor="White"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
@@ -134,7 +131,7 @@
                         <DatePicker 
                                 x:Name="pickerPrevisaoFim"
                                 Format="dd/MM/yyyy"
-                                WidthRequest="314"
+                                WidthRequest="180"
                                 HeightRequest="0"
                                 BackgroundColor="White"
                                Date="{Binding PrevisaoFim, Mode=TwoWay}"/>

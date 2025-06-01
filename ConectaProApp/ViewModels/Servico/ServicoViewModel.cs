@@ -23,34 +23,17 @@ namespace ConectaProApp.ViewModels.Servico
         }
 
         public string Nome => servico.TituloSolicitacao;
-        public string StServico => servico.StatusSolicitacaoEnum.ToString();
+        public string StServico => servico.StatusSolicitacao.ToString();
         public string ValorServico => servico.ValorProposto.ToString("C");
-        public string NvlUrgenciaEnum => servico.NvlUrgenciaEnum.ToString();
-        public string NomeSegmento => servico.TipoCategoriaEnum.ToString(); // Corrigido para DescSegmento
-        public string FormaPagamento => servico.FormaPagtoEnum.ToString();
+        public string NvlUrgenciaEnum => servico.NvlUrgencia.ToString();
+        public string NomeSegmento => servico.TipoCategoria.ToString(); // Corrigido para DescSegmento
+        public string FormaPagamento => servico.FormaPagto.ToString();
         public string Descricao => servico.DescSolicitacao;
         // public string Especialidade => servico.IdPrestador?.Especialidades?.FirstOrDefault(); // Ajustado para pegar a primeira especialidade
         // public string Logradouro => servico.Logradouro;
         // public string Nro => servico.NroEmpresa.ToString();
-        public string FotoServico => servico.FotoServico;
-        public string NomeFantasia => servico.NomeFantasia;
-        public string FotoPerfilEmpresa => string.IsNullOrEmpty(servico.CaminhoFoto) ? "empresasemfoto.png" : (servico.CaminhoFoto);
-
-        public ImageSource ImagemFundoHome
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(FotoServico))
-                    return ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(FotoServico)));
-
-                if (!string.IsNullOrEmpty(FotoPerfilEmpresa))
-                    return ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(FotoPerfilEmpresa)));
-
-                return "empresasemfoto.png";
-
-
-            }
-        }
+        public string NomeFantasia => servico.EmpresaClienteResumoDTO.NomeFantasia;
+        public string FotoPerfilEmpresa => string.IsNullOrEmpty(servico.EmpresaClienteResumoDTO.CaminhoFoto) ? "empresasemfoto.png" : (servico.EmpresaClienteResumoDTO.CaminhoFoto);
 
         private bool mostrarDescricao;
         public bool MostrarDescricao

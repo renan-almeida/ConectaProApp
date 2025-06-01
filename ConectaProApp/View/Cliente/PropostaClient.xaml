@@ -70,15 +70,11 @@
                  BackgroundColor="White"
                  Margin="0,20,0,0">
 
-                    <Image x:Name="avatarImageClient"
-                     Source="minhaconta.png"
+                    <Image
+                     Source="{Binding FotoPrestador}"
                      Aspect="AspectFill"
                      WidthRequest="120"
                      HeightRequest="120">
-
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnAvatarClientTapped" />
-                        </Image.GestureRecognizers>
                     </Image>
                 </Frame>
 
@@ -121,6 +117,7 @@
                                             />
 
                         <Entry Placeholder="Digite o valor proposto a pagar"
+                               TextChanged="OnValorDispostoTextChanged"
                                 PlaceholderColor="Gray"
                                 WidthRequest="314"
                                 HeightRequest="0"
@@ -157,15 +154,16 @@
                     </VerticalStackLayout>
                 </Frame>
                 <Button Text="Enviar proposta"
-                    WidthRequest="269"
-                    HeightRequest="65"
-                    CornerRadius="10"
-                    BackgroundColor="#0f5cc2"
-                    BorderColor="White"
-                    BorderWidth="1"
-                    FontSize="28"
+                        
+                        WidthRequest="269"
+                        HeightRequest="65"
+                        CornerRadius="10"
+                        BackgroundColor="#0f5cc2"
+                        BorderColor="White"
+                        BorderWidth="1"
+                        FontSize="28"
+                        Command="{Binding FinalizarPropostaCommand}"
                      />
-                <!--Clicked="EnviarProposta_Clicked" -->
 
             </VerticalStackLayout>
         </Grid>

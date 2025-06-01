@@ -16,17 +16,12 @@ namespace ConectaProApp.Services.Servico
         private readonly Request _request;
         private const string apiUrlBase = "https://conectapro-api.azurewebsites.net";
         private static readonly HttpClient client = new HttpClient();
+        private readonly ApiService _apiService;
 
         public ServicoService()
         {
             _request = new Request();
-        }
-
-        private readonly ApiService _apiService;
-
-        public ServicoService(ApiService apiService)
-        {
-            _apiService = apiService;
+            _apiService = new ApiService();
         }
 
         // Tela de busca de prestador
@@ -35,32 +30,54 @@ namespace ConectaProApp.Services.Servico
             try
             {
                 var token = await SecureStorage.GetAsync("token");
+                System.Diagnostics.Debug.WriteLine($"Token: {token}");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                const string buscaServicoEndpoint = "/busca-solicitacoes/";
+                const string buscaServicoEndpoint = "/busca-solicitacoes";
                 termo = Uri.EscapeDataString(termo);
 
                 var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?termo={termo}");
+                System.Diagnostics.Debug.WriteLine("Requisição para URL: " + response);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<List<ServicoModel>>(json);
                 }
+                else
+                {
+                    // Caso a requisição falhe, capturamos o código de status e a mensagem de erro
+                    var statusCode = response.StatusCode;
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+
+                    System.Diagnostics.Debug.WriteLine($"Erro na requisição. Status: {statusCode}, Mensagem: {errorMessage}");
+                    // Logando para diagnóstico
+
+                    // Exibindo a mensagem de erro para o usuário
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Erro", $"Erro ao buscar serviços: {errorMessage}", "OK");
+                    });
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Erro ao buscar serviço: " + ex.Message);
+                // Captura de exceção e log do erro
+                Console.WriteLine($"Erro ao buscar serviços: {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                await Application.Current.MainPage.DisplayAlert("Erro", "Ocorreu um erro inesperado. Tente novamente.", "OK");
             }
 
             return new List<ServicoModel>();
         }
+      
 
-        public async Task<List<ServicoModel>> BuscarServicoPorCategoriaAsync(string categoria)
+        public async Task<List<ServicoHomeDTO>> BuscarServicoPorCategoriaAsync(string categoria)
         {
             try
             {
                 var token = await SecureStorage.GetAsync("token");
+                System.Diagnostics.Debug.WriteLine($"Token: {token}");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string buscaServicoEndpoint = "/solicitacoes-busca";
@@ -69,34 +86,8 @@ namespace ConectaProApp.Services.Servico
 
                 categoria = Uri.EscapeDataString(categoria);
 
-                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?{categoria}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<ServicoModel>>(json);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Erro ao buscar serviço: " + ex.Message);
-            }
-
-            return new List<ServicoModel>();
-        }
-
-        // Exibe ao prestador apenas servicos com base na sua UF
-        public async Task<List<ServicoHomeDTO>> BuscarServicoUfAsync(string uf)
-        {
-            try
-            {
-                var token = await SecureStorage.GetAsync("token");
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                const string urlComplementar = "/solicitacoes-busca";
-                uf = Uri.EscapeDataString(uf);
-
-                var response = await client.GetAsync($"{apiUrlBase}{urlComplementar}?uf={uf}");
+                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
+                System.Diagnostics.Debug.WriteLine("Requisição para URL: " + response);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -106,11 +97,77 @@ namespace ConectaProApp.Services.Servico
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Erro ao buscar por UF: " + ex.Message);
+                Console.WriteLine("Erro ao buscar serviço: " + ex.Message);
             }
 
             return new List<ServicoHomeDTO>();
         }
+
+        // Exibe ao prestador apenas servicos com base na sua UF
+        public async Task<List<ServicoHomeDTO>> BuscarSolictacaoPorUfAsync(string uf)
+        {
+            try
+            {
+                // Verificar se o token existe
+                var token = await SecureStorage.GetAsync("token");
+                if (string.IsNullOrEmpty(token))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Token de autenticação inválido ou expirado.", "OK");
+                    return new List<ServicoHomeDTO>(); // Retorna uma lista vazia se o token não for válido
+                }
+                System.Diagnostics.Debug.WriteLine($"Token: {token}");
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                // Verificar se o parâmetro "uf" está válido
+                if (string.IsNullOrEmpty(uf))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "UF não pode ser vazio.", "OK");
+                    return new List<ServicoHomeDTO>(); // Retorna uma lista vazia se "uf" não for válido
+                }
+
+                const string urlComplementar = "/busca-solicitacoes";
+                uf = Uri.EscapeDataString(uf);
+
+                var requestUrl = $"{apiUrlBase}{urlComplementar}?uf={uf}"; // Adicionando o parâmetro "uf" à URL
+                System.Diagnostics.Debug.WriteLine("Requisição para URL: " + requestUrl); // Logando a URL para diagnóstico
+
+                var response = await client.GetAsync(requestUrl);
+
+                // Verificando o código de status da resposta
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<ServicoHomeDTO>>(json);
+                }
+                else
+                {
+                    // Caso a requisição falhe, capturamos o código de status e a mensagem de erro
+                    var statusCode = response.StatusCode;
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+
+                    System.Diagnostics.Debug.WriteLine($"Erro na requisição. Status: {statusCode}, Mensagem: {errorMessage}");
+                    // Logando para diagnóstico
+
+                    // Exibindo a mensagem de erro para o usuário
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Erro", $"Erro ao buscar serviços: {errorMessage}", "OK");
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Captura de exceção e log do erro
+                Console.WriteLine($"Erro ao buscar serviços: {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                await Application.Current.MainPage.DisplayAlert("Erro", "Ocorreu um erro inesperado. Tente novamente.", "OK");
+            }
+
+            // Retorna uma lista vazia caso haja falha
+            return new List<ServicoHomeDTO>();
+        }
+
 
         // Exibe Empresa apenas prestadores correspondentes a sua UF
 
@@ -118,7 +175,7 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty);
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 const string urlComplementar = "/Prestador/Uf";
@@ -182,7 +239,8 @@ namespace ConectaProApp.Services.Servico
 
         public async Task AceitarPropostaAsync(int idServicoAceito, int idSolicitacao)
         {
-            var token = Preferences.Get("token", string.Empty);
+            var token = await SecureStorage.GetAsync("token");
+
 
             // 1. Atualizar status da proposta aceita
             var contentAceita = new
@@ -199,7 +257,7 @@ namespace ConectaProApp.Services.Servico
             // 2. Buscar outras propostas da mesma solicitação
             var propostas = await BuscarPropostasPorSolicitacaoAsync(idSolicitacao);
 
-            foreach (var proposta in propostas.Where(p => p.IdServico != idServicoAceito))
+            foreach (var proposta in propostas.Where(p => p.IdSolicitacao != idServicoAceito))
             {
                 var contentRecusa = new
                 {
@@ -207,11 +265,11 @@ namespace ConectaProApp.Services.Servico
                 };
 
                 var responseRecusa = await _request.PutAsync(
-                    $"{apiUrlBase}/servicos/{proposta.IdServico}/status", contentRecusa, token);
+                    $"{apiUrlBase}/servicos/{proposta.IdSolicitacao}/status", contentRecusa, token);
 
                 if (!responseRecusa.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Erro ao recusar proposta {proposta.IdServico}");
+                    Console.WriteLine($"Erro ao recusar proposta {proposta.IdSolicitacao}");
                 }
             }
         }
@@ -220,7 +278,7 @@ namespace ConectaProApp.Services.Servico
         {
             try
             {
-                var token = Preferences.Get("token", string.Empty); // ou SecureStorage.GetAsync("token") se for mais seguro
+                var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var response = await client.GetAsync($"{apiUrlBase}/servicos/propostas?solicitacaoId={idSolicitacao}");

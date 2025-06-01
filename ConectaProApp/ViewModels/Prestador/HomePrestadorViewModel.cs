@@ -6,6 +6,7 @@ using ConectaProApp.ViewModels.Servico;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -26,6 +27,7 @@ namespace ConectaProApp.ViewModels.Prestador
 
         public HomePrestadorViewModel()
         {
+            CarregarFotoPrestadorAsync();
             sService = new ServicoService();
             BuscarServicosCommand = new Command(async () => await BuscarServicosAsync());
             ProximoServicoCommand = new Command(MostrarProximoServico);
@@ -42,24 +44,19 @@ namespace ConectaProApp.ViewModels.Prestador
                 }
             });
             // busca os serviços ao inicializar a tela
-            Task.Run(async () => await BuscarServicosAsync());
-            Task.Run(async () => await CarregarFotoPrestadorAsync());
+            InitAsync();
         }
 
         private List<ServicoHomeDTO> servicosUf; // Usando o alias ServicoModel
         private int indice = 0;
-        /*
-                private ServicoModel servicoAtual; // Usando o alias ServicoModel
-                public ServicoModel ServicoAtual
-                {
-                    get => servicoAtual;
-                    set
-                    {
-                        servicoAtual = value;
-                        OnPropertyChanged();
-                    }
-                }
-        */
+       
+        private string uf = Preferences.Get("uf", string.Empty);
+        public string NomeFantasia => string.IsNullOrEmpty(ServicoAtual?.EmpresaClienteResumoDTO?.NomeFantasia) ? "Empresa sem nome" : ServicoAtual?.EmpresaClienteResumoDTO?.NomeFantasia;
+        public string CaminhoFotoEmpresa => string.IsNullOrEmpty(ServicoAtual?.EmpresaClienteResumoDTO?.CaminhoFoto) ? "empresasemfoto.png" : ServicoAtual?.EmpresaClienteResumoDTO?.CaminhoFoto;
+        public string DescSolicitacao => string.IsNullOrEmpty(ServicoAtual?.DescSolicitacao) ? "sem descrição" : ServicoAtual?.DescSolicitacao;
+        public string Uf => string.IsNullOrEmpty(uf) ? "Sem Uf" : uf;
+        public string CaminhoFotoFundo => string.IsNullOrEmpty(ServicoAtual?.EmpresaClienteResumoDTO?.CaminhoFoto) ? "empresasemfoto.png" : ServicoAtual?.EmpresaClienteResumoDTO?.CaminhoFoto;
+
 
         private ServicoHomeDTO servicoAtual;
         public ServicoHomeDTO ServicoAtual
@@ -68,7 +65,18 @@ namespace ConectaProApp.ViewModels.Prestador
             set
             {
                 servicoAtual = value;
+
+                Debug.WriteLine($"[DEBUG] ServicoAtual atualizado: {servicoAtual?.EmpresaClienteResumoDTO?.NomeFantasia}");
+                Debug.WriteLine($"[DEBUG] ServicoAtual atualizado: {servicoAtual?.EmpresaClienteResumoDTO?.CaminhoFoto}");
+                Debug.WriteLine($"[DEBUG] ServicoAtual atualizado: {servicoAtual?.DescSolicitacao}");
+
+
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(NomeFantasia));
+                OnPropertyChanged(nameof(Uf));
+                OnPropertyChanged(nameof(CaminhoFotoEmpresa));
+                OnPropertyChanged(nameof(DescSolicitacao));
+                OnPropertyChanged(nameof(CaminhoFotoFundo));
             }
         }
         private ImageSource fotoPrestadorUrl;
@@ -93,30 +101,45 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
 
-        private async Task BuscarServicosAsync()
+        public async Task InitAsync()
         {
-            var uf = Preferences.Get("uf", string.Empty);
-            servicosUf = await sService.BuscarServicoUfAsync(uf);
-
-            indice = 0;
-            MostrarProximoServico();
+            await CarregarFotoPrestadorAsync();
+            await BuscarServicosAsync();
         }
 
+        private async Task BuscarServicosAsync()
+        {
+            var uf = Preferences.Get("uf", ""); // Ou obtenha de outro lugar
+            servicosUf = await sService.BuscarSolictacaoPorUfAsync(uf);
+
+            if (servicosUf.Any())
+            {
+                Debug.WriteLine("Serviços encontrados: " + servicosUf.Count);
+                indice = 0;
+                ServicoAtual = servicosUf[indice];
+            }
+            else
+            {
+                ServicoAtual = null;
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Application.Current.MainPage.DisplayAlert("Aviso", "Nenhum serviço encontrado para sua região.", "OK");
+                });
+            }
+
+        }
         private void MostrarProximoServico()
         {
-            if (servicosUf == null || !servicosUf.Any())
-                return;
+            if (servicosUf == null || servicosUf.Count == 0) return;
 
-            if (indice >= servicosUf.Count)
-                indice = 0;
-
+            indice = (indice + 1) % servicosUf.Count;
             ServicoAtual = servicosUf[indice];
-            indice++;
+            Application.Current.MainPage.DisplayAlert("Debug", $"Mostrando: {ServicoAtual.EmpresaClienteResumoDTO?.NomeFantasia}", "OK");
         }
 
         private async Task CarregarFotoPrestadorAsync()
         {
-            var fotoSalva = await SecureStorage.GetAsync("FotoPrestador");
+            var fotoSalva = await SecureStorage.GetAsync("caminhoFoto");
 
             if (!string.IsNullOrEmpty(fotoSalva))
                 FotoPrestadorUrl = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(fotoSalva)));

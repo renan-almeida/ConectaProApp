@@ -11,7 +11,8 @@ namespace ConectaProApp.Models.Enuns
         ACEITA = 1,
         PENDENTE = 2,
         RECUSADA = 3, 
-        FINALIZADA = 4
+        FINALIZADA = 4,
+        ATIVA
 
     }
 }

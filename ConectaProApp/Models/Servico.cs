@@ -1,4 +1,5 @@
 ﻿using ConectaProApp.Models.Enuns;
+using ConectaProApp.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,44 +14,80 @@ namespace ConectaProApp.Models
 {
     public class Servico
     {
-        public int IdServico { get; set; }
-        public Prestador IdPrestador { get; set; }
-        public Segmento IdSegmento { get; set; }
-        public EmpresaCliente IdCliente { get; set; }
+        [JsonProperty("idSolicitacao")]
+        public int IdSolicitacao { get; set; }
+
         [JsonProperty("tituloSolicitacao")]
         public string TituloSolicitacao { get; set; }
+
         [JsonProperty("descSolicitacao")]
         public string DescSolicitacao { get; set; }
-        [JsonProperty("dataInclusao")]
-        public string dataInclusao { get; set; }
-        [JsonProperty("especialidade")]
-        public string Especialidade { get; set; }
-        [JsonProperty("tipoCategoriaEnum")]
-        public TipoSegmentoEnum TipoCategoriaEnum { get; set; }
+
         [JsonProperty("valorProposto")]
         public decimal ValorProposto { get; set; }
-        [JsonProperty("logradouro")]
-        public string Logradouro { get; set; }
-        [JsonProperty("cep")]
-        public string Cep { get; set; }
-        [JsonProperty("numero")]
-        public int Numero { get; set; }
-        [JsonProperty("formaPagtoEnum")]
-        public FormaPagtoEnum FormaPagtoEnum { get; set; }
-        [JsonProperty("nvlUrgenciaEnum")]
-        public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
-        [JsonProperty("fotoServico")]
-        public string FotoServico { get; set; }
+
+        [JsonProperty("dataInclusao")]
+        public string DataInclusao { get; set; }
+
         [JsonProperty("previsaoInicio")]
         public string PrevisaoInicio { get; set; }
+
         [JsonProperty("duracaoServico")]
         public int DuracaoServico { get; set; }
-        [JsonProperty("statusSolicitacaoEnum")]
-        public StatusOrcamentoEnum StatusSolicitacaoEnum { get; set; }
 
-        // Informações adicionais para tela de busca de servicos
+        [JsonProperty("formaPagto")]
+        public string FormaPagto { get; set; }
+
+        [JsonProperty("nvlUrgencia")]
+        public string NvlUrgencia { get; set; }
+
+        [JsonProperty("tipoCategoria")]
+        public string TipoCategoria { get; set; }
+
+        [JsonProperty("statusSolicitacao")]
+        public string StatusSolicitacao { get; set; }
+
+        // Propriedades de empresaClienteResumoDTO
+        [JsonProperty("empresaClienteResumoDTO")]
+        public EmpresaClienteResumoDTO EmpresaClienteResumoDTO { get; set; }
+
+        // Propriedades de prestadorResumoDTO
+        [JsonProperty("prestadorResumoDTO")]
+        public PrestadorResumoDTO PrestadorResumoDTO { get; set; }
+    }
+
+    public class EmpresaClienteResumoDTOO : BaseViewModel
+    {
+        [JsonProperty("idEmpresaCliente")]
+        public int IdEmpresaCliente { get; set; }
+
+        [JsonProperty("cnpj")]
+        public string Cnpj { get; set; }
+
+        [JsonProperty("razaoSocial")]
+        public string RazaoSocial { get; set; }
+
         [JsonProperty("nomeFantasia")]
         public string NomeFantasia { get; set; }
+
+        [JsonProperty("caminhoFoto")]
+        public string CaminhoFoto { get; set; }
+    }
+
+    public class PrestadorResumoDTOO
+    {
+        [JsonProperty("idPrestador")]
+        public int IdPrestador { get; set; }
+
+        [JsonProperty("nome")]
+        public string Nome { get; set; }
+
+        [JsonProperty("especialidades")]
+        public List<string> Especialidades { get; set; }
+
+        [JsonProperty("statusDisponibilidade")]
+        public string StatusDisponibilidade { get; set; }
+
         [JsonProperty("caminhoFoto")]
         public string CaminhoFoto { get; set; }
     }
