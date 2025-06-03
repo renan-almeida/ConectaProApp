@@ -14,13 +14,13 @@
         <!-- Barra de Pesquisa -->
         <Frame 
             Padding="0"
-            Margin="25,0,0,20"
+            Margin="10,0,0,20"
             BackgroundColor="White"
             CornerRadius="15"
             BorderColor="#0F5CC2"
             HasShadow="False"
             HeightRequest="44"
-            WidthRequest="320">
+            WidthRequest="300">
 
             <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
                 <!-- Ícone de lupa -->
@@ -38,11 +38,11 @@
                     Placeholder="Busque suas solicitações"
                     Text="{Binding TermoBusca, Mode=TwoWay}"
                     FontSize="16"
-                    WidthRequest="300"
+                    WidthRequest="280"
                     HeightRequest="44"
                     BackgroundColor="Transparent"
                     VerticalOptions="Center"
-                    HorizontalOptions="FillAndExpand"
+                    HorizontalOptions="Start"
                     TextColor="Black"
                     PlaceholderColor="Gray"
                     Margin="0"
@@ -53,8 +53,8 @@
         <Button
             Command="{Binding AcionarBuscaCommand}"
             Text="➤" FontSize="18" CornerRadius="100"
-            HeightRequest="30"
-            WidthRequest="30"
+            HeightRequest="45"
+            WidthRequest="45"
             BackgroundColor="#0f5cc2"
             Margin="15,0,0,20"/>
             </HorizontalStackLayout>
@@ -66,9 +66,9 @@
     BackgroundColor="White"
     CornerRadius="15"
     HasShadow="False"
-    HeightRequest="614"
+    HeightRequest="650"
     HorizontalOptions="Center"
-    WidthRequest="413">
+    WidthRequest="390">
 
     <VerticalStackLayout>
         <Label Text="Categorias"
@@ -91,7 +91,7 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="170"
+                            WidthRequest="155"
                             Margin="0,0,25,25"
                             IsClippedToBounds="True"
                             BorderColor="Transparent">
@@ -100,7 +100,7 @@
                                     Source="tecnologia.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170">
+                                    WidthRequest="155">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding TecnologiaSolicitacoesCommand}" />
                                     </Image.GestureRecognizers>
@@ -116,7 +116,7 @@
                                     HorizontalOptions="Center"
                                     VerticalOptions="Start"
                                     Margin="0,10"
-                                    Padding="0,0,70,0"/>
+                                    Padding="0,0,60,0"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer 
                                         Command="{Binding TecnologiaSolicitacoesCommand}" 
@@ -131,7 +131,7 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="170"
+                            WidthRequest="155"
                             Margin="0,0,0,25"
                             IsClippedToBounds="True"
                             BorderColor="Transparent">
@@ -140,7 +140,7 @@
                                     Source="construcao.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170">
+                                    WidthRequest="155">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ConstrucaoSolicitacoesCommand}" />
                                     </Image.GestureRecognizers>
@@ -171,7 +171,7 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="170"
+                            WidthRequest="155"
                             Margin="0,0,25,0"
                             IsClippedToBounds="True"
                             BorderColor="Transparent">
@@ -180,7 +180,7 @@
                                     Source="limpeza.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170">
+                                    WidthRequest="155">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding LimpezaSolicitacoesCommand}" />
                                     </Image.GestureRecognizers>
@@ -211,7 +211,7 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="170"
+                            WidthRequest="155"
                             Margin="0,0,0,25"
                             IsClippedToBounds="True"
                             BorderColor="Transparent">
@@ -220,7 +220,7 @@
                                     Source="reparos.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170">
+                                    WidthRequest="155">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ReparosSolicitacoesCommand}" />
                                     </Image.GestureRecognizers>
@@ -252,7 +252,7 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="170"
+                            WidthRequest="155"
                             Margin="0,0,25,0"
                             IsClippedToBounds="True"
                             BorderColor="Transparent">
@@ -261,7 +261,7 @@
                                     Source="jardinagem.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170">
+                                    WidthRequest="155">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding JardinagemSolicitacoesCommand}" />
                                     </Image.GestureRecognizers>
@@ -278,7 +278,7 @@
                                     HorizontalOptions="Center"
                                     VerticalOptions="Start"
                                     Margin="0,10"
-            Padding="0,0,60,0"/>
+                                    Padding="0,0,60,0"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer 
                                         Command="{Binding JardinagemSolicitacoesCommand}" 
@@ -293,7 +293,7 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="170"
+                            WidthRequest="155"
                             Margin="0,0,0,25"
                             IsClippedToBounds="True"
                             BorderColor="Transparent">
@@ -302,7 +302,7 @@
                                     Source="mecanico.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170">
+                                    WidthRequest="155">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding MecanicoSolicitacoesCommand}" />
                                     </Image.GestureRecognizers>
@@ -334,7 +334,7 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="170"
+                            WidthRequest="155"
                             Margin="0,0,25,0"
                             IsClippedToBounds="True"
                             BorderColor="Transparent">
@@ -343,7 +343,7 @@
                                     Source="pintura.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170">
+                                    WidthRequest="155">
                                     <Image.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding PinturaSolicitacoesCommand}" />
                                     </Image.GestureRecognizers>
@@ -369,24 +369,24 @@
                             </Grid>
                         </Frame>
 
-                        <!-- Motorista -->
+                        <!-- Outros -->
                         <Frame
                             CornerRadius="20"
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="170"
+                            WidthRequest="155"
                             Margin="0,0,0,25"
                             IsClippedToBounds="True"
                             BorderColor="Transparent">
                             <Grid>
                                 <Image 
-                                    Source="motorista.png"
+                                    Source="outros.jpg"
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170">
+                                    WidthRequest="155">
                                     <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding MotoristaSolicitacoesCommand}" />
+                                        <TapGestureRecognizer Command="{Binding OutrasSolicitacoesCommand}" />
                                     </Image.GestureRecognizers>
                                 </Image>
                                 <BoxView 

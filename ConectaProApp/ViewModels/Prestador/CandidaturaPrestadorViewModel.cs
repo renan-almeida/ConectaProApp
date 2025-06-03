@@ -110,11 +110,6 @@ namespace ConectaProApp.ViewModels.Prestador
             var previsaoInicioFormatada = PrevisaoInicio.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
             var previsaoFimFormatada = PrevisaoFim.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-            if (!ValidarCampos(out string mensagemErro))
-            {
-                await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "Ok");
-                return false;
-            }
             var idPrestador = Preferences.Get("id", string.Empty);
             var novaproposta = new PropostaCreateDTO
             {

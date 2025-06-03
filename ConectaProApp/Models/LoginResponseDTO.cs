@@ -17,6 +17,8 @@ namespace ConectaProApp.Models
         public string TipoUsuario { get; set; }
         [JsonProperty("token")]
         public string Token { get; set; }
+        [JsonProperty("nome")]
+        public string Nome { get; set; }
 
     }
 }

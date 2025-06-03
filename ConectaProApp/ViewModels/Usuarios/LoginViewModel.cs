@@ -146,6 +146,8 @@ namespace ConectaProApp.ViewModels.Usuarios
                 if (usuarioAutenticado != null && usuarioAutenticado.Id > 0)
                 {
                     Preferences.Set("id", usuarioAutenticado.Id);
+                    Preferences.Set("uf", usuarioAutenticado.Uf);
+                    Preferences.Set("nome", usuarioAutenticado.Nome);
                     await SecureStorage.SetAsync("token", usuarioAutenticado.Token);
                     Debug.WriteLine($"✅ Token salvo no SecureStorage: {usuarioAutenticado.Token}");
 
@@ -156,6 +158,8 @@ namespace ConectaProApp.ViewModels.Usuarios
                     {
                         Debug.WriteLine("⚠️ Token não foi salvo corretamente!");
                     }
+                    var Nome = Preferences.Get("nome", string.Empty);
+                    await Application.Current.MainPage.DisplayAlert($"Bem Vindo {Nome}", "Juntos vamos trilhar uma carreira de sucesso!", "Ok");
 
                     try
                     {

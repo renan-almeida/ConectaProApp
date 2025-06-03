@@ -55,10 +55,12 @@
                  TextColor="Black"
                  Placeholder="Digite seu CPF"
                  PlaceholderColor="#B2A9A9"
+                 Keyboard="Numeric"
                  FontSize="15"
                  HorizontalOptions="Center"
                  WidthRequest="314"
                  Text="{Binding CpfPrestador, Mode=TwoWay}"
+                MaxLength="11"
                   />
 
             <Label Text="Digite sua data de Nascimento abaixo" TextColor="#b2a9a9" HorizontalOptions="Center"/>

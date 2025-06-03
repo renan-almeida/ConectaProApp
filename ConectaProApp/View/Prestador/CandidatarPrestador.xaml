@@ -121,7 +121,8 @@
                                 x:Name="pickerPrevisaoInicio"
                                 Format="dd/MM/yyyy"
                                 WidthRequest="180"
-                                HeightRequest="0"
+                                HeightRequest="50"
+                            HorizontalOptions="Center"
                                 BackgroundColor="White"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
 
@@ -132,7 +133,7 @@
                                 x:Name="pickerPrevisaoFim"
                                 Format="dd/MM/yyyy"
                                 WidthRequest="180"
-                                HeightRequest="0"
+                                HeightRequest="50"
                                 BackgroundColor="White"
                                Date="{Binding PrevisaoFim, Mode=TwoWay}"/>
 

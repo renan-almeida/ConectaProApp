@@ -49,11 +49,6 @@
 
         <!-- Conteúdo Principal -->
         <Grid Grid.Row="1">
-            <!-- Foto da Empresa como Fundo -->
-            <Image Source="{Binding CaminhoFotoFundo}" 
-                   Aspect="AspectFill" 
-                   Opacity="0.7"/>
-
             <!-- Conteúdo sobre o fundo -->
             <StackLayout Padding="20" VerticalOptions="End" Spacing="10">
 
@@ -65,7 +60,7 @@
                            Padding="0"
                            BackgroundColor="White"
                            BorderColor="#0f5cc2">
-                        <Image Source="{Binding CaminhoFotoEmpresa}" 
+                        <Image Source="{Binding CaminhoFotoEmpresa, Mode=OneWay}" 
                                Aspect="AspectFill" 
                                HeightRequest="53" WidthRequest="53"
                                >
