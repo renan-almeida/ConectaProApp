@@ -23,6 +23,9 @@ namespace ConectaProApp.ViewModels.Prestador
             : "Sem segmento";
 
             FotoPrestador = string.IsNullOrEmpty(prestador.CaminhoFoto) ? "prestadorsemfoto.png" : prestador.CaminhoFoto;
+
+            System.Diagnostics.Debug.WriteLine($"Foto atribuída: {FotoPrestador}");
+
         }
 
         public string FotoPrestador { get; set; }

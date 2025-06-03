@@ -69,7 +69,7 @@ namespace ConectaProApp.Services.Prestador
                 const string buscaServicoEndpoint = "/busca-prestadores";
                 categoria = Uri.EscapeDataString(categoria);
 
-                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?{categoria}");
+                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?termo={categoria}");
 
                 if (response.IsSuccessStatusCode)
                 {

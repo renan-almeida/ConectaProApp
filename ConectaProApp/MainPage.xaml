@@ -49,9 +49,10 @@
         CornerRadius="15"
         BorderColor="White"
         BorderWidth="2"
-        BackgroundColor="#0f5cc2"
+        BackgroundColor="Transparent"
+        VerticalOptions="Center"
         WidthRequest="178"
-        HeightRequest="49" />
+        HeightRequest="55"/>
         </VerticalStackLayout>
     </Grid>
 

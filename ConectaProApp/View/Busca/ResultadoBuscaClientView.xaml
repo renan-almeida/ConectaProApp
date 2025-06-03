@@ -4,123 +4,122 @@
              x:Class="ConectaProApp.View.Busca.ResultadoBuscaClientView"
              BackgroundColor="#f1f1f1">
 
-    <ScrollView>
-        <!-- Aqui definimos o espaçamento entre o conteúdo e as bordas da tela -->
-        <VerticalStackLayout Spacing="15" Padding="20,10">
+    <Grid RowDefinitions="Auto,*">
 
-            <!-- Cabeçalho -->
-            <Grid BackgroundColor="#020202"
-                  HeightRequest="58"
-                  Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <!-- Cabeçalho fixo ocupando toda a largura -->
+        <Grid BackgroundColor="#020202"
+              HeightRequest="58"
+              Padding="10"
+              Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-                <Image Source="iconevoltar.png"
-                       HeightRequest="30"
-                       WidthRequest="30"
-                       VerticalOptions="Center"
-                       Grid.Column="0">
+            <Image Source="iconevoltar.png"
+                   HeightRequest="30"
+                   WidthRequest="30"
+                   VerticalOptions="Center"
+                   Grid.Column="0">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnVoltarClicked" />
+                </Image.GestureRecognizers>
+            </Image>
+
+            <Frame HeightRequest="40"
+                   WidthRequest="40"
+                   CornerRadius="20"
+                   HasShadow="False"
+                   Padding="0"
+                   BackgroundColor="White"
+                   BorderColor="#0f5cc2"
+                   VerticalOptions="Center"
+                   HorizontalOptions="End"
+                   Grid.Column="2">
+                <Image Source="{Binding FotoEmpresaUrl}"
+                       Aspect="AspectFill"
+                       HeightRequest="40"
+                       WidthRequest="40">
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnVoltarClicked" />
+                        <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
                     </Image.GestureRecognizers>
+                    <Image.Clip>
+                        <EllipseGeometry Center="20,20"
+                                         RadiusX="20"
+                                         RadiusY="20"/>
+                    </Image.Clip>
                 </Image>
+            </Frame>
+        </Grid>
 
-                <Frame HeightRequest="40"
-                       WidthRequest="40"
-                       CornerRadius="20"
-                       HasShadow="False"
-                       Padding="0"
-                       BackgroundColor="White"
-                       BorderColor="#0f5cc2"
-                       VerticalOptions="Center"
-                       HorizontalOptions="End"
-                       Grid.Column="2">
-                    <Image Source="{Binding FotoEmpresaUrl}"
-                           Aspect="AspectFill"
-                           HeightRequest="40"
-                           WidthRequest="40">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
-                        </Image.GestureRecognizers>
-                        <Image.Clip>
-                            <EllipseGeometry Center="20,20"
-                                             RadiusX="20"
-                                             RadiusY="20"/>
-                        </Image.Clip>
-                    </Image>
-                </Frame>
-            </Grid>
+        <!-- Conteúdo scrollável -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="15" Padding="20,10">
 
-            <!-- Título -->
-            <Label Text="{Binding TituloBusca}"
-                   FontSize="Title"
-                   HorizontalOptions="Center"
-                   TextColor="Black"
-                   Margin="0,10,0,0"/>
+                <!-- Título -->
+                <Label Text="{Binding TituloBusca}"
+                       FontSize="Title"
+                       HorizontalOptions="Center"
+                       TextColor="Black"
+                       Margin="0,10,0,0"/>
 
-            <!-- Lista de Prestadores -->
-            <CollectionView ItemsSource="{Binding Prestadores}">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Stroke="Black"
-                                BackgroundColor="White"
-                                StrokeThickness="1"
-                                Margin="0"
-                                Padding="10"
-                                HeightRequest="112">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
-                            </Border.StrokeShape>
+                <!-- Lista de Prestadores -->
+                <CollectionView ItemsSource="{Binding Prestadores}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Stroke="Black"
+                                    BackgroundColor="White"
+                                    StrokeThickness="1"
+                                    Margin="0"
+                                    Padding="10"
+                                    HeightRequest="112">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10"/>
+                                </Border.StrokeShape>
 
-                            <HorizontalStackLayout Spacing="10">
-                                <Border BackgroundColor="#D9D9D9"
-                                        WidthRequest="40"
-                                        HeightRequest="40">
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="100"/>
-                                    </Border.StrokeShape>
-                                    <Image Source="{Binding FotoPrestador}"
-                                           WidthRequest="30"
-                                           HeightRequest="30"
-                                           Aspect="AspectFill"/>
-                                </Border>
+                                <HorizontalStackLayout Spacing="10">
+                                    <Border BackgroundColor="#D9D9D9"
+                                            WidthRequest="40"
+                                            HeightRequest="40">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="100"/>
+                                        </Border.StrokeShape>
+                                        <Image Source="{Binding FotoPrestador}"
+                                               WidthRequest="30"
+                                               HeightRequest="30"
+                                               Aspect="AspectFill"/>
+                                    </Border>
 
-                                <VerticalStackLayout Spacing="10" Margin="0,32,10,10">
-                                    <Label Text="{Binding Nome}"
-                                           FontSize="15"
-                                           FontAttributes="Bold"
-                                           TextColor="black"/>
-                                    <HorizontalStackLayout 
-                                        Spacing="5"
-                                        
-                                        HorizontalOptions="Start">
-                                        <Label Text="CATEGORIA:"
-                                               FontSize="11"
+                                    <VerticalStackLayout Spacing="10" Margin="0,32,10,10">
+                                        <Label Text="{Binding Nome}"
+                                               FontSize="15"
                                                FontAttributes="Bold"
-                                               
-                                             />
-                                        <Label Text="{Binding Segmento}"
-                                               FontSize="11"
-                                               TextColor="Black"
-                                               FontAttributes="Bold"/>
-                                    </HorizontalStackLayout>
+                                               TextColor="black"/>
+                                        <HorizontalStackLayout Spacing="5"
+                                                               HorizontalOptions="Start">
+                                            <Label Text="CATEGORIA:"
+                                                   FontSize="11"
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding Segmento}"
+                                                   FontSize="11"
+                                                   TextColor="Black"
+                                                   FontAttributes="Bold"/>
+                                        </HorizontalStackLayout>
 
-                                    <Label Text="CONTRATAR"
-                                           FontSize="10"
-                                           TextColor="#0F5CC2"
-                                           />
-                                </VerticalStackLayout>
-                            </HorizontalStackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
-    </ScrollView>
+                                        <Label Text="CONTRATAR"
+                                               FontSize="10"
+                                               TextColor="#0F5CC2"/>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

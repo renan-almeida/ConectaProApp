@@ -150,16 +150,8 @@ namespace ConectaProApp.ViewModels.Cliente
         }
         private async Task CarregarFotoEmpresaAsync()
         {
-            var fotoSalva = await SecureStorage.GetAsync("caminhoFoto");
-
-            if (!string.IsNullOrEmpty(fotoSalva))
-            {
-                 FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(fotoSalva)));
-            }
-            else
-            {
-                FotoEmpresaUrl = ImageSource.FromFile("empresasemfoto.png");
-            }
+   
+                FotoEmpresaUrl = "empresasemfoto.png";
 
         }
 

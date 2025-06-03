@@ -13,6 +13,8 @@ namespace ConectaProApp.ViewModels.Cliente
         [ObservableProperty]
         private List<PrestadorResponseBuscaDTO> prestadoresOriginais;
 
+        public string FotoEmpresaUrl { get; set; }
+
         [ObservableProperty]
         private string tituloBusca;
 
@@ -28,6 +30,14 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             CarregarPrestadores();
         }
+
+        private async Task CarregarFotoEmpresaAsync()
+        {
+
+            FotoEmpresaUrl = "empresasemfoto.png";
+
+        }
+
 
         private void CarregarPrestadores()
         {

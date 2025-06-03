@@ -65,7 +65,6 @@ namespace ConectaProApp.ViewModels.Prestador
 
         public string Uf => string.IsNullOrWhiteSpace(uf) ? "Sem Uf" : uf;
 
-        public decimal ValorProposto => ServicoAtual.ValorProposto;
 
         public async Task InitAsync()
         {

@@ -100,9 +100,17 @@
                     HeightRequest="82"
                     BorderColor="#0f5cc2"
                        >
-                    <Label Text="{Binding DescSolicitacao, Mode=OneWay}"
-                           FontSize="14"
-                           TextColor="Black"/>
+                    <VerticalStackLayout>
+                        <Label Text="{Binding DescSolicitacao, Mode=OneWay}"
+                               FontSize="14"
+                               TextColor="Black"/>
+
+                        <Label Text="{Binding ValorProposto, Mode=OneWay}"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="#2CB33C"/>
+                    </VerticalStackLayout>
+                    
                 </Frame>
 
                 <!-- Botões -->

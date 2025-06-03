@@ -1,9 +1,9 @@
 ﻿using ConectaProApp.PopUp;
 using ConectaProApp.Services;
-using Mopups.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mopups.Services;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -151,6 +151,8 @@ namespace ConectaProApp.ViewModels.Usuarios
                     await SecureStorage.SetAsync("token", usuarioAutenticado.Token);
                     Debug.WriteLine($"✅ Token salvo no SecureStorage: {usuarioAutenticado.Token}");
 
+                    Preferences.Set("uf", usuarioAutenticado.Uf);
+
                     var storedToken = await SecureStorage.GetAsync("token");
                     Debug.WriteLine($"🔹 Token recuperado do SecureStorage: {storedToken}");
 
@@ -190,6 +192,10 @@ namespace ConectaProApp.ViewModels.Usuarios
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", "Email ou senha inválidos.", "Ok");
                 }
+            }
+            catch (HttpRequestException ex) when (ex.Message.Contains("Bad credentials"))
+            {
+                await Application.Current.MainPage.DisplayAlert("Ops!", "Email ou senha incorretos. Tente novamente.", "Ok");
             }
             catch (Exception ex)
             {
