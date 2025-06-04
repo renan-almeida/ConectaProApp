@@ -150,7 +150,7 @@
 
                                 <Grid>
                                     <Image 
-                                    Source="redes.jpeg" 
+                                    Source="redes.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
                                     WidthRequest="155" >
@@ -188,7 +188,7 @@
 
                                 <Grid>
                                     <Image 
-                                Source="telecomunicacoes.jpg" 
+                                Source="telecomunicacoes.png" 
                                 Aspect="AspectFill"
                                 HeightRequest="93"
                                 WidthRequest="155" >
@@ -228,7 +228,7 @@
 
                                 <Grid>
                                     <Image 
-                                    Source="seguranca.jpg" 
+                                    Source="seguranca.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
                                     WidthRequest="155" >
@@ -266,7 +266,7 @@
 
                                 <Grid>
                                     <Image 
-                                    Source="monitoramento.jpeg" 
+                                    Source="monitoramento.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
                                     WidthRequest="155" >
@@ -344,7 +344,7 @@
 
                                 <Grid>
                                     <Image 
-                                    Source="contabil.jpg" 
+                                    Source="contabil.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
                                     WidthRequest="155" >
@@ -388,7 +388,7 @@
                                 <Grid>
 
                                     <Image 
-                                  Source="beleza.jpg" 
+                                  Source="beleza.png" 
                                   Aspect="AspectFill"
                                   HeightRequest="93"
                                   WidthRequest="155" >
@@ -431,7 +431,7 @@
                                 BorderColor="Black">
 
                                 <Grid>
-                                    <Image Source="automotivo.jpg"
+                                    <Image Source="automotivo.png"
                                        Aspect="AspectFill"
                                        HeightRequest="93"
                                        WidthRequest="155">

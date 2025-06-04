@@ -266,7 +266,7 @@
 
                                 <Grid>
                                     <Image 
-                                    Source="marketing.jpg" 
+                                    Source="marketing.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
                                     WidthRequest="155" >
@@ -351,7 +351,7 @@
 
                                 <Grid>
                                     <Image 
-                                    Source="estetica.jpg" 
+                                    Source="estetica.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
                                     WidthRequest="155" >
@@ -438,7 +438,7 @@
                                 BorderColor="Black">
 
                                 <Grid>
-                                    <Image Source="eletrica.jpeg"
+                                    <Image Source="eletrica.png"
                                        Aspect="AspectFill"
                                        HeightRequest="93"
                                        WidthRequest="155">
@@ -480,7 +480,7 @@
                                 <Grid>
 
                                     <Image 
-                                          Source="design.jpg" 
+                                          Source="design.png" 
                                           Aspect="AspectFill"
                                           HeightRequest="93"
                                           WidthRequest="155" >
@@ -523,7 +523,7 @@
                                      BorderColor="Black">
 
                                 <Grid>
-                                    <Image Source="outros.jpg"
+                                    <Image Source="outros.png"
                                             Aspect="AspectFill"
                                             HeightRequest="93"
                                             WidthRequest="155">
