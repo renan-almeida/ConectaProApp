@@ -8,27 +8,34 @@ using ConectaProApp.Models.Enuns;
 
 namespace ConectaProApp.Models
 {
-     public class SolicitacaoCreateDTO
+    public class Solicitacao
     {
-        public int IdPrestador { get; set; }
+        public int IdSolicitacao { get; set; }
         public string TituloSolicitacao { get; set; }
         public string DescSolicitacao { get; set; }
-        public decimal ValorProposto { get; set; }
+
+        public List<Servico> Servicos { get; set; }
+
+        public Usuario IdUsuario { get; set; }
+        public EmpresaCliente IdEmpresaCliente { get; set; }
+        public Prestador IdPrestador { get; set; }
 
         [JsonPropertyName("dataInclusao")]
         public DateTime DataInclusao { get; set; }
+
+        public FormaPagtoEnum FormaPagto { get; set; }
+        public decimal ValorProposto { get; set; }
 
         [JsonPropertyName("previsaoInicio")]
         public DateTime PrevisaoInicio { get; set; }
 
         public int DuracaoServico { get; set; }
 
-        public FormaPagtoEnum FormaPagto { get; set; }
         public NvlUrgenciaEnum NvlUrgencia { get; set; }
         public TipoSegmentoEnum TipoCategoria { get; set; }
         public StatusOrcamentoEnum StatusSolicitacao { get; set; }
 
-        // Propriedades auxiliares para exibição (opcional)
+        // Propriedades auxiliares (opcional para exibição formatada)
         [JsonIgnore]
         public string ValorPropostoFormatado => ValorProposto.ToString("N2");
 
@@ -39,4 +46,3 @@ namespace ConectaProApp.Models
         public string PrevisaoInicioFormatada => PrevisaoInicio.ToString("dd/MM/yyyy");
     }
 }
-

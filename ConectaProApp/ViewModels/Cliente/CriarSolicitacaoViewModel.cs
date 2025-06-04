@@ -4,17 +4,8 @@ using ConectaProApp.Models;
 using ConectaProApp.Models.Enuns;
 using ConectaProApp.Services.Servico;
 using ConectaProApp.View.Cliente.CriarSolicitacaoViews;
-using ConectaProApp.View.PopUp;
-using CommunityToolkit.Maui.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.Maui.Controls;
-using ConectaProApp.View.Cliente;
 using System.Globalization;
 
 namespace ConectaProApp.ViewModels.Cliente

@@ -1,7 +1,8 @@
 using ConectaProApp.Services;
 using ConectaProApp.ViewModels.Solicitacaos;
 using ConectaProApp.Services.Azure;
-using Microsoft.Maui.ApplicationModel; // Para Permissions
+using ConectaPro.Controllers; // Para Permissions
+
 
 namespace ConectaProApp.View.Cliente;
 
@@ -10,16 +11,20 @@ public partial class MinhaContaClient : ContentPage
 
     private readonly ApiService _apiService;
     private readonly BlobService _blobService;
-    public MinhaContaClient()
+
+    public MinhaContaClient(int IdEmpresa)
     {
         InitializeComponent();
 
         _apiService = new ApiService();
         _blobService = new BlobService(_apiService);
 
+
         int idCliente = Preferences.Get("id", 0); // ou de onde você obtém o id do cliente logado
         var vm = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Cliente, idCliente);
         this.BindingContext = vm;
+
+        //BindingContext = new PerfilEmpresaViewModel(idEmpresa);
 
         // O binding do XAML já cuida da exibição da imagem do avatar pelo ViewModel.
 
