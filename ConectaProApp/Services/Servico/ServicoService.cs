@@ -171,21 +171,21 @@ namespace ConectaProApp.Services.Servico
 
         // Exibe Empresa apenas prestadores correspondentes a sua UF
 
-        public async Task<List<Models.Prestador>> BuscarPrestadorUfAsync(string uf)
+        public async Task<List<PrestadorResponseBuscaDTO>> BuscarPrestadorUfAsync(string uf)
         {
             try
             {
                 var token = await SecureStorage.GetAsync("token");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                const string urlComplementar = "/Prestador/Uf";
+                const string urlComplementar = "/busca-prestadores";
                 uf = Uri.EscapeDataString(uf);
                 var response = await client.GetAsync($"{apiUrlBase}{urlComplementar}?uf={uf}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<Models.Prestador>>(json);
+                    return JsonConvert.DeserializeObject<List<PrestadorResponseBuscaDTO>>(json);
                 }
             }
             catch (Exception ex)
@@ -193,7 +193,7 @@ namespace ConectaProApp.Services.Servico
                 Console.WriteLine("Erro ao buscar por UF: " + ex.Message);
             }
 
-            return new List<Models.Prestador>();
+            return new List<PrestadorResponseBuscaDTO>();
         }
 
 

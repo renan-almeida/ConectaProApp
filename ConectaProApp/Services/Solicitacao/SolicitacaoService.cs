@@ -59,7 +59,6 @@ namespace ConectaProApp.Services.Solicitacao
             var json = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<List<SolicitacaoDTO>>(json);
         }
-
         public async Task AtualizarStatusSolicitacaoAsync(int idSolicitacao, int idServico, StatusOrcamentoEnum novoStatus)
         {
             await _apiService.ConfigureAuthorizationHeaderAsync();
@@ -81,8 +80,8 @@ namespace ConectaProApp.Services.Solicitacao
             {
                 await RemoverPropostasNaoAceitasAsync(idSolicitacao);
             }
-        }
-
+     }
+     
         private async Task RemoverPropostasNaoAceitasAsync(int idSolicitacao)
         {
             await _apiService.ConfigureAuthorizationHeaderAsync();
@@ -97,7 +96,7 @@ namespace ConectaProApp.Services.Solicitacao
 
             foreach (var proposta in propostas)
             {
-                if (proposta.StatusOrcamentoEnum == StatusOrcamentoEnum.PENDENTE)
+                if (proposta.StatusSolicitacao == StatusOrcamentoEnum.PENDENTE)
                 {
                     await RemoverSolicitacaoAsync(proposta.IdSolicitacao);
                 }
@@ -123,8 +122,8 @@ namespace ConectaProApp.Services.Solicitacao
             if (!response.IsSuccessStatusCode)
                 throw new Exception("Erro ao enviar proposta");
         }
-
-
+        
+        
         public async Task<bool> RemoverSolicitacaoAsync(int id)
         {
             return await _apiService.DeleteAsync($"/solicitacoes/{id}");

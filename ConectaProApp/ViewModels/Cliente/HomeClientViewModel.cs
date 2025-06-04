@@ -1,126 +1,116 @@
 ﻿using ConectaProApp.Models;
 using ConectaProApp.Services.Servico;
 using ConectaProApp.View.Cliente;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Maui.Controls;
 
 namespace ConectaProApp.ViewModels.Cliente
 {
-    public class HomeClientViewModel: BaseViewModel
+    public partial class HomeClientViewModel : BaseViewModel
     {
-        private ServicoService sService;
-        public ICommand PropostaCommand { get; set; }
-        public ICommand CriarServicoCommand { get; set; }
-        public ICommand ProximoPrestadorCommand { get; set; }
+        private readonly ServicoService sService;
+
+        public ICommand PropostaCommand { get;  set; }
+        public ICommand CriarServicoCommand { get;  set; }
+        public ICommand ProximoPrestadorCommand { get;  set; }
+
+        private List<PrestadorResponseBuscaDTO> prestadorUf;
+        private int indice = 0;
 
         public HomeClientViewModel()
         {
             sService = new ServicoService();
             InitializeCommands();
-            Task.Run(async () => await BuscarPrestadorAsync());
-            Task.Run(async () => await CarregarFotoEmpresaAsync());
+
+            Task.Run(CarregarDadosIniciaisAsync);
+        }
+
+        private async Task CarregarDadosIniciaisAsync()
+        {
+            await BuscarPrestadorAsync();
+            await CarregarFotoEmpresaAsync();
         }
 
         private void InitializeCommands()
         {
-            ProximoPrestadorCommand = new Command(MostrarProximoPrestador);
             CriarServicoCommand = new Command(async () => await CriarSolicitacaoView());
+            ProximoPrestadorCommand = new Command(() => MostrarProximoPrestador());
             PropostaCommand = new Command(async () =>
             {
-                var idPrestador = PrestadorAtual?.Id ?? 0;
-                if (idPrestador > 0)
+                if (PrestadorAtual?.IdPrestador > 0)
                 {
-                    await Application.Current.MainPage.Navigation.PushAsync(new PropostaClient(idPrestador));
+                    await Application.Current.MainPage.Navigation.PushAsync(new PropostaClient(PrestadorAtual.IdPrestador));
                 }
                 else
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", "Nenhum prestador selecionado.", "OK");
                 }
             });
-
         }
 
+        [ObservableProperty]
+        private PrestadorResponseBuscaDTO prestadorAtual;
 
-
-        private async Task CriarSolicitacaoView()
-        {
-            try
-            {
-                await Application.Current.MainPage.Navigation.PushAsync(new CriarSolicitacaoClient());
-            }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage
-                    .DisplayAlert("Erro", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
-            }
-        }
-
-        private List<Models.Prestador> prestadorUf;
-        private int indice = 0;
-
-        private Models.Prestador prestadorAtual;
-        public Models.Prestador PrestadorAtual
-        {
-            get => prestadorAtual;
-            set
-            {
-                prestadorAtual = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ImageSource fotoEmpresaUrl;
-        public ImageSource FotoEmpresaUrl
-        {
-            get => fotoEmpresaUrl;
-            set
-            {
-                fotoEmpresaUrl = value;
-                OnPropertyChanged();
-            }
-        }
-
+        [ObservableProperty]
         private ImageSource fotoPrestadorUrl;
-        public ImageSource FotoPrestadorUrl
-        {
-            get => fotoPrestadorUrl;
-            set
-            {
-                fotoPrestadorUrl = value;
-                OnPropertyChanged();
-            }
-        }
+
+        [ObservableProperty]
+        private ImageSource fotoEmpresaUrl;
 
         private async Task BuscarPrestadorAsync()
         {
-            var uf = Preferences.Get("uf", string.Empty);
-            prestadorUf = await sService.BuscarPrestadorUfAsync(uf);
+            try
+            {
+                var uf = Preferences.Get("uf", string.Empty);
+                prestadorUf = await sService.BuscarPrestadorUfAsync(uf);
 
-            indice = 0;
-            MostrarProximoPrestador();
+                if (prestadorUf?.Any() == true)
+                {
+                    indice = 0;
+                    MostrarProximoPrestador();
+                    NotificarTudo();
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Aviso", "Nenhum prestador encontrado para sua UF.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", $"Erro ao buscar prestadores: {ex.Message}", "OK");
+            }
         }
 
         private void MostrarProximoPrestador()
         {
-            if (prestadorUf == null || !prestadorUf.Any())
-                return;
-            if (indice >= prestadorUf.Count)
-                indice = 0;
+            if (prestadorUf == null || prestadorUf.Count == 0) return;
+
+            if (indice >= prestadorUf.Count) indice = 0;
 
             PrestadorAtual = prestadorUf[indice];
-            CarregarFotoPrestador();
+            _ = CarregarFotoPrestadorAsync();
+                NotificarTudo();
             indice++;
         }
 
-        private async Task CarregarFotoPrestador()
+        private async Task CarregarFotoPrestadorAsync()
         {
-            if (PrestadorAtual?.Id != null && PrestadorAtual.CaminhoFoto != null)
+            if (!string.IsNullOrWhiteSpace(PrestadorAtual?.CaminhoFoto))
             {
-             /*   FotoPrestadorUrl = ImageSource.FromStream(() => new MemoryStream(PrestadorAtual.CaminhoFoto));*/
+                try
+                {
+                    var bytes = Convert.FromBase64String(PrestadorAtual.CaminhoFoto);
+                    FotoPrestadorUrl = ImageSource.FromStream(() => new MemoryStream(bytes));
+                }
+                catch
+                {
+                    FotoPrestadorUrl = ImageSource.FromFile("prestadorsemfoto.png");
+                }
             }
             else
             {
@@ -130,17 +120,57 @@ namespace ConectaProApp.ViewModels.Cliente
 
         private async Task CarregarFotoEmpresaAsync()
         {
-            var fotoSalva = await SecureStorage.GetAsync("FotoEmpresa");
-
-            if (!string.IsNullOrEmpty(fotoSalva))
+            try
             {
-                FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(fotoSalva)));
+                var fotoBase64 = await SecureStorage.GetAsync("FotoEmpresa");
+
+                if (!string.IsNullOrEmpty(fotoBase64))
+                {
+                    var bytes = Convert.FromBase64String(fotoBase64);
+                    FotoEmpresaUrl = ImageSource.FromStream(() => new MemoryStream(bytes));
+                }
+                else
+                {
+                    FotoEmpresaUrl = ImageSource.FromFile("empresasemfoto.png");
+                }
             }
-            else
+            catch
             {
                 FotoEmpresaUrl = ImageSource.FromFile("empresasemfoto.png");
             }
-
         }
+
+        private async Task CriarSolicitacaoView()
+        {
+            try
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new CriarSolicitacaoClient());
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", $"Erro ao abrir tela: {ex.Message}", "OK");
+            }
+        }
+
+        private void NotificarTudo()
+        {
+            OnPropertyChanged(nameof(NomePrestador));
+            OnPropertyChanged(nameof(FotoPrestadorUrl));
+            OnPropertyChanged(nameof(DescPrestador));
+            OnPropertyChanged(nameof(Uf));
+        }
+        public string NomePrestador => string.IsNullOrWhiteSpace(PrestadorAtual?.Nome) ? "Sem nome"
+            : PrestadorAtual.Nome;
+
+        public string DescPrestador => string.IsNullOrWhiteSpace(PrestadorAtual?.DescPrestador) ?
+            "Sem descrição" : PrestadorAtual.DescPrestador;
+
+        public string FotoPrestador => string.IsNullOrWhiteSpace(PrestadorAtual?.CaminhoFoto) ?
+            "prestadorsemfoto.png" : PrestadorAtual.CaminhoFoto;
+        public List<string> tipoCategoria => PrestadorAtual.TipoCategoria ?? new List<string>();
+        private string uf = Preferences.Get("uf", string.Empty);
+        public string Uf => uf;
+        
+
     }
 }

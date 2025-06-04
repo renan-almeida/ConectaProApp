@@ -42,5 +42,9 @@ namespace ConectaProApp.Models
 
         [JsonIgnore]
         public string PrevisaoInicioFormatada => PrevisaoInicio.ToString("dd/MM/yyyy");
+
+        public int IdCliente { get; set; }
+        public int IdPrestador { get; set; }
+        public string Descricao { get; set; }
     }
 }

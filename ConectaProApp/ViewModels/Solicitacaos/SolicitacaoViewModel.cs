@@ -17,7 +17,7 @@ using ConectaProApp.Services.Azure;
 
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
-    public class SolicitacaoViewModel : INotifyPropertyChanged
+   public class SolicitacaoViewModel : INotifyPropertyChanged
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly SolicitacaoService _solicitacaoService;
@@ -136,11 +136,11 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 };
 
                 await _solicitacaoService.EnviarPropostaAsync(idSolicitacao, proposta);
-                await App.Current.MainPage.DisplayAlert("Sucesso", "Proposta enviada com sucesso!", "OK");
+                await Application.Current.MainPage.DisplayAlert("Sucesso", "Proposta enviada com sucesso!", "OK");
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Erro", $"Falha ao enviar proposta: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao enviar proposta: {ex.Message}", "OK");
             }
         }
 
@@ -188,7 +188,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             var propostas = await _solicitacaoService.BuscarSolicitacoesPorClienteAsync(idCliente);
             foreach (var p in propostas)
             {
-                if (p.StatusOrcamentoEnum == StatusOrcamentoEnum.ACEITA || p.StatusOrcamentoEnum == StatusOrcamentoEnum.FINALIZADA)
+                if (p.StatusSolicitacao == StatusOrcamentoEnum.ACEITA || p.StatusSolicitacao == StatusOrcamentoEnum.FINALIZADA)
                     HistoricoCliente.Add(p);
                 else
                     PropostasCliente.Add(p);
@@ -204,7 +204,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             var solicitacoes = await _solicitacaoService.BuscarSolicitacoesPorPrestadorAsync(idPrestador);
             foreach (var o in solicitacoes)
             {
-                switch (o.StatusOrcamentoEnum)
+                switch (o.StatusSolicitacao)
                 {
                     case StatusOrcamentoEnum.PENDENTE:
                         SolicitacoesRecebidas.Add(o);
@@ -219,4 +219,5 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
     }
+  
 }

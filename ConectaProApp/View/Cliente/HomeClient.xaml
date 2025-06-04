@@ -79,7 +79,7 @@
                     </Frame>
 
                     <VerticalStackLayout Spacing="2" Margin="16,22,0,0">
-                        <Label Text="{Binding Nome}"
+                        <Label Text="{Binding NomePrestador}"
                                FontSize="30"
                                TextColor="Black"
                                />

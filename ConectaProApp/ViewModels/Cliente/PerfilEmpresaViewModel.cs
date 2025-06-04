@@ -13,7 +13,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace ConectaPro.Controllers
 {
    
-    public class PerfilEmpresaViewModel : BaseViewModel
+    public partial class PerfilEmpresaViewModel : BaseViewModel
     {
         private readonly PerfilEmpresaClienteService peService;
 
