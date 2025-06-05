@@ -33,7 +33,7 @@ namespace ConectaProApp.ViewModels.Prestador
         public ICommand RefrigeracaoSolicitacoesCommand { get; set; }
         public ICommand EletricaSolicitacoesCommand { get; set; }
         public ICommand DesignSolicitacoesCommand { get; set; }
-        public ICommand OutrosSolicitacoesCommand { get; set; }
+        public ICommand OutrasSolicitacoesCommand { get; set; }
         public ICommand AcionarBuscaCommand { get; set; }
 
         public BuscaPrestadorViewModel()
@@ -51,7 +51,7 @@ namespace ConectaProApp.ViewModels.Prestador
             RefrigeracaoSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("REFRIGERACAO"));
             EletricaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("ELETRICA"));
             DesignSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("DESIGN"));
-          //  OutrosSolicitacoesCommand = new Command(await OutrasSolicitacoes());
+           OutrasSolicitacoesCommand = new Command(async () =>  OutrasSolicitacoes());
             AcionarBuscaCommand = new Command(async () => await BuscarServicosPorTermo(TermoBusca));
         }
 
@@ -113,7 +113,7 @@ namespace ConectaProApp.ViewModels.Prestador
                     await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
                          new Dictionary<string, object>
                          {
-                            { "Prestadores", listaServicos },
+                            { "Servicos", listaServicos },
                             { "TituloBusca", $"Resultados encontrados para \"{termo}\""}
                          });
                 }
@@ -134,12 +134,13 @@ namespace ConectaProApp.ViewModels.Prestador
         {
             try
             {
-             //   await Application.Current.MainPage.Navigation.PushAsync(new )
+                await Application.Current.MainPage.Navigation.PushAsync(new View.Prestador.BuscaPrestadorOutros());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                await Application.Current.MainPage
+                    .DisplayAlert("Erro" + ex.Message, "Detalhes: ", ex.InnerException + "OK");
             }
         }
     }

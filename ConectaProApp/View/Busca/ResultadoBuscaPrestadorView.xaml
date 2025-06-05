@@ -1,165 +1,165 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ConectaProApp.View.Busca.ResultadoBuscaPrestadorView">
+             x:Class="ConectaProApp.View.Busca.ResultadoBuscaPrestadorView"
+             BackgroundColor="White">
+
     <ScrollView>
-        <VerticalStackLayout>
-            <Grid RowDefinitions="Auto, *">
-                <!-- Cabeçalho Azul -->
-                <Grid Grid.Row="0" VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+        <Grid RowDefinitions="Auto, Auto, *">
 
-                    <!-- Icone voltar -->
-                    <Image  Source="iconevoltar.png"
-                             HeightRequest="30"
-                             WidthRequest="30"
-                             VerticalOptions="Center"
-                             Grid.Column="0">
+            <!-- Cabeçalho -->
+            <Grid Grid.Row="0"
+                  BackgroundColor="#020202"
+                  HeightRequest="58"
+                  Padding="10"
+                  RowSpacing="0"
+                  VerticalOptions="Start">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Ícone voltar -->
+                <Image Source="iconevoltar.png"
+                       HeightRequest="30"
+                       WidthRequest="30"
+                       VerticalOptions="Center"
+                       Grid.Column="0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnVoltarClicked" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <!-- Foto da empresa -->
+                <Frame HeightRequest="40"
+                       WidthRequest="40"
+                       CornerRadius="20"
+                       HasShadow="False"
+                       Padding="0"
+                       BackgroundColor="White"
+                       BorderColor="#0f5cc2"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"
+                       Grid.Column="2">
+                    <Image Source="{Binding FotoEmpresaUrl}"
+                           Aspect="AspectFill"
+                           HeightRequest="40"
+                           WidthRequest="40">
                         <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnVoltarClicked" />
+                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
                         </Image.GestureRecognizers>
+                        <Image.Clip>
+                            <EllipseGeometry Center="20,20" RadiusX="20" RadiusY="20"/>
+                        </Image.Clip>
                     </Image>
-
-                    <!-- Espaço vazio no meio, ou poderia usar um Label centralizado se quiser -->
-
-                    <!-- Foto da Empresa logada -->
-                    <Frame  HeightRequest="40" 
-                WidthRequest="40"
-                CornerRadius="20"
-                HasShadow="False"
-                Padding="0"
-                BackgroundColor="White"
-                BorderColor="#0f5cc2"
-                VerticalOptions="Center"
-                HorizontalOptions="End"
-                Grid.Column="2">
-                        <Image Source="{Binding FotoEmpresaUrl, Mode=OneWay}" 
-                  Aspect="AspectFill" 
-                  HeightRequest="40" WidthRequest="40"
-  >
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
-                            </Image.GestureRecognizers>
-                            <Image.Clip>
-                                <EllipseGeometry 
-                       Center="20,20"
-                       RadiusX="20"
-                       RadiusY="20"/>
-                            </Image.Clip>
-                        </Image>
-                    </Frame>
-                </Grid>
-                <Label Text="{Binding TituloBusca}"
-                       FontSize="Title"
-                       HorizontalOptions="Center"
-                       TextColor="Black"/>
-                <CollectionView ItemsSource="{Binding Servicos}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Stroke="Black"
-                            BackgroundColor="White"
-                            StrokeThickness="1"
-                            Margin="10"
-                            Padding="10"
-                            HeightRequest="112"
-                            WidthRequest="381">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="10"/>
-                                </Border.StrokeShape>
-
-                                <StackLayout Padding="10">
-                                    <Label Text="{Binding Nome, Mode=OneWay}" FontAttributes="Bold" FontSize="15"/>
-
-                                    <HorizontalStackLayout Spacing="24">
-                                        <HorizontalStackLayout>
-                                            <Label Text="STATUS: " FontSize="10" FontAttributes="Bold"/>
-                                            <Label Text="{Binding StServico, Mode=OneWay}" FontSize="10" FontAttributes="Bold"/>
-                                        </HorizontalStackLayout>
-
-                                        <HorizontalStackLayout>
-                                            <Label Text="URGÊNCIA: " FontSize="10" FontAttributes="Bold"/>
-                                            <Label Text="{Binding NvlUrgenciaEnum, Mode=OneWay}"/>
-                                        </HorizontalStackLayout>
-                                    </HorizontalStackLayout>
-
-                                    <HorizontalStackLayout Spacing="24">
-                                        <HorizontalStackLayout>
-                                            <Label Text="VALOR: " FontSize="10" FontAttributes="Bold"/>
-                                            <Label Text="{Binding ValorServico, Mode=OneWay}" FontSize="10" FontAttributes="Bold"/>
-                                        </HorizontalStackLayout>
-
-                                        <HorizontalStackLayout>
-                                            <Label Text="CATEGORIA: " FontSize="10" FontAttributes="Bold"/>
-                                            <Label Text="{Binding NomeSegmento, Mode=OneWay}"/>
-                                        </HorizontalStackLayout>
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout>
-                                        <Label Text="PAGAMENTO: " FontSize="10" FontAttributes="Bold"/>
-                                        <Label Text="{Binding FormaPagamento, Mode=OneWay}" FontSize="10"/>
-                                    </HorizontalStackLayout>
-
-                                    <HorizontalStackLayout Spacing="202">
-                                        <Label Text="VER MAIS"
-                                       TextColor="#2886CA"
-                                       FontSize="10"
-                                       HorizontalTextAlignment="Start">
-                                            <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding VerMaisCommand}"/>
-                                            </Label.GestureRecognizers>
-                                        </Label>
-
-                                        <Label
-                                    Text="CANDIDATAR-SE" 
-                                    FontSize="14"
-                                    TextColor="#0f5cc2">
-                                            <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding CriarOrcamentoCommand}"/>
-                                            </Label.GestureRecognizers>
-                                        </Label>
-                                    </HorizontalStackLayout>
-
-
-                                    <Label Text="{Binding Descricao, Mode=OneWay}"
-                                   IsVisible="{Binding MostrarDescricao}"
-                                   FontSize="12"
-                                   TextColor="Gray"
-                                   Margin="0,5,0,0"/>
-
-                                    <HorizontalStackLayout>
-                                        <Label Text="ESPECIALIDADE:" FontSize="10" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Especialidade, Mode=OneWay}"
-                                       IsVisible="{Binding MostrarDescricao}"
-                                       FontSize="10"
-                                       Margin="0,5,0,0"/>
-                                    </HorizontalStackLayout>
-
-                                    <HorizontalStackLayout>
-                                        <Label Text="LOGRADOURO: " FontSize="10" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Logradouro, Mode=OneWay}"
-                                       IsVisible="{Binding MostrarDescricao}"
-                                       FontSize="10"
-                                       Margin="0,5,0,0"/>
-                                    </HorizontalStackLayout>
-
-                                    <HorizontalStackLayout>
-                                        <Label Text="NÚMERO: " FontSize="10" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Nro, Mode=OneWay}"
-                                       IsVisible="{Binding MostrarDescricao}"
-                                       FontSize="10"
-                                       Margin="0,5,0,0"/>
-                                    </HorizontalStackLayout>
-
-
-                                </StackLayout>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                </Frame>
             </Grid>
-        </VerticalStackLayout>
+
+            <!-- Título da busca -->
+            <Label Grid.Row="1"
+                   Text="{Binding TituloBusca}"
+                   FontSize="Title"
+                   HorizontalOptions="Center"
+                   TextColor="Black"
+                   Margin="10,10,10,0"/>
+
+            <!-- Lista de serviços -->
+            <CollectionView Grid.Row="2"
+                            ItemsSource="{Binding Servicos}"
+                            Margin="0,10,0,20">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Stroke="Black"
+                                BackgroundColor="White"
+                                StrokeThickness="1"
+                                Margin="10"
+                                Padding="10"
+                                HeightRequest="112"
+                                WidthRequest="381">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="15"/>
+
+                                <HorizontalStackLayout Spacing="24">
+                                    <HorizontalStackLayout>
+                                        <Label Text="STATUS: " FontSize="10" FontAttributes="Bold"/>
+                                        <Label Text="{Binding StServico}" FontSize="10" FontAttributes="Bold"/>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout>
+                                        <Label Text="URGÊNCIA: " FontSize="10" FontAttributes="Bold"/>
+                                        <Label Text="{Binding NvlUrgenciaEnum}" FontSize="10"/>
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout Spacing="24">
+                                    <HorizontalStackLayout>
+                                        <Label Text="VALOR: " FontSize="10" FontAttributes="Bold"/>
+                                        <Label Text="{Binding ValorServico}" FontSize="10" FontAttributes="Bold"/>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout>
+                                        <Label Text="CATEGORIA: " FontSize="10" FontAttributes="Bold"/>
+                                        <Label Text="{Binding NomeSegmento}" FontSize="10"/>
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout>
+                                    <Label Text="PAGAMENTO: " FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding FormaPagamento}" FontSize="10"/>
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout Spacing="202">
+                                    <Label Text="VER MAIS"
+                                           TextColor="#2886CA"
+                                           FontSize="10">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding VerMaisCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+
+                                    <Label Text="CANDIDATAR-SE"
+                                           FontSize="14"
+                                           TextColor="#0f5cc2">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding CriarOrcamentoCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </HorizontalStackLayout>
+
+                                <Label Text="{Binding Descricao}"
+                                       IsVisible="{Binding MostrarDescricao}"
+                                       FontSize="12"
+                                       TextColor="Gray"
+                                       Margin="0,5,0,0"/>
+
+                                <HorizontalStackLayout>
+                                    <Label Text="ESPECIALIDADE:" FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Especialidade}"
+                                           IsVisible="{Binding MostrarDescricao}"
+                                           FontSize="10"/>
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout>
+                                    <Label Text="LOGRADOURO: " FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Logradouro}"
+                                           IsVisible="{Binding MostrarDescricao}"
+                                           FontSize="10"/>
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout>
+                                    <Label Text="NÚMERO: " FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Nro}"
+                                           IsVisible="{Binding MostrarDescricao}"
+                                           FontSize="10"/>
+                                </HorizontalStackLayout>
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
     </ScrollView>
 </ContentPage>

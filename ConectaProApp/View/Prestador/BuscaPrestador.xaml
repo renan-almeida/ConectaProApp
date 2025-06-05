@@ -66,7 +66,7 @@
     BackgroundColor="White"
     CornerRadius="15"
     HasShadow="False"
-    HeightRequest="650"
+    HeightRequest="800"
     HorizontalOptions="Center"
     WidthRequest="390">
 
@@ -94,7 +94,7 @@
                             WidthRequest="155"
                             Margin="0,0,25,25"
                             IsClippedToBounds="True"
-                            BorderColor="Transparent">
+                            BorderColor="Black">
                             <Grid>
                                 <Image 
                                     Source="tecnologia.png" 
@@ -134,7 +134,7 @@
                             WidthRequest="155"
                             Margin="0,0,0,25"
                             IsClippedToBounds="True"
-                            BorderColor="Transparent">
+                            BorderColor="Black">
                             <Grid>
                                 <Image 
                                     Source="construcao.png" 
@@ -174,7 +174,7 @@
                             WidthRequest="155"
                             Margin="0,0,25,0"
                             IsClippedToBounds="True"
-                            BorderColor="Transparent">
+                            BorderColor="Black">
                             <Grid>
                                 <Image 
                                     Source="limpeza.png" 

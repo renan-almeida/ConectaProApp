@@ -7,7 +7,7 @@ using ServicoModel = ConectaProApp.Models.Servico;
 
 namespace ConectaProApp.ViewModels.Prestador
 {
-    [QueryProperty(nameof(ServicosOriginais), "ServicosOriginais")]
+    [QueryProperty(nameof(ServicosOriginais), "Servicos")]
     [QueryProperty(nameof(TituloBusca), "TituloBusca")]
     public partial class ResultadoBuscaPrestadorViewModel : BaseViewModel
     {

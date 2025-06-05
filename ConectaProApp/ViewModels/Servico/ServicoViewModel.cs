@@ -25,7 +25,8 @@ namespace ConectaProApp.ViewModels.Servico
         public string Nome => servico.TituloSolicitacao;
         public string StServico => servico.StatusSolicitacao.ToString();
         public string ValorServico => servico.ValorProposto.ToString("C");
-        public string NvlUrgenciaEnum => servico.NvlUrgencia.ToString();
+        public string NvlUrgenciaEnum => string.IsNullOrEmpty(servico.NvlUrgencia) ? 
+            "Urgência não definida" : servico.NvlUrgencia;
         public string NomeSegmento => servico.TipoCategoria.ToString(); // Corrigido para DescSegmento
         public string FormaPagamento => servico.FormaPagto.ToString();
         public string Descricao => servico.DescSolicitacao;
