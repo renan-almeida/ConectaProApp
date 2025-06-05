@@ -105,7 +105,7 @@
                                 WidthRequest="180"
                                 HeightRequest="0"
                                BackgroundColor="Transparent"
-                                Text="{Binding ValorProposto}"
+                                Text="{Binding ValorPropostoTexto}"
                         />
 
                         <Picker

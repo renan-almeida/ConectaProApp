@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -99,12 +100,12 @@ namespace ConectaProApp.Services
 
 
             var jsonBody = JsonConvert.SerializeObject(data);
-            Console.WriteLine("🔵 JSON ENVIADO:");
-            Console.WriteLine(jsonBody);
+            Debug.WriteLine("🔵 JSON ENVIADO:");
+            Debug.WriteLine(jsonBody);
 
 
-            Console.WriteLine("🔴 ERRO DA API:");
-            Console.WriteLine(serialized);
+            Debug.WriteLine("🔴 ERRO DA API:");
+            Debug.WriteLine(serialized);
 
             if (response.IsSuccessStatusCode)
             {
@@ -112,7 +113,9 @@ namespace ConectaProApp.Services
             }
             else
             {
+                Debug.WriteLine($"Erro: Status: {response.StatusCode}");
                 throw new Exception($"Erro na requisição: {response.StatusCode} - {serialized}");
+                
             }
         }
 

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Diagnostics;
 
 namespace ConectaProApp.Services.Prestador
 {
@@ -109,23 +110,17 @@ namespace ConectaProApp.Services.Prestador
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             const string url = $"/solicitacao/solicitacoes/";
+            const string urlfinal = "/candidatar";
 
             // Serializando com Newtonsoft.Json
             var json = JsonConvert.SerializeObject(proposta);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync($"{apiUrlBase}{url}{idSolicitacao}/candidatar", content);
+            var response = await PostAsyncFlexToken<PropostaCreateDTO, PropostaCreateDTO>(apiUrlBase + url + idSolicitacao + urlfinal, proposta, token);
+            // Opcionalmente, serialize para visualizar
+            Debug.WriteLine("Resposta da API: " + JsonConvert.SerializeObject(response));
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var erro = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Erro ao enviar proposta: {erro}");
-            }
-
-            var responseBody = await response.Content.ReadAsStringAsync();
-
-            // Desserializando com Newtonsoft.Json
-            return JsonConvert.DeserializeObject<PropostaCreateDTO>(responseBody);
+            return response;
         }
 
     }

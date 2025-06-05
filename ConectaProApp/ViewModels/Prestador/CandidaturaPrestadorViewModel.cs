@@ -5,6 +5,7 @@ using ConectaProApp.Services.Servico;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace ConectaProApp.ViewModels.Prestador
             CriarCandidaturaCommand = new Command(async () => await FinalizarCandidatura());
           //  _ = CarregarNomeEmpresa();
             CarregarFotoEmpresaAsync();
+            pService = new PrestadorService();
         }
 
         private decimal valorProposto;
@@ -41,6 +43,30 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
         public string ValorPropostoFormatado => $"{valorProposto:C}";
+
+        private string valorPropostoTexto;
+        public string ValorPropostoTexto
+        {
+            get => valorPropostoTexto;
+            set
+            {
+                valorPropostoTexto = value;
+                var textoLimpo = value?.Trim().Replace(",", ".");
+
+                if (decimal.TryParse(textoLimpo, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var resultado))
+                {
+                    ValorProposto = resultado;
+                }
+                else
+                {
+                    ValorProposto = 0; // ou trate como null, se quiser validar depois
+                }
+
+                OnPropertyChanged();
+            }
+        }
+
+
 
         public ObservableCollection<string> FormasPagto { get; set; }
         private string formaPagtoSelecionado;
@@ -120,6 +146,7 @@ namespace ConectaProApp.ViewModels.Prestador
                 FormaPagtoEnum = formaPagtoEnum,
                 StatusServicoEnum = StatusServicoEnum.ORCAMENTO
             };
+            Debug.WriteLine($"ValorProposto: {ValorProposto}");
 
             var propostaRegistrado = await pService.EnviarCandidaturaAsync(novaproposta, this.IdSolicitacao);
 

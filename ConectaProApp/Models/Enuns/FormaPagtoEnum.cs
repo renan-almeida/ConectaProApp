@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ConectaProApp.Models.Enuns
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum FormaPagtoEnum
     {
         [Description("Dinheiro")]
