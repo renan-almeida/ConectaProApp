@@ -157,6 +157,9 @@
 	  <MauiXaml Update="View\Prestador\BuscaPrestador.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="View\Prestador\BuscaPrestadorOutros.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\Prestador\CandidatarPrestador.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

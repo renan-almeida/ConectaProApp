@@ -90,11 +90,11 @@
                             Placeholder="Busque suas solicitações"
                             Text="{Binding TermoDigitado, Mode=TwoWay}"
                             FontSize="16"
-                            WidthRequest="300"
+                            WidthRequest="280"
                             HeightRequest="44"
                             BackgroundColor="Transparent"
                             VerticalOptions="Center"
-                            HorizontalOptions="FillAndExpand"
+                            HorizontalOptions="Start"
                             TextColor="Black"
                             PlaceholderColor="Gray"
                             Margin="0"/>
@@ -104,8 +104,8 @@
                     <Button
                     x:Name="AcionarBusca"
                     Text="➤" FontSize="18" CornerRadius="100"
-                    HeightRequest="30"
-                    WidthRequest="30"
+                    HeightRequest="45"
+                    WidthRequest="45"
                     BackgroundColor="#0f5cc2"
                     Command="{Binding AcionarBuscaCommand}"
                     Margin="15,100,0,20"/>
@@ -143,17 +143,17 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="160"
+                            WidthRequest="155"
                             Margin="4,0,25,0"
                             IsClippedToBounds="True"
-                            BorderColor="Transparent">
+                            BorderColor="Black">
 
                                 <Grid>
                                     <Image 
-                                    Source="redes.jpeg" 
+                                    Source="redes.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170" >
+                                    WidthRequest="155" >
                                     </Image>
                                     <BoxView 
                                     BackgroundColor="#00000066" 
@@ -181,17 +181,17 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="160"
+                            WidthRequest="155"
                             Margin="0,0,0,25"
                             IsClippedToBounds="True"
-                            BorderColor="Transparent">
+                            BorderColor="Black">
 
                                 <Grid>
                                     <Image 
-                                Source="telecomunicacoes.jpg" 
+                                Source="telecomunicacoes.png" 
                                 Aspect="AspectFill"
                                 HeightRequest="93"
-                                WidthRequest="170" >
+                                WidthRequest="155" >
                                    
                                     </Image>
                                     <BoxView 
@@ -221,17 +221,17 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="160"
+                            WidthRequest="155"
                             Margin="4,0,25,0"
                             IsClippedToBounds="True"
-                            BorderColor="Transparent">
+                            BorderColor="Black">
 
                                 <Grid>
                                     <Image 
-                                    Source="seguranca.jpg" 
+                                    Source="seguranca.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170" >
+                                    WidthRequest="155" >
                                     </Image>
                                     <BoxView 
                                     BackgroundColor="#00000066" 
@@ -259,17 +259,17 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="160"
+                            WidthRequest="155"
                             Margin="0,0,0,25"
                             IsClippedToBounds="True"
-                            BorderColor="Transparent">
+                            BorderColor="Black">
 
                                 <Grid>
                                     <Image 
-                                    Source="monitoramento.jpeg" 
+                                    Source="monitoramento.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170" >
+                                    WidthRequest="155" >
                                     </Image>
                                     <BoxView 
                                     BackgroundColor="#00000066" 
@@ -282,7 +282,7 @@
                                     FontSize="14"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Start"
-                                    Margin="4,10,80,0"/>
+                                    Margin="4,10,40,0"/>
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer 
                                         Command="{Binding PrestadorMonitoramentoCommand}" 
@@ -297,17 +297,17 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="160"
+                            WidthRequest="155"
                             Margin="4,0,25,0"
                             IsClippedToBounds="True"
-                            BorderColor="Transparent">
+                            BorderColor="Black">
 
                                 <Grid>
                                     <Image 
                                     Source="prestadorreparos.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170" >
+                                    WidthRequest="155" >
                                     </Image>
                                     <BoxView 
                                     BackgroundColor="#00000066" 
@@ -320,8 +320,8 @@
                                     FontSize="15"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Start"
-                                    Margin="4,10"
-                                     Padding="0,0,60,0"/>
+                                    Margin="0,10"
+                                     Padding="0,0,80,0"/>
 
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer 
@@ -337,17 +337,17 @@
                              Padding="0"
                              HasShadow="False"
                              HeightRequest="93"
-                             WidthRequest="160"
+                             WidthRequest="155"
                              Margin="0,0,0,25"
                              IsClippedToBounds="True"
-                             BorderColor="Transparent">
+                             BorderColor="Black">
 
                                 <Grid>
                                     <Image 
-                                    Source="contabil.jpg" 
+                                    Source="contabil.png" 
                                     Aspect="AspectFill"
                                     HeightRequest="93"
-                                    WidthRequest="170" >
+                                    WidthRequest="155" >
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding PrestadorContabilCommand}"/>
                                         </Image.GestureRecognizers>
@@ -363,7 +363,7 @@
                                     FontSize="15"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Start"
-                                    Margin="2,10,70,0"/>
+                                    Margin="2,10,75,0"/>
 
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer 
@@ -380,18 +380,18 @@
                             Padding="0"
                             HasShadow="False"
                             HeightRequest="93"
-                            WidthRequest="160"
+                            WidthRequest="155"
                             Margin="4,0,25,0"
                             IsClippedToBounds="True"
-                            BorderColor="Transparent">
+                            BorderColor="Black">
 
                                 <Grid>
 
                                     <Image 
-                                  Source="beleza.jpg" 
+                                  Source="beleza.png" 
                                   Aspect="AspectFill"
                                   HeightRequest="93"
-                                  WidthRequest="170" >
+                                  WidthRequest="155" >
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding PrestadorBelezaCommand}"/>
                                         </Image.GestureRecognizers>
@@ -425,16 +425,16 @@
                                 Padding="0"
                                 HasShadow="False"
                                 HeightRequest="93"
-                                WidthRequest="160"
+                                WidthRequest="155"
                                 Margin="0,0,0,25"
                                 IsClippedToBounds="True"
-                                BorderColor="Transparent">
+                                BorderColor="Black">
 
                                 <Grid>
-                                    <Image Source="automotivo.jpg"
+                                    <Image Source="automotivo.png"
                                        Aspect="AspectFill"
                                        HeightRequest="93"
-                                       WidthRequest="170">
+                                       WidthRequest="155">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding PrestadorAutomotivoCommand}"/>
                                         </Image.GestureRecognizers>
@@ -449,7 +449,7 @@
                                        FontSize="15"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Start"
-                                       Margin="0,10,65,0"/>
+                                       Margin="0,10,50,0"/>
 
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer 
