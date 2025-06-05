@@ -1,16 +1,12 @@
-﻿using ConectaProApp.Models.Enuns;
+﻿using ConectaProApp.Converters;
+using ConectaProApp.Models.Enuns;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace ConectaProApp.Models
 {
-     public  class SolicitacaoDTO
+    public class SolicitacaoDTO
     {
-        
         public int IdSolicitacao { get; set; }
         public string TituloSolicitacao { get; set; }
         public string DescSolicitacao { get; set; }
@@ -18,12 +14,16 @@ namespace ConectaProApp.Models
         public PrestadorResumoDTO PrestadorResumoDTO { get; set; }
         public EmpresaClienteResumoDTO EmpresaClienteResumoDTO { get; set; }
 
+        [JsonPropertyName("valorProposto")]
+        [JsonConverter(typeof(DecimalFromStringConverter))]
         public decimal ValorProposto { get; set; }
 
         [JsonPropertyName("dataInclusao")]
+        [JsonConverter(typeof(DateTimeFromStringConverter))]
         public DateTime DataInclusao { get; set; }
 
         [JsonPropertyName("previsaoInicio")]
+        [JsonConverter(typeof(DateOnlyFromStringConverter))]
         public DateTime PrevisaoInicio { get; set; }
 
         public int DuracaoServico { get; set; }
@@ -33,9 +33,8 @@ namespace ConectaProApp.Models
         public TipoSegmentoEnum TipoCategoria { get; set; }
         public StatusOrcamentoEnum StatusSolicitacao { get; set; }
 
-        // Se quiser formatar datas e valores para exibição no front, adicione propriedades auxiliares:
         [JsonIgnore]
-        public string ValorPropostoFormatado => ValorProposto.ToString("N2"); // Ex: 1.234,56
+        public string ValorPropostoFormatado => ValorProposto.ToString("N2");
 
         [JsonIgnore]
         public string DataInclusaoFormatada => DataInclusao.ToString("dd/MM/yyyy - HH:mm");

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:ConectaProApp.ViewModels.Solicitacaos"
              x:Class="ConectaProApp.View.Cliente.MinhaContaClient"
              BackgroundColor="#f1f1f1">
-
-
 
     <ScrollView>
         <VerticalStackLayout>
@@ -21,36 +18,34 @@
 
             <!-- Banner/Header -->
             <Grid>
-                <!-- Banner/Header -->
                 <Image x:Name="headerClienteImage"
-           Source="{Binding FotoVM.FonteImagem}"
-           Aspect="AspectFill"
-           HeightRequest="150"
-           HorizontalOptions="Center"
-             ZIndex="1">
+                       Source="{Binding SolicitacaoVM.FotoVM.FonteImagem}"
+                       Aspect="AspectFill"
+                       HeightRequest="150"
+                       HorizontalOptions="Center"
+                       ZIndex="1">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnHeaderClienteTapped" />
                     </Image.GestureRecognizers>
                 </Image>
 
-                <!-- Avatar centralizado sobre o banner -->
                 <Frame WidthRequest="120" HeightRequest="120"
-       CornerRadius="60"
-       BackgroundColor="White"
-       IsClippedToBounds="True"
-       BorderColor="#eeeeee"
-       VerticalOptions="Center"
-       HorizontalOptions="Center"
-       Margin="0,-60,0,0"
-       ZIndex="2">
+                       CornerRadius="60"
+                       BackgroundColor="White"
+                       IsClippedToBounds="True"
+                       BorderColor="#eeeeee"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       Margin="0,-60,0,0"
+                       ZIndex="2">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding FotoVM.SelecionarFotoCommand}" />
+                        <TapGestureRecognizer Command="{Binding SolicitacaoVM.FotoVM.SelecionarFotoCommand}" />
                     </Frame.GestureRecognizers>
                     <Image x:Name="avatarImageClient"
-           Source="{Binding FotoVM.FonteImagem}"
-           Aspect="AspectFill"
-           HorizontalOptions="Center"
-           VerticalOptions="Center">
+                           Source="{Binding SolicitacaoVM.FotoVM.FonteImagem}"
+                           Aspect="AspectFill"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
                         <Image.Clip>
                             <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60" />
                         </Image.Clip>
@@ -58,46 +53,47 @@
                 </Frame>
             </Grid>
 
-            <!-- Nome e descrição centralizados -->
+            <!-- Nome e descrição -->
             <VerticalStackLayout Padding="20,0" Spacing="5" HorizontalOptions="Center">
                 <Entry x:Name="NomeEntry"
-                   TextColor="Black"
-                   Placeholder="Nome do Cliente"
-                   FontAttributes="Bold"
-                   FontSize="20"
-                   HorizontalTextAlignment="Center"
-                   WidthRequest="250"
-                   TextChanged="OnNomeChanged" />
+                       TextColor="Black"
+                       Placeholder="Nome do Cliente"
+                       FontAttributes="Bold"
+                       FontSize="20"
+                       HorizontalTextAlignment="Center"
+                       WidthRequest="250"
+                       TextChanged="OnNomeChanged" />
                 <Editor x:Name="DescricaoEditor"
-                    TextColor="Black"
-                    Placeholder="Sobre o cliente"
-                    FontSize="14"
-                    AutoSize="TextChanges"
-                    WidthRequest="250"
-                    TextChanged="OnDescricaoChanged"
-                    Margin="0,0,0,10"
-                    HorizontalOptions="Center" />
+                        TextColor="Black"
+                        Placeholder="Sobre o cliente"
+                        FontSize="14"
+                        AutoSize="TextChanges"
+                        WidthRequest="250"
+                        TextChanged="OnDescricaoChanged"
+                        Margin="0,0,0,10"
+                        HorizontalOptions="Center" />
             </VerticalStackLayout>
-            
 
-            <!-- Abas centralizadas -->
+            <!-- Abas -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="18" Padding="10">
                 <Button Text="Solicitações" BackgroundColor="#0f5cc2" TextColor="White"
-                    CornerRadius="20" WidthRequest="117" Command="{Binding SelecionarAbaCommand}" CommandParameter="SolicitacoesCliente" />
+                        CornerRadius="20" WidthRequest="117"
+                        Command="{Binding SelecionarAbaCommand}" CommandParameter="SolicitacoesCliente" />
                 <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White"
-                    CornerRadius="20" WidthRequest="117" Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasCliente" />
+                        CornerRadius="20" WidthRequest="117"
+                        Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasCliente" />
                 <Button Text="Histórico" BackgroundColor="#0f5cc2" TextColor="White"
-                    CornerRadius="20" WidthRequest="117" Command="{Binding SelecionarAbaCommand}" CommandParameter="HistoricoCliente" />
+                        CornerRadius="20" WidthRequest="117"
+                        Command="{Binding SelecionarAbaCommand}" CommandParameter="HistoricoCliente" />
             </HorizontalStackLayout>
 
             <!-- Listas -->
-            <CollectionView ItemsSource="{Binding SolicitacoesCliente}" IsVisible="{Binding SolicitacoesClienteVisivel}" />
-            <CollectionView ItemsSource="{Binding PropostasCliente}" IsVisible="{Binding PropostasClienteVisivel}" />
-            <CollectionView ItemsSource="{Binding ServicosAtivosPrestador}" IsVisible="{Binding ServicosPrestadorVisivel}" />
-            <CollectionView ItemsSource="{Binding HistoricoCliente}" IsVisible="{Binding HistoricoClienteVisivel}" />
+            <CollectionView ItemsSource="{Binding SolicitacaoVM.SolicitacoesRecebidas}"
+                            IsVisible="{Binding SolicitacaoVM.SolicitacoesClienteVisivel}" />
 
-            <!-- Lista de Propostas -->
-            <CollectionView ItemsSource="{Binding PropostasCliente}" Margin="15,10" IsVisible="{Binding PropostasClienteVisivel}">
+            <CollectionView ItemsSource="{Binding SolicitacaoVM.PropostasCliente}"
+                            Margin="15,10"
+                            IsVisible="{Binding SolicitacaoVM.PropostasClienteVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5">
@@ -105,8 +101,8 @@
                                 <Label Text="{Binding Descricao}" FontAttributes="Bold" FontSize="16" />
                                 <Label Text="{Binding ValorProposto, StringFormat='Valor: R$ {0:F2}'}" FontSize="14" />
                                 <HorizontalStackLayout HorizontalOptions="End">
-                                    <Button Text="ACEITAR" Command="{Binding AceitarSolicitacaoCommand}" CommandParameter="{Binding IdSolicitacao}" />
-                                    <Button Text="RECUSAR" Command="{Binding RecusarSolicitacaoCommand}" CommandParameter="{Binding IdSolicitacao}" />
+                                    <Button Text="ACEITAR" Command="{Binding BindingContext.SolicitacaoVM.AceitarSolicitacaoCommand, Source={x:Reference Name=PropostasClienteView}}" CommandParameter="{Binding IdSolicitacao}" />
+                                    <Button Text="RECUSAR" Command="{Binding BindingContext.SolicitacaoVM.RecusarSolicitacaoCommand, Source={x:Reference Name=PropostasClienteView}}" CommandParameter="{Binding IdSolicitacao}" />
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Frame>
@@ -115,23 +111,26 @@
             </CollectionView>
 
             <!-- Lista de Histórico -->
-            <CollectionView ItemsSource="{Binding HistoricoCliente}" Margin="15,10" IsVisible="{Binding HistoricoClienteVisivel}">
+            <CollectionView ItemsSource="{Binding SolicitacaoVM.HistoricoCliente}"
+                            Margin="10"
+                            SelectionMode="None"
+                            IsVisible="{Binding SolicitacaoVM.HistoricoClienteVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Descricao}" FontAttributes="Bold" FontSize="16" />
-                                <Label Text="Valor: {Binding ValorProposto, StringFormat='R$ {0:F2}'}" FontSize="14" />
-                                <Button Text="Reofertar"
-                                    Command="{Binding ReofertarSolicitacaoCommand}"
-                                    CommandParameter="{Binding IdSolicitacao}"
-                                    HorizontalOptions="End"/>
-                            </VerticalStackLayout>
+                        <Frame Margin="0,5" Padding="10" BackgroundColor="#f9f9f9" CornerRadius="10" BorderColor="#e0e0e0" HasShadow="True">
+                            <StackLayout Spacing="5">
+                                <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="Medium" TextColor="#333" />
+                                <Label Text="{Binding DataInclusaoFormatada}" FontSize="Small" TextColor="Gray" />
+                                <Label Text="{Binding ValorContratacaoFormatado, StringFormat='Valor: R$ {0}'}" FontSize="Small" TextColor="Black" />
+                                <Frame BackgroundColor="#e6f0ff" Padding="5,2" CornerRadius="5" HorizontalOptions="Start">
+                                    <Label Text="{Binding StatusAmigavel}" FontSize="Small" TextColor="#1e88e5" FontAttributes="Bold" />
+                                </Frame>
+                            </StackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
         </VerticalStackLayout>
-        
     </ScrollView>
 </ContentPage>

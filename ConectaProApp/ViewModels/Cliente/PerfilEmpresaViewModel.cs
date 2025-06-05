@@ -1,28 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using ConectaProApp.ViewModels;
-using ConectaProApp.Services.Cliente;
-using ConectaProApp.Services.Servico;
+﻿using System;
 using System.Collections.ObjectModel;
-using ConectaProApp.Models;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ConectaProApp.Models;
+using ConectaProApp.Services;
+using ConectaProApp.Services.Cliente;
 
-
-
-namespace ConectaPro.Controllers
+namespace ConectaProApp.ViewModels.Cliente
 {
-   
-    public partial class PerfilEmpresaViewModel : BaseViewModel
+    public class PerfilEmpresaViewModel : BaseViewModel
     {
         private readonly PerfilEmpresaClienteService peService;
 
-        public int IdEmpresa { get; set; }
-
         private ObservableCollection<ServicoDTO> historico;
 
-        [ObservableProperty]
-        private bool historicoClienteVisivel;
         public ObservableCollection<ServicoDTO> Historico
         {
             get => historico;
@@ -33,12 +24,28 @@ namespace ConectaPro.Controllers
             }
         }
 
-        public PerfilEmpresaViewModel(int idEmpresa)
+        private bool historicoClienteVisivel;
+        public bool HistoricoClienteVisivel
         {
-            peService = new PerfilEmpresaClienteService();
+            get => historicoClienteVisivel;
+            set
+            {
+                historicoClienteVisivel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int IdEmpresa { get; set; }
+
+        // Recebe ApiService no construtor para injetar no serviço
+        public PerfilEmpresaViewModel(int idEmpresa, ApiService apiService)
+        {
             IdEmpresa = idEmpresa;
+            peService = new PerfilEmpresaClienteService(apiService);
             Historico = new ObservableCollection<ServicoDTO>();
-            _ = ExibirHistorico();
+            HistoricoClienteVisivel = false;
+
+            
         }
 
         public async Task ExibirHistorico()
@@ -46,15 +53,22 @@ namespace ConectaPro.Controllers
             try
             {
                 var response = await peService.BuscarHistoricoAsync(IdEmpresa);
-                if (response != null)
+
+                if (response != null && response.Count > 0)
                 {
                     Historico = new ObservableCollection<ServicoDTO>(response);
+                    HistoricoClienteVisivel = true;
+                }
+                else
+                {
+                    HistoricoClienteVisivel = false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // Trate o erro apropriadamente, como exibir um alerta ao usuário
-                throw new Exception("Erro ao buscar serviços históricos.");
+                // Aqui pode logar ou tratar melhor o erro, mostrar mensagem etc
+                HistoricoClienteVisivel = false;
+                throw new Exception("Erro ao buscar serviços históricos.", ex);
             }
         }
     }

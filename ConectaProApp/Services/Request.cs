@@ -131,6 +131,31 @@ namespace ConectaProApp.Services
             return await httpClient.PutAsync(uri, content);
         }
 
+        public async Task<T> GetAsync<T>(string uri, string token)
+        {
+            // Limpa os headers de autorização anteriores (caso tenha)
+            httpClient.DefaultRequestHeaders.Authorization = null;
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            HttpResponseMessage response = await httpClient.GetAsync(uri);
+            string serialized = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<T>(serialized);
+            }
+            else
+            {
+                throw new Exception($"Erro na requisição GET: {response.StatusCode} - {serialized}");
+            }
+        }
+
+
 
 
     }

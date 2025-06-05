@@ -14,10 +14,11 @@ using ConectaProApp.Services.Solicitacao;
 using ConectaProApp.ViewModels.Foto;
 using System.Diagnostics;
 using ConectaProApp.Services.Azure;
+using Newtonsoft.Json;
 
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
-   public class SolicitacaoViewModel : INotifyPropertyChanged
+    public class SolicitacaoViewModel : INotifyPropertyChanged
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly SolicitacaoService _solicitacaoService;
@@ -59,6 +60,50 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
+        private bool _historicoClienteVisivel;
+        public bool HistoricoClienteVisivel
+        {
+            get => _historicoClienteVisivel;
+            set
+            {
+                _historicoClienteVisivel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _propostasClienteVisivel;
+        public bool PropostasClienteVisivel
+        {
+            get => _propostasClienteVisivel;
+            set
+            {
+                _propostasClienteVisivel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _solicitacoesClienteVisivel;
+        public bool SolicitacoesClienteVisivel
+        {
+            get => _solicitacoesClienteVisivel;
+            set
+            {
+                _solicitacoesClienteVisivel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _servicosPrestadorVisivel;
+        public bool ServicosPrestadorVisivel
+        {
+            get => _servicosPrestadorVisivel;
+            set
+            {
+                _servicosPrestadorVisivel = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<SolicitacaoDTO> PropostasCliente { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> HistoricoCliente { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> SolicitacoesRecebidas { get; set; } = new();
@@ -76,20 +121,17 @@ namespace ConectaProApp.ViewModels.Solicitacaos
 
         public FotoViewModel FotoVM { get; }
 
-        // Enum para tipo de usuário
         public enum TipoUsuario
         {
             Cliente,
             Prestador
         }
 
-        // Novo construtor flexível
         public SolicitacaoViewModel(TipoUsuario tipoUsuario, int idUsuario)
         {
             _solicitacaoService = new SolicitacaoService(new HttpClient(), new ApiService());
-
-            var apiService = new ApiService(); // Criando ApiService corretamente
-            var blobService = new BlobService(apiService); ;
+            var apiService = new ApiService();
+            var blobService = new BlobService(apiService);
 
             string endpointApi;
             string chavePreferencia;
@@ -100,7 +142,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 endpointApi = $"/clientes/{IdCliente}";
                 chavePreferencia = "foto_cliente";
             }
-            else // Prestador
+            else
             {
                 IdPrestador = idUsuario;
                 endpointApi = $"/prestadores/{IdPrestador}";
@@ -115,11 +157,11 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             FinalizarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.FINALIZADA));
             ReofertarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.PENDENTE));
             RemoverSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await RemoverSolicitacaoAsync(idSolicitacao));
-            SelecionarAbaCommand = new Command<string>(aba => AbaAtual = aba);
+            SelecionarAbaCommand = new Command<string>(async (aba) => await SelecionarAbaAsync(aba));
             SelecionarFotoCommand = FotoVM.SelecionarFotoCommand;
+            _ = SelecionarAbaAsync("HistoricoCliente");
         }
 
-        // Construtor padrão para compatibilidade (opcional)
         public SolicitacaoViewModel() : this(TipoUsuario.Cliente, Preferences.Get("id", 0)) { }
 
         private async Task EnviarPropostaAsync(int idSolicitacao)
@@ -185,13 +227,20 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             PropostasCliente.Clear();
             HistoricoCliente.Clear();
 
-            var propostas = await _solicitacaoService.BuscarSolicitacoesPorClienteAsync(idCliente);
-            foreach (var p in propostas)
+            try
             {
-                if (p.StatusSolicitacao == StatusOrcamentoEnum.ACEITA || p.StatusSolicitacao == StatusOrcamentoEnum.FINALIZADA)
-                    HistoricoCliente.Add(p);
-                else
-                    PropostasCliente.Add(p);
+                var propostas = await _solicitacaoService.BuscarSolicitacoesPorClienteAsync(idCliente);
+                foreach (var p in propostas)
+                {
+                    if (p.StatusSolicitacao == StatusOrcamentoEnum.ACEITA || p.StatusSolicitacao == StatusOrcamentoEnum.FINALIZADA)
+                        HistoricoCliente.Add(p);
+                    else
+                        PropostasCliente.Add(p);
+                }
+            }
+            catch (JsonException ex)
+            {
+                throw new Exception("Erro ao desserializar solicitações do cliente. Verifique o formato da resposta JSON.", ex);
             }
         }
 
@@ -218,6 +267,37 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 }
             }
         }
+
+        private async Task SelecionarAbaAsync(string aba)
+        {
+            HistoricoClienteVisivel = false;
+            PropostasClienteVisivel = false;
+            SolicitacoesClienteVisivel = false;
+            ServicosPrestadorVisivel = false;
+
+            AbaAtual = aba;
+
+            switch (aba)
+            {
+                case "HistoricoCliente":
+                    HistoricoClienteVisivel = true;
+                    await CarregarPropostasCliente(IdCliente);
+                    break;
+
+                case "PropostasCliente":
+                    PropostasClienteVisivel = true;
+                    await CarregarPropostasCliente(IdCliente);
+                    break;
+
+                case "SolicitacoesCliente":
+                    SolicitacoesClienteVisivel = true;
+                    break;
+
+                case "ServicosPrestador":
+                    ServicosPrestadorVisivel = true;
+                    break;
+            }
+        }
     }
-  
+
 }

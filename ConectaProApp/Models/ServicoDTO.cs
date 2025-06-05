@@ -58,5 +58,18 @@ namespace ConectaProApp.Models
 
         [JsonIgnore]
         public string PrevisaoInicioFormatada => PrevisaoInicio.ToString("dd/MM/yyyy");
+
+        [JsonIgnore]
+        public string StatusAmigavel => SituacaoServico switch
+        {
+            StatusServicoEnum.PendentePagto => "Pagamento pendente",
+            StatusServicoEnum.PendenteInicio => "Aguardando início",
+            StatusServicoEnum.EM_EXECUCAO => "Em execução",
+            StatusServicoEnum.PendenteConfirmarFinalizacao => "Aguardando confirmação",
+            StatusServicoEnum.FINALIZADO => "Finalizado",
+            StatusServicoEnum.Agendado => "Agendado",
+            StatusServicoEnum.Cancelado => "Cancelado",
+            _ => "Indefinido"
+        };
     }
 }

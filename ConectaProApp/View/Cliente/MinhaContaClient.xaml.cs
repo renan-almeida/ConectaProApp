@@ -1,38 +1,35 @@
 using ConectaProApp.Services;
-using ConectaProApp.ViewModels.Solicitacaos;
+using ConectaProApp.ViewModels.Cliente;
 using ConectaProApp.Services.Azure;
-using ConectaPro.Controllers; // Para Permissions
-
 
 namespace ConectaProApp.View.Cliente;
 
 public partial class MinhaContaClient : ContentPage
 {
-
     private readonly ApiService _apiService;
     private readonly BlobService _blobService;
 
-    public MinhaContaClient(int IdEmpresa)
+    public MinhaContaClient() : this(0) // Pode trocar 0 por um ID válido padrão
+    {
+    }
+
+    public MinhaContaClient(int idEmpresa)
     {
         InitializeComponent();
 
         _apiService = new ApiService();
         _blobService = new BlobService(_apiService);
 
+        int idCliente = Preferences.Get("id", 0);
 
-        int idCliente = Preferences.Get("id", 0); // ou de onde você obtém o id do cliente logado
-        var vm = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Cliente, idCliente);
-        this.BindingContext = vm;
+        // ViewModel composto com ambos os sub-VMs
+        var viewModel = new MinhaContaClienteViewModel(idEmpresa, idCliente, _apiService);
+        this.BindingContext = viewModel;
 
-        //BindingContext = new PerfilEmpresaViewModel(idEmpresa);
-
-        // O binding do XAML já cuida da exibição da imagem do avatar pelo ViewModel.
-
-        NomeEntry.Text = Preferences.Get("NomeCliente", "Etec Horácio Augusto");
+        // Preenche campos de nome e descrição com dados salvos
+        NomeEntry.Text = Preferences.Get("NomeCliente", "");
         DescricaoEditor.Text = Preferences.Get("DescricaoCliente", "Somos da Etec Horácio Augusto da Silveira.");
     }
-
-    // 
 
     private async void OnHeaderClienteTapped(object sender, EventArgs e)
     {
@@ -62,37 +59,36 @@ public partial class MinhaContaClient : ContentPage
         }
     }
 
-   private async Task<bool> VerificarPermissoesAsync()
-{
+    private async Task<bool> VerificarPermissoesAsync()
+    {
 #if ANDROID
-    if (DeviceInfo.Version.Major >= 13)
-    {
-        var status = await Permissions.CheckStatusAsync<Permissions.Media>();
-        if (status != PermissionStatus.Granted)
-            status = await Permissions.RequestAsync<Permissions.Media>();
-        return status == PermissionStatus.Granted;
-    }
-    else
-    {
-        var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
-        if (status != PermissionStatus.Granted)
-            status = await Permissions.RequestAsync<Permissions.StorageRead>();
-        return status == PermissionStatus.Granted;
-    }
+        if (DeviceInfo.Version.Major >= 13)
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.Media>();
+            if (status != PermissionStatus.Granted)
+                status = await Permissions.RequestAsync<Permissions.Media>();
+            return status == PermissionStatus.Granted;
+        }
+        else
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+            if (status != PermissionStatus.Granted)
+                status = await Permissions.RequestAsync<Permissions.StorageRead>();
+            return status == PermissionStatus.Granted;
+        }
 #else
-    var status = await Permissions.CheckStatusAsync<Permissions.Photos>();
-    if (status != PermissionStatus.Granted)
-        status = await Permissions.RequestAsync<Permissions.Photos>();
-    return status == PermissionStatus.Granted;
+        var status = await Permissions.CheckStatusAsync<Permissions.Photos>();
+        if (status != PermissionStatus.Granted)
+            status = await Permissions.RequestAsync<Permissions.Photos>();
+        return status == PermissionStatus.Granted;
 #endif
-}
+    }
 
     private void OnNomeChanged(object sender, TextChangedEventArgs e)
     {
         try
         {
-            string novoNome = e.NewTextValue;
-            Preferences.Set("NomeCliente", novoNome);
+            Preferences.Set("NomeCliente", e.NewTextValue);
         }
         catch (Exception ex)
         {
@@ -104,8 +100,7 @@ public partial class MinhaContaClient : ContentPage
     {
         try
         {
-            string novaDescricao = e.NewTextValue;
-            Preferences.Set("DescricaoCliente", novaDescricao);
+            Preferences.Set("DescricaoCliente", e.NewTextValue);
         }
         catch (Exception ex)
         {

@@ -4,21 +4,20 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using ConectaProApp.Converters;
 
 namespace ConectaProApp.Services
 {
-
-
-    // Fazer login e guardar o token de autenticação. Fazer chamadas GET autenticadas com esse token. Centralizar toda a comunicação segura com a API.
-
-
-
-
     public class ApiService
     {
-        
         public HttpClient HttpClient { get; }
+
+        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
         public ApiService()
         {
@@ -26,6 +25,11 @@ namespace ConectaProApp.Services
             {
                 BaseAddress = new Uri("https://conectapro-api.azurewebsites.net/")
             };
+
+            // Adicionando os conversores personalizados
+            _jsonOptions.Converters.Add(new DateTimeFromStringConverter("dd/MM/yyyy - HH:mm"));
+            _jsonOptions.Converters.Add(new DateOnlyFromStringConverter("dd/MM/yyyy"));
+            _jsonOptions.Converters.Add(new DecimalFromStringConverter());
         }
 
         public async Task<string> LoginAsync(string email, string senha)
@@ -61,31 +65,10 @@ namespace ConectaProApp.Services
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<T>(content);
+                return JsonSerializer.Deserialize<T>(content, _jsonOptions);
             }
 
             throw new Exception($"Erro ao buscar dados: {response.ReasonPhrase}");
-        }
-
-        public async Task ConfigureAuthorizationHeaderAsync()
-        {
-            var token = await SecureStorage.GetAsync("jwt_token");
-
-            if (string.IsNullOrEmpty(token))
-            {
-                token = Preferences.Get("jwt_token", string.Empty); // Teste alternativo
-                Debug.WriteLine($"🔹 Token recuperado via Preferences: {token}");
-            }
-
-            if (!string.IsNullOrEmpty(token))
-            {
-                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                Debug.WriteLine($"🔹 Cabeçalho de autorização configurado com token: {token}");
-            }
-            else
-            {
-                Debug.WriteLine("⚠️ Token não encontrado!");
-            }
         }
 
         public async Task<bool> DeleteAsync(string endpoint)
@@ -99,11 +82,32 @@ namespace ConectaProApp.Services
         {
             await ConfigureAuthorizationHeaderAsync();
 
-            var json = JsonSerializer.Serialize(new { caminhoFoto = urlFoto });
+            var json = JsonSerializer.Serialize(new { caminhoFoto = urlFoto }, _jsonOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await HttpClient.PutAsync(endpointApi, content);
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task ConfigureAuthorizationHeaderAsync()
+        {
+            var token = await SecureStorage.GetAsync("jwt_token");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                token = Preferences.Get("jwt_token", string.Empty);
+                Debug.WriteLine($"🔹 Token recuperado via Preferences: {token}");
+            }
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                Debug.WriteLine($"🔹 Cabeçalho de autorização configurado com token: {token}");
+            }
+            else
+            {
+                Debug.WriteLine("⚠️ Token não encontrado!");
+            }
         }
 
         public class TokenResponse
