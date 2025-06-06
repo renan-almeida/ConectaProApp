@@ -17,40 +17,49 @@
             </Grid>
 
             <!-- Banner/Header -->
-            <Grid>
-                <Image x:Name="headerClienteImage"
-                       Source="{Binding SolicitacaoVM.FotoVM.FonteImagem}"
-                       Aspect="AspectFill"
-                       HeightRequest="150"
-                       HorizontalOptions="Center"
-                       ZIndex="1">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnHeaderClienteTapped" />
-                    </Image.GestureRecognizers>
-                </Image>
+            <!-- Banner/Header -->
+            <Grid HeightRequest="210">
 
-                <Frame WidthRequest="120" HeightRequest="120"
-                       CornerRadius="60"
-                       BackgroundColor="White"
-                       IsClippedToBounds="True"
-                       BorderColor="#eeeeee"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Center"
-                       Margin="0,-60,0,0"
-                       ZIndex="2">
-                    <Frame.GestureRecognizers>
+                <!-- Header com clique separado -->
+                <Grid>
+                    <Image x:Name="headerClienteImage"
+               Source="{Binding FotoVMHeader.FonteImagem}"
+               Aspect="AspectFill"
+               HeightRequest="150"
+               HorizontalOptions="Fill"
+               VerticalOptions="Start" />
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FotoVMHeader.SelecionarFotoCommand}" />
+                    </Grid.GestureRecognizers>
+                </Grid>
+
+                <!-- Avatar circular sobreposto -->
+                <Grid HeightRequest="120" WidthRequest="120"
+          VerticalOptions="Start"
+          HorizontalOptions="Center"
+          Margin="0,120,0,0"
+          ZIndex="10"
+          IsClippedToBounds="True">
+
+                    <Grid.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SolicitacaoVM.FotoVM.SelecionarFotoCommand}" />
-                    </Frame.GestureRecognizers>
+                    </Grid.GestureRecognizers>
+
+                    <!-- Círculo de recorte -->
+                    <Grid.Clip>
+                        <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60" />
+                    </Grid.Clip>
+
+                    <!-- Imagem de perfil (avatar) -->
                     <Image x:Name="avatarImageClient"
-                           Source="{Binding SolicitacaoVM.FotoVM.FonteImagem}"
-                           Aspect="AspectFill"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center">
-                        <Image.Clip>
-                            <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60" />
-                        </Image.Clip>
-                    </Image>
-                </Frame>
+               Source="{Binding SolicitacaoVM.FotoVM.FonteImagem}"
+               WidthRequest="120"
+               HeightRequest="120"
+               Aspect="AspectFill"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
+                </Grid>
             </Grid>
 
             <!-- Nome e descrição -->

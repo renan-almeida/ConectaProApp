@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ConectaProApp.Models.Enuns;
 using Newtonsoft.Json;
 
@@ -29,7 +25,6 @@ namespace ConectaProApp.Models
         public DateTime? DataPagamento { get; set; }
 
         public StatusServicoEnum SituacaoServico { get; set; }
-
         public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
         public TipoSegmentoEnum TipoCategoriaEnum { get; set; }
 
