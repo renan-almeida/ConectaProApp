@@ -84,6 +84,7 @@
                     <Entry Placeholder="Qual problema o seu negócio enfrenta?"
                            PlaceholderColor="Gray"
                            WidthRequest="314"
+                           TextColor="Black"
                            HeightRequest="0"
                           BackgroundColor="Transparent"
                            Text="{Binding Titulo, Mode=TwoWay}"
@@ -93,6 +94,7 @@
                             FontSize="14"
                             AutoSize="TextChanges"
                             MaxLength="100"
+                            TextColor="Black"
                            WidthRequest="314"
                            HeightRequest="0"
                            Text="{Binding Descricao, Mode=TwoWay}"
@@ -102,6 +104,7 @@
                                 Placeholder="Valor disposto a pagar R$"
                                 PlaceholderColor="Gray"
                                Keyboard="Numeric"
+                                TextColor="Black"
                                 WidthRequest="314"
                                 HeightRequest="0"
                                Text="{Binding ValorProposto, Mode=TwoWay}"/>
@@ -109,6 +112,7 @@
                         <Picker Title="Segmento do serviço desejado"
                             TitleColor="Gray"
                             WidthRequest="210"
+                                TextColor="Black"
                             ItemsSource="{Binding Segmentos}"
                             SelectedItem="{Binding SegmentoSelecionado}"/>
                     </VerticalStackLayout>

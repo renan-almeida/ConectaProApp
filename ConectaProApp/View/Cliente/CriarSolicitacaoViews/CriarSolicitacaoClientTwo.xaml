@@ -88,16 +88,20 @@
                         <DatePicker 
                                 x:Name="pickerPrevisaoInicio"
                                 Format="dd/MM/yyyy"
+                            
                                 WidthRequest="314"
+                            TextColor="Black"
                                 HeightRequest="0"
                                 BackgroundColor="White"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
                            
                         <Entry Placeholder="Estipule a duração em dias do serviço"
                                Keyboard="Numeric"
-                           PlaceholderColor="Gray"
+                           PlaceholderColor="Black"
                            WidthRequest="314"
                            HeightRequest="0"
+                               
+                               TextColor="Black"
                                Text="{Binding DuracaoServico, Mode=TwoWay}"
                                MaxLength="2"
                                             />

@@ -77,12 +77,14 @@
                             Title="Urgência do serviço"
                             ItemsSource="{Binding NiveisUrgencia}"
                             SelectedItem="{Binding UrgenciaSelecionada}"
+                            TextColor="Black"
                             HorizontalOptions="Center"/>
 
                         <Picker
                             Title="Forma de Pagamento"
                             ItemsSource="{Binding FormasPagto }"
                             SelectedItem="{Binding FormaPagtoSelecionado}"
+                            TextColor="Black"
                             HorizontalOptions="Center"/>
 
                         <Frame

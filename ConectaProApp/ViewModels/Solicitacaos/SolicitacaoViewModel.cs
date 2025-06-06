@@ -129,6 +129,8 @@ namespace ConectaProApp.ViewModels.Solicitacaos
 
         public SolicitacaoViewModel(TipoUsuario tipoUsuario, int idUsuario)
         {
+
+
             _solicitacaoService = new SolicitacaoService(new HttpClient(), new ApiService());
             var apiService = new ApiService();
             var blobService = new BlobService(apiService);

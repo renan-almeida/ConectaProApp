@@ -61,15 +61,20 @@ namespace ConectaProApp.Services
             await ConfigureAuthorizationHeaderAsync();
 
             var response = await HttpClient.GetAsync(endpoint);
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"Erro ao buscar dados: {response.ReasonPhrase}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<T>(content, _jsonOptions);
-            }
+            var content = await response.Content.ReadAsStringAsync();
 
-            throw new Exception($"Erro ao buscar dados: {response.ReasonPhrase}");
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new DateOnlyFromStringConverter("dd/MM/yyyy"));
+            options.Converters.Add(new DateTimeFromStringConverter("dd/MM/yyyy - HH:mm"));
+            options.Converters.Add(new DateTimeNullableFromStringConverter("dd/MM/yyyy - HH:mm"));
+            options.Converters.Add(new DecimalFromStringConverter());
+
+            return JsonSerializer.Deserialize<T>(content, options);
         }
+
 
         public async Task<bool> DeleteAsync(string endpoint)
         {
