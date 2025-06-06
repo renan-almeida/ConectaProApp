@@ -112,7 +112,7 @@
                                 </HorizontalStackLayout>
 
                                 <HorizontalStackLayout Spacing="202">
-                                    <Label Text="VER MAIS"
+                                    <Label Text=""
                                            TextColor="#2886CA"
                                            FontSize="10">
                                         <Label.GestureRecognizers>
@@ -120,7 +120,7 @@
                                         </Label.GestureRecognizers>
                                     </Label>
 
-                                    <Label Text="CANDIDATAR-SE"
+                                    <Label Text="CANDIDATAR"
                                            FontSize="14"
                                            TextColor="#0f5cc2">
                                         <Label.GestureRecognizers>

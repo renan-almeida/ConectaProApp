@@ -81,6 +81,7 @@
                 <Label Text="Descreva o seu problema para o prestador"
                    TextColor="Black"
                    FontSize="20"
+                       
                    HorizontalOptions="Center"/>
                 <Label Text= "{Binding NomePrestador}"
                    TextColor="Black"
@@ -103,6 +104,7 @@
                            PlaceholderColor="Gray"
                            WidthRequest="314"
                            HeightRequest="0"
+                           TextColor="Black"
                           BackgroundColor="Transparent"
                            Text="{Binding TituloProposta}"
                            />
@@ -110,6 +112,7 @@
                            PlaceholderColor="Gray"
                             FontSize="14"
                             AutoSize="TextChanges"
+                                TextColor="Black"
                             MaxLength="100"
                            WidthRequest="314"
                            HeightRequest="0"
@@ -119,6 +122,7 @@
                         <Entry Placeholder="Digite o valor proposto a pagar"
                                TextChanged="OnValorDispostoTextChanged"
                                 PlaceholderColor="Gray"
+                               TextColor="Black"
                                 WidthRequest="314"
                                 HeightRequest="0"
                                Text="{Binding ValorProposto}"/>
@@ -131,6 +135,7 @@
                                 x:Name="pickerPrevisaoInicio"
                                 Format="dd/MM/yyyy"
                                 WidthRequest="314"
+                            TextColor="Black"
                                 HeightRequest="0"
                                 BackgroundColor="White"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
