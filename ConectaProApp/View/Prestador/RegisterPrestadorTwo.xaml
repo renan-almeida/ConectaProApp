@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Prestador.RegisterPrestadorTwo"
              x:Name="RegisterPage"
-             BackgroundColor="#f3f3f3">
+             BackgroundColor="White">
     <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
 
@@ -35,6 +35,7 @@
                     Placeholder="Digite uma habilidade"
                     Text="{Binding HabilidadeAtual}"
                     WidthRequest="314"
+                    BackgroundColor="#f1f1f1"
                     PlaceholderColor="#B2A9A9"
                     TextColor="Black"/>
                 <Button Text="+" Command="{Binding AdicionarHabilidadeCommand}" BackgroundColor="#0f5cc2" />
@@ -82,6 +83,7 @@
                     Placeholder="Adicione suas especializações"
                     Text="{Binding EspecializacaoAtual}"
                     PlaceholderColor="#B2A9A9"
+                    BackgroundColor="#f1f1f1"
                     FontSize="15"
                     HorizontalOptions="Center"
                     WidthRequest="314"/>
@@ -128,6 +130,7 @@
                 PlaceholderColor="#B2A9A9"
                 FontSize="15"
                 AutoSize="TextChanges"
+                BackgroundColor="#f1f1f1"
                 MaxLength="100"
                 WidthRequest="314"
                 HeightRequest="100"

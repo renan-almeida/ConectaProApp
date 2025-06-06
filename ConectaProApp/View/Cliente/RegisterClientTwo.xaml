@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Cliente.RegisterClientTwo"
-             BackgroundColor="#F3F3F3">
+             BackgroundColor="White">
     <ScrollView>
         <VerticalStackLayout
         Padding="30,0"
@@ -30,6 +30,7 @@
             <Entry
                 TextColor="Black"
                 Placeholder="Razao Social"
+                BackgroundColor="#f1f1f1"
                 FontSize="15"
                 HorizontalOptions="Fill"
                 WidthRequest="314"
@@ -38,6 +39,7 @@
             <Entry
             TextColor="Black"
             Placeholder="Nome Fantasia"
+                BackgroundColor="#f1f1f1"
             FontSize="15"
             HorizontalOptions="Fill"
             WidthRequest="314"
@@ -47,6 +49,7 @@
             TextColor="Black"
             Placeholder="CNPJ"
             FontSize="15"
+                BackgroundColor="#f1f1f1"
             HorizontalOptions="Fill" 
                 WidthRequest="314"
                 Text="{Binding Cnpj, Mode=TwoWay}"/>

@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Cliente.RegisterClient"
-             BackgroundColor="#F3F3F3">
+             BackgroundColor="White">
     <ScrollView>
         <VerticalStackLayout
          Padding="30,0"
@@ -61,6 +61,7 @@
              PlaceholderColor="#B2A9A9"
              FontSize="15"
              HorizontalOptions="Fill"
+                BackgroundColor="#f1f1f1"
              WidthRequest="314"
              Text="{Binding NomeCliente, Mode=TwoWay}"
               />
@@ -72,6 +73,7 @@
              PlaceholderColor="#B2A9A9"
              FontSize="15"
              HorizontalOptions="Fill"
+                BackgroundColor="#f1f1f1"
              WidthRequest="314"
              Text="{Binding EmailCliente, Mode=TwoWay}"
               />

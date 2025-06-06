@@ -36,7 +36,7 @@
              VerticalOptions="Center"
              HorizontalOptions="End"
              Grid.Column="2">
-                <Image Source="{Binding FotoEmpresaUrl, Mode=OneWay}" 
+                <Image Source="empresasemfoto.png" 
                  Aspect="AspectFill" 
                  HeightRequest="40" WidthRequest="40"
                  >
@@ -86,11 +86,13 @@
                            WidthRequest="314"
                            TextColor="Black"
                            HeightRequest="0"
-                          BackgroundColor="Transparent"
+                          BackgroundColor="#f1f1f1"
                            Text="{Binding Titulo, Mode=TwoWay}"
+                           
                            />
                     <Editor Placeholder="De uma Descrição exata sobre o problema"
                            PlaceholderColor="Gray"
+                            BackgroundColor="#f1f1f1"
                             FontSize="14"
                             AutoSize="TextChanges"
                             MaxLength="100"
@@ -103,6 +105,7 @@
                         <Entry  TextChanged="OnValorDispostoTextChanged"
                                 Placeholder="Valor disposto a pagar R$"
                                 PlaceholderColor="Gray"
+                                BackgroundColor="#f1f1f1"
                                Keyboard="Numeric"
                                 TextColor="Black"
                                 WidthRequest="314"
@@ -111,7 +114,8 @@
 
                         <Picker Title="Segmento do serviço desejado"
                             TitleColor="Gray"
-                            WidthRequest="210"
+                                BackgroundColor="#f1f1f1"
+                                WidthRequest="210"
                                 TextColor="Black"
                             ItemsSource="{Binding Segmentos}"
                             SelectedItem="{Binding SegmentoSelecionado}"/>

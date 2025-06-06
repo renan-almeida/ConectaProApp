@@ -24,28 +24,28 @@ namespace ConectaProApp.Models
         public string DescSolicitacao { get; set; }
 
         [JsonProperty("valorProposto")]
-        public decimal ValorProposto { get; set; }
+        public string? ValorProposto { get; set; }
 
         [JsonProperty("dataInclusao")]
-        public string DataInclusao { get; set; }
+        public string? DataInclusao { get; set; }
 
         [JsonProperty("previsaoInicio")]
-        public string PrevisaoInicio { get; set; }
+        public string? PrevisaoInicio { get; set; }
 
         [JsonProperty("duracaoServico")]
-        public int DuracaoServico { get; set; }
+        public int? DuracaoServico { get; set; }
 
         [JsonProperty("formaPagto")]
-        public string FormaPagto { get; set; }
+        public string? FormaPagto { get; set; }
 
         [JsonProperty("nvlUrgencia")]
-        public string NvlUrgencia { get; set; }
+        public string? NvlUrgencia { get; set; }
 
         [JsonProperty("tipoCategoria")]
-        public string TipoCategoria { get; set; }
+        public string? TipoCategoria { get; set; }
 
         [JsonProperty("statusSolicitacao")]
-        public string StatusSolicitacao { get; set; }
+        public string? StatusSolicitacao { get; set; }
 
         // Propriedades de empresaClienteResumoDTO
         [JsonProperty("empresaClienteResumoDTO")]

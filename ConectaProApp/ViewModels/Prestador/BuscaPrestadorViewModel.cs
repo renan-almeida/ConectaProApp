@@ -21,7 +21,7 @@ namespace ConectaProApp.ViewModels.Prestador
         private readonly ServicoService _servicoService;
 
         // Coleção observável com os serviços encontrados
-        public ObservableCollection<ServicoHomeDTO> ServicosEncontrados { get; set; } // Usando o alias
+        public ObservableCollection<ServicoModel> ServicosEncontrados { get; set; } // Usando o alias
 
         // Comandos para cada categoria
         public ICommand TecnologiaSolicitacoesCommand { get; set; }
@@ -34,12 +34,20 @@ namespace ConectaProApp.ViewModels.Prestador
         public ICommand EletricaSolicitacoesCommand { get; set; }
         public ICommand DesignSolicitacoesCommand { get; set; }
         public ICommand OutrasSolicitacoesCommand { get; set; }
+        public ICommand RedesSolicitacoesCommand { get; set; }
+        public ICommand TelecomunicacoesSolicitacoesCommand { get; set; }
+        public ICommand SegurancaSolicitacoesCommand { get; set; }
+        public ICommand MonitoramentoSolicitacoesCommand { get; set; }
+        public ICommand ReparosSolicitacoesCommand { get; set; }
+        public ICommand ContabilSolicitacoesCommand { get; set; }
+        public ICommand BelezaSolicitacoesCommand { get; set; }
+        public ICommand AutomotivoSolicitacoesCommand { get; set; }
         public ICommand AcionarBuscaCommand { get; set; }
 
         public BuscaPrestadorViewModel()
         {
             _servicoService = new ServicoService();
-            ServicosEncontrados = new ObservableCollection<ServicoHomeDTO>();
+            ServicosEncontrados = new ObservableCollection<ServicoModel>();
 
             // Inicialização dos comandos com suas respectivas ações
             TecnologiaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("TECNOLOGIA"));
@@ -52,6 +60,14 @@ namespace ConectaProApp.ViewModels.Prestador
             EletricaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("ELETRICA"));
             DesignSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("DESIGN"));
            OutrasSolicitacoesCommand = new Command(async () =>  OutrasSolicitacoes());
+            RedesSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("REDES"));
+            TelecomunicacoesSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("TELECOMUNICACOES"));
+            SegurancaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("SEGURANCA"));
+            MonitoramentoSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("MONITORAMENTO"));
+            ReparosSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("REPAROS"));
+            ContabilSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("CONTABIL"));
+            BelezaSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("BELEZA"));
+            AutomotivoSolicitacoesCommand = new Command(async () => await BuscarServicosPorCategoria("AUTOMOTIVO"));
             AcionarBuscaCommand = new Command(async () => await BuscarServicosPorTermo(TermoBusca));
         }
 
@@ -71,23 +87,20 @@ namespace ConectaProApp.ViewModels.Prestador
             {
                 var listaServicos = await _servicoService.BuscarServicoPorCategoriaAsync(categoria);
 
-                if (listaServicos == null || !listaServicos.Any())
+                if (listaServicos != null && listaServicos.Any())
                 {
-                    await App.Current.MainPage.DisplayAlert("Aviso", "Nenhum serviço encontrado.", "OK");
-                    return;
-                }
-                ServicosEncontrados.Clear();
-                foreach (var servico in listaServicos)
-                    ServicosEncontrados.Add(servico);
-
-
-                await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
-                      new Dictionary<string, object>
-                      {
+                    await Shell.Current.GoToAsync(nameof(ResultadoBuscaPrestadorView),
+                         new Dictionary<string, object>
+                         {
                             { "Servicos", listaServicos },
                             { "TituloBusca", $"Resultados encontrados para \"{categoria}\""}
-                      });
-
+                         });
+                }
+                else
+                {
+                    await Application.Current.MainPage
+                        .DisplayAlert("Não encontrado", "Nenhum serviço foi encontrado", "OK");
+                }
             }
             catch (Exception ex)
             {

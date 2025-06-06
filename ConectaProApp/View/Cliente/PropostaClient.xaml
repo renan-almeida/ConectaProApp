@@ -105,12 +105,13 @@
                            WidthRequest="314"
                            HeightRequest="0"
                            TextColor="Black"
-                          BackgroundColor="Transparent"
+                          BackgroundColor="#f1f1f1"
                            Text="{Binding TituloProposta}"
                            />
                         <Editor Placeholder="De uma Descrição exata sobre o problema"
                            PlaceholderColor="Gray"
                             FontSize="14"
+                                BackgroundColor="#f1f1f1"
                             AutoSize="TextChanges"
                                 TextColor="Black"
                             MaxLength="100"
@@ -121,6 +122,7 @@
 
                         <Entry Placeholder="Digite o valor proposto a pagar"
                                TextChanged="OnValorDispostoTextChanged"
+                               BackgroundColor="#f1f1f1"
                                 PlaceholderColor="Gray"
                                TextColor="Black"
                                 WidthRequest="314"
@@ -137,7 +139,7 @@
                                 WidthRequest="314"
                             TextColor="Black"
                                 HeightRequest="0"
-                                BackgroundColor="White"
+                                BackgroundColor="#f1f1f1"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
 
                         <HorizontalStackLayout Spacing="48" HorizontalOptions="Center">
@@ -145,11 +147,13 @@
                                 Title="Urgência do serviço"
                                 ItemsSource="{Binding NiveisUrgencia}"
                                 SelectedItem="{Binding UrgenciaSelecionada}"
+                                BackgroundColor="#f1f1f1"
                                 HorizontalOptions="Center"/>
 
                             <Picker
                                 Title="Forma de Pagamento"
                                 ItemsSource="{Binding FormasPagto }"
+                                BackgroundColor="#f1f1f1"
                                 SelectedItem="{Binding FormaPagtoSelecionado}"
                                 HorizontalOptions="Center"/>
 

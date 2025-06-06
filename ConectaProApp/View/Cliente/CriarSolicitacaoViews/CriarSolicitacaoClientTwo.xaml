@@ -38,7 +38,7 @@
                          VerticalOptions="Center"
                          HorizontalOptions="End"
                          Grid.Column="2">
-                    <Image Source="{Binding FotoEmpresaUrl, Mode=OneWay}" 
+                    <Image Source="empresasemfoto.png" 
                  Aspect="AspectFill" 
                  HeightRequest="40" WidthRequest="40"
                  >
@@ -88,16 +88,16 @@
                         <DatePicker 
                                 x:Name="pickerPrevisaoInicio"
                                 Format="dd/MM/yyyy"
-                            
+                            BackgroundColor="#f1f1f1"
                                 WidthRequest="314"
                             TextColor="Black"
                                 HeightRequest="0"
-                                BackgroundColor="White"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
                            
                         <Entry Placeholder="Estipule a duração em dias do serviço"
                                Keyboard="Numeric"
                            PlaceholderColor="Black"
+                               BackgroundColor="#f1f1f1"
                            WidthRequest="314"
                            HeightRequest="0"
                                

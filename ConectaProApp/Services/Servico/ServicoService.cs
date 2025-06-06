@@ -73,7 +73,7 @@ namespace ConectaProApp.Services.Servico
         }
       
 
-        public async Task<List<ServicoHomeDTO>> BuscarServicoPorCategoriaAsync(string categoria)
+        public async Task<List<ServicoModel>> BuscarServicoPorCategoriaAsync(string categoria)
         {
             try
             {
@@ -81,27 +81,34 @@ namespace ConectaProApp.Services.Servico
                 System.Diagnostics.Debug.WriteLine($"Token: {token}");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                const string buscaServicoEndpoint = "/solicitacoes-busca";
+                const string buscaServicoEndpoint = "/busca-solicitacoes";
 
                 //busca-solicitacoes/uf=${}&termo=${}
 
                 categoria = Uri.EscapeDataString(categoria);
 
                 var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
-                System.Diagnostics.Debug.WriteLine("Requisição para URL: " + response);
+                System.Diagnostics.Debug.WriteLine("Requisição para URL: " + $"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
+
+                System.Diagnostics.Debug.WriteLine("Resposta da API: " + response);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<ServicoHomeDTO>>(json);
+                    Debug.WriteLine("JSON da API:\n" + json);
+                    return JsonConvert.DeserializeObject<List<ServicoModel>>(json);
+                }
+                else
+                {
+                    Debug.WriteLine($"Erro na requisição. StatusCode: {response.StatusCode}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Erro ao buscar serviço: " + ex.Message);
+                Debug.WriteLine("Erro ao buscar serviço: " + ex.Message);
             }
 
-            return new List<ServicoHomeDTO>();
+            return new List<ServicoModel>();
         }
 
         // Exibe ao prestador apenas servicos com base na sua UF

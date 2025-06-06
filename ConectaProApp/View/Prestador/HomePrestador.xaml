@@ -49,6 +49,10 @@
 
         <!-- Conteúdo Principal -->
         <Grid Grid.Row="1">
+
+            <Image Source="empresasemfoto.png" 
+       Aspect="AspectFill" 
+       Opacity="0.7"/>
             <!-- Conteúdo sobre o fundo -->
             <StackLayout Padding="20" VerticalOptions="End" Spacing="10">
 

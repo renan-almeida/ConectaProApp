@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              x:Class="ConectaProApp.View.Prestador.RegisterPrestador"
-             BackgroundColor="#f3f3f3">
+             BackgroundColor="White">
     <ScrollView>
         <VerticalStackLayout
          Padding="30,0"
@@ -34,6 +34,7 @@
              TextColor="Black"
              Placeholder="Digite seu Nome"
              PlaceholderColor="#B2A9A9"
+                BackgroundColor="#f1f1f1"
              FontSize="15"
              HorizontalOptions="Fill"
              WidthRequest="314"
@@ -45,6 +46,7 @@
                  TextColor="Black"
                  Placeholder="Digite seu Email"
                  PlaceholderColor="#B2A9A9"
+                BackgroundColor="#f1f1f1"
                  FontSize="15"
                  HorizontalOptions="Center"
                  WidthRequest="314"
@@ -57,6 +59,7 @@
                  PlaceholderColor="#B2A9A9"
                  Keyboard="Numeric"
                  FontSize="15"
+                BackgroundColor="#f1f1f1"
                  HorizontalOptions="Center"
                  WidthRequest="314"
                  Text="{Binding CpfPrestador, Mode=TwoWay}"
@@ -72,6 +75,7 @@
                  FontSize="15"
                  HorizontalOptions="Center"
                  WidthRequest="314"
+                BackgroundColor="#f1f1f1"
                   />    
 
 
