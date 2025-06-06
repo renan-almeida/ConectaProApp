@@ -18,12 +18,12 @@ namespace ConectaProApp.Models
         public decimal ValorProposta { get; set; }
         [JsonProperty("previsaoInicio")]
         public string PrevisaoInicio { get; set; }
-        [JsonProperty("formaPagtoEnum")]
-        public FormaPagtoEnum FormaPagtoEnum { get; set; }
+        [JsonProperty("formaPagto")]
+        public FormaPagtoEnum? FormaPagtoEnum { get; set; }
         [JsonProperty("nvlUrgenciaEnum")]
-        public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
+        public NvlUrgenciaEnum? NvlUrgenciaEnum { get; set; }
         [JsonProperty("StatusServicoEnum")]
-        public StatusServicoEnum StatusServicoEnum { get; set; }
+        public StatusServicoEnum? StatusServicoEnum { get; set; }
         [JsonProperty("previsaoFim")]
         public string PrevisaoFim { get; set; }
         [JsonProperty("nomeFantasia")]

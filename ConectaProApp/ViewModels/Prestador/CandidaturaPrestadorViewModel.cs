@@ -51,15 +51,17 @@ namespace ConectaProApp.ViewModels.Prestador
             set
             {
                 valorPropostoTexto = value;
-                var textoLimpo = value?.Trim().Replace(",", ".");
 
-                if (decimal.TryParse(textoLimpo, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var resultado))
+                // Remove "R$", espaços, vírgula vira ponto
+                var textoLimpo = value?
+                    .Replace("R$", "")
+                    .Replace(" ", "")
+                    .Replace(",", ".")
+                    .Trim();
+
+                if (decimal.TryParse(textoLimpo, NumberStyles.Any, CultureInfo.InvariantCulture, out var resultado))
                 {
                     ValorProposto = resultado;
-                }
-                else
-                {
-                    ValorProposto = 0; // ou trate como null, se quiser validar depois
                 }
 
                 OnPropertyChanged();
@@ -144,17 +146,17 @@ namespace ConectaProApp.ViewModels.Prestador
                 PrevisaoInicio = previsaoInicioFormatada,
                 PrevisaoFim = previsaoFimFormatada,
                 FormaPagtoEnum = formaPagtoEnum,
-                StatusServicoEnum = StatusServicoEnum.ORCAMENTO
             };
             Debug.WriteLine($"ValorProposto: {ValorProposto}");
+            Debug.WriteLine($"ForamPagto: {formaPagtoEnum}");
 
             var propostaRegistrado = await pService.EnviarCandidaturaAsync(novaproposta, this.IdSolicitacao);
 
             if (propostaRegistrado != null)
             {
                 await Application.Current.MainPage
-                    .DisplayAlert("Solicitação criada com sucesso!",
-                                    "Aguarde o contato de um prestador", "OK");
+                    .DisplayAlert("Candidatura criada com sucesso!",
+                                    "Aguarde o contato da empresa solicitante", "OK");
                 return true;
             }
             return false;

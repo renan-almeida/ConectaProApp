@@ -76,7 +76,7 @@ namespace ConectaProApp.Services.Solicitacao
                 throw new Exception("Erro ao atualizar status da solicitação");
 
             // 🔄 Remover propostas não aceitas se a solicitação for aprovada
-            if (novoStatus == StatusOrcamentoEnum.ACEITA)
+            if (novoStatus == StatusOrcamentoEnum.ATIVA)
             {
                 await RemoverPropostasNaoAceitasAsync(idSolicitacao);
             }
@@ -96,7 +96,7 @@ namespace ConectaProApp.Services.Solicitacao
 
             foreach (var proposta in propostas)
             {
-                if (proposta.StatusSolicitacao == StatusOrcamentoEnum.PENDENTE)
+                if (proposta.StatusSolicitacao == StatusOrcamentoEnum.ATIVA)
                 {
                     await RemoverSolicitacaoAsync(proposta.IdSolicitacao);
                 }

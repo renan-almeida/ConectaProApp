@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -159,8 +160,8 @@ namespace ConectaProApp.Services.Servico
             catch (Exception ex)
             {
                 // Captura de exceção e log do erro
-                Console.WriteLine($"Erro ao buscar serviços: {ex.Message}");
-                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                Debug.WriteLine($"Erro ao buscar serviços: {ex.Message}");
+                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                 await Application.Current.MainPage.DisplayAlert("Erro", "Ocorreu um erro inesperado. Tente novamente.", "OK");
             }
 
@@ -181,6 +182,7 @@ namespace ConectaProApp.Services.Servico
                 const string urlComplementar = "/busca-prestadores";
                 uf = Uri.EscapeDataString(uf);
                 var response = await client.GetAsync($"{apiUrlBase}{urlComplementar}?uf={uf}");
+                System.Diagnostics.Debug.WriteLine("Requisição para URL: " + response); // Logando a URL para diagnóstico
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -190,7 +192,9 @@ namespace ConectaProApp.Services.Servico
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Erro ao buscar por UF: " + ex.Message);
+                // Captura de exceção e log do erro
+                Debug.WriteLine($"Erro ao buscar serviços: {ex.Message}");
+                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
             }
 
             return new List<PrestadorResponseBuscaDTO>();

@@ -50,10 +50,10 @@ namespace ConectaProApp.ViewModels.Orcamentos
             _orcamentoService = new OrcamentoService(new HttpClient(), new ApiService());
 
             EnviarPropostaCommand = new Command(async () => await EnviarPropostaAsync());
-            AceitarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.ACEITA));
-            RecusarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.RECUSADA));
-            FinalizarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.FINALIZADA));
-            ReofertarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.PENDENTE));
+            AceitarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.ATIVA));
+            RecusarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.INATIVA));
+            FinalizarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.ATIVA));
+            ReofertarOrcamentoCommand = new Command<int>(async (id) => await AtualizarStatusAsync(id, StatusOrcamentoEnum.ATIVA));
             RemoverSolicitacaoCommand = new Command<int>(async (id) => await RemoverSolicitacaoAsync(id));
             SelecionarAbaCommand = new Command<string>(aba => AbaAtual = aba);
         }
@@ -128,7 +128,7 @@ namespace ConectaProApp.ViewModels.Orcamentos
             var propostas = await _orcamentoService.BuscarOrcamentosPorClienteAsync(idCliente);
             foreach (var p in propostas)
             {
-                if (p.StatusOrcamentoEnum == StatusOrcamentoEnum.ACEITA || p.StatusOrcamentoEnum == StatusOrcamentoEnum.FINALIZADA)
+                if (p.StatusOrcamentoEnum == StatusOrcamentoEnum.ATIVA || p.StatusOrcamentoEnum == StatusOrcamentoEnum.INATIVA)
                     HistoricoCliente.Add(p);
                 else
                     PropostasCliente.Add(p);

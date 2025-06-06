@@ -143,6 +143,29 @@ namespace ConectaProApp.ViewModels.Cliente
         }
 
         public string ValorPropostoFormatado => $"{valorProposto:C}";
+        private string valorPropostoTexto;
+        public string ValorPropostoTexto
+        {
+            get => valorPropostoTexto;
+            set
+            {
+                valorPropostoTexto = value;
+
+                // Remove "R$", espaços, vírgula vira ponto
+                var textoLimpo = value?
+                    .Replace("R$", "")
+                    .Replace(" ", "")
+                    .Replace(",", ".")
+                    .Trim();
+
+                if (decimal.TryParse(textoLimpo, NumberStyles.Any, CultureInfo.InvariantCulture, out var resultado))
+                {
+                    ValorProposto = resultado;
+                }
+
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<string> NiveisUrgencia { get; set; }
         private string urgenciaSelecionada;
@@ -251,8 +274,6 @@ namespace ConectaProApp.ViewModels.Cliente
                 DuracaoServico = this.DuracaoServico, 
                 NvlUrgenciaEnum = urgenciaEnum,
                 FormaPagtoEnum = formaPagtoEnum,
-                StatusSolicitacaoEnum = StatusOrcamentoEnum.ATIVA,
-                FotoServico = FotoServico
             };
 
             var servicoRegistrado = await sService.PostRegistrarServicoAsync(novaSolicitacao);

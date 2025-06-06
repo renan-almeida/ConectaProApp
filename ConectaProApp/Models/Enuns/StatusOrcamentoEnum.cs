@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 
 namespace ConectaProApp.Models.Enuns
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum StatusOrcamentoEnum
     {
-        ACEITA = 1,
-        PENDENTE = 2,
-        RECUSADA = 3, 
-        FINALIZADA = 4,
-        ATIVA
+        ATIVA = 4 ,
+        INATIVA = 5,
+        ACEITA,
+        PENDENTE,
+        RECUSADA,
+        FINALIZADA
 
     }
 }
