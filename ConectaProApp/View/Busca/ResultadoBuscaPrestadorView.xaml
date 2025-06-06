@@ -4,8 +4,7 @@
              x:Class="ConectaProApp.View.Busca.ResultadoBuscaPrestadorView"
              BackgroundColor="White">
 
-    <ScrollView>
-        <Grid RowDefinitions="Auto, Auto, *">
+        <Grid RowDefinitions="Auto, Auto, *" RowSpacing="10">
 
             <!-- Cabeçalho -->
             <Grid Grid.Row="0"
@@ -67,52 +66,57 @@
             <!-- Lista de serviços -->
             <CollectionView Grid.Row="2"
                             ItemsSource="{Binding Servicos}"
-                            Margin="0,10,0,20">
+                            Margin="10,0,10,20"
+                            >
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Stroke="Black"
                                 BackgroundColor="White"
                                 StrokeThickness="1"
-                                Margin="10"
                                 Padding="10"
-                                HeightRequest="112"
-                                WidthRequest="381">
+                                HeightRequest="124"
+                                WidthRequest="381"
+                                
+                                >
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10"/>
                             </Border.StrokeShape>
 
-                            <StackLayout Padding="10">
+                            <StackLayout Padding="10,10,10,10" >
                                 <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="15"/>
 
-                                <HorizontalStackLayout Spacing="24">
-                                    <HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="24" Margin="5">
+                                    <HorizontalStackLayout Spacing="5">
                                         <Label Text="STATUS: " FontSize="10" FontAttributes="Bold"/>
                                         <Label Text="{Binding StServico}" FontSize="10" FontAttributes="Bold"/>
                                     </HorizontalStackLayout>
-                                    <HorizontalStackLayout>
+                                    <HorizontalStackLayout Spacing="5" >
                                         <Label Text="URGÊNCIA: " FontSize="10" FontAttributes="Bold"/>
                                         <Label Text="{Binding NvlUrgenciaEnum}" FontSize="10"/>
                                     </HorizontalStackLayout>
                                 </HorizontalStackLayout>
 
                                 <HorizontalStackLayout Spacing="24">
-                                    <HorizontalStackLayout>
+                                    <HorizontalStackLayout Spacing="5">
                                         <Label Text="VALOR: " FontSize="10" FontAttributes="Bold"/>
                                         <Label Text="{Binding ValorServico}" FontSize="10" FontAttributes="Bold"/>
                                     </HorizontalStackLayout>
-                                    <HorizontalStackLayout>
+                                    <HorizontalStackLayout Spacing="5">
                                         <Label Text="CATEGORIA: " FontSize="10" FontAttributes="Bold"/>
                                         <Label Text="{Binding NomeSegmento}" FontSize="10"/>
                                     </HorizontalStackLayout>
                                 </HorizontalStackLayout>
 
-                                <HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="5">
                                     <Label Text="PAGAMENTO: " FontSize="10" FontAttributes="Bold"/>
                                     <Label Text="{Binding FormaPagamento}" FontSize="10"/>
                                 </HorizontalStackLayout>
 
-                                <HorizontalStackLayout Spacing="202">
-                                    <Label Text="VER MAIS"
+                                <HorizontalStackLayout Spacing="232">
+                                    <Label Text=""
                                            TextColor="#2886CA"
                                            FontSize="10">
                                         <Label.GestureRecognizers>
@@ -122,7 +126,8 @@
 
                                     <Label Text="CANDIDATAR-SE"
                                            FontSize="14"
-                                           TextColor="#0f5cc2">
+                                           TextColor="#0f5cc2"
+                                           >
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding CriarOrcamentoCommand}"/>
                                         </Label.GestureRecognizers>
@@ -161,5 +166,4 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Grid>
-    </ScrollView>
 </ContentPage>

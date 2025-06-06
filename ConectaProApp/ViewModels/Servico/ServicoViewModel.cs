@@ -26,15 +26,15 @@ namespace ConectaProApp.ViewModels.Servico
         public string StServico => servico.StatusSolicitacao.ToString();
         public string ValorServico => servico.ValorProposto.ToString("C");
         public string NvlUrgenciaEnum => string.IsNullOrEmpty(servico.NvlUrgencia) ? 
-            "Urgência não definida" : servico.NvlUrgencia;
-        public string NomeSegmento => servico.TipoCategoria.ToString(); // Corrigido para DescSegmento
-        public string FormaPagamento => servico.FormaPagto.ToString();
+            "URGÊNCIA NÃO DEFINIDA" : servico.NvlUrgencia;
+        public string NomeSegmento => servico.TipoCategoria?.ToString() ?? "SEM CATEGORIA"; // Corrigido para DescSegmento
+        public string FormaPagamento => servico.FormaPagto?.ToString() ?? "SEM FORMA DE PAGAMENTO";
         public string Descricao => servico.DescSolicitacao;
         // public string Especialidade => servico.IdPrestador?.Especialidades?.FirstOrDefault(); // Ajustado para pegar a primeira especialidade
         // public string Logradouro => servico.Logradouro;
         // public string Nro => servico.NroEmpresa.ToString();
         public string NomeFantasia => servico.EmpresaClienteResumoDTO.NomeFantasia;
-        public string FotoPerfilEmpresa => string.IsNullOrEmpty(servico.EmpresaClienteResumoDTO.CaminhoFoto) ? "empresasemfoto.png" : (servico.EmpresaClienteResumoDTO.CaminhoFoto);
+        public string FotoPerfilEmpresa => string.IsNullOrEmpty(servico?.EmpresaClienteResumoDTO.CaminhoFoto) ? "empresasemfoto.png" : (servico.EmpresaClienteResumoDTO.CaminhoFoto);
 
         private bool mostrarDescricao;
         public bool MostrarDescricao

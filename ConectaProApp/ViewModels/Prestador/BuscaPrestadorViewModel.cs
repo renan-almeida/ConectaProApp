@@ -99,13 +99,7 @@ namespace ConectaProApp.ViewModels.Prestador
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(termo))
-                {
-                    await Application.Current.MainPage
-                        .DisplayAlert("Aviso",
-                        "Digite o nome ou categoria do serviço que deseja buscar",
-                        "OK");
-                }
+               
                 var listaServicos = await _servicoService.BuscarServicoAsync(termo);
 
                 if (listaServicos != null && listaServicos.Any())

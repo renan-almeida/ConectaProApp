@@ -64,8 +64,8 @@ namespace ConectaProApp.Services.Servico
             catch (Exception ex)
             {
                 // Captura de exceção e log do erro
-                Console.WriteLine($"Erro ao buscar serviços: {ex.Message}");
-                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                Debug.WriteLine($"Erro ao buscar serviços: {ex.Message}");
+                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                 await Application.Current.MainPage.DisplayAlert("Erro", "Ocorreu um erro inesperado. Tente novamente.", "OK");
             }
 
