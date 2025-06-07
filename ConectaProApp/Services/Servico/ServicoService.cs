@@ -189,11 +189,12 @@ namespace ConectaProApp.Services.Servico
                 const string urlComplementar = "/busca-prestadores";
                 uf = Uri.EscapeDataString(uf);
                 var response = await client.GetAsync($"{apiUrlBase}{urlComplementar}?uf={uf}");
-                System.Diagnostics.Debug.WriteLine("Requisição para URL: " + response); // Logando a URL para diagnóstico
+                System.Diagnostics.Debug.WriteLine("resposta: " + response); // Logando a URL para diagnóstico
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("Json: " + json);
                     return JsonConvert.DeserializeObject<List<PrestadorResponseBuscaDTO>>(json);
                 }
             }

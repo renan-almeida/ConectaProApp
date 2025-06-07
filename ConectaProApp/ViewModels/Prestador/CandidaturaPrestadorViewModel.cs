@@ -2,6 +2,7 @@
 using ConectaProApp.Models.Enuns;
 using ConectaProApp.Services.Prestador;
 using ConectaProApp.Services.Servico;
+using ConectaProApp.View.Prestador;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -134,6 +135,11 @@ namespace ConectaProApp.ViewModels.Prestador
 
         public async Task<bool> FinalizarCandidatura()
         {
+
+            if(!ValidarCampos(out string mensagemErro))
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "OK");
+            }
             Enum.TryParse(FormaPagtoSelecionado, out FormaPagtoEnum formaPagtoEnum);
             var previsaoInicioFormatada = PrevisaoInicio.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
             var previsaoFimFormatada = PrevisaoFim.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -157,6 +163,10 @@ namespace ConectaProApp.ViewModels.Prestador
                 await Application.Current.MainPage
                     .DisplayAlert("Candidatura criada com sucesso!",
                                     "Aguarde o contato da empresa solicitante", "OK");
+
+                await Task.Delay(1500);
+
+                await Application.Current.MainPage.Navigation.PushAsync(new HomePrestador());
                 return true;
             }
             return false;

@@ -104,7 +104,7 @@
                                  Keyboard="Numeric"
                                 WidthRequest="180"
                                 HeightRequest="0"
-                               BackgroundColor="Transparent"
+                               BackgroundColor="#f1f1f1"
                                 Text="{Binding ValorPropostoTexto}"
                         />
 
@@ -112,7 +112,8 @@
                         Title="Forma de Pagamento exigida"
                         ItemsSource="{Binding FormasPagto }"
                         SelectedItem="{Binding FormaPagtoSelecionado}"
-                        HorizontalOptions="Center"/>
+                        HorizontalOptions="Center"
+                             BackgroundColor="#f1f1f1"/>
 
                         <Label Text="Data inicial do serviço"
                                TextColor="#b2a9a9"
@@ -123,7 +124,7 @@
                                 WidthRequest="180"
                                 HeightRequest="50"
                             HorizontalOptions="Center"
-                                BackgroundColor="White"
+                                BackgroundColor="#f1f1f1"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
 
                         <Label Text="Data final do serviço"
@@ -134,7 +135,7 @@
                                 Format="dd/MM/yyyy"
                                 WidthRequest="180"
                                 HeightRequest="50"
-                                BackgroundColor="White"
+                                BackgroundColor="#f1f1f1"
                                Date="{Binding PrevisaoFim, Mode=TwoWay}"/>
 
 
