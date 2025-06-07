@@ -85,7 +85,7 @@
                            PlaceholderColor="Gray"
                            WidthRequest="314"
                            TextColor="Black"
-                           HeightRequest="0"
+                           HeightRequest="50"
                           BackgroundColor="#f1f1f1"
                            Text="{Binding Titulo, Mode=TwoWay}"
                            
@@ -98,7 +98,7 @@
                             MaxLength="100"
                             TextColor="Black"
                            WidthRequest="314"
-                           HeightRequest="0"
+                           HeightRequest="100"
                            Text="{Binding Descricao, Mode=TwoWay}"
                                             />
 
@@ -109,7 +109,7 @@
                                Keyboard="Numeric"
                                 TextColor="Black"
                                 WidthRequest="314"
-                                HeightRequest="0"
+                                HeightRequest="50"
                                Text="{Binding ValorProposto, Mode=TwoWay}"/>
 
                         <Picker Title="Segmento do serviço desejado"

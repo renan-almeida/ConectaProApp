@@ -91,15 +91,15 @@
                             BackgroundColor="#f1f1f1"
                                 WidthRequest="314"
                             TextColor="Black"
-                                HeightRequest="0"
+                                HeightRequest="50"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
                            
                         <Entry Placeholder="Estipule a duração em dias do serviço"
                                Keyboard="Numeric"
-                           PlaceholderColor="Black"
+                           PlaceholderColor="Gray"
                                BackgroundColor="#f1f1f1"
                            WidthRequest="314"
-                           HeightRequest="0"
+                           HeightRequest="50"
                                
                                TextColor="Black"
                                Text="{Binding DuracaoServico, Mode=TwoWay}"
