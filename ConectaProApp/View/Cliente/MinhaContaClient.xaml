@@ -14,6 +14,31 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Image Source="conectapro_logo.png" HeightRequest="40" VerticalOptions="Center" Grid.Column="0" />
+
+                <Frame HeightRequest="40" WidthRequest="40"
+       CornerRadius="20"
+       HasShadow="False"
+       Padding="0"
+       BackgroundColor="White"
+       BorderColor="#0f5cc2"
+       VerticalOptions="Center"
+       HorizontalOptions="End"
+       Grid.Column="2">
+                    <Image Source="{Binding FotoEmpresaUrl}" 
+           Aspect="AspectFill" 
+           HeightRequest="40" WidthRequest="40"
+           >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnFotoEmpresaClicked"/>
+                        </Image.GestureRecognizers>
+                        <Image.Clip>
+                            <EllipseGeometry 
+                Center="20,20"
+                RadiusX="20"
+                RadiusY="20"/>
+                        </Image.Clip>
+                    </Image>
+                </Frame>
             </Grid>
 
             <!-- Banner/Header -->
@@ -87,13 +112,13 @@
             <!-- Abas -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="18" Padding="10">
                 <Button Text="Solicitações" BackgroundColor="#0f5cc2" TextColor="White"
-                        CornerRadius="20" WidthRequest="117"
+                        CornerRadius="20" WidthRequest="110"
                         Command="{Binding SelecionarAbaCommand}" CommandParameter="SolicitacoesCliente" />
                 <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White"
-                        CornerRadius="20" WidthRequest="117"
+                        CornerRadius="20" WidthRequest="110"
                         Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasCliente" />
                 <Button Text="Histórico" BackgroundColor="#0f5cc2" TextColor="White"
-                        CornerRadius="20" WidthRequest="117"
+                        CornerRadius="20" WidthRequest="110"
                         Command="{Binding SelecionarAbaCommand}" CommandParameter="HistoricoCliente" />
             </HorizontalStackLayout>
 

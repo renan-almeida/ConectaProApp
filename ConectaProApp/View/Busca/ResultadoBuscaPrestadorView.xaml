@@ -4,22 +4,20 @@
              x:Class="ConectaProApp.View.Busca.ResultadoBuscaPrestadorView"
              BackgroundColor="White">
 
-        <Grid RowDefinitions="Auto, Auto, *" RowSpacing="10">
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
 
             <!-- Cabeçalho -->
-            <Grid Grid.Row="0"
-                  BackgroundColor="#020202"
+            <Grid BackgroundColor="#020202"
                   HeightRequest="58"
                   Padding="10"
-                  RowSpacing="0"
-                  VerticalOptions="Start">
+                  RowSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Ícone voltar -->
                 <Image Source="iconevoltar.png"
                        HeightRequest="30"
                        WidthRequest="30"
@@ -30,7 +28,6 @@
                     </Image.GestureRecognizers>
                 </Image>
 
-                <!-- Foto da empresa -->
                 <Frame HeightRequest="40"
                        WidthRequest="40"
                        CornerRadius="20"
@@ -41,7 +38,7 @@
                        VerticalOptions="Center"
                        HorizontalOptions="End"
                        Grid.Column="2">
-                    <Image Source="prestadorsemfoto.png"
+                    <Image Source="{Binding FotoEmpresaUrl}"
                            Aspect="AspectFill"
                            HeightRequest="40"
                            WidthRequest="40">
@@ -55,90 +52,66 @@
                 </Frame>
             </Grid>
 
-            <!-- Título da busca -->
-            <Label Grid.Row="1"
-                   Text="{Binding TituloBusca}"
+            <Label Text="{Binding TituloBusca}"
                    FontSize="Title"
                    HorizontalOptions="Center"
                    TextColor="Black"
-                   Margin="10,10,10,0"/>
+                   Margin="0,10,0,0"/>
 
-            <!-- Lista de serviços -->
-            <CollectionView Grid.Row="2"
-                            ItemsSource="{Binding Servicos}"
-                            Margin="10,0,10,20"
-                            >
+            <CollectionView ItemsSource="{Binding Servicos}"
+                            Margin="0,10,0,20"
+                            SelectionMode="None">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
                 </CollectionView.ItemsLayout>
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border Stroke="Black"
-                                BackgroundColor="White"
-                                StrokeThickness="1"
-                                Padding="10"
-                                HeightRequest="124"
-                                WidthRequest="381"
-                                
-                                >
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
-                            </Border.StrokeShape>
+                        <Frame CornerRadius="10"
+                               Padding="12"
+                               BackgroundColor="White"
+                               HasShadow="True"
+                               BorderColor="LightGray">
 
-                            <StackLayout Padding="10,10,10,10" >
+                            <VerticalStackLayout Spacing="6">
                                 <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="15"/>
 
-                                <HorizontalStackLayout Spacing="24" Margin="5">
-                                    <HorizontalStackLayout Spacing="5">
-                                        <Label Text="STATUS: " FontSize="10" FontAttributes="Bold"/>
-                                        <Label Text="{Binding StServico}" FontSize="10" FontAttributes="Bold"/>
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout Spacing="5" >
-                                        <Label Text="URGÊNCIA: " FontSize="10" FontAttributes="Bold"/>
-                                        <Label Text="{Binding NvlUrgenciaEnum}" FontSize="10"/>
-                                    </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="12">
+                                    <Label Text="STATUS:" FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding StServico}" FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="URGÊNCIA:" FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding NvlUrgenciaEnum}" FontSize="10"/>
                                 </HorizontalStackLayout>
 
-                                <HorizontalStackLayout Spacing="24">
-                                    <HorizontalStackLayout Spacing="5">
-                                        <Label Text="VALOR: " FontSize="10" FontAttributes="Bold"/>
-                                        <Label Text="{Binding ValorServico}" FontSize="10" FontAttributes="Bold"/>
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout Spacing="5">
-                                        <Label Text="CATEGORIA: " FontSize="10" FontAttributes="Bold"/>
-                                        <Label Text="{Binding NomeSegmento}" FontSize="10"/>
-                                    </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="12">
+                                    <Label Text="VALOR:" FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding ValorServico}" FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="CATEGORIA:" FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="{Binding NomeSegmento}" FontSize="10"/>
                                 </HorizontalStackLayout>
 
                                 <HorizontalStackLayout Spacing="5">
-                                    <Label Text="PAGAMENTO: " FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="PAGAMENTO:" FontSize="10" FontAttributes="Bold"/>
                                     <Label Text="{Binding FormaPagamento}" FontSize="10"/>
                                 </HorizontalStackLayout>
 
-                                <HorizontalStackLayout Spacing="232">
-                                    <Label Text=""
-                                           TextColor="#2886CA"
-                                           FontSize="10">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding VerMaisCommand}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-
-                                    <Label Text="CANDIDATAR-SE"
+                                <!-- CANDIDATAR-SE à direita -->
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,5,0,0">
+                                    <Label Grid.Column="1"
+                                           Text="CANDIDATAR-SE"
                                            FontSize="14"
-                                           TextColor="#0f5cc2"
-                                           >
+                                           TextColor="#0f5cc2">
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding CriarOrcamentoCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding CriarOrcamentoCommand}" />
                                         </Label.GestureRecognizers>
                                     </Label>
-                                </HorizontalStackLayout>
+                                </Grid>
 
+                                <!-- Descrição expandida -->
                                 <Label Text="{Binding Descricao}"
                                        IsVisible="{Binding MostrarDescricao}"
                                        FontSize="12"
-                                       TextColor="Gray"
-                                       Margin="0,5,0,0"/>
+                                       TextColor="Gray"/>
 
                                 <HorizontalStackLayout>
                                     <Label Text="ESPECIALIDADE:" FontSize="10" FontAttributes="Bold"/>
@@ -148,22 +121,23 @@
                                 </HorizontalStackLayout>
 
                                 <HorizontalStackLayout>
-                                    <Label Text="LOGRADOURO: " FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="LOGRADOURO:" FontSize="10" FontAttributes="Bold"/>
                                     <Label Text="{Binding Logradouro}"
                                            IsVisible="{Binding MostrarDescricao}"
                                            FontSize="10"/>
                                 </HorizontalStackLayout>
 
                                 <HorizontalStackLayout>
-                                    <Label Text="NÚMERO: " FontSize="10" FontAttributes="Bold"/>
+                                    <Label Text="NÚMERO:" FontSize="10" FontAttributes="Bold"/>
                                     <Label Text="{Binding Nro}"
                                            IsVisible="{Binding MostrarDescricao}"
                                            FontSize="10"/>
                                 </HorizontalStackLayout>
-                            </StackLayout>
-                        </Border>
+                            </VerticalStackLayout>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

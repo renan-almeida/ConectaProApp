@@ -102,14 +102,17 @@
                                TextChanged="OnValorDispostoTextChanged"
                                 PlaceholderColor="Gray"
                                  Keyboard="Numeric"
+                               TextColor="Black"
                                 WidthRequest="180"
-                                HeightRequest="0"
+                                HeightRequest="50"
                                BackgroundColor="#f1f1f1"
                                 Text="{Binding ValorPropostoTexto, Mode=TwoWay}"
                         />
 
                         <Picker
                         Title="Forma de Pagamento exigida"
+                            TextColor="Black"
+                            
                         ItemsSource="{Binding FormasPagto }"
                         SelectedItem="{Binding FormaPagtoSelecionado}"
                         HorizontalOptions="Center"
@@ -122,6 +125,7 @@
                                 x:Name="pickerPrevisaoInicio"
                                 Format="dd/MM/yyyy"
                                 WidthRequest="180"
+                                TextColor="Black"
                                 HeightRequest="50"
                             HorizontalOptions="Center"
                                 BackgroundColor="#f1f1f1"
@@ -133,6 +137,7 @@
                         <DatePicker 
                                 x:Name="pickerPrevisaoFim"
                                 Format="dd/MM/yyyy"
+                                TextColor="Black"
                                 WidthRequest="180"
                                 HeightRequest="50"
                                 BackgroundColor="#f1f1f1"
