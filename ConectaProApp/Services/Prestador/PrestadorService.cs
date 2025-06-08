@@ -86,23 +86,36 @@ namespace ConectaProApp.Services.Prestador
             return new List<PrestadorResponseBuscaDTO>();
         }
 
-        public async Task<Models.Prestador> BuscarPrestadorPorIdAsync(int id)
+        public async Task<PrestadorResponseBuscaDTO?> BuscarPrestadorPorIdAsync(int id)
         {
-
-            var token = await SecureStorage.GetAsync("token");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); 
-
-            const string buscaServicoEndpoint = "/prestador/";
-            var resposta = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}{id}");
-
-            if (resposta.IsSuccessStatusCode)
+            try
             {
-                var json = await resposta.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Models.Prestador>(json);
+                var token = await SecureStorage.GetAsync("token");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                const string buscaServicoEndpoint = "/prestador/";
+                var resposta = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}{id}");
+                Debug.WriteLine("Resposta da API: " + resposta);
+
+                if (resposta.IsSuccessStatusCode)
+                {
+                    var json = await resposta.Content.ReadAsStringAsync();
+                    Debug.WriteLine($"[DEBUG] JSON recebido: {json}");
+                    if (!string.IsNullOrWhiteSpace(json))
+                    {
+                        var prestador = JsonConvert.DeserializeObject<PrestadorResponseBuscaDTO>(json);
+                        return prestador;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[ERRO] BuscarPrestadorPorIdAsync: {ex.Message}");
             }
 
             return null;
         }
+
 
         public async Task<PropostaCreateDTO> EnviarCandidaturaAsync(PropostaCreateDTO proposta, int idSolicitacao)
         {

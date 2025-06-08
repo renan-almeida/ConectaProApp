@@ -235,11 +235,15 @@ namespace ConectaProApp.Services.Servico
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync($"{apiUrlBase}{url}", content);
+            Debug.WriteLine("Resposta: " + response);
 
             if (!response.IsSuccessStatusCode)
             {
                 var erro = await response.Content.ReadAsStringAsync();
+                await Application.Current.MainPage.DisplayAlert
+                    ("Erro", $"Detalhes: {erro} " , "OK" );
                 throw new Exception($"Erro ao enviar proposta: {erro}");
+                
             }
 
             var responseBody = await response.Content.ReadAsStringAsync();

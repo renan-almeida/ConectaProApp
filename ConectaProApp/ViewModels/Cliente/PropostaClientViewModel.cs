@@ -23,6 +23,7 @@ namespace ConectaProApp.ViewModels.Cliente
         public PropostaClientViewModel(int idPrestador)
         {
             sService = new ServicoService();
+            pService = new PrestadorService();
             NiveisUrgencia = [.. Enum.GetNames(typeof(NvlUrgenciaEnum))];
             FormasPagto = [.. Enum.GetNames(typeof(FormaPagtoEnum))];
             FinalizarPropostaCommand = new Command(async () => await FinalizarProposta());
@@ -66,6 +67,29 @@ namespace ConectaProApp.ViewModels.Cliente
             }
         }
             public string ValorPropostoFormatado => $"{valorProposto:C}";
+        private string valorPropostoTexto;
+        public string ValorPropostoTexto
+        {
+            get => valorPropostoTexto;
+            set
+            {
+                valorPropostoTexto = value;
+
+                // Remove "R$", espaços, vírgula vira ponto
+                var textoLimpo = value?
+                    .Replace("R$", "")
+                    .Replace(" ", "")
+                    .Replace(",", ".")
+                    .Trim();
+
+                if (decimal.TryParse(textoLimpo, NumberStyles.Any, CultureInfo.InvariantCulture, out var resultado))
+                {
+                    ValorProposto = resultado;
+                }
+
+                OnPropertyChanged();
+            }
+        }
 
 
         private DateTime previsaoInicio;
@@ -133,8 +157,7 @@ namespace ConectaProApp.ViewModels.Cliente
                 ValorProposta = this.ValorProposto,
                 PrevisaoInicio = previsaoInicioFormatada,
                 NvlUrgenciaEnum = urgenciaEnum,
-                FormaPagtoEnum = formaPagtoEnum,
-                StatusServicoEnum = StatusServicoEnum.ORCAMENTO
+                FormaPagtoEnum = formaPagtoEnum
             };
 
             var propostaRegistrado = await sService.EnviarPropostaAsync(novaproposta);

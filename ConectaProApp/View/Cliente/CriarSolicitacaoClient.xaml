@@ -110,7 +110,7 @@
                                 TextColor="Black"
                                 WidthRequest="314"
                                 HeightRequest="0"
-                               Text="{Binding ValorProposto, Mode=TwoWay}"/>
+                               Text="{Binding ValorPropostoTexto, Mode=TwoWay}"/>
 
                         <Picker Title="Segmento do serviço desejado"
                             TitleColor="Gray"

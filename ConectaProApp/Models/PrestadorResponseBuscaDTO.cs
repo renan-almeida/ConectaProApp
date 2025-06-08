@@ -10,7 +10,7 @@ namespace ConectaProApp.Models
 {
     public class PrestadorResponseBuscaDTO
     {
-        [JsonProperty("id")]
+        [JsonProperty("idPrestador")]
         public int IdPrestador { get; set; }
         [JsonProperty("caminhoFoto")]
         public string CaminhoFoto { get; set; }

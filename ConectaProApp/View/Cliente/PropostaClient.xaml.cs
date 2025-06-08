@@ -39,6 +39,8 @@ public partial class PropostaClient : ContentPage
         var entry = sender as Entry;
         if (entry == null) return;
 
+        if (e.NewTextValue == null) return;
+
         // Remove tudo que não é número
         string digitsOnly = new string(e.NewTextValue.Where(char.IsDigit).ToArray());
 

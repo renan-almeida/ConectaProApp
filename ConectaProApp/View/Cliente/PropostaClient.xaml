@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConectaProApp.View.Cliente.PropostaClient"
-             Title="PropostaClient"
-             BackgroundColor="White">
+             BackgroundColor="#f1f1f1">
     
     <ScrollView>
         <Grid RowDefinitions="Auto, *">
@@ -38,7 +37,7 @@
              VerticalOptions="Center"
              HorizontalOptions="End"
              Grid.Column="2">
-                    <Image Source="{Binding FotoEmpresaUrl}" 
+                    <Image Source="empresasemfoto.png" 
                  Aspect="AspectFill" 
                  HeightRequest="40" WidthRequest="40"
                  >
@@ -71,7 +70,7 @@
                  Margin="0,20,0,0">
 
                     <Image
-                     Source="{Binding FotoPrestador}"
+                     Source="prestadorsemfoto.png"
                      Aspect="AspectFill"
                      WidthRequest="120"
                      HeightRequest="120">
@@ -91,7 +90,7 @@
 
                 <Frame BackgroundColor="White"
                    WidthRequest="361"
-                   HeightRequest="420"
+                   HeightRequest="520"
                    Margin="16"
                    CornerRadius="30"
                    BorderColor="Black">
@@ -127,7 +126,8 @@
                                TextColor="Black"
                                 WidthRequest="314"
                                 HeightRequest="0"
-                               Text="{Binding ValorProposto}"/>
+                               Keyboard="Numeric"
+                               Text="{Binding ValorPropostoTexto}"/>
 
 
                         <Label Text="Estipule a previsão para o ínicio do serviço"
@@ -142,20 +142,21 @@
                                 BackgroundColor="#f1f1f1"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
 
-                        <HorizontalStackLayout Spacing="48" HorizontalOptions="Center">
+                        <HorizontalStackLayout Spacing="20" HorizontalOptions="Start">
                             <Picker
                                 Title="Urgência do serviço"
                                 ItemsSource="{Binding NiveisUrgencia}"
                                 SelectedItem="{Binding UrgenciaSelecionada}"
                                 BackgroundColor="#f1f1f1"
-                                HorizontalOptions="Center"/>
+                                
+                                />
 
                             <Picker
-                                Title="Forma de Pagamento"
+                                Title="Pagamento"
                                 ItemsSource="{Binding FormasPagto }"
                                 BackgroundColor="#f1f1f1"
                                 SelectedItem="{Binding FormaPagtoSelecionado}"
-                                HorizontalOptions="Center"/>
+                                />
 
                         </HorizontalStackLayout>
 
