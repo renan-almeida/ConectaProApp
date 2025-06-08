@@ -323,12 +323,14 @@ namespace ConectaProApp.Services.Servico
             var token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            const string buscaServicoEndpoint = "/orcamento/";
+            const string buscaServicoEndpoint = "/solicitacao/";
             var resposta = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}{id}");
+            Debug.WriteLine("resposta da API: " + resposta);
 
             if (resposta.IsSuccessStatusCode)
             {
                 var json = await resposta.Content.ReadAsStringAsync();
+                Debug.WriteLine("Json devolvido: " + json);
                 return JsonConvert.DeserializeObject<PropostaCreateDTO>(json);
             }
 

@@ -77,7 +77,7 @@
                     </Image>
                 </Frame>
 
-                <Label Text="Descreva o seu problema para o prestador"
+                <Label Text="Descreva o seu problema para o "
                    TextColor="Black"
                    FontSize="20"
                        

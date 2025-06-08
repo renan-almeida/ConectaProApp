@@ -49,24 +49,6 @@ namespace ConectaProApp.Models
         public PrestadorResumoDTO PrestadorResumoDTO { get; set; }
     }
 
-    public class EmpresaClienteResumoDTO: BaseViewModel
-    {
-        [JsonProperty("idEmpresaCliente")]
-        public int IdEmpresaCliente { get; set; }
-
-        [JsonProperty("cnpj")]
-        public string Cnpj { get; set; }
-
-        [JsonProperty("razaoSocial")]
-        public string RazaoSocial { get; set; }
-
-        [JsonProperty("nomeFantasia")]
-        public string NomeFantasia { get; set; }
-
-        [JsonProperty("caminhoFoto")]
-        public string CaminhoFoto { get; set; }
-    }
-
     public class PrestadorResumoDTO
     {
         [JsonProperty("idPrestador")]

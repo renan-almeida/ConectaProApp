@@ -102,7 +102,7 @@
                                            FontSize="14"
                                            TextColor="#0f5cc2">
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding CriarOrcamentoCommand}" />
+                                            <TapGestureRecognizer Command="{Binding CandidatarCommand}" />
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </Grid>

@@ -27,9 +27,10 @@ namespace ConectaProApp.ViewModels.Prestador
             IdSolicitacao = idSolicitacao;
             FormasPagto = [.. Enum.GetNames(typeof(FormaPagtoEnum))];
             CriarCandidaturaCommand = new Command(async () => await FinalizarCandidatura());
-          //  _ = CarregarNomeEmpresa();
-            CarregarFotoEmpresaAsync();
             pService = new PrestadorService();
+            sService = new ServicoService();
+            _ = CarregarNomeEmpresa();
+            CarregarFotoEmpresaAsync();
         }
 
         private decimal valorProposto;
@@ -105,16 +106,33 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
 
-    /*0    private async Task CarregarNomeEmpresa()
+        private async Task CarregarNomeEmpresa()
         {
+            Debug.WriteLine($"ID da solicitação: {IdSolicitacao}");
+            Debug.WriteLine($"sService é nulo? {(sService == null ? "SIM" : "NÃO")}");
+
+            if (sService == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", "Serviço de solicitação não está disponível.", "OK");
+                return;
+            }
+
             var empresa = await sService.BuscarSolicitacaoPorIdAsync(IdSolicitacao);
+
             if (empresa != null)
             {
-                NomeEmpresa = empresa.NomeFantasia ?? "Empresa";
+                Debug.WriteLine("Nome fantasia: " + empresa.EmpresaClienteResumoDTO.NomeFantasia);
+                NomeEmpresa =
+                    empresa.EmpresaClienteResumoDTO?.NomeFantasia ?? "Empresa";
                 OnPropertyChanged(nameof(NomeEmpresa));
             }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", "Empresa não encontrada.", "OK");
+            }
         }
-    */
+
+
 
         private ImageSource fotoEmpresa;
         public ImageSource FotoEmpresa
@@ -166,8 +184,9 @@ namespace ConectaProApp.ViewModels.Prestador
 
                 await Task.Delay(1500);
 
-                await Application.Current.MainPage.Navigation.PushAsync(new HomePrestador());
+                await Shell.Current.GoToAsync("//prestador");
                 return true;
+
             }
             return false;
         }

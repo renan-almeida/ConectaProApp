@@ -3,6 +3,7 @@ using ConectaProApp.View.Prestador;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,8 @@ namespace ConectaProApp.ViewModels.Servico
         {
             this.servico = servico;
             VerMaisCommand = new Command(() => MostrarDescricao = !MostrarDescricao);
-           // CandidatarCommand = new Command((async () => CriarOrcamento()));
+            CandidatarCommand = new Command(async () => await CriarOrcamento());
+
         }
 
         public string Nome => servico.TituloSolicitacao;
@@ -53,19 +55,27 @@ namespace ConectaProApp.ViewModels.Servico
         public ICommand VerMaisCommand { get; }
         public ICommand CandidatarCommand { get; }
 
-        /*private async Task CriarOrcamento()
+        private async Task CriarOrcamento()
         {
-            try
+            if (servico?.IdSolicitacao > 0)
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new CandidatarPrestador());
+                try
+                {
+                    Debug.WriteLine("Id da solicitação: " + servico.IdSolicitacao);
+                    await Application.Current.MainPage.Navigation.PushAsync(new CandidatarPrestador(servico.IdSolicitacao));
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao abrir página: {ex.Message}", "OK");
+                }
             }
-            catch (Exception ex)
+            else
             {
-
-                await Application.Current.MainPage.DisplayAlert("Erro", ex.Message + "Não foi possivel se candidatar", "OK");
+                await Application.Current.MainPage.DisplayAlert("Erro", "ID da solicitação inválido.", "OK");
             }
         }
-        */
+
+
 
 
     }
