@@ -68,7 +68,7 @@
           IsClippedToBounds="True">
 
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SolicitacaoVM.FotoVM.SelecionarFotoCommand}" />
+                        <TapGestureRecognizer Command="{Binding FotoVMAvatar.SelecionarFotoCommand}" />
                     </Grid.GestureRecognizers>
 
                     <!-- Círculo de recorte -->
@@ -78,7 +78,7 @@
 
                     <!-- Imagem de perfil (avatar) -->
                     <Image x:Name="avatarImageClient"
-               Source="{Binding SolicitacaoVM.FotoVM.FonteImagem}"
+               Source="{Binding FotoVMAvatar.FonteImagem}"
                WidthRequest="120"
                HeightRequest="120"
                Aspect="AspectFill"

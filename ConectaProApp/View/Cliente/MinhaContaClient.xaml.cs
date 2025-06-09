@@ -1,115 +1,61 @@
 using ConectaProApp.Services;
-using ConectaProApp.ViewModels.Cliente;
 using ConectaProApp.Services.Azure;
+using ConectaProApp.ViewModels.Solicitacaos;
 
-namespace ConectaProApp.View.Cliente;
-
-public partial class MinhaContaClient : ContentPage
+namespace ConectaProApp.View.Cliente
 {
-    private readonly ApiService _apiService;
-    private readonly BlobService _blobService;
-
-    public MinhaContaClient() : this(0) // Pode trocar 0 por um ID válido padrão
+    public partial class MinhaContaClient : ContentPage
     {
-    }
+        private readonly SolicitacaoViewModel ViewModel;
 
-    public MinhaContaClient(int idEmpresa)
-    {
-        InitializeComponent();
-
-        _apiService = new ApiService();
-        _blobService = new BlobService(_apiService);
-
-        int idCliente = Preferences.Get("id", 0);
-
-        // ViewModel composto com ambos os sub-VMs
-        var viewModel = new MinhaContaClienteViewModel(idEmpresa, idCliente, _apiService);
-        this.BindingContext = viewModel;
-
-        // Preenche campos de nome e descrição com dados salvos
-        NomeEntry.Text = Preferences.Get("NomeCliente", "");
-        DescricaoEditor.Text = Preferences.Get("DescricaoCliente", "Somos da Etec Horácio Augusto da Silveira.");
-    }
-
-    private async void OnHeaderClienteTapped(object sender, EventArgs e)
-    {
-        try
+        public MinhaContaClient() : this(0) // Pode trocar 0 por um ID válido padrão, se necessário
         {
-            if (!await VerificarPermissoesAsync())
+        }
+
+        public MinhaContaClient(int idEmpresa)
+        {
+            InitializeComponent();
+
+            int idCliente = Preferences.Get("id", 0);
+
+            // Instancia apenas o ViewModel principal, que já contém FotoVMHeader e FotoVMAvatar
+            ViewModel = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Cliente, idCliente);
+
+            // Define o BindingContext da página inteira para o ViewModel principal
+            BindingContext = ViewModel;
+
+            // Preenche campos de nome e descrição com dados salvos
+            NomeEntry.Text = Preferences.Get("NomeCliente", "");
+            DescricaoEditor.Text = Preferences.Get("DescricaoCliente", "Somos da Etec Horácio Augusto da Silveira.");
+        }
+
+        private void OnNomeChanged(object sender, TextChangedEventArgs e)
+        {
+            try
             {
-                await DisplayAlert("Permissão negada", "O app precisa de permissão para acessar suas fotos.", "OK");
-                return;
+                Preferences.Set("NomeCliente", e.NewTextValue);
             }
-
-            var photo = await MediaPicker.PickPhotoAsync(new MediaPickerOptions { Title = "Selecione uma imagem para tecnologia" });
-
-            if (photo != null)
+            catch (Exception ex)
             {
-                var url = await _blobService.UploadImagemAsync(photo);
-                if (url != null)
-                {
-                    Preferences.Set("CaminhoHeaderCliente", url);
-                    headerClienteImage.Source = ImageSource.FromUri(new Uri(url));
-                }
+                Console.WriteLine($"Erro ao salvar o nome: {ex.Message}");
             }
         }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Erro", "Erro ao selecionar a imagem: " + ex.Message, "OK");
-        }
-    }
 
-    private async Task<bool> VerificarPermissoesAsync()
-    {
-#if ANDROID
-        if (DeviceInfo.Version.Major >= 13)
+        private void OnDescricaoChanged(object sender, TextChangedEventArgs e)
         {
-            var status = await Permissions.CheckStatusAsync<Permissions.Media>();
-            if (status != PermissionStatus.Granted)
-                status = await Permissions.RequestAsync<Permissions.Media>();
-            return status == PermissionStatus.Granted;
+            try
+            {
+                Preferences.Set("DescricaoCliente", e.NewTextValue);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao salvar a descrição: {ex.Message}");
+            }
         }
-        else
-        {
-            var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
-            if (status != PermissionStatus.Granted)
-                status = await Permissions.RequestAsync<Permissions.StorageRead>();
-            return status == PermissionStatus.Granted;
-        }
-#else
-        var status = await Permissions.CheckStatusAsync<Permissions.Photos>();
-        if (status != PermissionStatus.Granted)
-            status = await Permissions.RequestAsync<Permissions.Photos>();
-        return status == PermissionStatus.Granted;
-#endif
-    }
 
-    private void OnNomeChanged(object sender, TextChangedEventArgs e)
-    {
-        try
+        private void OnFotoEmpresaClicked(object sender, EventArgs e)
         {
-            Preferences.Set("NomeCliente", e.NewTextValue);
+            Shell.Current.FlyoutIsPresented = true;
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erro ao salvar o nome: {ex.Message}");
-        }
-    }
-
-    private void OnDescricaoChanged(object sender, TextChangedEventArgs e)
-    {
-        try
-        {
-            Preferences.Set("DescricaoCliente", e.NewTextValue);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erro ao salvar a descrição: {ex.Message}");
-        }
-    }
-
-    private void OnFotoEmpresaClicked(object sender, EventArgs e)
-    {
-        Shell.Current.FlyoutIsPresented = true;
     }
 }

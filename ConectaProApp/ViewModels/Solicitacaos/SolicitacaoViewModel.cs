@@ -119,7 +119,8 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         public ICommand RemoverSolicitacaoCommand { get; }
         public ICommand SelecionarFotoCommand { get; }
 
-        public FotoViewModel FotoVM { get; }
+        public FotoViewModel FotoVMAvatar { get; }
+        public FotoViewModel FotoVMHeader { get; }
 
         public enum TipoUsuario
         {
@@ -136,22 +137,26 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             var blobService = new BlobService(apiService);
 
             string endpointApi;
-            string chavePreferencia;
+            string chaveAvatar;
+            string chaveHeader;
 
             if (tipoUsuario == TipoUsuario.Cliente)
             {
                 IdCliente = idUsuario;
                 endpointApi = $"/clientes/{IdCliente}";
-                chavePreferencia = "foto_cliente";
+                chaveAvatar = "foto_avatar_cliente";
+                chaveHeader = "foto_header_cliente";
             }
             else
             {
                 IdPrestador = idUsuario;
                 endpointApi = $"/prestadores/{IdPrestador}";
-                chavePreferencia = "foto_prestador";
+                chaveAvatar = "foto_avatar_prestador";
+                chaveHeader = "foto_header_prestador";
             }
 
-            FotoVM = new FotoViewModel(blobService, apiService, endpointApi, chavePreferencia);
+            FotoVMAvatar = new FotoViewModel(blobService, apiService, endpointApi, chaveAvatar);
+            FotoVMHeader = new FotoViewModel(blobService, apiService, endpointApi, chaveHeader);
 
             EnviarPropostaCommand = new Command<int>(async (idSolicitacao) => await EnviarPropostaAsync(idSolicitacao));
             AceitarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.ACEITA));
@@ -160,7 +165,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             ReofertarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.PENDENTE));
             RemoverSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await RemoverSolicitacaoAsync(idSolicitacao));
             SelecionarAbaCommand = new Command<string>(async (aba) => await SelecionarAbaAsync(aba));
-            SelecionarFotoCommand = FotoVM.SelecionarFotoCommand;
+            SelecionarFotoCommand = FotoVMAvatar.SelecionarFotoCommand;
             _ = SelecionarAbaAsync("HistoricoCliente");
         }
 
