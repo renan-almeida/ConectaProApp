@@ -1,4 +1,5 @@
-﻿using ConectaProApp.Models.Enuns;
+﻿
+using ConectaProApp.Models.Enuns;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,10 @@ namespace ConectaProApp.Models
 
        [JsonProperty("empresaClienteResumoDTO")]
        public EmpresaClienteResumoDTO EmpresaClienteResumoDTO { get; set; }
+        [JsonProperty("tituloProposta")]
+        public string TituloProposta { get; set; }
+        [JsonProperty("descProposta")]
+        public string DescProposta { get; set; }
 
     }
 }

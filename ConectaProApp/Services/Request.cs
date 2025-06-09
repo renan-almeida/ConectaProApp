@@ -114,6 +114,8 @@ namespace ConectaProApp.Services
             else
             {
                 Debug.WriteLine($"Erro: Status: {response.StatusCode}");
+                await Application.Current.MainPage
+                    .DisplayAlert("Erro", $"Detalhes: {response.StatusCode}", "OK");
                 throw new Exception($"Erro na requisição: {response.StatusCode} - {serialized}");
                 
             }

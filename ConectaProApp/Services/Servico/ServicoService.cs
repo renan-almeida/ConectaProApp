@@ -223,33 +223,20 @@ namespace ConectaProApp.Services.Servico
             return servicoRegistrado;
         }
 
-        public async Task<ServicoModel> EnviarPropostaAsync(PropostaCreateDTO proposta)
+        public async Task<PropostaCreateDTO> EnviarPropostaAsync(PropostaCreateDTO proposta)
         {
             var token = await SecureStorage.GetAsync("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            Debug.WriteLine("Token: " + token);
 
-            const string url = "/servico/registro";
+            const string url = "/servico/proposta-direta";
 
-            // Serializando com Newtonsoft.Json
-            var json = JsonConvert.SerializeObject(proposta);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await PostAsyncFlexToken<PropostaCreateDTO, PropostaCreateDTO>
+                (apiUrlBase + url, proposta, token);
 
-            var response = await client.PostAsync($"{apiUrlBase}{url}", content);
             Debug.WriteLine("Resposta: " + response);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var erro = await response.Content.ReadAsStringAsync();
-                await Application.Current.MainPage.DisplayAlert
-                    ("Erro", $"Detalhes: {erro} " , "OK" );
-                throw new Exception($"Erro ao enviar proposta: {erro}");
-                
-            }
-
-            var responseBody = await response.Content.ReadAsStringAsync();
-
-            // Desserializando com Newtonsoft.Json
-            return JsonConvert.DeserializeObject<ServicoModel>(responseBody);
+            return response;
         }
 
 

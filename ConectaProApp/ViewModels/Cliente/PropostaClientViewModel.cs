@@ -5,8 +5,10 @@ using ConectaProApp.Services.Servico;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -24,12 +26,51 @@ namespace ConectaProApp.ViewModels.Cliente
         {
             sService = new ServicoService();
             pService = new PrestadorService();
-            NiveisUrgencia = [.. Enum.GetNames(typeof(NvlUrgenciaEnum))];
-            FormasPagto = [.. Enum.GetNames(typeof(FormaPagtoEnum))];
+            NiveisUrgencia = new ObservableCollection<string>(
+                 Enum.GetValues(typeof(NvlUrgenciaEnum))
+        .Cast<NvlUrgenciaEnum>()
+        .Select(e => GetDescription(e))
+);
+
+            FormasPagto = new ObservableCollection<string>(
+                Enum.GetValues(typeof(FormaPagtoEnum))
+                    .Cast<FormaPagtoEnum>()
+                    .Select(e => GetDescription(e))
+            );
             FinalizarPropostaCommand = new Command(async () => await FinalizarProposta());
             IdPrestador = idPrestador;
             _ = CarregarPrestador();
         }
+
+        private string GetDescription(Enum value)
+        {
+            var field = value.GetType().GetField(value.ToString());
+            var attr = field?.GetCustomAttributes(typeof(DescriptionAttribute), false)
+                             .FirstOrDefault() as DescriptionAttribute;
+            return attr?.Description ?? value.ToString();
+        }
+
+        private TEnum GetEnumByDescription<TEnum>(string description) where TEnum : struct, Enum
+        {
+            foreach (var field in typeof(TEnum).GetFields())
+            {
+                var attr = field.GetCustomAttribute<DescriptionAttribute>();
+                if (attr?.Description == description)
+                {
+                    return (TEnum)field.GetValue(null);
+                }
+            }
+
+            // fallback: tenta parsear pelo nome do enum (ex: "POUCO_URGENTE")
+            if (Enum.TryParse(description, ignoreCase: true, out TEnum result))
+            {
+                return result;
+            }
+
+            throw new ArgumentException($"Valor '{description}' não corresponde a nenhuma descrição ou nome do enum {typeof(TEnum).Name}.");
+        }
+
+
 
         private string tituloProposta;
         public string TituloProposta
@@ -140,19 +181,19 @@ namespace ConectaProApp.ViewModels.Cliente
         {
 
 
-            Enum.TryParse(UrgenciaSelecionada, out NvlUrgenciaEnum urgenciaEnum);
-            Enum.TryParse(FormaPagtoSelecionado, out FormaPagtoEnum formaPagtoEnum);
-            var previsaoInicioFormatada = PrevisaoInicio.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            var urgenciaEnum = GetEnumByDescription<NvlUrgenciaEnum>(UrgenciaSelecionada);
+            var formaPagtoEnum = GetEnumByDescription<FormaPagtoEnum>(FormaPagtoSelecionado);
+            var previsaoInicioFormatada = PrevisaoInicio.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             if (!ValidarCampos(out string mensagemErro))
             {
                 await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "Ok");
                 return false;
             }
-            var idCliente = Preferences.Get("id", string.Empty);
             var novaproposta = new PropostaCreateDTO
             {
-                IdEmpresaCliente = int.Parse(idCliente),
+                TituloProposta = this.TituloProposta,
+                DescProposta = this.DescProposta,
                 IdPrestador = this.IdPrestador,
                 ValorProposta = this.ValorProposto,
                 PrevisaoInicio = previsaoInicioFormatada,
@@ -165,8 +206,12 @@ namespace ConectaProApp.ViewModels.Cliente
             if (propostaRegistrado != null)
             {
                 await Application.Current.MainPage
-                    .DisplayAlert("Solicitação criada com sucesso!",
-                                    "Aguarde o contato de um prestador", "OK");
+                    .DisplayAlert("Proposta criada com sucesso!",
+                                    $"Aguarde o contato do {NomePrestador}", "OK");
+
+                await Task.Delay(1500);
+
+                await Shell.Current.GoToAsync("//cliente");
                 return true;
             }
             return false;
