@@ -4,19 +4,22 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ConectaProApp.Models.Enuns
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum TipoPlanoEnum
     {
-        [Description ("Start")]
-        START = 1,
+        [Description ("Standard")]
+        STANDARD = 1,
 
-        [Description ("Pro")]
-        PRO = 2,
+        [Description ("Premium")]
+        PREMIUM = 2,
 
-        [Description("Executive")]
-        EXECUTIVE = 3
+        [Description("Pro")]
+        PRO = 3
 
 
 

@@ -133,7 +133,7 @@
                 BackgroundColor="#f1f1f1"
                 MaxLength="100"
                 WidthRequest="314"
-                HeightRequest="100"
+                HeightRequest="200"
                 HorizontalOptions="Center"
             />
 

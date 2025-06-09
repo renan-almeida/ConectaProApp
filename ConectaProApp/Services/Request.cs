@@ -70,12 +70,12 @@ namespace ConectaProApp.Services
 
 
             var jsonBody = JsonConvert.SerializeObject(data);
-            Console.WriteLine("🔵 JSON ENVIADO:");
-            Console.WriteLine(jsonBody);
+            Debug.WriteLine("🔵 JSON ENVIADO:");
+            Debug.WriteLine(jsonBody);
 
 
-            Console.WriteLine("🔴 ERRO DA API:");
-            Console.WriteLine(serialized);
+            Debug.WriteLine("🔴 RESPOSTA DA API:");
+            Debug.WriteLine(serialized);
 
             if (response.IsSuccessStatusCode)
             {

@@ -63,19 +63,19 @@
                  HorizontalOptions="Center"
                  WidthRequest="314"
                  Text="{Binding CpfPrestador, Mode=TwoWay}"
-                MaxLength="11"
+                MaxLength="14"
                   />
 
             <Label Text="Digite sua data de Nascimento abaixo" TextColor="#b2a9a9" HorizontalOptions="Center"/>
             <DatePicker
                  TextColor="Black"
                  Date="{Binding DtNascimento, Mode=TwoWay}"
-                MaximumDate="{x:Static sys:DateTime.Today}"
                 Format="dd/MM/yyyy"
                  FontSize="15"
                  HorizontalOptions="Center"
                  WidthRequest="314"
                 BackgroundColor="#f1f1f1"
+                x:Name="dtNascimentoDatePicker"
                   />    
 
 

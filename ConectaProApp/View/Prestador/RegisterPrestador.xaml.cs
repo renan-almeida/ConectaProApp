@@ -11,5 +11,7 @@ public partial class RegisterPrestador : ContentPage
 		InitializeComponent();
 		_prestadorViewModel = new RegisterPrestadorViewModel();
 		BindingContext = _prestadorViewModel;
-	}
+        dtNascimentoDatePicker.MinimumDate = new DateTime(1960,1,1);
+        dtNascimentoDatePicker.MaximumDate = DateTime.Today.AddYears(-18) ;
+    }
 }

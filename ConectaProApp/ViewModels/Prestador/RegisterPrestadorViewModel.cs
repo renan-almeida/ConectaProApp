@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.ComponentModel.Design;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
 
 namespace ConectaProApp.ViewModels.Prestador
 {
@@ -41,8 +42,12 @@ namespace ConectaProApp.ViewModels.Prestador
             CarregarSegmentos();
             Ufs = [.. Enum.GetNames(typeof(UfEnum))];
             TiposPlano = [.. Enum.GetNames(typeof(TipoPlanoEnum))];
-            TiposDisponibilidade = [.. Enum.GetNames(typeof(StatusDisponibilidadeEnum))];
-           
+            TiposDisponibilidade = new ObservableCollection<string>(
+                             Enum.GetNames(typeof(StatusDisponibilidadeEnum))
+                            .Where(nome => nome != "EM_ATENDIMENTO")
+);
+
+
         }
         // spin de carregamento quando o prestador clicar em criar a conta.
         private bool isBusy;
@@ -116,7 +121,7 @@ namespace ConectaProApp.ViewModels.Prestador
             return Convert.ToUInt64(input).ToString(@"000\.000\.000\-00");
         }
 
-        private DateTime dtNascimento;
+        private DateTime dtNascimento = new DateTime(1960, 1, 1);
         public DateTime DtNascimento
         {
             get => dtNascimento;
@@ -140,7 +145,7 @@ namespace ConectaProApp.ViewModels.Prestador
             return idade >= 18;
         }
 
-        public List<string> Habilidades { get; set; } = new();
+        public ObservableCollection<string> Habilidades { get; set; } = new();
 
         private string habilidadeAtual;
         public string HabilidadeAtual
@@ -186,7 +191,7 @@ namespace ConectaProApp.ViewModels.Prestador
 
 
 
-        public List<string> Especializacoes { get; set; } = new();
+        public ObservableCollection<string> Especializacoes { get; set; } = new();
 
         private string especializacaoAtual;
         public string EspecializacaoAtual
@@ -535,23 +540,27 @@ namespace ConectaProApp.ViewModels.Prestador
                     (DisponibilidadeSelecionada, out StatusDisponibilidadeEnum disponibilidadeEnum);
 
 
+
+
+                Debug.WriteLine("Data de nascimento selecionada: " + DtNascimento.ToString("dd/MM/yyyy"));
+
+
                 var novoPrestador = new PrestadorCreateDTO
                 {
                     Nome = this.NomePrestador,
                     Email = this.EmailPrestador,
                     Cpf = cpfLimpo,
+                    DataNascimento = this.DtNascimento.ToString("dd/MM/yyyy"),
                     Habilidades = this.Habilidades,
                     Especialidades = this.Especializacoes,
-                    Segmentos = SegmentosSelecionados
-                        .Select(segEnum => (int)segEnum)
-                        .ToList(),
+                    Segmentos = SegmentosSelecionados,
                     DescPrestador = this.DescPrestador,
                     Telefone = telefoneLimpo, 
                         Cep = this.CepPrestador,
                         Numero = this.NroResidencia,
                         Complemento = this.Complemento,
                         Uf = ufEnum,
-                        IdPlano = (long)planoEnum,
+                        Plano = planoEnum,
                     StatusDisponibilidade = disponibilidadeEnum,
                     Senha = this.SenhaPrestador,
                 };

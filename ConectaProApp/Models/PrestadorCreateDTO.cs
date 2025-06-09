@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,19 +23,19 @@ namespace ConectaProApp.Models
         [JsonProperty("telefone")]
         public string Telefone { get; set; }
         [JsonProperty("dataNascimento")]
-        public DateTime DataNascimento { get; set; }
+        public string DataNascimento { get; set; }
         [JsonProperty("descPrestador")]
         public string DescPrestador { get; set; }
         [JsonProperty("especialidades")]
-        public List<string> Especialidades { get; set; }
+        public ObservableCollection<string> Especialidades { get; set; }
         [JsonProperty("habilidades")]
-        public List<string> Habilidades { get; set; }
-        [JsonProperty("segmentos")]
-        public List<int> Segmentos { get; set; }
+        public ObservableCollection<string> Habilidades { get; set; }
+        [JsonProperty("tipoCategoria")]
+        public List<TipoSegmentoEnum> Segmentos { get; set; }
         [JsonProperty("statusDisponibilidade")]
         public StatusDisponibilidadeEnum StatusDisponibilidade { get; set; }
-        [JsonProperty("idPlano")]
-        public long IdPlano { get; set; }
+        [JsonProperty("plano")]
+        public TipoPlanoEnum Plano { get; set; }
 
         // Endereço achatado
         [JsonProperty("cep")]

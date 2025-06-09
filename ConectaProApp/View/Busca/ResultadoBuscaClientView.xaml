@@ -37,7 +37,7 @@
                    VerticalOptions="Center"
                    HorizontalOptions="End"
                    Grid.Column="2">
-                <Image Source="{Binding FotoEmpresaUrl}"
+                <Image Source="empresasemfoto.png"
                        Aspect="AspectFill"
                        HeightRequest="40"
                        WidthRequest="40">
@@ -76,7 +76,7 @@
                                     StrokeThickness="1"
                                     Margin="0"
                                     Padding="10"
-                                    HeightRequest="112">
+                                    HeightRequest="140">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10"/>
                                 </Border.StrokeShape>
@@ -91,7 +91,8 @@
                                         <Image Source="{Binding FotoPrestador}"
                                                WidthRequest="30"
                                                HeightRequest="30"
-                                               Aspect="AspectFill"/>
+                                               Aspect="AspectFill"
+                                               />
                                     </Border>
 
                                     <VerticalStackLayout Spacing="10" Margin="0,32,10,10">
@@ -109,11 +110,17 @@
                                                    TextColor="Black"
                                                    FontAttributes="Bold"/>
                                         </HorizontalStackLayout>
-
                                         <Label Text="CONTRATAR"
-                                               FontSize="10"
-                                               TextColor="#0F5CC2"/>
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               TextColor="#0F5CC2"
+                                               Margin="188,0,0,0">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding CriarPropostaCommand}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
                                     </VerticalStackLayout>
+                                    
                                 </HorizontalStackLayout>
                             </Border>
                         </DataTemplate>
