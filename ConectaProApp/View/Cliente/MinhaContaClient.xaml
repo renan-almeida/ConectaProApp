@@ -146,10 +146,10 @@
             </CollectionView>
 
             <!-- Lista de Histórico -->
-            <CollectionView ItemsSource="{Binding SolicitacaoVM.HistoricoCliente}"
+            <CollectionView ItemsSource="{Binding HistoricoCliente}"
                             Margin="10"
                             SelectionMode="None"
-                            IsVisible="{Binding SolicitacaoVM.HistoricoClienteVisivel}">
+                            IsVisible="{Binding HistoricoClienteVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame Margin="0,5" Padding="10" BackgroundColor="#f9f9f9" CornerRadius="10" BorderColor="#e0e0e0" HasShadow="True">

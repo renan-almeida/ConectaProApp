@@ -15,6 +15,7 @@ using ConectaProApp.ViewModels.Foto;
 using System.Diagnostics;
 using ConectaProApp.Services.Azure;
 using Newtonsoft.Json;
+using ConectaProApp.Services.Cliente;
 
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
@@ -22,6 +23,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly SolicitacaoService _solicitacaoService;
+        private readonly PerfilEmpresaClienteService _perfilService;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -104,8 +106,18 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
+        private ObservableCollection<ServicoDTO> _historicoCliente;
+        public ObservableCollection<ServicoDTO> HistoricoCliente
+        {
+            get => _historicoCliente;
+            set
+            {
+                _historicoCliente = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<SolicitacaoDTO> PropostasCliente { get; set; } = new();
-        public ObservableCollection<SolicitacaoDTO> HistoricoCliente { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> SolicitacoesRecebidas { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> ServicosAtivosPrestador { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> SolicitacoesRecusadas { get; set; } = new();
@@ -130,11 +142,13 @@ namespace ConectaProApp.ViewModels.Solicitacaos
 
         public SolicitacaoViewModel(TipoUsuario tipoUsuario, int idUsuario)
         {
-
-
             _solicitacaoService = new SolicitacaoService(new HttpClient(), new ApiService());
             var apiService = new ApiService();
             var blobService = new BlobService(apiService);
+
+            _perfilService = new PerfilEmpresaClienteService(apiService);
+            HistoricoCliente = new ObservableCollection<ServicoDTO>();
+            HistoricoClienteVisivel = false;
 
             string endpointApi;
             string chaveAvatar;
@@ -166,7 +180,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             RemoverSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await RemoverSolicitacaoAsync(idSolicitacao));
             SelecionarAbaCommand = new Command<string>(async (aba) => await SelecionarAbaAsync(aba));
             SelecionarFotoCommand = FotoVMAvatar.SelecionarFotoCommand;
-            _ = SelecionarAbaAsync("HistoricoCliente");
+            
         }
 
         public SolicitacaoViewModel() : this(TipoUsuario.Cliente, Preferences.Get("id", 0)) { }
@@ -201,7 +215,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 await App.Current.MainPage.DisplayAlert("Sucesso", "Status atualizado com sucesso", "OK");
 
                 await CarregarSolicitacoesPrestador(IdPrestador);
-                await CarregarPropostasCliente(IdCliente);
+                await ExibirHistoricoClienteAsync();
             }
             catch (Exception ex)
             {
@@ -218,7 +232,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             if (sucesso)
             {
                 await App.Current.MainPage.DisplayAlert("Sucesso", "Solicitação removida com sucesso!", "OK");
-                await CarregarPropostasCliente(IdCliente);
+                await ExibirHistoricoClienteAsync();
             }
             else
             {
@@ -229,27 +243,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         protected void OnPropertyChanged([CallerMemberName] string name = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public async Task CarregarPropostasCliente(int idCliente)
-        {
-            PropostasCliente.Clear();
-            HistoricoCliente.Clear();
-
-            try
-            {
-                var propostas = await _solicitacaoService.BuscarSolicitacoesPorClienteAsync(idCliente);
-                foreach (var p in propostas)
-                {
-                    if (p.StatusSolicitacao == StatusOrcamentoEnum.ACEITA || p.StatusSolicitacao == StatusOrcamentoEnum.FINALIZADA)
-                        HistoricoCliente.Add(p);
-                    else
-                        PropostasCliente.Add(p);
-                }
-            }
-            catch (JsonException ex)
-            {
-                throw new Exception("Erro ao desserializar solicitações do cliente. Verifique o formato da resposta JSON.", ex);
-            }
-        }
+        
 
         public async Task CarregarSolicitacoesPrestador(int idPrestador)
         {
@@ -288,13 +282,10 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             {
                 case "HistoricoCliente":
                     HistoricoClienteVisivel = true;
-                    await CarregarPropostasCliente(IdCliente);
+                    await ExibirHistoricoClienteAsync();
                     break;
 
-                case "PropostasCliente":
-                    PropostasClienteVisivel = true;
-                    await CarregarPropostasCliente(IdCliente);
-                    break;
+               
 
                 case "SolicitacoesCliente":
                     SolicitacoesClienteVisivel = true;
@@ -305,6 +296,24 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                     break;
             }
         }
-    }
 
+        public async Task ExibirHistoricoClienteAsync()
+        {
+            try
+            {
+                var idEmpresa = IdCliente; 
+                var servicos = await _perfilService.BuscarHistoricoAsync(idEmpresa);
+                HistoricoCliente.Clear();
+                foreach (var servico in servicos)
+                    HistoricoCliente.Add(servico);
+
+                HistoricoClienteVisivel = true;
+            }
+            catch (Exception ex)
+            {
+                HistoricoClienteVisivel = false;
+                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar histórico: {ex.Message}", "OK");
+            }
+        }
+    }
 }
