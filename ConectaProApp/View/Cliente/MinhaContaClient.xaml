@@ -116,28 +116,35 @@
                         Command="{Binding SelecionarAbaCommand}" CommandParameter="SolicitacoesCliente" />
                 <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White"
                         CornerRadius="20" WidthRequest="110"
-                        Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasCliente" />
+                        Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasRecebidas" />
                 <Button Text="Histórico" BackgroundColor="#0f5cc2" TextColor="White"
                         CornerRadius="20" WidthRequest="110"
                         Command="{Binding SelecionarAbaCommand}" CommandParameter="HistoricoCliente" />
             </HorizontalStackLayout>
 
             <!-- Listas -->
-            <CollectionView ItemsSource="{Binding SolicitacaoVM.SolicitacoesRecebidas}"
-                            IsVisible="{Binding SolicitacaoVM.SolicitacoesClienteVisivel}" />
+            
 
-            <CollectionView ItemsSource="{Binding SolicitacaoVM.PropostasCliente}"
-                            Margin="15,10"
-                            IsVisible="{Binding SolicitacaoVM.PropostasClienteVisivel}">
+            <!-- Propostas do Cliente -->
+            <CollectionView x:Name="PropostasRecebidasView"
+                ItemsSource="{Binding PropostasRecebidas}"
+                Margin="15,10"
+                IsVisible="{Binding PropostasRecebidasVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5">
                             <VerticalStackLayout>
-                                <Label Text="{Binding Descricao}" FontAttributes="Bold" FontSize="16" />
-                                <Label Text="{Binding ValorProposto, StringFormat='Valor: R$ {0:F2}'}" FontSize="14" />
+                                <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="16" />
+                                <Label Text="{Binding ValorContratacaoFormatado, StringFormat='Valor: R$ {0}'}" FontSize="14" />
+                                <Label Text="{Binding DataInclusaoFormatada}" FontSize="12" TextColor="Gray" />
+                                <Label Text="{Binding StatusAmigavel}" FontSize="12" TextColor="Blue" />
                                 <HorizontalStackLayout HorizontalOptions="End">
-                                    <Button Text="ACEITAR" Command="{Binding BindingContext.SolicitacaoVM.AceitarSolicitacaoCommand, Source={x:Reference Name=PropostasClienteView}}" CommandParameter="{Binding IdSolicitacao}" />
-                                    <Button Text="RECUSAR" Command="{Binding BindingContext.SolicitacaoVM.RecusarSolicitacaoCommand, Source={x:Reference Name=PropostasClienteView}}" CommandParameter="{Binding IdSolicitacao}" />
+                                    <Button Text="ACEITAR"
+                                Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasClienteView}}"
+                                CommandParameter="{Binding IdSolicitacao}" />
+                                    <Button Text="RECUSAR"
+                                Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasClienteView}}"
+                                CommandParameter="{Binding IdSolicitacao}" />
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Frame>

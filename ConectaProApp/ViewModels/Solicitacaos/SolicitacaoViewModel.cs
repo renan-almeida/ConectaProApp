@@ -117,6 +117,28 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
+        private bool _propostasRecebidasVisivel;
+        public bool PropostasRecebidasVisivel
+        {
+            get => _propostasRecebidasVisivel;
+            set
+            {
+                _propostasRecebidasVisivel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<ServicoDTO> _propostasRecebidas;
+        public ObservableCollection<ServicoDTO> PropostasRecebidas
+        {
+            get => _propostasRecebidas;
+            set
+            {
+                _propostasRecebidas = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<SolicitacaoDTO> PropostasCliente { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> SolicitacoesRecebidas { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> ServicosAtivosPrestador { get; set; } = new();
@@ -285,10 +307,11 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                     await ExibirHistoricoClienteAsync();
                     break;
 
-               
 
-                case "SolicitacoesCliente":
-                    SolicitacoesClienteVisivel = true;
+
+                case "PropostasRecebidas":
+                    PropostasRecebidasVisivel = true;
+                    await ExibirPropostasRecebidasAsync();
                     break;
 
                 case "ServicosPrestador":
@@ -313,6 +336,22 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             {
                 HistoricoClienteVisivel = false;
                 await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar histórico: {ex.Message}", "OK");
+            }
+        }
+
+        public async Task ExibirPropostasRecebidasAsync()
+        {
+            try
+            {
+                var propostas = await _perfilService.BuscarPropostasAsync(IdCliente);
+                PropostasRecebidas = new ObservableCollection<ServicoDTO>(propostas);
+
+                
+                PropostasClienteVisivel = true;
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar propostas: {ex.Message}", "OK");
             }
         }
     }
