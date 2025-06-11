@@ -113,26 +113,7 @@
                                        FontSize="12"
                                        TextColor="Gray"/>
 
-                                <HorizontalStackLayout>
-                                    <Label Text="ESPECIALIDADE:" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Especialidade}"
-                                           IsVisible="{Binding MostrarDescricao}"
-                                           FontSize="10"/>
-                                </HorizontalStackLayout>
-
-                                <HorizontalStackLayout>
-                                    <Label Text="LOGRADOURO:" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Logradouro}"
-                                           IsVisible="{Binding MostrarDescricao}"
-                                           FontSize="10"/>
-                                </HorizontalStackLayout>
-
-                                <HorizontalStackLayout>
-                                    <Label Text="NÚMERO:" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Nro}"
-                                           IsVisible="{Binding MostrarDescricao}"
-                                           FontSize="10"/>
-                                </HorizontalStackLayout>
+                                
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
