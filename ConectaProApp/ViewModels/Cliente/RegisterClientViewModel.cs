@@ -360,7 +360,7 @@ namespace ConectaProApp.ViewModels.Cliente
                 if (clienteRegistrado != null)
                 {
                     await Application.Current.MainPage.DisplayAlert
-                        ("Bem Vindo! ", $"Cadastro realizado com sucesso {NomeCliente}," +
+                        ($"Bem Vindo ! ", "Cadastro realizado com sucesso, " +
                         " juntos vamos encontrar soluções rapidas e simples" +
                         " para o seu negócio!", "Ok");
 

@@ -11,4 +11,8 @@ public partial class BuscaPrestador : ContentPage
 		_buscaPrestadorViewModel = new BuscaPrestadorViewModel();
 		BindingContext = _buscaPrestadorViewModel;
 	}
+    private void OnFotoPrestadorClicked(object sender, EventArgs e)
+    {
+        Shell.Current.FlyoutIsPresented = true;
+    }
 }

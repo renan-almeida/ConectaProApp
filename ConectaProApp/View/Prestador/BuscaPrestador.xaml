@@ -6,21 +6,67 @@
 
     <ScrollView>
         <VerticalStackLayout>
-            <!-- Logo -->
-            <Image Source="logo_conectapro_preto.png" HeightRequest="100" WidthRequest="100" HorizontalOptions="Center" />
+            <Grid RowDefinitions="Auto, *">
+                <!-- Cabeçalho Azul -->
+                <Grid VerticalOptions="Start" BackgroundColor="#020202" HeightRequest="58" Padding="10" RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-            <!-- Barra de pesquisa -->
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <Frame Padding="0" Margin="10,0,0,20" BackgroundColor="White" CornerRadius="15" BorderColor="#0F5CC2" HasShadow="False" HeightRequest="44" WidthRequest="300">
-                    <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
-                        <Image Source="lupabusca.png" HeightRequest="16" WidthRequest="16" Margin="10,0" VerticalOptions="Center" HorizontalOptions="Start" />
-                        <Entry Grid.Column="1" Placeholder="Busque suas solicitações" Text="{Binding TermoBusca, Mode=TwoWay}" FontSize="16" WidthRequest="280" HeightRequest="44" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" PlaceholderColor="Gray" Margin="0" />
-                    </Grid>
-                </Frame>
-                <Button Command="{Binding AcionarBuscaCommand}" Text="➤" FontSize="18" CornerRadius="100" HeightRequest="45" WidthRequest="45" BackgroundColor="#0f5cc2" Margin="15,0,0,20" />
-            </HorizontalStackLayout>
+                    <Image  Source="conectapro_logo.png"
+                            HeightRequest="40"
+                            VerticalOptions="Center"
+                            Grid.Column="0">
+                    </Image>
 
-            <!-- Categorias -->
+                    <!-- Espaço vazio no centro -->
+
+                    <!-- Foto do Prestador -->
+                    <Frame HeightRequest="40" WidthRequest="40"
+                CornerRadius="20"
+                HasShadow="False"
+                Padding="0"
+                BackgroundColor="White"
+                BorderColor="#0f5cc2"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                Grid.Column="2">
+                        <Image Source="{Binding FotoPrestadorUrl}" 
+                    Aspect="AspectFill" 
+                    HeightRequest="40" WidthRequest="40">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnFotoPrestadorClicked"/>
+                            </Image.GestureRecognizers>
+                            <Image.Clip>
+                                <EllipseGeometry Center="20,20" RadiusX="20" RadiusY="20"/>
+                            </Image.Clip>
+                        </Image>
+                    </Frame>
+                </Grid>
+
+                <VerticalStackLayout>
+                    <BoxView Opacity="0" HeightRequest="100" WidthRequest="100" />
+
+                    <HorizontalStackLayout>
+                        <Frame Padding="0" Margin="10,0,0,20" BackgroundColor="White" CornerRadius="15"
+                    BorderColor="#0F5CC2" HasShadow="False" HeightRequest="44" WidthRequest="300">
+                            <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
+                                <Image Source="lupabusca.png" HeightRequest="16" WidthRequest="16" Margin="10,0"
+                            VerticalOptions="Center" HorizontalOptions="Start" />
+                                <Entry Grid.Column="1" Placeholder="Busque suas solicitações"
+                            Text="{Binding TermoBusca, Mode=TwoWay}" FontSize="16" WidthRequest="280"
+                            HeightRequest="44" BackgroundColor="Transparent" VerticalOptions="Center"
+                            HorizontalOptions="Start" TextColor="Black" PlaceholderColor="Gray" Margin="0" />
+                            </Grid>
+                        </Frame>
+
+                        <Button Command="{Binding AcionarBuscaCommand}" Text="➔" FontSize="18" CornerRadius="100"
+                     HeightRequest="45" WidthRequest="45" BackgroundColor="#0f5cc2" Margin="15,0,0,20" />
+                    </HorizontalStackLayout>
+
+                    <!-- Categorias -->
             <Frame Padding="0" Margin="10" BackgroundColor="White" CornerRadius="15" HasShadow="False" HorizontalOptions="Center" WidthRequest="390">
                 <VerticalStackLayout>
                     <Label Text="Categorias" TextColor="Black" FontSize="25" FontAttributes="Bold" Padding="23" HorizontalOptions="Center" />
@@ -151,5 +197,7 @@
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>
+            </Grid>
+            </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

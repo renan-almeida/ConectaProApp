@@ -20,7 +20,7 @@
                         VerticalOptions="Center"
                         Grid.Column="0">
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding VoltarCommand}" />
+                        <TapGestureRecognizer Tapped="OnVoltarClicked" />
                     </Image.GestureRecognizers>
                 </Image>
 
@@ -40,7 +40,7 @@
                            Aspect="AspectFill" 
                            HeightRequest="40" WidthRequest="40">
                         <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding FotoPrestadorCommand}" />
+                            <TapGestureRecognizer Tapped="OnFotoPrestadorClicked"/>
                         </Image.GestureRecognizers>
                         <Image.Clip>
                             <EllipseGeometry Center="20,20" RadiusX="20" RadiusY="20"/>

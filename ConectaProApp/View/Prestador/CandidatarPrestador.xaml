@@ -37,7 +37,7 @@
           VerticalOptions="Center"
           HorizontalOptions="End"
           Grid.Column="2">
-                    <Image Source="{Binding FotoEmpresa}" 
+                    <Image Source="prestadorsemfoto.png" 
               Aspect="AspectFill" 
               HeightRequest="40" WidthRequest="40"
               >

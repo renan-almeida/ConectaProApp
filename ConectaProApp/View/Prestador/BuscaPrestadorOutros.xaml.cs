@@ -12,4 +12,15 @@ public partial class BuscaPrestadorOutros : ContentPage
 		BindingContext = buscaPrestadorViewModel;
 
 	}
+
+    private void OnFotoPrestadorClicked(object sender, EventArgs e)
+    {
+        Shell.Current.FlyoutIsPresented = true;
+    }
+
+    private async void OnVoltarClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("..");
+
+    }
 }
