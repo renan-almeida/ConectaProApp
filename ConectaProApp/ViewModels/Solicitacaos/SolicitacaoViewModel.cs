@@ -16,6 +16,7 @@ using System.Diagnostics;
 using ConectaProApp.Services.Azure;
 using Newtonsoft.Json;
 using ConectaProApp.Services.Cliente;
+using ConectaProApp.Services.Servico;
 
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
@@ -23,6 +24,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly SolicitacaoService _solicitacaoService;
+        private readonly ServicoService _servicoService;
         private readonly PerfilEmpresaClienteService _perfilService;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -158,6 +160,21 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         public ICommand RemoverSolicitacaoCommand { get; }
         public ICommand SelecionarFotoCommand { get; }
 
+        // métodos para serviços exibidos
+
+        //Esse método será realizado pelo cliente ->
+        public ICommand PagarServicoCommand { get; }
+
+        //Esse método será realizado pelo prestador ->
+        public ICommand IniciarServicoCommand { get; }
+
+        //Esse método será realizado pelo prestador ->
+        public ICommand FinalizarServicoCommand { get; }
+
+        //Esse método será realizado pelo cliente ->
+        public ICommand ConfirmarFinalizacaoServicoCommand { get; }
+        
+
         public FotoViewModel FotoVMAvatar { get; }
         public FotoViewModel FotoVMHeader { get; }
 
@@ -176,6 +193,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             _perfilService = new PerfilEmpresaClienteService();
             HistoricoCliente = new ObservableCollection<ServicoDTO>();
             HistoricoClienteVisivel = false;
+            _servicoService = new ServicoService();
 
             string endpointApi;
             string chaveAvatar;
@@ -205,12 +223,16 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             FinalizarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.FINALIZADA));
             ReofertarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.PENDENTE));
             RemoverSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await RemoverSolicitacaoAsync(idSolicitacao));
+            PagarServicoCommand = new Command<int>(async (idServico) => await PagarServicoAsync(idServico));
             SelecionarAbaCommand = new Command<string>(async (aba) => await SelecionarAbaAsync(aba));
             SelecionarFotoCommand = FotoVMAvatar.SelecionarFotoCommand;
             
         }
 
         public SolicitacaoViewModel() : this(TipoUsuario.Cliente, Preferences.Get("id", 0)) { }
+       
+        
+        
         /*
         private async Task EnviarPropostaAsync(int idSolicitacao)
         {
@@ -345,6 +367,30 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar histórico: {ex.Message}", "OK");
             }
         }
+
+
+        public async Task PagarServicoAsync(int idServico)
+        {
+            try
+            {
+                var servicoAtualizado = await _servicoService.PagamentoAsync(idServico);
+
+                // Atualiza o item na lista
+                var itemExistente = HistoricoCliente.FirstOrDefault(s => s.IdServico == idServico);
+                if (itemExistente != null)
+                {
+                    var index = HistoricoCliente.IndexOf(itemExistente);
+                    HistoricoCliente[index] = servicoAtualizado;
+                }
+
+                await App.Current.MainPage.DisplayAlert("Sucesso", "Pagamento realizado com sucesso!", "OK");
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Erro", ex.Message, "OK");
+            }
+        }
+
 
         public async Task ExibirPropostasRecebidasAsync()
         {

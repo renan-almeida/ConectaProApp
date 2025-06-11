@@ -14,10 +14,10 @@ namespace ConectaProApp.Models.Enuns
     {
         ORCAMENTO = 1,
         RECUSADO = 2,
-        PendentePagto = 3,
-        PendenteInicio = 4,
+        PENDENTE_PAGTO = 3,
+        PENDENTE_INICIO = 4,
         EM_EXECUCAO = 5,
-        PendenteConfirmarFinalizacao = 6,
+        PENDENTE_CONFIRMAR_FINALIZACAO= 6,
         FINALIZADO = 7,
         Agendado = 8,
         Cancelado = 9

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
+using System.Globalization;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+using ConectaProApp.Converters;
 using ConectaProApp.Models;
+using ConectaProApp.Models.Enuns;
 using Newtonsoft.Json;
 using ServicoModel = ConectaProApp.Models.Servico;
 
@@ -322,6 +320,79 @@ namespace ConectaProApp.Services.Servico
             }
 
             return null;
+        }
+
+
+
+        public async Task<ServicoDTO> PagamentoAsync(int idServico)
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("token");
+                Debug.WriteLine($"🔵 Token obtido: {token}");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                // Buscar o serviço atual para validar o status
+                var responseBusca = await client.GetAsync($"{apiUrlBase}/servico/{idServico}");
+
+                if (!responseBusca.IsSuccessStatusCode)
+                    throw new Exception("Erro ao buscar o serviço para validação de status.");
+
+                var jsonBusca = await responseBusca.Content.ReadAsStringAsync();
+                var servicoAtual = JsonConvert.DeserializeObject<ServicoDTO>(jsonBusca, new JsonSerializerSettings
+                {
+                    Converters = new List<JsonConverter>
+                    {
+                    new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                    new DecimalFromStringNewtonsoftConverter()
+                    },
+                    Culture = new CultureInfo("pt-BR")
+                });
+
+                // Verifica se o status atual permite pagamento
+                if (servicoAtual.SituacaoServico != StatusServicoEnum.PENDENTE_PAGTO)
+                    throw new Exception("Este serviço não está com status pendente de pagamento.");
+
+                // Realizar o pagamento
+                var contentPago = new
+                {
+                    SituacaoServico = StatusServicoEnum.PENDENTE_PAGTO,
+                    DataPagamento = DateTime.Now.ToString("dd/MM/yyyy - HH:mm"),
+                };
+
+                var responsePago = await _request.PutAsync($"{apiUrlBase}/servico/{idServico}/pagar", contentPago, token);
+
+                if (responsePago.IsSuccessStatusCode)
+                {
+                    var json = await responsePago.Content.ReadAsStringAsync();
+                    Debug.WriteLine("Json atualizado: " + json);
+
+                    var servicoAtualizado = JsonConvert.DeserializeObject<ServicoDTO>(json, new JsonSerializerSettings
+                    {
+                        Converters = new List<JsonConverter>
+                        {
+                            new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                            new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                            new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                            new DecimalFromStringNewtonsoftConverter()
+                        },
+                        Culture = new CultureInfo("pt-BR")
+                    });
+
+                    Debug.WriteLine("Servico atualizado: " + servicoAtualizado);
+
+                    return servicoAtualizado;
+                }
+
+                throw new Exception("Erro ao processar o pagamento. Verifique os dados e tente novamente.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Erro ao pagar serviço: " + ex.Message);
+                throw new Exception("Erro ao pagar serviço. Tente novamente mais tarde.");
+            }
         }
 
     }

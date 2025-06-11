@@ -79,10 +79,10 @@ namespace ConectaProApp.Models
         */
         public string StatusAmigavel => SituacaoServico switch
         {
-            StatusServicoEnum.PendentePagto => "Pagamento pendente",
-            StatusServicoEnum.PendenteInicio => "Aguardando início",
+            StatusServicoEnum.PENDENTE_PAGTO => "Pagamento pendente",
+            StatusServicoEnum.PENDENTE_INICIO => "Aguardando início",
             StatusServicoEnum.EM_EXECUCAO => "Em execução",
-            StatusServicoEnum.PendenteConfirmarFinalizacao => "Aguardando confirmação",
+            StatusServicoEnum.PENDENTE_CONFIRMAR_FINALIZACAO=> "Aguardando confirmação",
             StatusServicoEnum.FINALIZADO => "Finalizado",
             StatusServicoEnum.Agendado => "Agendado",
             StatusServicoEnum.Cancelado => "Cancelado",
