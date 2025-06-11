@@ -118,9 +118,9 @@
 
             <!-- PropostasRecebidas -->
             <CollectionView x:Name="PropostasPrestadorView"
-                ItemsSource="{Binding PropostasRecebidas}"
-                Margin="15,10"
-                IsVisible="{Binding PropostasRecebidasVisivel}">
+     ItemsSource="{Binding PropostasRecebidas}"
+     Margin="15,10"
+     IsVisible="{Binding PropostasRecebidasVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
@@ -152,12 +152,12 @@
                                 <!-- Botões -->
                                 <HorizontalStackLayout HorizontalOptions="End" Spacing="20">
                                     <Button Text="ACEITAR" BackgroundColor="White" BorderColor="Green" TextColor="Green" BorderWidth="1" 
-                                Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}" 
-                                CommandParameter="{Binding IdSolicitacao}" />
+                     Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}" 
+                     CommandParameter="{Binding IdSolicitacao}" />
 
                                     <Button Text="RECUSAR" BackgroundColor="White" BorderColor="Red" TextColor="Red" BorderWidth="1" 
-                                Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}" 
-                                CommandParameter="{Binding IdSolicitacao}" />
+                     Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}" 
+                     CommandParameter="{Binding IdSolicitacao}" />
                                 </HorizontalStackLayout>
 
                             </VerticalStackLayout>
@@ -168,9 +168,9 @@
 
             <!-- Lista de candidaturas -->
             <CollectionView x:Name="CandidaturasView"
-                ItemsSource="{Binding Candidaturas}"
-                Margin="15,10"
-                IsVisible="{Binding CandidaturasVisivel}">
+     ItemsSource="{Binding Candidaturas}"
+     Margin="15,10"
+     IsVisible="{Binding CandidaturasVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
@@ -203,12 +203,12 @@
                                 <!-- Botão de cancelar -->
                                 <HorizontalStackLayout HorizontalOptions="End">
                                     <Button Text="CANCELAR"
-                                BackgroundColor="White"
-                                BorderColor="Red"
-                                TextColor="Red"
-                                BorderWidth="1"
-                                Command="{Binding BindingContext.CancelarCandidaturaCommand, Source={x:Reference CandidaturasView}}"
-                                CommandParameter="{Binding IdServico}" />
+                     BackgroundColor="White"
+                     BorderColor="Red"
+                     TextColor="Red"
+                     BorderWidth="1"
+                     Command="{Binding BindingContext.CancelarCandidaturaCommand, Source={x:Reference CandidaturasView}}"
+                     CommandParameter="{Binding IdServico}" />
                                 </HorizontalStackLayout>
 
                             </VerticalStackLayout>
@@ -219,9 +219,9 @@
 
             <!-- Lista de Serviços -->
             <CollectionView x:Name="ServicosView"
-                ItemsSource="{Binding ServicosAtivosPrestador}"
-                Margin="15,10"
-                IsVisible="{Binding ServicosPrestadorVisivel}">
+     ItemsSource="{Binding ServicosAtivosPrestador}"
+     Margin="15,10"
+     IsVisible="{Binding ServicosPrestadorVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
@@ -251,12 +251,12 @@
                                 <!-- Botão Finalizar -->
                                 <HorizontalStackLayout HorizontalOptions="End">
                                     <Button Text="FINALIZAR"
-                                BackgroundColor="White"
-                                BorderColor="Green"
-                                TextColor="Green"
-                                BorderWidth="1"
-                                Command="{Binding BindingContext.FinalizarServicoCommand, Source={x:Reference ServicosView}}"
-                                CommandParameter="{Binding IdServico}" />
+                     BackgroundColor="White"
+                     BorderColor="Green"
+                     TextColor="Green"
+                     BorderWidth="1"
+                     Command="{Binding BindingContext.FinalizarServicoCommand, Source={x:Reference ServicosView}}"
+                     CommandParameter="{Binding IdServico}" />
                                 </HorizontalStackLayout>
 
                             </VerticalStackLayout>

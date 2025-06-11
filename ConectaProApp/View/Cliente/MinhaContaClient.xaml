@@ -127,9 +127,9 @@
 
             <!-- Propostas do Cliente -->
             <CollectionView x:Name="PropostasRecebidasView"
-                ItemsSource="{Binding PropostasRecebidas}"
-                Margin="15,10"
-                IsVisible="{Binding PropostasRecebidasVisivel}">
+    ItemsSource="{Binding PropostasRecebidas}"
+    Margin="15,10"
+    IsVisible="{Binding PropostasRecebidasVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
@@ -137,27 +137,27 @@
 
                                 <!-- Avatar -->
                                 <Frame HeightRequest="50" WidthRequest="50" CornerRadius="25"
-                           BackgroundColor="#f1f1f1" VerticalOptions="Start" Padding="0">
+               BackgroundColor="#f1f1f1" VerticalOptions="Start" Padding="0">
                                     <Image Source="avatar_padrao.png" Aspect="AspectFill" />
                                 </Frame>
 
                                 <!-- Nome do prestador -->
                                 <Label Grid.Column="1" Text="{Binding PrestadorResumoDTO.Nome}" 
-                           FontAttributes="Bold" FontSize="16" TextColor="Black" VerticalOptions="Center"/>
+               FontAttributes="Bold" FontSize="16" TextColor="Black" VerticalOptions="Center"/>
 
                                 <!-- Serviço + Orçamento + Forma Pagto -->
                                 <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
                                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
 
                                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding TituloServico}" 
-                                   FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+                       FontAttributes="Bold" FontSize="14" TextColor="Black"/>
 
                                         <Label Grid.Row="1" Grid.Column="0" Text="{Binding ValorContratacao, StringFormat='ORÇAMENTO: R$ {0:F2}'}" 
-                                   FontSize="12" TextColor="Black" />
+                       FontSize="12" TextColor="Black" />
 
                                         <Label Grid.Row="1" Grid.Column="1" 
-                                   Text="{Binding FormaPagtoEnum}" 
-                                   FontSize="12" TextColor="Black" HorizontalOptions="End"/>
+                       Text="{Binding FormaPagtoEnum}" 
+                       FontSize="12" TextColor="Black" HorizontalOptions="End"/>
 
                                     </Grid>
                                 </Grid>
@@ -167,22 +167,22 @@
                                     <Grid ColumnDefinitions="*,*" >
                                         <Label Grid.Column="0" Text="{Binding PrevisaoInicio, StringFormat='DATA INICIO: {0}'}" FontSize="12" TextColor="Black"/>
                                         <Label Grid.Column="1" Text="{Binding DataFinalizacao, StringFormat='DATA FIM: {0:dd/MM}'}" 
-                                   FontSize="12" TextColor="Black" HorizontalOptions="End"/>
+                       FontSize="12" TextColor="Black" HorizontalOptions="End"/>
                                     </Grid>
                                 </Grid>
 
                                 <!-- Botões Aceitar/Recusar -->
                                 <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="15" Margin="0,10,0,0">
                                     <Button Text="ACEITAR"
-                                TextColor="Green"
-                                FontAttributes="Bold"
-                                Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasRecebidasView}}"
-                                CommandParameter="{Binding IdSolicitacao}" />
+                    TextColor="Green"
+                    FontAttributes="Bold"
+                    Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasRecebidasView}}"
+                    CommandParameter="{Binding IdSolicitacao}" />
                                     <Button Text="RECUSAR"
-                                TextColor="Red"
-                                FontAttributes="Bold"
-                                Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasRecebidasView}}"
-                                CommandParameter="{Binding IdSolicitacao}" />
+                    TextColor="Red"
+                    FontAttributes="Bold"
+                    Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasRecebidasView}}"
+                    CommandParameter="{Binding IdSolicitacao}" />
                                 </HorizontalStackLayout>
 
                             </Grid>
@@ -258,9 +258,9 @@
 
             <!--Lista de Solicitações do Cliente -->
             <CollectionView x:Name="SolicitacoesClienteView"
-                ItemsSource="{Binding SolicitacoesRecebidas}"
-                Margin="15,10"
-                IsVisible="{Binding SolicitacoesClienteVisivel}">
+    ItemsSource="{Binding SolicitacoesRecebidas}"
+    Margin="15,10"
+    IsVisible="{Binding SolicitacoesClienteVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
@@ -292,14 +292,14 @@
                                     <Label Text="EDITAR" TextColor="Orange" FontAttributes="Bold">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding BindingContext.EditarSolicitacaoCommand, Source={x:Reference SolicitacoesClienteView}}"
-                                                      CommandParameter="{Binding IdSolicitacao}" />
+                                          CommandParameter="{Binding IdSolicitacao}" />
                                         </Label.GestureRecognizers>
                                     </Label>
 
                                     <Label Text="REMOVER" TextColor="Red" FontAttributes="Bold">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding BindingContext.RemoverSolicitacaoCommand, Source={x:Reference SolicitacoesClienteView}}"
-                                                      CommandParameter="{Binding IdSolicitacao}" />
+                                          CommandParameter="{Binding IdSolicitacao}" />
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </HorizontalStackLayout>
