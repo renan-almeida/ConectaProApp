@@ -19,7 +19,7 @@ namespace ConectaProApp.Models
         [JsonProperty("descSolicitacao")]
         public string DescSolicitacao { get; set; }
         [JsonProperty("dataInclusao")]
-        public string dataInclusao { get; set; }
+        public DateTime dataInclusao { get; set; }
         [JsonProperty("especialidade")]
         public string Especialidade { get; set; }
         [JsonProperty("tipoCategoriaEnum")]

@@ -1,14 +1,7 @@
-﻿using ConectaProApp.Models.Enuns;
+﻿using ConectaProApp.Converters;
 using ConectaProApp.ViewModels;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Xml.Linq;
+
 
 namespace ConectaProApp.Models
 {
@@ -27,7 +20,7 @@ namespace ConectaProApp.Models
         public string? ValorProposto { get; set; }
 
         [JsonProperty("dataInclusao")]
-        public string? DataInclusao { get; set; }
+        public string DataInclusao { get; set; }
 
         [JsonProperty("previsaoInicio")]
         public string? PrevisaoInicio { get; set; }

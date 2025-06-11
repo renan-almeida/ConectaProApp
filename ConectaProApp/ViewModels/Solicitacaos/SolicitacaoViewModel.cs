@@ -27,12 +27,17 @@ namespace ConectaProApp.ViewModels.Solicitacaos
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public string TituloServico { get; set; }
         public string Descricao { get; set; }
-        public decimal ValorProposto { get; set; }
+        public float ValorContratacao { get; set; }
         public int IdCliente { get; set; }
         public int IdPrestador { get; set; }
         public int IdSolicitacao { get; set; }
         public int IdServico { get; set; }
+        public string PrevisaoInicio { get; set; }
+        public DateTime DataInclusao { get; set; }
+
+        public string NomePrestador { get; set; }
 
         private string _abaAtual;
         public string AbaAtual
@@ -168,7 +173,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             var apiService = new ApiService();
             var blobService = new BlobService(apiService);
 
-            _perfilService = new PerfilEmpresaClienteService(apiService);
+            _perfilService = new PerfilEmpresaClienteService();
             HistoricoCliente = new ObservableCollection<ServicoDTO>();
             HistoricoClienteVisivel = false;
 
@@ -194,7 +199,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             FotoVMAvatar = new FotoViewModel(blobService, apiService, endpointApi, chaveAvatar);
             FotoVMHeader = new FotoViewModel(blobService, apiService, endpointApi, chaveHeader);
 
-            EnviarPropostaCommand = new Command<int>(async (idSolicitacao) => await EnviarPropostaAsync(idSolicitacao));
+            //EnviarPropostaCommand = new Command<int>(async (idSolicitacao) => await EnviarPropostaAsync(idSolicitacao));
             AceitarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.ACEITA));
             RecusarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.RECUSADA));
             FinalizarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.FINALIZADA));
@@ -206,18 +211,18 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         }
 
         public SolicitacaoViewModel() : this(TipoUsuario.Cliente, Preferences.Get("id", 0)) { }
-
+        /*
         private async Task EnviarPropostaAsync(int idSolicitacao)
         {
             try
             {
-                var proposta = new SolicitacaoDTO
+                var proposta = new ServicoDTO
                 {
-                    IdCliente = IdCliente,
+                    IdEmpresaCliente = IdCliente,
                     IdPrestador = IdPrestador,
                     IdSolicitacao = idSolicitacao,
                     Descricao = Descricao,
-                    ValorProposto = ValorProposto,
+                    ValorContratacao = ValorContratacao,
                 };
 
                 await _solicitacaoService.EnviarPropostaAsync(idSolicitacao, proposta);
@@ -227,7 +232,8 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             {
                 await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao enviar proposta: {ex.Message}", "OK");
             }
-        }
+        
+        */
 
         private async Task AtualizarStatusAsync(int idSolicitacao, int idServico, StatusOrcamentoEnum novoStatus)
         {
@@ -326,6 +332,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             {
                 var idEmpresa = IdCliente; 
                 var servicos = await _perfilService.BuscarHistoricoAsync(idEmpresa);
+                
                 HistoricoCliente.Clear();
                 foreach (var servico in servicos)
                     HistoricoCliente.Add(servico);

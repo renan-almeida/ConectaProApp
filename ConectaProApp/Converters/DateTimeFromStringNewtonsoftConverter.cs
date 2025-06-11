@@ -4,18 +4,18 @@ using Newtonsoft.Json;
 
 namespace ConectaProApp.Converters
 {
-    public class DateTimeNullableFromStringNewtonsoftConverter : JsonConverter
+    public class DateTimeFromStringNewtonsoftConverter : JsonConverter
     {
         private readonly string _format;
 
-        public DateTimeNullableFromStringNewtonsoftConverter(string format)
+        public DateTimeFromStringNewtonsoftConverter(string format)
         {
             _format = format;
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(DateTime?);
+            return objectType == typeof(DateTime) || objectType == typeof(DateTime?);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -23,7 +23,12 @@ namespace ConectaProApp.Converters
             var value = reader.Value?.ToString();
 
             if (string.IsNullOrWhiteSpace(value))
-                return null;
+            {
+                if (objectType == typeof(DateTime?))
+                    return null;
+
+                throw new JsonException("Valor de data vazio.");
+            }
 
             if (DateTime.TryParseExact(value, _format, new CultureInfo("pt-BR"), DateTimeStyles.None, out var result))
                 return result;
@@ -33,10 +38,8 @@ namespace ConectaProApp.Converters
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value is DateTime date)
-                writer.WriteValue(date.ToString(_format, new CultureInfo("pt-BR")));
-            else
-                writer.WriteNull();
+            var date = (DateTime)value;
+            writer.WriteValue(date.ToString(_format, new CultureInfo("pt-BR")));
         }
     }
 }

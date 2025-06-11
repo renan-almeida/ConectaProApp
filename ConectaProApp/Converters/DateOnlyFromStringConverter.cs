@@ -1,35 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ConectaProApp.Converters
 {
-    public class DateOnlyFromStringConverter : JsonConverter<DateTime>
+    public class DateOnlyFromStringNewtonsoftConverter : JsonConverter
     {
         private readonly string _format;
 
-        public DateOnlyFromStringConverter(string format)
+        public DateOnlyFromStringNewtonsoftConverter(string format)
         {
             _format = format;
         }
 
-        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override bool CanConvert(Type objectType)
         {
-            var str = reader.GetString();
-            if (DateTime.TryParseExact(str, _format, new CultureInfo("pt-BR"), DateTimeStyles.None, out var date))
-                return date.Date;
-
-            throw new JsonException($"Data inválida: {str}");
+            return objectType == typeof(DateOnly);
         }
 
-        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            writer.WriteStringValue(value.ToString(_format));
+            var value = reader.Value?.ToString();
+
+            if (string.IsNullOrWhiteSpace(value))
+                throw new JsonException("Data nula ou vazia");
+
+            if (DateOnly.TryParseExact(value, _format, new CultureInfo("pt-BR"), DateTimeStyles.None, out var result))
+                return result;
+
+            throw new JsonException($"Data inválida: '{value}' (esperado: {_format})");
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            if (value is DateOnly dateOnly)
+                writer.WriteValue(dateOnly.ToString(_format, new CultureInfo("pt-BR")));
+            else
+                writer.WriteNull();
         }
     }
 }

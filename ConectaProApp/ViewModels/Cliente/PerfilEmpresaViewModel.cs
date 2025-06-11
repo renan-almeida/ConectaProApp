@@ -41,7 +41,7 @@ namespace ConectaProApp.ViewModels.Cliente
         public PerfilEmpresaViewModel(int idEmpresa, ApiService apiService)
         {
             IdEmpresa = idEmpresa;
-            peService = new PerfilEmpresaClienteService(apiService);
+            peService = new PerfilEmpresaClienteService();
             Historico = new ObservableCollection<ServicoDTO>();
             HistoricoClienteVisivel = false;
 

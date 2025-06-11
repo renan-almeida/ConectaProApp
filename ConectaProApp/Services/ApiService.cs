@@ -1,12 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Net.Http;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using ConectaProApp.Converters;
+using Newtonsoft.Json;
 
 namespace ConectaProApp.Services
 {
@@ -14,35 +11,25 @@ namespace ConectaProApp.Services
     {
         public HttpClient HttpClient { get; }
 
-        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
         public ApiService()
         {
             HttpClient = new HttpClient
             {
                 BaseAddress = new Uri("https://conectapro-api.azurewebsites.net/")
             };
-
-            // Adicionando os conversores personalizados
-            _jsonOptions.Converters.Add(new DateTimeFromStringConverter("dd/MM/yyyy - HH:mm"));
-            _jsonOptions.Converters.Add(new DateOnlyFromStringConverter("dd/MM/yyyy"));
-            _jsonOptions.Converters.Add(new DecimalFromStringConverter());
         }
 
         public async Task<string> LoginAsync(string email, string senha)
         {
             var loginData = new { email, senha };
-            var content = new StringContent(JsonSerializer.Serialize(loginData), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonConvert.SerializeObject(loginData), Encoding.UTF8, "application/json");
 
             var response = await HttpClient.PostAsync("/login", content);
 
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var token = JsonSerializer.Deserialize<TokenResponse>(responseContent)?.Token;
+                var token = JsonConvert.DeserializeObject<TokenResponse>(responseContent)?.Token;
 
                 if (!string.IsNullOrEmpty(token))
                 {
@@ -66,15 +53,18 @@ namespace ConectaProApp.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
-            var options = new JsonSerializerOptions();
-            options.Converters.Add(new DateOnlyFromStringConverter("dd/MM/yyyy"));
-            options.Converters.Add(new DateTimeFromStringConverter("dd/MM/yyyy - HH:mm"));
-            options.Converters.Add(new DateTimeNullableFromStringConverter("dd/MM/yyyy - HH:mm"));
-            options.Converters.Add(new DecimalFromStringConverter());
-
-            return JsonSerializer.Deserialize<T>(content, options);
+            return JsonConvert.DeserializeObject<T>(content, new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter>
+                {
+                    new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                    new DecimalFromStringNewtonsoftConverter()
+                },
+                Culture = new CultureInfo("pt-BR")
+            });
         }
-
 
         public async Task<bool> DeleteAsync(string endpoint)
         {
@@ -87,7 +77,7 @@ namespace ConectaProApp.Services
         {
             await ConfigureAuthorizationHeaderAsync();
 
-            var json = JsonSerializer.Serialize(new { caminhoFoto = urlFoto }, _jsonOptions);
+            var json = JsonConvert.SerializeObject(new { caminhoFoto = urlFoto });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await HttpClient.PutAsync(endpointApi, content);
