@@ -38,8 +38,19 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         public int IdServico { get; set; }
         public string PrevisaoInicio { get; set; }
         public DateTime DataInclusao { get; set; }
+        public DateTime? DataAprovacao { get; set; }
+        public DateTime? DataExecucao { get; set; }
+        public DateTime? DataFinalizacao { get; set; }
+        public DateTime? DataPagamento { get; set; }
 
-        public string NomePrestador { get; set; }
+        public int DuracaoServico { get; set; }
+
+        public PrestadorResumoDTO PrestadorResumoDTO { get; set; }
+        public EmpresaClienteResumoDTO EmpresaClienteResumoDTO { get; set; }
+        public FormaPagtoEnum FormaPagtoEnum { get; set; }
+        public StatusServicoEnum SituacaoServico { get; set; }
+        public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
+        public TipoSegmentoEnum TipoCategoriaEnum { get; set; }
 
         private string _abaAtual;
         public string AbaAtual

@@ -1,6 +1,7 @@
-using ConectaProApp.ViewModels.Solicitacaos;
-using ConectaProApp.Services.Azure;
+
 using ConectaProApp.Services;
+using ConectaProApp.Services.Azure;
+using ConectaProApp.ViewModels.Solicitacaos;
 using Microsoft.Maui.Controls;
 using System;
 using System.Diagnostics;
@@ -12,7 +13,7 @@ namespace ConectaProApp.View.Prestador
     {
         private readonly ApiService _apiService;
         private readonly BlobService _blobService;
-
+        private readonly SolicitacaoViewModel ViewModel;
         public MinhaContaPrestador()
         {
             InitializeComponent();
@@ -22,8 +23,11 @@ namespace ConectaProApp.View.Prestador
             _blobService = new BlobService(_apiService);
 
             int idPrestador = Preferences.Get("id", 0);
-            var vm = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Prestador, idPrestador);
-            BindingContext = vm;
+            ViewModel = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Cliente, idPrestador);
+
+            // Define o BindingContext da página inteira para o ViewModel principal
+            BindingContext = ViewModel;
+
 
             ConfigurarImagens();
             ConfigurarDadosUsuario();

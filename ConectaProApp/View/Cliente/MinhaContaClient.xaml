@@ -133,47 +133,184 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="16" />
-                                <Label Text="{Binding ValorContratacaoFormatado, StringFormat='Valor: R$ {0}'}" FontSize="14" />
-                                <Label Text="{Binding DataInclusaoFormatada}" FontSize="12" TextColor="Gray" />
-                                <Label Text="{Binding StatusAmigavel}" FontSize="12" TextColor="Blue" />
-                                <HorizontalStackLayout HorizontalOptions="End">
+                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto">
+
+                                <!-- Avatar -->
+                                <Frame HeightRequest="50" WidthRequest="50" CornerRadius="25"
+                           BackgroundColor="#f1f1f1" VerticalOptions="Start" Padding="0">
+                                    <Image Source="avatar_padrao.png" Aspect="AspectFill" />
+                                </Frame>
+
+                                <!-- Nome do prestador -->
+                                <Label Grid.Column="1" Text="{Binding PrestadorResumoDTO.Nome}" 
+                           FontAttributes="Bold" FontSize="16" TextColor="Black" VerticalOptions="Center"/>
+
+                                <!-- Serviço + Orçamento + Forma Pagto -->
+                                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+
+                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding TituloServico}" 
+                                   FontAttributes="Bold" FontSize="14" TextColor="Black"/>
+
+                                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding ValorContratacao, StringFormat='ORÇAMENTO: R$ {0:F2}'}" 
+                                   FontSize="12" TextColor="Black" />
+
+                                        <Label Grid.Row="1" Grid.Column="1" 
+                                   Text="{Binding FormaPagtoEnum}" 
+                                   FontSize="12" TextColor="Black" HorizontalOptions="End"/>
+
+                                    </Grid>
+                                </Grid>
+
+                                <!-- Datas -->
+                                <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,0,0">
+                                    <Grid ColumnDefinitions="*,*" >
+                                        <Label Grid.Column="0" Text="{Binding PrevisaoInicio, StringFormat='DATA INICIO: {0}'}" FontSize="12" TextColor="Black"/>
+                                        <Label Grid.Column="1" Text="{Binding DataFinalizacao, StringFormat='DATA FIM: {0:dd/MM}'}" 
+                                   FontSize="12" TextColor="Black" HorizontalOptions="End"/>
+                                    </Grid>
+                                </Grid>
+
+                                <!-- Botões Aceitar/Recusar -->
+                                <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="15" Margin="0,10,0,0">
                                     <Button Text="ACEITAR"
-                                Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasClienteView}}"
+                                TextColor="Green"
+                                FontAttributes="Bold"
+                                Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasRecebidasView}}"
                                 CommandParameter="{Binding IdSolicitacao}" />
                                     <Button Text="RECUSAR"
-                                Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasClienteView}}"
+                                TextColor="Red"
+                                FontAttributes="Bold"
+                                Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasRecebidasView}}"
                                 CommandParameter="{Binding IdSolicitacao}" />
                                 </HorizontalStackLayout>
+
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <!-- Lista de Histórico -->
+            <CollectionView ItemsSource="{Binding HistoricoCliente}" Margin="10" SelectionMode="None" IsVisible="{Binding HistoricoClienteVisivel}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,5" Padding="10" BackgroundColor="#FFFFFF" CornerRadius="10" BorderColor="#CCCCCC" HasShadow="True">
+                            <VerticalStackLayout Spacing="10">
+
+                                <!-- Título + Bolinha verde -->
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="18" TextColor="#000000" />
+                                    <Frame BackgroundColor="Green" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center" HorizontalOptions="End" Padding="0" />
+                                </Grid>
+
+                                <!-- Status e Satisfação -->
+                                <Grid ColumnDefinitions="*,*">
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="STATUS: " />
+                                                <Span Text="{Binding StatusAmigavel}" TextColor="Green" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label Grid.Column="1">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="SATISFAÇÃO: " />
+                                                <Span Text="Satisfeito" TextColor="#1e88e5" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+
+                                <!-- Valor e Categoria -->
+                                <Grid ColumnDefinitions="*,*">
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="VALOR: " />
+                                                <Span Text="{Binding ValorContratacao, StringFormat='R$ {0:N2}'}" TextColor="Black" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label Grid.Column="1">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="CATEGORIA: " />
+                                                <Span Text="{Binding TipoCategoriaEnum}" FontAttributes="Bold" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+
+                                <!-- Prestador -->
+                                <Label Text="{Binding PrestadorResumoDTO.Nome, StringFormat='REALIZADO POR: {0}'}" FontSize="13" FontAttributes="Bold" TextColor="#000000" />
+
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!-- Lista de Histórico -->
-            <CollectionView ItemsSource="{Binding HistoricoCliente}"
-                            Margin="10"
-                            SelectionMode="None"
-                            IsVisible="{Binding HistoricoClienteVisivel}">
+            <!--Lista de Solicitações do Cliente -->
+            <CollectionView x:Name="SolicitacoesClienteView"
+                ItemsSource="{Binding SolicitacoesRecebidas}"
+                Margin="15,10"
+                IsVisible="{Binding SolicitacoesClienteVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Margin="0,5" Padding="10" BackgroundColor="#f9f9f9" CornerRadius="10" BorderColor="#e0e0e0" HasShadow="True">
-                            <StackLayout Spacing="5">
-                                <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="Medium" TextColor="#333" />
-                                <Label Text="{Binding DataInclusao}" FontSize="Small" TextColor="Gray" />
-                                <Label Text="{Binding ValorContratacao, StringFormat='Valor: R$ {0}'}" FontSize="Small" TextColor="Black" />
-                                
-                                <Frame BackgroundColor="#e6f0ff" Padding="5,2" CornerRadius="5" HorizontalOptions="Start">
-                                    <Label Text="{Binding StatusAmigavel}" FontSize="Small" TextColor="#1e88e5" FontAttributes="Bold" />
-                                </Frame>
-                                <Label Text= "{Binding NomePrestador}" FontAttributes="Bold" FontSize="Medium" TextColor="#333" />
-                            </StackLayout>
+                        <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
+                            <VerticalStackLayout Spacing="5">
+
+                                <!-- Título -->
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
+                                    <Ellipse WidthRequest="10" HeightRequest="10" Fill="Orange" VerticalOptions="Center" />
+                                </Grid>
+
+                                <!-- Status e Urgência -->
+                                <Grid ColumnDefinitions="*,*">
+                                    <Label Text="{Binding StatusAmigavel}" FontSize="12" TextColor="Orange" />
+                                    <Label Text="{Binding NvlUrgenciaEnum}" FontSize="12" TextColor="Blue" HorizontalOptions="End" />
+                                </Grid>
+
+                                <!-- Valor e Categoria -->
+                                <Grid ColumnDefinitions="*,*">
+                                    <Label Text="{Binding ValorProposto, StringFormat='VALOR: R$ {0:F2}'}" FontSize="12" TextColor="Black" />
+                                    <Label Text="{Binding TipoCategoriaEnum}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
+                                </Grid>
+
+                                <!-- Propostas -->
+                                <Label Text="{Binding QtdPropostas, StringFormat='PROPOSTAS: {0}'}" FontSize="12" TextColor="Black" />
+
+                                <!-- Botões Editar e Remover -->
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="20">
+                                    <Label Text="EDITAR" TextColor="Orange" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.EditarSolicitacaoCommand, Source={x:Reference SolicitacoesClienteView}}"
+                                                      CommandParameter="{Binding IdSolicitacao}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+
+                                    <Label Text="REMOVER" TextColor="Red" FontAttributes="Bold">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.RemoverSolicitacaoCommand, Source={x:Reference SolicitacoesClienteView}}"
+                                                      CommandParameter="{Binding IdSolicitacao}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+
 
         </VerticalStackLayout>
     </ScrollView>
