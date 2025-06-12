@@ -14,10 +14,10 @@ namespace ConectaProApp.Models.Enuns
     {
         ATIVA = 4 ,
         INATIVA = 5,
-        ACEITA,
-        PENDENTE,
-        RECUSADA,
-        FINALIZADA
+        ACEITA = 6,
+        PENDENTE = 7,
+        RECUSADA = 8,
+        FINALIZADA = 9
 
     }
 }

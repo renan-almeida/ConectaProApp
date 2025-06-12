@@ -1,11 +1,13 @@
 ﻿
-using System.Diagnostics;
-using System.Globalization;
-using System.Net.Http.Headers;
+using Azure;
 using ConectaProApp.Converters;
 using ConectaProApp.Models;
 using ConectaProApp.Models.Enuns;
 using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Globalization;
+using System.Net.Http.Headers;
+using System.Text;
 using ServicoModel = ConectaProApp.Models.Servico;
 
 namespace ConectaProApp.Services.Servico
@@ -69,7 +71,7 @@ namespace ConectaProApp.Services.Servico
 
             return new List<ServicoModel>();
         }
-      
+
 
         public async Task<List<ServicoModel>> BuscarServicoPorCategoriaAsync(string categoria)
         {
@@ -241,6 +243,8 @@ namespace ConectaProApp.Services.Servico
         public async Task AceitarPropostaAsync(int idServicoAceito, int idSolicitacao)
         {
             var token = await SecureStorage.GetAsync("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            Debug.WriteLine("Token: " + token);
 
 
             // 1. Atualizar status da proposta aceita
@@ -324,7 +328,7 @@ namespace ConectaProApp.Services.Servico
 
 
 
-        public async Task<ServicoDTO> PagamentoAsync(int idServico)
+        public async Task<ServicoDTO> PagamentoAsync(int IdServico)
         {
             try
             {
@@ -333,12 +337,13 @@ namespace ConectaProApp.Services.Servico
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 // Buscar o serviço atual para validar o status
-                var responseBusca = await client.GetAsync($"{apiUrlBase}/servico/{idServico}");
+                var responseBusca = await client.GetAsync($"{apiUrlBase}/servico/{IdServico}");
 
                 if (!responseBusca.IsSuccessStatusCode)
                     throw new Exception("Erro ao buscar o serviço para validação de status.");
 
                 var jsonBusca = await responseBusca.Content.ReadAsStringAsync();
+                Debug.WriteLine("Json: " + jsonBusca);
                 var servicoAtual = JsonConvert.DeserializeObject<ServicoDTO>(jsonBusca, new JsonSerializerSettings
                 {
                     Converters = new List<JsonConverter>
@@ -350,6 +355,7 @@ namespace ConectaProApp.Services.Servico
                     },
                     Culture = new CultureInfo("pt-BR")
                 });
+                Debug.WriteLine("servico: " + servicoAtual);
 
                 // Verifica se o status atual permite pagamento
                 if (servicoAtual.SituacaoServico != StatusServicoEnum.PENDENTE_PAGTO)
@@ -361,8 +367,13 @@ namespace ConectaProApp.Services.Servico
                     SituacaoServico = StatusServicoEnum.PENDENTE_PAGTO,
                     DataPagamento = DateTime.Now.ToString("dd/MM/yyyy - HH:mm"),
                 };
+                // Serializar o conteúdo em JSON//
+                var jsonContent = JsonConvert.SerializeObject(contentPago);
 
-                var responsePago = await _request.PutAsync($"{apiUrlBase}/servico/{idServico}/pagar", contentPago, token);
+                // Criar o HttpContent (StringContent) com o JSON
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var responsePago = await client.PutAsync($"{apiUrlBase}/servico/{IdServico}/pagar", content);
 
                 if (responsePago.IsSuccessStatusCode)
                 {
@@ -395,5 +406,278 @@ namespace ConectaProApp.Services.Servico
             }
         }
 
+        //Somente para prestador de serviço
+        public async Task<ServicoDTO> IniciarServicoAsync(int IdServico)
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("token");
+                Debug.WriteLine($"🔵 Token obtido: {token}");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                // Buscar o serviço atual para validar o status
+                var responseBusca = await client.GetAsync($"{apiUrlBase}/servico/{IdServico}");
+
+                if (!responseBusca.IsSuccessStatusCode)
+                    throw new Exception("Erro ao buscar o serviço para validação de status.");
+
+                var jsonBusca = await responseBusca.Content.ReadAsStringAsync();
+                Debug.WriteLine("Json: " + jsonBusca);
+                var servicoAtual = JsonConvert.DeserializeObject<ServicoDTO>(jsonBusca, new JsonSerializerSettings
+                {
+                    Converters = new List<JsonConverter>
+                    {
+                    new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                    new DecimalFromStringNewtonsoftConverter()
+                    },
+                    Culture = new CultureInfo("pt-BR")
+                });
+                Debug.WriteLine("servico: " + servicoAtual);
+
+                // Verifica se o status atual permite INICIAR
+                if (servicoAtual.SituacaoServico != StatusServicoEnum.PENDENTE_INICIO)
+                    throw new Exception("Este serviço não está com status aceitável.");
+
+                // Realizar o pagamento
+                var contentInicio = new
+                {
+                    SituacaoServico = StatusServicoEnum.EM_EXECUCAO,
+                    DataInicio = DateTime.Now.ToString("dd/MM/yyyy - HH:mm"),
+                };
+                // Serializar o conteúdo em JSON//
+                var jsonContent = JsonConvert.SerializeObject(contentInicio);
+
+                // Criar o HttpContent (StringContent) com o JSON
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{apiUrlBase}/servico/{IdServico}/iniciar", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("Json atualizado: " + json);
+
+                    var servicoAtualizado = JsonConvert.DeserializeObject<ServicoDTO>(json, new JsonSerializerSettings
+                    {
+                        Converters = new List<JsonConverter>
+                        {
+                            new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                            new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                            new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                            new DecimalFromStringNewtonsoftConverter()
+                        },
+                        Culture = new CultureInfo("pt-BR")
+                    });
+                    Debug.WriteLine("Servico atualizado: " + servicoAtualizado);
+
+                    return servicoAtualizado;
+                }
+
+                throw new Exception("Erro ao iniciar. Verifique os dados e tente novamente.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Erro ao inciar serviço: " + ex.Message);
+                throw new Exception("Erro ao iniciar serviço. Tente novamente mais tarde.");
+            }
+        }
+
+        //Somente para prestador de serviço
+        public async Task<ServicoDTO> FinalizarServicoAsync(int IdServico)
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("token");
+                Debug.WriteLine($"🔵 Token obtido: {token}");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                // Buscar o serviço atual para validar o status
+                var responseBusca = await client.GetAsync($"{apiUrlBase}/servico/{IdServico}");
+
+                if (!responseBusca.IsSuccessStatusCode)
+                    throw new Exception("Erro ao buscar o serviço para validação de status.");
+
+                var jsonBusca = await responseBusca.Content.ReadAsStringAsync();
+                Debug.WriteLine("Json: " + jsonBusca);
+                var servicoAtual = JsonConvert.DeserializeObject<ServicoDTO>(jsonBusca, new JsonSerializerSettings
+                {
+                    Converters = new List<JsonConverter>
+                    {
+                    new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                    new DecimalFromStringNewtonsoftConverter()
+                    },
+                    Culture = new CultureInfo("pt-BR")
+                });
+                Debug.WriteLine("servico: " + servicoAtual);
+
+                // Verifica se o status atual permite FINALIZACAO
+                if (servicoAtual.SituacaoServico != StatusServicoEnum.EM_EXECUCAO)
+                    throw new Exception("Este serviço não está com status aceitável.");
+
+                // Realizar o pagamento
+                var contentInicio = new
+                {
+                    SituacaoServico = StatusServicoEnum.PENDENTE_CONFIRMAR_FINALIZACAO,
+                    DataFinalizacao = DateTime.Now.ToString("dd/MM/yyyy - HH:mm"),
+                };
+                // Serializar o conteúdo em JSON//
+                var jsonContent = JsonConvert.SerializeObject(contentInicio);
+
+                // Criar o HttpContent (StringContent) com o JSON
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{apiUrlBase}/servico/{IdServico}/finalizar", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("Json atualizado: " + json);
+
+                    var servicoAtualizado = JsonConvert.DeserializeObject<ServicoDTO>(json, new JsonSerializerSettings
+                    {
+                        Converters = new List<JsonConverter>
+                        {
+                            new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                            new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                            new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                            new DecimalFromStringNewtonsoftConverter()
+                        },
+                        Culture = new CultureInfo("pt-BR")
+                    });
+                    Debug.WriteLine("Servico atualizado: " + servicoAtualizado);
+
+                    return servicoAtualizado;
+                }
+
+                throw new Exception("Erro ao finalizar. Verifique os dados e tente novamente.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Erro ao finaizar serviço: " + ex.Message);
+                throw new Exception("Erro ao finalizar serviço. Tente novamente mais tarde.");
+            }
+        }
+
+        //Somente para cliente
+        public async Task<ServicoDTO> ConfirmarFinalizacaoServicoAsync(int IdServico)
+        {
+            try
+            {
+
+                var token = await SecureStorage.GetAsync("token");
+                Debug.WriteLine($"🔵 Token obtido: {token}");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                // Buscar o serviço atual para validar o status
+                var responseBusca = await client.GetAsync($"{apiUrlBase}/servico/{IdServico}");
+
+                if (!responseBusca.IsSuccessStatusCode)
+                    throw new Exception("Erro ao buscar o serviço para validação de status.");
+
+                var jsonBusca = await responseBusca.Content.ReadAsStringAsync();
+                Debug.WriteLine("Json: " + jsonBusca);
+                var servicoAtual = JsonConvert.DeserializeObject<ServicoDTO>(jsonBusca, new JsonSerializerSettings
+                {
+                    Converters = new List<JsonConverter>
+                    {
+                    new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                    new DecimalFromStringNewtonsoftConverter()
+                    },
+                    Culture = new CultureInfo("pt-BR")
+                });
+                Debug.WriteLine("servico: " + servicoAtual);
+
+                // Verifica se o status atual permite FINALIZACAO
+                if (servicoAtual.SituacaoServico != StatusServicoEnum.FINALIZADO)
+                    throw new Exception("Este serviço não está com status aceitável.");
+
+                // Realizar o pagamento
+                var contentInicio = new
+                {
+                    SituacaoServico = StatusServicoEnum.FINALIZADO,
+                    DataFinalizacao = DateTime.Now.ToString("dd/MM/yyyy - HH:mm"),
+                };
+                // Serializar o conteúdo em JSON//
+                var jsonContent = JsonConvert.SerializeObject(contentInicio);
+
+                // Criar o HttpContent (StringContent) com o JSON
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{apiUrlBase}/servico/{IdServico}/finalizar", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("Json atualizado: " + json);
+
+                    var servicoAtualizado = JsonConvert.DeserializeObject<ServicoDTO>(json, new JsonSerializerSettings
+                    {
+                        Converters = new List<JsonConverter>
+                        {
+                            new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                            new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                            new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                            new DecimalFromStringNewtonsoftConverter()
+                        },
+                        Culture = new CultureInfo("pt-BR")
+                    });
+                    Debug.WriteLine("Servico atualizado: " + servicoAtualizado);
+
+                    return servicoAtualizado;
+                }
+
+                throw new Exception("Erro ao confirmar finalização. Verifique os dados e tente novamente.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Erro ao confirmar finalização: " + ex.Message);
+                throw new Exception("Erro ao confirmar finalização. Tente novamente mais tarde.");
+            }
+        }
+
+        //não está funcionando mas é importante para o prestador
+        public async Task<ServicoDTO> AceitarServicoAsync(int idServico)
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("token");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var content = new { SituacaoServico = StatusServicoEnum.PENDENTE_INICIO };
+                var jsonContent = JsonConvert.SerializeObject(content);
+                var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"{apiUrlBase}/servico/{idServico}/aceitar", httpContent);
+
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception("Erro ao aceitar serviço.");
+
+                var json = await response.Content.ReadAsStringAsync();
+
+                var servicoAtualizado = JsonConvert.DeserializeObject<ServicoDTO>(json, new JsonSerializerSettings
+                {
+                    Converters = new List<JsonConverter>
+            {
+                new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                new DecimalFromStringNewtonsoftConverter()
+            },
+                    Culture = new CultureInfo("pt-BR")
+                });
+
+                return servicoAtualizado;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao aceitar serviço: " + ex.Message);
+            }
+        }
     }
 }

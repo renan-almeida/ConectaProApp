@@ -193,7 +193,10 @@
 
 
             <!-- Lista de Histórico -->
-            <CollectionView ItemsSource="{Binding HistoricoCliente}" Margin="10" SelectionMode="None" IsVisible="{Binding HistoricoClienteVisivel}">
+            <CollectionView x:Name="HistoricoView"
+     ItemsSource="{Binding HistoricoCliente}" 
+     Margin="10" SelectionMode="None" 
+     IsVisible="{Binding HistoricoClienteVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame Margin="0,5" Padding="10" BackgroundColor="#FFFFFF" CornerRadius="10" BorderColor="#CCCCCC" HasShadow="True">
@@ -249,6 +252,39 @@
 
                                 <!-- Prestador -->
                                 <Label Text="{Binding PrestadorResumoDTO.Nome, StringFormat='REALIZADO POR: {0}'}" FontSize="13" FontAttributes="Bold" TextColor="#000000" />
+
+                                <!-- Botão de Pagamento -->
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="18" Padding="10">
+                                    <Button Text="Pagar" BackgroundColor="Orange" TextColor="White"
+                     CornerRadius="20" WidthRequest="110"
+                     Command="{Binding BindingContext.PagarServicoCommand, Source={x:Reference HistoricoView}}"
+                     CommandParameter="{Binding IdServico}" />
+
+
+                                    <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="15" Margin="0,10,0,0">
+                                        <Button Text="ACEITAR"
+                                TextColor="Green"
+                                FontAttributes="Bold"
+                                Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference HistoricoView}}"
+                                CommandParameter="{Binding IdSolicitacao}" />
+                                        <Button Text="RECUSAR"
+                                TextColor="Red"
+                                FontAttributes="Bold"
+                                Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference  HistoricoView}}"
+                                CommandParameter="{Binding IdSolicitacao}" />
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="15" Margin="0,10,0,0">
+                                    <Button Text="FINALIZAR"
+                                    TextColor="Green"
+                                    FontAttributes="Bold"
+                                    Command="{Binding BindingContext.ConfirmarFinalizacaoServicoCommand, Source={x:Reference HistoricoView}}"
+                                    CommandParameter="{Binding IdServico}" />
+                                    
+
+
+                                </HorizontalStackLayout>
 
                             </VerticalStackLayout>
                         </Frame>

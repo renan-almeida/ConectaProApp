@@ -106,21 +106,21 @@
             <!-- Abas -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="18" Padding="10">
                 <Button Text="Serviços" BackgroundColor="#0f5cc2" TextColor="White"
-                        CornerRadius="20" WidthRequest="110"
-                        Command="{Binding SelecionarAbaCommand}" CommandParameter="ServicosPrestador" />
+            CornerRadius="20" WidthRequest="110"
+            Command="{Binding SelecionarAbaCommand}" CommandParameter="ServicosPrestador" />
                 <Button Text="Candidaturas" BackgroundColor="#0f5cc2" TextColor="White"
-                        CornerRadius="20" WidthRequest="110"
-                        Command="{Binding SelecionarAbaCommand}" CommandParameter="CandidaturasPrestador" />
+            CornerRadius="20" WidthRequest="110"
+            Command="{Binding SelecionarAbaCommand}" CommandParameter="CandidaturasPrestador" />
                 <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White"
-                        CornerRadius="20" WidthRequest="110"
-                        Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasPrestador" />
+            CornerRadius="20" WidthRequest="110"
+            Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasPrestador" />
             </HorizontalStackLayout>
 
             <!-- PropostasRecebidas -->
             <CollectionView x:Name="PropostasPrestadorView"
-     ItemsSource="{Binding PropostasRecebidas}"
-     Margin="15,10"
-     IsVisible="{Binding PropostasRecebidasVisivel}">
+                ItemsSource="{Binding PropostasRecebidas}"
+                Margin="15,10"
+                IsVisible="{Binding PropostasRecebidasVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
@@ -151,13 +151,21 @@
 
                                 <!-- Botões -->
                                 <HorizontalStackLayout HorizontalOptions="End" Spacing="20">
-                                    <Button Text="ACEITAR" BackgroundColor="White" BorderColor="Green" TextColor="Green" BorderWidth="1" 
-                     Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}" 
-                     CommandParameter="{Binding IdSolicitacao}" />
+                                    <Button Text="ACEITAR"
+                                BackgroundColor="White"
+                                BorderColor="Green"
+                                TextColor="Green"
+                                BorderWidth="1"
+                                Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}"
+                                CommandParameter="{Binding IdServico}" />
 
-                                    <Button Text="RECUSAR" BackgroundColor="White" BorderColor="Red" TextColor="Red" BorderWidth="1" 
-                     Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}" 
-                     CommandParameter="{Binding IdSolicitacao}" />
+                                    <Button Text="RECUSAR"
+                                BackgroundColor="White"
+                                BorderColor="Red"
+                                TextColor="Red"
+                                BorderWidth="1"
+                                Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}"
+                                CommandParameter="{Binding IdServico}" />
                                 </HorizontalStackLayout>
 
                             </VerticalStackLayout>

@@ -102,7 +102,7 @@
                         <Entry Placeholder="Qual problema o seu negócio enfrenta?"
                            PlaceholderColor="Gray"
                            WidthRequest="314"
-                           HeightRequest="0"
+                           HeightRequest="50"
                            TextColor="Black"
                           BackgroundColor="#f1f1f1"
                            Text="{Binding TituloProposta}"
@@ -115,7 +115,7 @@
                                 TextColor="Black"
                             MaxLength="100"
                            WidthRequest="314"
-                           HeightRequest="0"
+                           HeightRequest="50"
                            Text="{Binding DescProposta}"
                                             />
 
@@ -125,7 +125,7 @@
                                 PlaceholderColor="Gray"
                                TextColor="Black"
                                 WidthRequest="314"
-                                HeightRequest="0"
+                                HeightRequest="50"
                                Keyboard="Numeric"
                                Text="{Binding ValorPropostoTexto}"/>
 
@@ -138,7 +138,7 @@
                                 Format="dd/MM/yyyy"
                                 WidthRequest="314"
                             TextColor="Black"
-                                HeightRequest="0"
+                                HeightRequest="50"
                                 BackgroundColor="#f1f1f1"
                                Date="{Binding PrevisaoInicio, Mode=TwoWay}"/>
 
