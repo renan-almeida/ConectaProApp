@@ -87,7 +87,7 @@ namespace ConectaProApp.Services.Servico
 
                 categoria = Uri.EscapeDataString(categoria);
 
-                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
+                var response = await client.GetAsync($"{apiUrlBase}{buscaServicoEndpoint}?tipoCategoria={categoria}");
                 System.Diagnostics.Debug.WriteLine("Requisição para URL: " + $"{apiUrlBase}{buscaServicoEndpoint}?categoria={categoria}");
 
                 System.Diagnostics.Debug.WriteLine("Resposta da API: " + response);
