@@ -1,10 +1,11 @@
-﻿using ConectaProApp.Models;
+﻿using ConectaProApp.Converters;
+using ConectaProApp.Models;
 using ConectaProApp.Models.Enuns;
-using System.Net.Http.Headers;
-using System.Diagnostics;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Diagnostics;
 using System.Globalization;
-using ConectaProApp.Converters;
+using System.Net.Http.Headers;
 
 
 namespace ConectaProApp.Services.Cliente
@@ -48,13 +49,51 @@ namespace ConectaProApp.Services.Cliente
         {
             try
             {
+                var token = await SecureStorage.GetAsync("token");
+                Debug.WriteLine($"🔵 Token obtido: {token}");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                 var endpoint = $"/perfil/empresaCliente/{idEmpresa}/propostas";
-                var response = await _apiService.GetAsync<List<ServicoDTO>>(endpoint);
+                var response = await client.GetAsync(apiUrlBase + endpoint);
+                Debug.WriteLine("resposta: " + response);
 
-                if (response == null || response.Count == 0)
-                    throw new Exception("Nenhuma proposta recebida");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("Json: " + json);
 
-                return response;
+                    var settings = new JsonSerializerSettings
+                    {
+                        Converters = new List<JsonConverter>
+    {
+                     new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                     new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                     new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                     new DecimalFromStringNewtonsoftConverter(),
+                     new SafeStringEnumConverter<FormaPagtoEnum>(),       // seu enum de pagamento
+                     new SafeStringEnumConverter<NvlUrgenciaEnum>(),       // seu enum de urgência
+                     new SafeStringEnumConverter<TipoSegmentoEnum>(),     // (se tiver outros enums, pode adicionar aqui também)
+                     new SafeStringEnumConverter<StatusServicoEnum>()      // (exemplo)
+    },
+                        Culture = new CultureInfo("pt-BR"),
+
+                        // Esse trecho aqui vai ignorar qualquer erro de deserialização:
+                        Error = (sender, args) =>
+                        {
+                            args.ErrorContext.Handled = true;
+                        }
+                    };
+                    var servicos = JsonConvert.DeserializeObject<List<ServicoDTO>>(json, settings);
+                    Debug.WriteLine("servicos: " + servicos);
+
+                    var filtrados = servicos.Where(s =>
+                        s.SituacaoServico == StatusServicoEnum.ORCAMENTO
+                    ).ToList();
+
+                    return filtrados;
+                }
+
+                throw new Exception("Erro ao buscar propostas: resposta não foi bem-sucedida.");
             }
             catch (Exception ex)
             {

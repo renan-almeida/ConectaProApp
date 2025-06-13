@@ -123,73 +123,88 @@
             </HorizontalStackLayout>
 
             <!-- Listas -->
-            
 
-            <!-- Propostas do Cliente -->
-            <CollectionView x:Name="PropostasRecebidasView"
-    ItemsSource="{Binding PropostasRecebidas}"
+
+            <CollectionView x:Name="PropostasClienteView"
+    ItemsSource="{Binding PropostaCliente}"
     Margin="15,10"
-    IsVisible="{Binding PropostasRecebidasVisivel}">
+    IsVisible="{Binding PropostasClienteVisivel}">
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
-                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto">
+                        <Frame CornerRadius="15" BorderColor="#DDDDDD" Padding="15" Margin="0,10" BackgroundColor="White" HasShadow="True">
+                            <VerticalStackLayout Spacing="12">
 
-                                <!-- Avatar -->
-                                <Frame HeightRequest="50" WidthRequest="50" CornerRadius="25"
-               BackgroundColor="#f1f1f1" VerticalOptions="Start" Padding="0">
-                                    <Image Source="avatar_padrao.png" Aspect="AspectFill" />
-                                </Frame>
-
-                                <!-- Nome do prestador -->
-                                <Label Grid.Column="1" Text="{Binding PrestadorResumoDTO.Nome}" 
-               FontAttributes="Bold" FontSize="16" TextColor="Black" VerticalOptions="Center"/>
-
-                                <!-- Serviço + Orçamento + Forma Pagto -->
-                                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
-                                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
-
-                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding TituloServico}" 
-                       FontAttributes="Bold" FontSize="14" TextColor="Black"/>
-
-                                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding ValorContratacao, StringFormat='ORÇAMENTO: R$ {0:F2}'}" 
-                       FontSize="12" TextColor="Black" />
-
-                                        <Label Grid.Row="1" Grid.Column="1" 
-                       Text="{Binding FormaPagtoEnum}" 
-                       FontSize="12" TextColor="Black" HorizontalOptions="End"/>
-
-                                    </Grid>
+                                <!-- Título -->
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label Text="{Binding TituloServico}" 
+                               FontAttributes="Bold" 
+                               FontSize="18" 
+                               TextColor="#222222" />
+                                    <Ellipse WidthRequest="12" HeightRequest="12" Fill="#007AFF" VerticalOptions="Center"  Margin="100,0,0,0" />
                                 </Grid>
+
+                                <!-- Urgência e Forma de Pagamento -->
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                    <Label Text="{Binding NvlUrgenciaEnum}" 
+                               FontSize="14" 
+                               TextColor="#FF3B30" />
+                                    <Label Text="{Binding FormaPagtoEnum, TargetNullValue='Sem Pagamento'}" 
+                               FontSize="14" 
+                               TextColor="#333333" 
+                               HorizontalOptions="End" />
+                                </Grid>
+
+                                <!-- Valor -->
+                                <Label Text="{Binding ValorContratacao, StringFormat='VALOR: R$ {0:N2}'}"
+                           FontSize="14"
+                           TextColor="#333333" />
 
                                 <!-- Datas -->
-                                <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,0,0">
-                                    <Grid ColumnDefinitions="*,*" >
-                                        <Label Grid.Column="0" Text="{Binding PrevisaoInicio, StringFormat='DATA INICIO: {0}'}" FontSize="12" TextColor="Black"/>
-                                        <Label Grid.Column="1" Text="{Binding DataFinalizacao, StringFormat='DATA FIM: {0:dd/MM}'}" 
-                       FontSize="12" TextColor="Black" HorizontalOptions="End"/>
-                                    </Grid>
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                    <Label Text="{Binding PrevisaoInicio, StringFormat='INÍCIO: {0:dd/MM/yyyy}'}" 
+                               FontSize="14" 
+                               TextColor="#333333" />
+                                    <Label Text="{Binding DataFinalizacao, StringFormat='FIM: {0:dd/MM/yyyy}'}" 
+                               FontSize="14" 
+                               TextColor="#333333"
+                               HorizontalOptions="End" />
                                 </Grid>
 
-                                <!-- Botões Aceitar/Recusar -->
-                                <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="15" Margin="0,10,0,0">
+                                <!-- Cliente -->
+                                <Label Text="{Binding EmpresaClienteResumoDTO.NomeFantasia, StringFormat='CLIENTE: {0}'}"
+                           FontSize="14"
+                           TextColor="#333333" />
+
+                                <!-- Botões -->
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="20" Margin="0,10,0,0">
                                     <Button Text="ACEITAR"
-                    TextColor="Green"
-                    FontAttributes="Bold"
-                    Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasRecebidasView}}"
-                    CommandParameter="{Binding IdSolicitacao}" />
+                            BackgroundColor="White" 
+                            BorderColor="Green" 
+                            TextColor="Green" 
+                            BorderWidth="1"
+                            CornerRadius="8"
+                            Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasClienteView}}"
+                            CommandParameter="{Binding IdSolicitacao}" />
+
                                     <Button Text="RECUSAR"
-                    TextColor="Red"
-                    FontAttributes="Bold"
-                    Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasRecebidasView}}"
-                    CommandParameter="{Binding IdSolicitacao}" />
+                            BackgroundColor="White" 
+                            BorderColor="Red" 
+                            TextColor="Red" 
+                            BorderWidth="1"
+                            CornerRadius="8"
+                            Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasClienteView}}"
+                            CommandParameter="{Binding IdSolicitacao}" />
                                 </HorizontalStackLayout>
 
-                            </Grid>
+                            </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+
+
 
 
             <!-- Lista de Histórico -->
@@ -261,18 +276,7 @@
                      CommandParameter="{Binding IdServico}" />
 
 
-                                    <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="15" Margin="0,10,0,0">
-                                        <Button Text="ACEITAR"
-                                TextColor="Green"
-                                FontAttributes="Bold"
-                                Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference HistoricoView}}"
-                                CommandParameter="{Binding IdSolicitacao}" />
-                                        <Button Text="RECUSAR"
-                                TextColor="Red"
-                                FontAttributes="Bold"
-                                Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference  HistoricoView}}"
-                                CommandParameter="{Binding IdSolicitacao}" />
-                                    </HorizontalStackLayout>
+                           
                                 </HorizontalStackLayout>
 
                                 <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="15" Margin="0,10,0,0">

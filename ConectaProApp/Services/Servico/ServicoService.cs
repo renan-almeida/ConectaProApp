@@ -642,42 +642,6 @@ namespace ConectaProApp.Services.Servico
         }
 
         //não está funcionando mas é importante para o prestador
-        public async Task<ServicoDTO> AceitarServicoAsync(int idServico)
-        {
-            try
-            {
-                var token = await SecureStorage.GetAsync("token");
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                var content = new { SituacaoServico = StatusServicoEnum.PENDENTE_INICIO };
-                var jsonContent = JsonConvert.SerializeObject(content);
-                var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-                var response = await client.PutAsync($"{apiUrlBase}/servico/{idServico}/aceitar", httpContent);
-
-                if (!response.IsSuccessStatusCode)
-                    throw new Exception("Erro ao aceitar serviço.");
-
-                var json = await response.Content.ReadAsStringAsync();
-
-                var servicoAtualizado = JsonConvert.DeserializeObject<ServicoDTO>(json, new JsonSerializerSettings
-                {
-                    Converters = new List<JsonConverter>
-            {
-                new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
-                new DecimalFromStringNewtonsoftConverter()
-            },
-                    Culture = new CultureInfo("pt-BR")
-                });
-
-                return servicoAtualizado;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao aceitar serviço: " + ex.Message);
-            }
-        }
+       
     }
 }

@@ -21,6 +21,7 @@ namespace ConectaProApp.Models
         public float ValorContratacao { get; set; }
 
         [JsonProperty("formaPagtoEnum")]
+        [JsonConverter(typeof(SafeStringEnumConverter<FormaPagtoEnum>))]
         public FormaPagtoEnum FormaPagtoEnum { get; set; }
 
         [JsonProperty("dataInclusao")]
