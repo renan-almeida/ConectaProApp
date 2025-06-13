@@ -65,17 +65,16 @@
 
             <HorizontalStackLayout Spacing="25" HorizontalOptions="Center">
                 <Entry
-                    TextColor="Black"
-                    Placeholder="Nro da residência"
-                    PlaceholderColor="#B2A9A9"
-                    Keyboard="Numeric"
-                    BackgroundColor="#f1f1f1"
-                    FontSize="15"
-                    HorizontalOptions="Center"
-                    WidthRequest="150"
-                    HeightRequest="0"
-                    Margin="24,0,0,0"
-                    Text="{Binding NroResidencia, Mode=TwoWay}"/>
+     TextColor="Black"
+     Placeholder="Nro"
+     PlaceholderColor="#B2A9A9"
+     Keyboard="Numeric"
+     FontSize="15"
+     BackgroundColor="#f1f1f1"
+     HorizontalOptions="Center"
+     WidthRequest="150"
+     Margin="24,0,0,0"
+     Text="{Binding NroResidencia, Mode=TwoWay}"/>
 
                <Picker
                    Title="Selecione o estado"

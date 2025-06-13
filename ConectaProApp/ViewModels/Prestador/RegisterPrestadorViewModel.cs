@@ -594,6 +594,16 @@ namespace ConectaProApp.ViewModels.Prestador
 
         public bool ValidarCampos(out string mensagemErro)
         {
+
+            Debug.WriteLine($"NomePrestador: {NomePrestador}");
+            Debug.WriteLine($"EmailPrestador: {EmailPrestador}");
+            Debug.WriteLine($"CpfPrestador: {CpfPrestador}");
+            Debug.WriteLine($"CepPrestador: {CepPrestador}");
+            Debug.WriteLine($"TelefonePrestador: {TelefonePrestador}");
+            Debug.WriteLine($"NroResidencia: {NroResidencia}");
+            Debug.WriteLine($"UfSelecionada: {UfSelecionada}");
+            Debug.WriteLine($"SenhaPrestador: {SenhaPrestador}");
+            Debug.WriteLine($"ConfirmacaoSenhaPrestador: {ConfirmacaoSenhaPrestador}");
             if (string.IsNullOrWhiteSpace(NomePrestador) ||
                     string.IsNullOrWhiteSpace(EmailPrestador) ||
                     string.IsNullOrWhiteSpace(CpfPrestador) ||
