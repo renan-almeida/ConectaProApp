@@ -145,15 +145,7 @@ namespace ConectaProApp.ViewModels.Usuarios
 
                 if (usuarioAutenticado != null && usuarioAutenticado.Id > 0)
                 {
-                    Preferences.Set("id", usuarioAutenticado.Id);
-                    if (usuarioAutenticado.TipoUsuario == "PRESTADOR")
-                    {
-                        Preferences.Set("idPrestador", usuarioAutenticado.Id);
-                    }
-                    else if (usuarioAutenticado.TipoUsuario == "CLIENTE")
-                    {
-                        Preferences.Set("idCliente", usuarioAutenticado.Id);
-                    }
+                   
                     Preferences.Set("uf", usuarioAutenticado.Uf);
                     Preferences.Set("nome", usuarioAutenticado.Nome);
                     await SecureStorage.SetAsync("token", usuarioAutenticado.Token);
