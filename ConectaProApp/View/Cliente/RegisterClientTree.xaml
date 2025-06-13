@@ -76,6 +76,7 @@
 
                 <Picker
                     Title="Selecione o estado"
+                    TextColor="Black"
                     BackgroundColor="#f1f1f1"
                     ItemsSource="{Binding Ufs}"
                     SelectedItem="{Binding UfSelecionada}"

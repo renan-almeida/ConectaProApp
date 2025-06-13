@@ -126,7 +126,7 @@ namespace ConectaProApp.ViewModels.Foto
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("Erro", "Falha ao atualizar a foto no servidor.", "OK");
+                        
                     }
                 }
                 else

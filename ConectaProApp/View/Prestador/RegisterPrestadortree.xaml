@@ -80,6 +80,7 @@
                <Picker
                    Title="Selecione o estado"
                    TitleColor="#B2A9A9"
+                   TextColor="Black"
                    BackgroundColor="#f1f1f1"
                    ItemsSource="{Binding Ufs}"
                    SelectedItem="{Binding UfSelecionada}"
