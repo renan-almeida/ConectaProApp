@@ -111,9 +111,11 @@
 
             <!-- Abas -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="18" Padding="10">
-                <Button Text="Solicitações" BackgroundColor="#0f5cc2" TextColor="White"
-                        CornerRadius="20" WidthRequest="110"
-                        Command="{Binding SelecionarAbaCommand}" CommandParameter="SolicitacoesCliente" />
+                <Button Text="Solicitações"
+        BackgroundColor="#0f5cc2" TextColor="White"
+        CornerRadius="20" WidthRequest="110"
+        Command="{Binding SelecionarAbaCommand}"
+        CommandParameter="SolicitacaoCliente" />
                 <Button Text="Propostas" BackgroundColor="#0f5cc2" TextColor="White"
                         CornerRadius="20" WidthRequest="110"
                         Command="{Binding SelecionarAbaCommand}" CommandParameter="PropostasRecebidas" />
@@ -141,7 +143,7 @@
                                FontAttributes="Bold" 
                                FontSize="18" 
                                TextColor="#222222" />
-                                    <Ellipse WidthRequest="12" HeightRequest="12" Fill="#007AFF" VerticalOptions="Center"  Margin="100,0,0,0" />
+                                    
                                 </Grid>
 
                                 <!-- Urgência e Forma de Pagamento -->
@@ -282,6 +284,7 @@
                                 <HorizontalStackLayout Grid.Row="3" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="15" Margin="0,10,0,0">
                                     <Button Text="FINALIZAR"
                                     TextColor="Green"
+                                    BackgroundColor="White"
                                     FontAttributes="Bold"
                                     Command="{Binding BindingContext.ConfirmarFinalizacaoServicoCommand, Source={x:Reference HistoricoView}}"
                                     CommandParameter="{Binding IdServico}" />
@@ -298,50 +301,82 @@
 
             <!--Lista de Solicitações do Cliente -->
             <CollectionView x:Name="SolicitacoesClienteView"
-    ItemsSource="{Binding SolicitacoesRecebidas}"
-    Margin="15,10"
-    IsVisible="{Binding SolicitacoesClienteVisivel}">
+                ItemsSource="{Binding SolicitacaoCliente}"
+                Margin="15,10"
+                IsVisible="{Binding SolicitacaoClienteVisivel}">
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
-                            <VerticalStackLayout Spacing="5">
+                        <Frame CornerRadius="15" BorderColor="#DDDDDD" Padding="15" Margin="0,10" BackgroundColor="White" HasShadow="True">
+                            <VerticalStackLayout Spacing="12">
 
                                 <!-- Título -->
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
-                                    <Ellipse WidthRequest="10" HeightRequest="10" Fill="Orange" VerticalOptions="Center" />
+                                    <Label Text="{Binding TituloSolicitacao}" 
+                               FontAttributes="Bold" 
+                               FontSize="18" 
+                               TextColor="#222222" />
                                 </Grid>
 
                                 <!-- Status e Urgência -->
-                                <Grid ColumnDefinitions="*,*">
-                                    <Label Text="{Binding StatusAmigavel}" FontSize="12" TextColor="Orange" />
-                                    <Label Text="{Binding NvlUrgenciaEnum}" FontSize="12" TextColor="Blue" HorizontalOptions="End" />
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                    <Label Text="{Binding StatusSolicitacao}" 
+                               FontSize="14" 
+                               TextColor="#FF9500" />
+                                    <Label Text="{Binding NvlUrgencia}" 
+                               FontSize="14" 
+                               TextColor="#007AFF" 
+                               HorizontalOptions="End" />
                                 </Grid>
 
-                                <!-- Valor e Categoria -->
-                                <Grid ColumnDefinitions="*,*">
-                                    <Label Text="{Binding ValorProposto, StringFormat='VALOR: R$ {0:F2}'}" FontSize="12" TextColor="Black" />
-                                    <Label Text="{Binding TipoCategoriaEnum}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
+                                <!-- Valor -->
+                                <Label Text="{Binding ValorProposto, StringFormat='VALOR: R$ {0}'}"
+                           FontSize="14"
+                           TextColor="#333333" />
+
+                                <!-- Categoria -->
+                                <Label Text="{Binding TipoCategoria, TargetNullValue='SEM CATEGORIA'}" 
+                           FontSize="14" 
+                           TextColor="#333333" />
+
+                                <!-- Datas -->
+                                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                    <Label Text="{Binding PrevisaoInicio, StringFormat='INÍCIO: {0}'}" 
+                               FontSize="14" 
+                               TextColor="#333333" />
+                                    <Label Text="{Binding DuracaoServico, StringFormat='DURAÇÃO: {0} dias'}" 
+                               FontSize="14" 
+                                           
+                               TextColor="#333333"
+                                HorizontalOptions="End"
+                                HorizontalTextAlignment="End"
+                                Margin="0,0,1000,0"/>
                                 </Grid>
 
-                                <!-- Propostas -->
-                                <Label Text="{Binding QtdPropostas, StringFormat='PROPOSTAS: {0}'}" FontSize="12" TextColor="Black" />
+                                <!-- Cliente -->
+                                <Label Text="{Binding EmpresaClienteResumoDTO.NomeFantasia, StringFormat='CLIENTE: {0}'}"
+                           FontSize="14"
+                           TextColor="#333333" />
 
-                                <!-- Botões Editar e Remover -->
-                                <HorizontalStackLayout HorizontalOptions="End" Spacing="20">
-                                    <Label Text="EDITAR" TextColor="Orange" FontAttributes="Bold">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding BindingContext.EditarSolicitacaoCommand, Source={x:Reference SolicitacoesClienteView}}"
-                                          CommandParameter="{Binding IdSolicitacao}" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
+                                <!-- Botões -->
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="20" Margin="0,10,0,0">
+                                    <Button Text="EDITAR"
+                                BackgroundColor="White" 
+                                BorderColor="#0f5cc2" 
+                                TextColor="#0f5cc2" 
+                                BorderWidth="1"
+                                CornerRadius="8"
+                                Command="{Binding BindingContext.EditarSolicitacaoCommand, Source={x:Reference SolicitaoesClienteView}}"
+                                CommandParameter="{Binding IdSolicitacao}" />
 
-                                    <Label Text="REMOVER" TextColor="Red" FontAttributes="Bold">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding BindingContext.RemoverSolicitacaoCommand, Source={x:Reference SolicitacoesClienteView}}"
-                                          CommandParameter="{Binding IdSolicitacao}" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
+                                    <Button Text="REMOVER"
+                                BackgroundColor="White" 
+                                BorderColor="Red" 
+                                TextColor="Red" 
+                                BorderWidth="1"
+                                CornerRadius="8"
+                                Command="{Binding BindingContext.RemoverSolicitacaoCommand, Source={x:Reference SolicitaoesClienteView}}"
+                                CommandParameter="{Binding IdSolicitacao}" />
                                 </HorizontalStackLayout>
 
                             </VerticalStackLayout>
@@ -349,6 +384,10 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+
+
+
 
 
 

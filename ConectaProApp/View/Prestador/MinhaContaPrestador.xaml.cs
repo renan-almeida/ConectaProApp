@@ -1,11 +1,13 @@
 
+using ConectaProApp.Models;
 using ConectaProApp.Services;
 using ConectaProApp.Services.Azure;
 using ConectaProApp.ViewModels.Solicitacaos;
 using Microsoft.Maui.Controls;
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
+
+
 
 namespace ConectaProApp.View.Prestador
 {
@@ -22,11 +24,18 @@ namespace ConectaProApp.View.Prestador
             _apiService = new ApiService();
             _blobService = new BlobService(_apiService);
 
-            int idPrestador = Preferences.Get("id", 0);
-            ViewModel = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Cliente, idPrestador);
+
+            var idPrestador = Preferences.Get("idPrestador", 0);
+            // Aqui você poderia recuperar o DTO do próprio Preferences se tiver salvo:
+            ViewModel = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Prestador, idPrestador);
 
             // Define o BindingContext da página inteira para o ViewModel principal
             BindingContext = ViewModel;
+
+
+
+            // Agora sim:
+
 
 
             ConfigurarImagens();

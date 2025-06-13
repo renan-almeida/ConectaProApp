@@ -21,7 +21,7 @@ namespace ConectaProApp.Services.Prestador
             _apiService = new ApiService();
         }
 
-        public async Task<List<ServicoDTO>> BuscarPropostasPrestadorAsync(int idPrestador)
+        public async Task<List<SolicitacaoDTO>> BuscarPropostasPrestadorAsync(int idPrestador)
         {
             try
             {
@@ -38,18 +38,28 @@ namespace ConectaProApp.Services.Prestador
                     var json = await response.Content.ReadAsStringAsync();
                     Debug.WriteLine("Json: " + json);
 
-                    var propostas = JsonConvert.DeserializeObject<List<ServicoDTO>>(json, new JsonSerializerSettings
+                    var propostas = JsonConvert.DeserializeObject<List<SolicitacaoDTO>>(json, new JsonSerializerSettings
                     {
                         Converters = new List<JsonConverter>
-                        {
-                            new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                            new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                            new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
-                            new DecimalFromStringNewtonsoftConverter()
+                        {new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                     new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                     new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                     new DecimalFromStringNewtonsoftConverter(),
+                     new SafeStringEnumConverter<FormaPagtoEnum>(),       // seu enum de pagamento
+                     new SafeStringEnumConverter<NvlUrgenciaEnum>(),       // seu enum de urgência
+                     new SafeStringEnumConverter<TipoSegmentoEnum>(),     // (se tiver outros enums, pode adicionar aqui também)
+                     new SafeStringEnumConverter<StatusServicoEnum>()
                         },
                         Culture = new CultureInfo("pt-BR")
                     });
                     Debug.WriteLine("propostas: " + propostas);
+
+                    var filtrados = propostas.Where(p =>
+                       p.StatusSolicitacao != StatusOrcamentoEnum.FINALIZADA &&
+                       p.StatusSolicitacao != StatusOrcamentoEnum.PENDENTE &&
+                       p.StatusSolicitacao != StatusOrcamentoEnum.ACEITA &&
+                       p.StatusSolicitacao != StatusOrcamentoEnum.RECUSADA
+                   ).ToList();
 
                     return propostas;
                 }

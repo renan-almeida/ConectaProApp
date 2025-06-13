@@ -15,7 +15,7 @@ namespace ConectaProApp.Models
         public PrestadorResumoDTO PrestadorResumoDTO { get; set; }
         public EmpresaClienteResumoDTO EmpresaClienteResumoDTO { get; set; }
 
-        public decimal ValorProposto { get; set; }
+        public float ValorProposto { get; set; }
         public DateTime DataInclusao { get; set; }
         public DateTime PrevisaoInicio { get; set; }
 
