@@ -284,6 +284,10 @@ namespace ConectaProApp.ViewModels.Cliente
                 await Application.Current.MainPage
                     .DisplayAlert("Solicitação criada com sucesso!",
                                     "Aguarde o contato de um prestador", "OK");
+
+                await  Task.Delay(1500);
+
+                await Shell.Current.GoToAsync("//cliente");
                 return true;
             }
             return false; 
