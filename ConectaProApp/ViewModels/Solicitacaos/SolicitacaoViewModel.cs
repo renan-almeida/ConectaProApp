@@ -21,16 +21,17 @@ using ConectaProApp.Services.Prestador;
 
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
-    public class SolicitacaoViewModel : INotifyPropertyChanged
+    public class SolicitacaoViewModel : BaseViewModel
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly SolicitacaoService _solicitacaoService;
         private readonly ServicoService _servicoService;
+        private readonly PrestadorService _prestadorService;
         private readonly PerfilEmpresaClienteService _perfilService;
         private readonly PerfilPrestadorService _perfilPrestadorService;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
+       
         public string TituloServico { get; set; }
         public string Descricao { get; set; }
         public float ValorContratacao { get; set; }
@@ -216,6 +217,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             HistoricoClienteVisivel = false;
             PropostasClienteVisivel = false;
             _servicoService = new ServicoService();
+            _prestadorService = new PrestadorService();
 
             string endpointApi;
             string chaveAvatar;
@@ -261,6 +263,52 @@ namespace ConectaProApp.ViewModels.Solicitacaos
               )
         { }
 
+        private string nomePrestador;
+        public string NomePrestador
+        {
+            get => nomePrestador;
+            set
+            {
+                nomePrestador = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string descricaoPrestador;
+        public string DescricaoPrestador
+        {
+            get => descricaoPrestador;
+            set
+            {
+                descricaoPrestador = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public async Task CarregarDadosPrestadorAsync()
+        {
+            try
+            {
+                string idPrestador = Preferences.Get("id", string.Empty);
+
+                if (string.IsNullOrEmpty(idPrestador))
+                    return;
+
+                var prestador = await _prestadorService.BuscarPrestadorPorIdAsync(int.Parse(idPrestador));
+
+                if(prestador != null)
+                {
+                    NomePrestador = prestador.Nome ?? "sem nome";
+                    Debug.WriteLine("Nome: " + NomePrestador);
+                    DescricaoPrestador = prestador.DescPrestador ?? "sem descricao";
+                    Debug.WriteLine("Desc: " + DescricaoPrestador);
+                }
+            }
+            catch ( Exception ex)
+            {
+                Debug.WriteLine($"Erro ao carregar dados do prestador: {ex.Message}");
+            }
+        }
 
         public async Task CarregarPropostasPrestadorAsync()
         {

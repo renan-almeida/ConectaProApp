@@ -39,7 +39,7 @@ namespace ConectaProApp.View.Prestador
 
 
             ConfigurarImagens();
-            ConfigurarDadosUsuario();
+
         }
 
         private void ConfigurarImagens()
@@ -54,11 +54,6 @@ namespace ConectaProApp.View.Prestador
                 HeaderPrestadorImage.Source = ImageSource.FromUri(new Uri(headerUrl));
         }
 
-        private void ConfigurarDadosUsuario()
-        {
-            NomeEntry.Text = Preferences.Get("NomePrestador", "Claudio de Freitas Silva");
-            DescricaoEditor.Text = Preferences.Get("DescricaoPrestador", "Olá, me chamo Claudio, tenho 33 anos e sou programador Back-End Sênior.");
-        }
 
         public async void OnAvatarPrestadorTapped(object sender, EventArgs e)
         {
@@ -120,5 +115,13 @@ namespace ConectaProApp.View.Prestador
         {
             Shell.Current.FlyoutIsPresented = true;
         }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            await ViewModel.CarregarDadosPrestadorAsync();
+        }
+
     }
 }

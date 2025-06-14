@@ -8,7 +8,7 @@
         <VerticalStackLayout>
 
             <!-- Cabeçalho azul -->
-            <Grid BackgroundColor="#0f5cc2" HeightRequest="58" Padding="10">
+            <Grid BackgroundColor="Black" HeightRequest="58" Padding="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -82,25 +82,17 @@
 
             <!-- Nome e descrição editáveis -->
             <VerticalStackLayout Padding="20,0" Spacing="8" HorizontalOptions="Center">
-                <Entry x:Name="NomeEntry"
-                       Text="{Binding NomePrestador}"
+                <Label Text="{Binding NomePrestador, Mode=OneWay}"
                        FontAttributes="Bold"
                        FontSize="20"
-                       WidthRequest="250"
                        HorizontalTextAlignment="Center"
-                       TextColor="Black"
-                       Placeholder="Seu nome"
-                       TextChanged="OnNomeChanged"/>
+                       TextColor="Black" />
 
-                <Editor x:Name="DescricaoEditor"
-                        Text="{Binding DescricaoPrestador}"
-                        FontSize="14"
-                        WidthRequest="300"
-                        AutoSize="TextChanges"
-                        TextColor="Black"
-                        Placeholder="Fale um pouco sobre você"
-                        HorizontalOptions="Center"
-                        TextChanged="OnDescricaoChanged"/>
+                <Label Text="{Binding DescricaoPrestador, Mode=OneWay}"
+                       FontSize="14"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black" />
+
             </VerticalStackLayout>
 
             <!-- Abas -->
