@@ -456,6 +456,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar propostas: {ex.Message}", "OK");
             }
         }
+        //da
 
         public async Task BuscarSolicitacoesDaEmpresaAsync()
         {
