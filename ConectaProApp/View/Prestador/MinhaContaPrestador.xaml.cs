@@ -16,20 +16,18 @@ namespace ConectaProApp.View.Prestador
         private readonly ApiService _apiService;
         private readonly BlobService _blobService;
         private readonly SolicitacaoViewModel ViewModel;
-        public MinhaContaPrestador()
+        public MinhaContaPrestador() : this(0)
+        {
+        }
+
+        public MinhaContaPrestador(int idPrestador)
         {
             InitializeComponent();
 
-            //  Inicialização dos serviços no construtor
-            _apiService = new ApiService();
-            _blobService = new BlobService(_apiService);
+            if (idPrestador == 0)
+                idPrestador = Preferences.Get("idPrestador", 0);
 
-
-            var idPrestador = Preferences.Get("idPrestador", 0);
-            // Aqui você poderia recuperar o DTO do próprio Preferences se tiver salvo:
             ViewModel = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Prestador, idPrestador);
-
-            // Define o BindingContext da página inteira para o ViewModel principal
             BindingContext = ViewModel;
 
 

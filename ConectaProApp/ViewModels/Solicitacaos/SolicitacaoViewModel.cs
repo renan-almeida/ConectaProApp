@@ -21,7 +21,7 @@ using ConectaProApp.Services.Prestador;
 
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
-    public class SolicitacaoViewModel : BaseViewModel
+    public class SolicitacaoViewModel : INotifyPropertyChanged
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly SolicitacaoService _solicitacaoService;
@@ -314,7 +314,8 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         {
             try
             {
-                var idPrestador = IdPrestador; // aqui é o equivalente do Cliente
+                int idPrestador = Preferences.Get("id", 0);
+                 // aqui é o equivalente do Cliente
                 Debug.WriteLine($"🔧 Buscando propostas para o prestador {idPrestador}");
 
                 var propostas = await _perfilPrestadorService.BuscarPropostasPrestadorAsync(IdPrestador);
@@ -441,6 +442,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         {
             try
             {
+                int idCliente = Preferences.Get("id", 0);
                 var idEmpresa = IdCliente;
                 var servicos = await _perfilService.BuscarPropostasAsync(idEmpresa);
 
@@ -461,6 +463,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         {
             try
             {
+                int idCliente = Preferences.Get("id", 0);
                 var idEmpresa = IdCliente;
                 Debug.WriteLine($"🔧 Buscando solicitações para empresa {idEmpresa}");
 
@@ -488,6 +491,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         {
             try
             {
+                int idCliente = Preferences.Get("id", 0);
                 var idEmpresa = IdCliente;
                 var servicos = await _perfilService.BuscarHistoricoAsync(idEmpresa);
 
