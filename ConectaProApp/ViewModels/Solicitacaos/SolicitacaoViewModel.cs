@@ -462,17 +462,16 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             try
             {
                 var idEmpresa = IdCliente;
-                Debug.WriteLine($"🔧 Buscando solicitacoes para empresa {idEmpresa}");
+                Debug.WriteLine($"🔧 Buscando solicitações para empresa {idEmpresa}");
 
                 var solicitacoes = await _perfilService.BuscarSolicitacoesDaEmpresaAsync(idEmpresa);
-
-                Debug.WriteLine($"🔧 Quantidade de solicitações retornadas: {solicitacoes?.Count}");
+                Debug.WriteLine($"🔧 Quantidade de solicitações recebidas: {solicitacoes?.Count}");
 
                 SolicitacaoCliente.Clear();
                 foreach (var solicitacao in solicitacoes)
                     SolicitacaoCliente.Add(solicitacao);
 
-                Debug.WriteLine($"🔧 Total inserido em SolicitacaoCliente: {SolicitacaoCliente.Count}");
+                Debug.WriteLine($"🔧 Lista SolicitacaoCliente preenchida com {SolicitacaoCliente.Count} itens");
 
                 SolicitacaoClienteVisivel = true;
             }
@@ -480,7 +479,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             {
                 Debug.WriteLine($"❌ Erro ao buscar solicitações: {ex.Message}");
                 SolicitacaoClienteVisivel = false;
-                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar propostas: {ex.Message}", "OK");
+                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar solicitações: {ex.Message}", "OK");
             }
         }
 

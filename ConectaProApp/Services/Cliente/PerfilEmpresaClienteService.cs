@@ -44,41 +44,42 @@ namespace ConectaProApp.Services.Cliente
                     var json = await response.Content.ReadAsStringAsync();
                     Debug.WriteLine("Json: " + json);
 
-                    var settings = new JsonSerializerSettings
+                    var solicitacoes = JsonConvert.DeserializeObject<List<SolicitacaoDTO>>(json, new JsonSerializerSettings
                     {
                         Converters = new List<JsonConverter>
-    {
-                     new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                     new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                     new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
-                     new DecimalFromStringNewtonsoftConverter(),
-                     new SafeStringEnumConverter<FormaPagtoEnum>(),       // seu enum de pagamento
-                     new SafeStringEnumConverter<NvlUrgenciaEnum>(),       // seu enum de urgência
-                     new SafeStringEnumConverter<TipoSegmentoEnum>(),     // (se tiver outros enums, pode adicionar aqui também)
-                     new SafeStringEnumConverter<StatusServicoEnum>()      // (exemplo)
-    },
+                {
+                    new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                    new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                    new DecimalFromStringNewtonsoftConverter(),
+                    new SafeStringEnumConverter<FormaPagtoEnum>(),
+                    new SafeStringEnumConverter<NvlUrgenciaEnum>(),
+                    new SafeStringEnumConverter<TipoSegmentoEnum>(),
+                    new SafeStringEnumConverter<StatusOrcamentoEnum>()
+                },
                         Culture = new CultureInfo("pt-BR"),
 
-                        // Esse trecho aqui vai ignorar qualquer erro de deserialização:
-                        Error = (sender, args) =>
-                        {
-                            args.ErrorContext.Handled = true;
-                        }
-                    };
-                    var solicitacoes = JsonConvert.DeserializeObject<List<SolicitacaoDTO>>(json, settings);
+                        
+
+
+                    });
+
                     Debug.WriteLine("Solicitacoes desserializadas: " + solicitacoes?.Count);
 
+                    // Filtrando as solicitações ativas (mantendo sua lógica limpa como no histórico)
+                    var filtrados = solicitacoes
+                        .Where(s => s.StatusSolicitacao == StatusOrcamentoEnum.ATIVA
+                                 )
+                        .ToList();
 
-                  
-
-                    return solicitacoes;
+                    return filtrados;
                 }
 
-                throw new Exception("Erro ao buscar propostas: resposta não foi bem-sucedida.");
+                throw new Exception("Erro ao buscar solicitações: resposta não foi bem-sucedida.");
             }
             catch (Exception ex)
             {
-                throw new Exception($"Erro ao buscar propostas: {ex.Message}", ex);
+                throw new Exception($"Erro ao buscar solicitações: {ex.Message}", ex);
             }
         }
 
