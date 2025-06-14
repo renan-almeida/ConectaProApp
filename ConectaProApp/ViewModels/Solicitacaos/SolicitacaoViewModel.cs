@@ -17,6 +17,7 @@ using ConectaProApp.Services.Azure;
 using Newtonsoft.Json;
 using ConectaProApp.Services.Cliente;
 using ConectaProApp.Services.Servico;
+using ConectaProApp.Services.Prestador;
 
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
@@ -26,6 +27,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         private readonly SolicitacaoService _solicitacaoService;
         private readonly ServicoService _servicoService;
         private readonly PerfilEmpresaClienteService _perfilService;
+        private readonly PerfilPrestadorService _perfilPrestadorService;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -102,13 +104,14 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
-        private bool _solicitacoesClienteVisivel;
-        public bool SolicitacoesClienteVisivel
+        private bool _solicitacaoClienteVisivel;
+        public bool SolicitacaoClienteVisivel
         {
-            get => _solicitacoesClienteVisivel;
+            get => _solicitacaoClienteVisivel;
             set
             {
-                _solicitacoesClienteVisivel = value;
+                _solicitacaoClienteVisivel = value;
+                Debug.WriteLine($"🔧 SolicitacaoClienteVisivel alterado para: {value}");
                 OnPropertyChanged();
             }
         }
@@ -147,8 +150,24 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         }
 
         public ObservableCollection<SolicitacaoDTO> SolicitacoesRecebidas { get; set; } = new();
+
+        public ObservableCollection<SolicitacaoDTO> SolicitacaoCliente { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> ServicosAtivosPrestador { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> SolicitacoesRecusadas { get; set; } = new();
+
+        public ObservableCollection<SolicitacaoDTO> PropostasRecebidasPrestador { get; set; } = new();
+
+        private bool _propostasPrestadorVisivel;
+        public bool PropostasPrestadorVisivel
+        {
+            get => _propostasPrestadorVisivel;
+            set
+            {
+                _propostasPrestadorVisivel = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public ICommand EnviarPropostaCommand { get; }
         public ICommand AceitarSolicitacaoCommand { get; }
@@ -189,9 +208,11 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             var apiService = new ApiService();
             var blobService = new BlobService(apiService);
 
+            _perfilPrestadorService = new PerfilPrestadorService();
             _perfilService = new PerfilEmpresaClienteService();
             HistoricoCliente = new ObservableCollection<ServicoDTO>();
             PropostaCliente = new ObservableCollection<ServicoDTO>();
+            SolicitacaoCliente = new ObservableCollection<SolicitacaoDTO>();
             HistoricoClienteVisivel = false;
             PropostasClienteVisivel = false;
             _servicoService = new ServicoService();
@@ -223,40 +244,47 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             RecusarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.RECUSADA));
             FinalizarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.FINALIZADA));
             ReofertarSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await AtualizarStatusAsync(idSolicitacao, IdServico, StatusOrcamentoEnum.PENDENTE));
-            RemoverSolicitacaoCommand = new Command<int>(async (idSolicitacao) => await RemoverSolicitacaoAsync(idSolicitacao));
+            RemoverSolicitacaoCommand = new Command<int>(async (idServico) => await RemoverSolicitacaoAsync(idServico));
             PagarServicoCommand = new Command<int>(async (IdServico) => await PagarServicoAsync(IdServico));
             SelecionarAbaCommand = new Command<string>(async (aba) => await SelecionarAbaAsync(aba));
             SelecionarFotoCommand = FotoVMAvatar.SelecionarFotoCommand;
 
         }
 
-        public SolicitacaoViewModel() : this(TipoUsuario.Cliente, Preferences.Get("id", 0)) { }
+        public SolicitacaoViewModel()
+     : this(TipoUsuario.Cliente, Preferences.Get("idCliente", 0)) { }
+
+        public SolicitacaoViewModel(bool isPrestador)
+            : this(
+                isPrestador ? TipoUsuario.Prestador : TipoUsuario.Cliente,
+                isPrestador ? Preferences.Get("idPrestador", 0) : Preferences.Get("idCliente", 0)
+              )
+        { }
 
 
-
-        /*
-        private async Task EnviarPropostaAsync(int idSolicitacao)
+        public async Task CarregarPropostasPrestadorAsync()
         {
             try
             {
-                var proposta = new ServicoDTO
-                {
-                    IdEmpresaCliente = IdCliente,
-                    IdPrestador = IdPrestador,
-                    IdSolicitacao = idSolicitacao,
-                    Descricao = Descricao,
-                    ValorContratacao = ValorContratacao,
-                };
+                var idPrestador = IdPrestador; // aqui é o equivalente do Cliente
+                Debug.WriteLine($"🔧 Buscando propostas para o prestador {idPrestador}");
 
-                await _solicitacaoService.EnviarPropostaAsync(idSolicitacao, proposta);
-                await Application.Current.MainPage.DisplayAlert("Sucesso", "Proposta enviada com sucesso!", "OK");
+                var propostas = await _perfilPrestadorService.BuscarPropostasPrestadorAsync(IdPrestador);
+                Debug.WriteLine($"🔧 Total de propostas recebidas: {propostas.Count}");
+
+                PropostasRecebidasPrestador.Clear();
+                foreach (var proposta in propostas)
+                    PropostasRecebidasPrestador.Add(proposta);
+
+                PropostasPrestadorVisivel = true;
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao enviar proposta: {ex.Message}", "OK");
+                PropostasPrestadorVisivel = false;
+                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar propostas do prestador: {ex.Message}", "OK");
             }
-        
-        */
+        }
+
 
         private async Task AtualizarStatusAsync(int idSolicitacao, int idServico, StatusOrcamentoEnum novoStatus)
         {
@@ -274,12 +302,12 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
-        public async Task RemoverSolicitacaoAsync(int idSolicitacao)
+        public async Task RemoverSolicitacaoAsync(int idServico)
         {
             bool confirmacao = await App.Current.MainPage.DisplayAlert("Confirmar", "Deseja remover esta solicitação?", "Sim", "Não");
             if (!confirmacao) return;
 
-            var sucesso = await _solicitacaoService.RemoverSolicitacaoAsync(idSolicitacao);
+            var sucesso = await _solicitacaoService.RemoverSolicitacaoAsync(idServico);
             if (sucesso)
             {
                 await App.Current.MainPage.DisplayAlert("Sucesso", "Solicitação removida com sucesso!", "OK");
@@ -322,30 +350,42 @@ namespace ConectaProApp.ViewModels.Solicitacaos
 
         private async Task SelecionarAbaAsync(string aba)
         {
+            Debug.WriteLine($"✅ Entrou no SelecionarAbaAsync com aba: {aba}");
+
             HistoricoClienteVisivel = false;
             PropostasClienteVisivel = false;
-            SolicitacoesClienteVisivel = false;
-            ServicosPrestadorVisivel = false;
+            SolicitacaoClienteVisivel = false;
+            PropostasPrestadorVisivel = false;
 
             AbaAtual = aba;
 
             switch (aba)
             {
                 case "HistoricoCliente":
+                    Debug.WriteLine("🟡 Selecionou HistoricoCliente");
                     HistoricoClienteVisivel = true;
                     await ExibirHistoricoClienteAsync();
                     break;
 
-
+                case "SolicitacaoCliente":
+                    Debug.WriteLine("🟢 Selecionou SolicitacaoCliente");
+                    SolicitacaoClienteVisivel = true;
+                    await BuscarSolicitacoesDaEmpresaAsync();
+                    break;
 
                 case "PropostasRecebidas":
+                    Debug.WriteLine("🔵 Selecionou PropostasRecebidas");
                     PropostasClienteVisivel = true;
                     await ExibirPropostasClienteAsync();
                     break;
 
-                    ServicosPrestadorVisivel = true;
-                case "ServicosPrestador":
+                case "PropostasPrestador":
+                    Debug.WriteLine("🟢 Selecionou PropostasPrestador");
+                    PropostasClienteVisivel = false;
+                    PropostasPrestadorVisivel = true;
+                    await CarregarPropostasPrestadorAsync();
                     break;
+
             }
         }
 
@@ -365,6 +405,33 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             catch (Exception ex)
             {
                 PropostasClienteVisivel = false;
+                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar propostas: {ex.Message}", "OK");
+            }
+        }
+
+        public async Task BuscarSolicitacoesDaEmpresaAsync()
+        {
+            try
+            {
+                var idEmpresa = IdCliente;
+                Debug.WriteLine($"🔧 Buscando solicitacoes para empresa {idEmpresa}");
+
+                var solicitacoes = await _perfilService.BuscarSolicitacoesDaEmpresaAsync(idEmpresa);
+
+                Debug.WriteLine($"🔧 Quantidade de solicitações retornadas: {solicitacoes?.Count}");
+
+                SolicitacaoCliente.Clear();
+                foreach (var solicitacao in solicitacoes)
+                    SolicitacaoCliente.Add(solicitacao);
+
+                Debug.WriteLine($"🔧 Total inserido em SolicitacaoCliente: {SolicitacaoCliente.Count}");
+
+                SolicitacaoClienteVisivel = true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"❌ Erro ao buscar solicitações: {ex.Message}");
+                SolicitacaoClienteVisivel = false;
                 await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar propostas: {ex.Message}", "OK");
             }
         }

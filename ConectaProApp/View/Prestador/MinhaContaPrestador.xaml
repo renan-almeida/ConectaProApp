@@ -118,9 +118,9 @@
 
             <!-- PropostasRecebidas -->
             <CollectionView x:Name="PropostasPrestadorView"
-                ItemsSource="{Binding PropostasRecebidas}"
-                Margin="15,10"
-                IsVisible="{Binding PropostasRecebidasVisivel}">
+    ItemsSource="{Binding PropostasRecebidasPrestador}"
+    Margin="15,10"
+    IsVisible="{Binding PropostasPrestadorVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
@@ -128,44 +128,44 @@
 
                                 <!-- Título -->
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
+                                    <Label Text="{Binding TituloSolicitacao}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
                                     <Ellipse WidthRequest="10" HeightRequest="10" Fill="Blue" VerticalOptions="Center" />
                                 </Grid>
 
                                 <!-- Urgência e Forma de Pagamento -->
                                 <Grid ColumnDefinitions="*,*">
-                                    <Label Text="{Binding NvlUrgenciaEnum}" FontSize="12" TextColor="Blue" />
-                                    <Label Text="{Binding FormaPagtoEnum}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
+                                    <Label Text="{Binding NvlUrgencia}" FontSize="12" TextColor="Blue" />
+                                    <Label Text="{Binding FormaPagto}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
                                 </Grid>
 
                                 <!-- Valor e Datas -->
                                 <Grid ColumnDefinitions="*,*">
-                                    <Label Text="{Binding ValorContratacao, StringFormat='VALOR: R$ {0:N2}'}" FontSize="12" TextColor="Black" />
+                                    <Label Text="{Binding ValorProposto, StringFormat='VALOR: R$ {0}'}" FontSize="12" TextColor="Black" />
                                     <Label Text="{Binding PrevisaoInicio, StringFormat='DATA INICIO: {0}'}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
                                 </Grid>
 
                                 <Grid ColumnDefinitions="*,*">
-                                    <Label Text="{Binding EmpresaClienteResumoDTO.NomeEmpresa, StringFormat='CLIENTE: {0}'}" FontSize="12" TextColor="Black" />
-                                    <Label Text="{Binding DataFinalizacao, StringFormat='DATA FIM: {0:dd/MM}'}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
+                                    <Label Text="{Binding EmpresaClienteResumoDTO.NomeFantasia, StringFormat='CLIENTE: {0}'}" FontSize="12" TextColor="Black" />
+                                    <!-- DataFinalizacao não existe no seu SolicitaçãoDTO, removendo por enquanto -->
                                 </Grid>
 
                                 <!-- Botões -->
                                 <HorizontalStackLayout HorizontalOptions="End" Spacing="20">
                                     <Button Text="ACEITAR"
-                                BackgroundColor="White"
-                                BorderColor="Green"
-                                TextColor="Green"
-                                BorderWidth="1"
-                                Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}"
-                                CommandParameter="{Binding IdServico}" />
+                            BackgroundColor="White"
+                            BorderColor="Green"
+                            TextColor="Green"
+                            BorderWidth="1"
+                            Command="{Binding BindingContext.AceitarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}"
+                            CommandParameter="{Binding IdSolicitacao}" />
 
                                     <Button Text="RECUSAR"
-                                BackgroundColor="White"
-                                BorderColor="Red"
-                                TextColor="Red"
-                                BorderWidth="1"
-                                Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}"
-                                CommandParameter="{Binding IdServico}" />
+                            BackgroundColor="White"
+                            BorderColor="Red"
+                            TextColor="Red"
+                            BorderWidth="1"
+                            Command="{Binding BindingContext.RecusarSolicitacaoCommand, Source={x:Reference PropostasPrestadorView}}"
+                            CommandParameter="{Binding IdSolicitacao}" />
                                 </HorizontalStackLayout>
 
                             </VerticalStackLayout>
@@ -173,6 +173,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
 
             <!-- Lista de candidaturas -->
             <CollectionView x:Name="CandidaturasView"

@@ -74,25 +74,25 @@
                                BorderColor="LightGray">
 
                             <VerticalStackLayout Spacing="6">
-                                <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="15"/>
+                                <Label Text="{Binding Nome}" FontAttributes="Bold" FontSize="15" TextColor="Black" HeightRequest="40"/>
 
                                 <HorizontalStackLayout Spacing="12">
-                                    <Label Text="STATUS:" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding StServico}" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="URGÊNCIA:" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding NvlUrgenciaEnum}" FontSize="10"/>
+                                    <Label Text="STATUS:" FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="40"/>
+                                    <Label Text="{Binding StServico}" FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="40"/>
+                                    <Label Text="URGÊNCIA:" FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="40"/>
+                                    <Label Text="{Binding NvlUrgenciaEnum}" FontSize="10" TextColor="Black" HeightRequest="40"/>
                                 </HorizontalStackLayout>
 
                                 <HorizontalStackLayout Spacing="12">
-                                    <Label Text="VALOR:" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding ValorServico}" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="CATEGORIA:" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding NomeSegmento}" FontSize="10"/>
+                                    <Label Text="VALOR:" FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="40"/>
+                                    <Label Text="{Binding ValorServico}" FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="40"/>
+                                    <Label Text="CATEGORIA:" FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="40"/>
+                                    <Label Text="{Binding NomeSegmento}" FontSize="10" TextColor="Black" HeightRequest="40"/>
                                 </HorizontalStackLayout>
 
                                 <HorizontalStackLayout Spacing="5">
-                                    <Label Text="PAGAMENTO:" FontSize="10" FontAttributes="Bold"/>
-                                    <Label Text="{Binding FormaPagamento}" FontSize="10"/>
+                                    <Label Text="PAGAMENTO:" FontSize="10" FontAttributes="Bold" TextColor="Black" HeightRequest="40"/>
+                                    <Label Text="{Binding FormaPagamento}" FontSize="10" TextColor="Black" HeightRequest="40"/>
                                 </HorizontalStackLayout>
 
                                 <!-- CANDIDATAR-SE à direita -->
@@ -111,7 +111,8 @@
                                 <Label Text="{Binding Descricao}"
                                        IsVisible="{Binding MostrarDescricao}"
                                        FontSize="12"
-                                       TextColor="Gray"/>
+                                       TextColor="Gray"
+                                       HeightRequest="40"/>
 
                                 
                             </VerticalStackLayout>

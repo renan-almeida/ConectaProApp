@@ -96,12 +96,13 @@
                            
                         <Entry Placeholder="Estipule a duração em dias do serviço"
                                Keyboard="Numeric"
+                              TextColor="Black"
                            PlaceholderColor="Gray"
                                BackgroundColor="#f1f1f1"
                            WidthRequest="314"
                            HeightRequest="50"
                                
-                               TextColor="Black"
+                              
                                Text="{Binding DuracaoServico, Mode=TwoWay}"
                                MaxLength="2"
                                             />

@@ -145,6 +145,7 @@
                         <HorizontalStackLayout Spacing="20" HorizontalOptions="Start">
                             <Picker
                                 Title="Urgência do serviço"
+                                TextColor="Black"
                                 ItemsSource="{Binding NiveisUrgencia}"
                                 SelectedItem="{Binding UrgenciaSelecionada}"
                                 BackgroundColor="#f1f1f1"
@@ -155,6 +156,7 @@
                                 Title="Pagamento"
                                 ItemsSource="{Binding FormasPagto }"
                                 BackgroundColor="#f1f1f1"
+                                TextColor="Black"
                                 SelectedItem="{Binding FormaPagtoSelecionado}"
                                 />
 
