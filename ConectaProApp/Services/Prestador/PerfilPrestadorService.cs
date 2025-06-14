@@ -25,6 +25,10 @@ namespace ConectaProApp.Services.Prestador
         {
             try
             {
+                // Pega o idPrestador diretamente do Preferences
+               
+
+                // Continua o restante normalmente
                 var token = await SecureStorage.GetAsync("token");
                 Debug.WriteLine($"🔵 Token obtido: {token}");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -50,7 +54,12 @@ namespace ConectaProApp.Services.Prestador
                      new SafeStringEnumConverter<TipoSegmentoEnum>(),     // (se tiver outros enums, pode adicionar aqui também)
                      new SafeStringEnumConverter<StatusServicoEnum>()
                         },
-                        Culture = new CultureInfo("pt-BR")
+                        Culture = new CultureInfo("pt-BR"),
+
+                         Error = (sender, args) =>
+                         {
+                             args.ErrorContext.Handled = true;
+                         }
                     });
                     Debug.WriteLine("propostas: " + propostas);
 

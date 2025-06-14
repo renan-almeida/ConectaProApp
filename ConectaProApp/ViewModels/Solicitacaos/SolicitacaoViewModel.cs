@@ -318,7 +318,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                  // aqui é o equivalente do Cliente
                 Debug.WriteLine($"🔧 Buscando propostas para o prestador {idPrestador}");
 
-                var propostas = await _perfilPrestadorService.BuscarPropostasPrestadorAsync(IdPrestador);
+                var propostas = await _perfilPrestadorService.BuscarPropostasPrestadorAsync(idPrestador);
                 Debug.WriteLine($"🔧 Total de propostas recebidas: {propostas.Count}");
 
                 PropostasRecebidasPrestador.Clear();
