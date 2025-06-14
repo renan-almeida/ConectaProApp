@@ -103,25 +103,7 @@ namespace ConectaProApp.Services.Solicitacao
             }
         }
 
-        public async Task EnviarPropostaAsync(int idSolicitacao, SolicitacaoDTO proposta)
-        {
-            await _apiService.ConfigureAuthorizationHeaderAsync();
-
-            var json = JsonSerializer.Serialize(new
-            {
-                IdSolicitacao = idSolicitacao,
-                IdPrestador = proposta.IdPrestador,
-                Descricao = proposta.Descricao,
-                ValorProposto = proposta.ValorProposto
-            });
-
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync($"/solicitacoes/{idSolicitacao}/propostas", content);
-
-            if (!response.IsSuccessStatusCode)
-                throw new Exception("Erro ao enviar proposta");
-        }
+       
         
         
         public async Task<bool> RemoverSolicitacaoAsync(int id)
