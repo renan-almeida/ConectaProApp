@@ -116,25 +116,27 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
-                            <VerticalStackLayout Spacing="10">
+                            <VerticalStackLayout Spacing="10" Padding="10,5,10,5">
 
                                 <!-- Título -->
                                 <Grid ColumnDefinitions="*,Auto">
-                                    <Label Text="{Binding TituloSolicitacao}" 
+                                    <Label Text="{Binding TituloServico}" 
                                FontAttributes="Bold" 
                                FontSize="16" 
                                TextColor="Black"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center"
+                               Margin="5,0,10,0"/>
                                     
                                 </Grid>
 
                                 <!-- Urgência e Forma de Pagamento -->
                                 <Grid ColumnDefinitions="*,*">
-                                    <Label Text="{Binding NvlUrgencia}" 
+                                    <Label Text="{Binding NvlUrgenciaEnum}" 
                                FontSize="12" 
                                TextColor="Blue"
-                               VerticalOptions="Center" />
-                                    <Label Text="{Binding FormaPagto}" 
+                               VerticalOptions="Center"
+                               Margin="5,0,0,0"/>
+                                    <Label Text="{Binding FormaPagtoEnum}" 
                                FontSize="12" 
                                TextColor="Black" 
                                HorizontalOptions="End"
@@ -143,22 +145,26 @@
 
                                 <!-- Valor e Datas -->
                                 <Grid ColumnDefinitions="*,*">
-                                    <Label Text="{Binding ValorProposto, StringFormat='VALOR: R$ {0:N2}'}" 
+                                    <Label Text="{Binding ValorContratacao, StringFormat='VALOR: R$ {0:N2}'}" 
                                FontSize="12" 
                                TextColor="Black"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center"
+                               Margin="0,0,10,50"/>
                                     <Label Text="{Binding PrevisaoInicio, StringFormat='DATA INICIO: {0}'}" 
                                FontSize="12" 
                                TextColor="Black" 
                                HorizontalOptions="End"
                                VerticalOptions="Center"/>
+
+                                    
                                 </Grid>
 
                                 <!-- Cliente -->
                                 <Label Text="{Binding EmpresaClienteResumoDTO.NomeFantasia, StringFormat='CLIENTE: {0}'}" 
                            FontSize="12" 
                            TextColor="Black"
-                           VerticalOptions="Center"/>
+                           VerticalOptions="Center"
+                           Margin="5,0,0,0"/>
 
                                 <!-- Botões -->
                                 <HorizontalStackLayout HorizontalOptions="End" Spacing="20">
@@ -187,11 +193,12 @@
 
 
 
+
             <!-- Lista de candidaturas -->
             <CollectionView x:Name="CandidaturasView"
-     ItemsSource="{Binding Candidaturas}"
-     Margin="15,10"
-     IsVisible="{Binding CandidaturasVisivel}">
+                ItemsSource="{Binding CandidaturasPrestador}"
+                Margin="15,10"
+                IsVisible="{Binding CandidaturasPrestadorVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
@@ -200,7 +207,7 @@
                                 <!-- Título -->
                                 <Grid ColumnDefinitions="*,Auto">
                                     <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
-                                    <Ellipse WidthRequest="10" HeightRequest="10" Fill="Orange" VerticalOptions="Center" />
+                                   
                                 </Grid>
 
                                 <!-- Status e Forma de Pagamento -->
@@ -211,26 +218,34 @@
 
                                 <!-- Valor e Data Início -->
                                 <Grid ColumnDefinitions="*,*">
-                                    <Label Text="{Binding ValorContratacao, StringFormat='VALOR: R$ {0:N2}'}" FontSize="12" TextColor="Black" />
+                                    <Label Text="{Binding ValorContratacao, StringFormat='VALOR: R$ {0:N2}'}" FontSize="12" TextColor="Black" Margin="0,0,500,0" />
                                     <Label Text="{Binding PrevisaoInicio, StringFormat='DATA INICIO: {0}'}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
                                 </Grid>
 
                                 <!-- Cliente e Data Fim -->
                                 <Grid ColumnDefinitions="*,*">
-                                    <Label Text="{Binding EmpresaClienteResumoDTO.NomeEmpresa, StringFormat='CLIENTE: {0}'}" FontSize="12" TextColor="Black" />
-                                    <Label Text="{Binding DataFinalizacao, StringFormat='DATA FIM: {0:dd/MM}'}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
+                                    <Label Text="{Binding EmpresaClienteResumoDTO.NomeFantasia, StringFormat='CLIENTE: {0}'}" FontSize="12" TextColor="Black" />
+                                    
                                 </Grid>
 
                                 <!-- Botão de cancelar -->
                                 <HorizontalStackLayout HorizontalOptions="End">
                                     <Button Text="CANCELAR"
-                     BackgroundColor="White"
-                     BorderColor="Red"
-                     TextColor="Red"
-                     BorderWidth="1"
-                     Command="{Binding BindingContext.CancelarCandidaturaCommand, Source={x:Reference CandidaturasView}}"
-                     CommandParameter="{Binding IdServico}" />
+                                BackgroundColor="White"
+                                BorderColor="Red"
+                                TextColor="Red"
+                                BorderWidth="1"
+                                Command="{Binding BindingContext.CancelarCandidaturaCommand, Source={x:Reference CandidaturasView}}"
+                                CommandParameter="{Binding IdServico}" />
                                 </HorizontalStackLayout>
+
+                                <Button Text="REOFERTAR"
+                                BackgroundColor="White"
+                                BorderColor="Orange"
+                                TextColor="Orange"
+                                BorderWidth="1"
+                                Command="{Binding BindingContext.ReofertarServicoCommand, Source={x:Reference CandidaturasView}}"
+                                CommandParameter="{Binding IdServico}" />
 
                             </VerticalStackLayout>
                         </Frame>
@@ -238,11 +253,12 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+
             <!-- Lista de Serviços -->
             <CollectionView x:Name="ServicosView"
-     ItemsSource="{Binding ServicosAtivosPrestador}"
-     Margin="15,10"
-     IsVisible="{Binding ServicosPrestadorVisivel}">
+                ItemsSource="{Binding ServicosPrestador}"
+                Margin="15,10"
+                IsVisible="{Binding ServicosPrestadorVisivel}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="10" BorderColor="Gray" Padding="10" Margin="0,5" BackgroundColor="White">
@@ -251,7 +267,7 @@
                                 <!-- Título com bolinha -->
                                 <Grid ColumnDefinitions="*,Auto">
                                     <Label Text="{Binding TituloServico}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
-                                    <Ellipse WidthRequest="10" HeightRequest="10" Fill="Orange" VerticalOptions="Center" />
+                                   
                                 </Grid>
 
                                 <!-- Status e Urgência -->
@@ -263,7 +279,7 @@
                                 <!-- Valor e Categoria -->
                                 <Grid ColumnDefinitions="*,*">
                                     <Label Text="{Binding ValorContratacao, StringFormat='VALOR: R$ {0:N2}'}" FontSize="12" TextColor="Black" />
-                                    <Label Text="{Binding TipoCategoriaEnum, Converter={StaticResource CategoriaConverter}}" FontSize="12" TextColor="Black" HorizontalOptions="End" />
+                                    <Label Text="{Binding TipoCategoriaEnum, Converter={StaticResource CategoriaConverter}}" FontSize="12" TextColor="Black" HorizontalOptions="End" Margin="0,15,90,0" />
                                 </Grid>
 
                                 <!-- Cliente -->
@@ -272,12 +288,12 @@
                                 <!-- Botão Finalizar -->
                                 <HorizontalStackLayout HorizontalOptions="End">
                                     <Button Text="FINALIZAR"
-                     BackgroundColor="White"
-                     BorderColor="Green"
-                     TextColor="Green"
-                     BorderWidth="1"
-                     Command="{Binding BindingContext.FinalizarServicoCommand, Source={x:Reference ServicosView}}"
-                     CommandParameter="{Binding IdServico}" />
+                                BackgroundColor="White"
+                                BorderColor="Green"
+                                TextColor="Green"
+                                BorderWidth="1"
+                                Command="{Binding BindingContext.FinalizarServicoCommand, Source={x:Reference ServicosView}}"
+                                CommandParameter="{Binding IdServico}" />
                                 </HorizontalStackLayout>
 
                             </VerticalStackLayout>
@@ -285,6 +301,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
 
         </VerticalStackLayout>
     </ScrollView>

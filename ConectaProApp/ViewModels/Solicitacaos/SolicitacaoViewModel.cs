@@ -33,8 +33,14 @@ namespace ConectaProApp.ViewModels.Solicitacaos
 
        
         public string TituloServico { get; set; }
+
+        public string TituloSolicitacao { get; set; }
+
+        public string DescSolicitacao { get; set; }
         public string Descricao { get; set; }
         public float ValorContratacao { get; set; }
+
+        public float? ValorProposto { get; set; }
         public int IdCliente { get; set; }
         public int IdPrestador { get; set; }
         public int IdSolicitacao { get; set; }
@@ -54,6 +60,10 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         public StatusServicoEnum SituacaoServico { get; set; }
         public NvlUrgenciaEnum NvlUrgenciaEnum { get; set; }
         public TipoSegmentoEnum TipoCategoriaEnum { get; set; }
+
+        public TipoSegmentoEnum TipoCategoria { get; set; }
+
+        public StatusOrcamentoEnum StatusSolicitacao { get; set; }
 
         private string _abaAtual;
         public string AbaAtual
@@ -117,16 +127,8 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
-        private bool _servicosPrestadorVisivel;
-        public bool ServicosPrestadorVisivel
-        {
-            get => _servicosPrestadorVisivel;
-            set
-            {
-                _servicosPrestadorVisivel = value;
-                OnPropertyChanged();
-            }
-        }
+        
+       
 
         private ObservableCollection<ServicoDTO> _propostaCliente;
         public ObservableCollection<ServicoDTO> PropostaCliente
@@ -150,13 +152,44 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
+        
+
+
+        
+
         public ObservableCollection<SolicitacaoDTO> SolicitacoesRecebidas { get; set; } = new();
 
         public ObservableCollection<SolicitacaoDTO> SolicitacaoCliente { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> ServicosAtivosPrestador { get; set; } = new();
         public ObservableCollection<SolicitacaoDTO> SolicitacoesRecusadas { get; set; } = new();
 
-        public ObservableCollection<SolicitacaoDTO> PropostasRecebidasPrestador { get; set; } = new();
+        public ObservableCollection<ServicoDTO> PropostasRecebidasPrestador { get; set; } = new();
+
+        public ObservableCollection<ServicoDTO> CandidaturasPrestador { get; set; } = new();
+
+        private bool _candidaturasPrestadorVisivel;
+        public bool CandidaturasPrestadorVisivel
+        {
+            get => _candidaturasPrestadorVisivel;
+            set
+            {
+                _candidaturasPrestadorVisivel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<ServicoDTO> ServicosPrestador { get; set; } = new();
+
+        private bool _servicosPrestadorVisivel;
+        public bool ServicosPrestadorVisivel
+        {
+            get => _servicosPrestadorVisivel;
+            set
+            {
+                _servicosPrestadorVisivel = value;
+                OnPropertyChanged();
+            }
+        }
 
         private bool _propostasPrestadorVisivel;
         public bool PropostasPrestadorVisivel
@@ -214,7 +247,10 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             HistoricoCliente = new ObservableCollection<ServicoDTO>();
             PropostaCliente = new ObservableCollection<ServicoDTO>();
             SolicitacaoCliente = new ObservableCollection<SolicitacaoDTO>();
+            CandidaturasPrestador = new ObservableCollection<ServicoDTO>();
+            ServicosPrestador = new ObservableCollection<ServicoDTO>();
             HistoricoClienteVisivel = false;
+            SolicitacaoClienteVisivel = false;
             PropostasClienteVisivel = false;
             _servicoService = new ServicoService();
             _prestadorService = new PrestadorService();
@@ -334,6 +370,54 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
+        public async Task ExibirCandidaturasPrestadorAsync()
+        {
+            try
+            {
+                int idPrestador = Preferences.Get("id", 0);
+               Debug.WriteLine($"🔧 Buscando propostas para o prestador {idPrestador}");
+
+                var propostas = await _perfilPrestadorService.BuscarCandidaturasPrestadorAsync(idPrestador);
+                Debug.WriteLine($"🔧 Total de propostas recebidas: {propostas.Count}");
+
+                CandidaturasPrestador.Clear();
+                foreach (var proposta in propostas)
+                    CandidaturasPrestador.Add(proposta);
+
+                CandidaturasPrestadorVisivel = true;
+            }
+            catch (Exception ex)
+            {
+                CandidaturasPrestadorVisivel = false;
+                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar propostas: {ex.Message}", "OK");
+            }
+        }
+
+        public async Task ExibirServicosPrestadorAsync()
+        {
+            try
+            {
+                int idPrestador = Preferences.Get("id", 0);
+                Debug.WriteLine($"🔧 Buscando propostas para o prestador {idPrestador}");
+
+                var propostas = await _perfilPrestadorService.BuscarServicosPrestadorAsync(idPrestador);
+                Debug.WriteLine($"🔧 Total de propostas recebidas: {propostas.Count}");
+
+                ServicosPrestador.Clear();
+                foreach (var proposta in propostas)
+                    ServicosPrestador.Add(proposta);
+
+                ServicosPrestadorVisivel = true;
+            }
+            catch (Exception ex)
+            {
+                ServicosPrestadorVisivel = false;
+                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar propostas: {ex.Message}", "OK");
+            }
+        }
+
+
+
 
         private async Task AtualizarStatusAsync(int idSolicitacao, int idServico, StatusOrcamentoEnum novoStatus)
         {
@@ -342,7 +426,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                 await _solicitacaoService.AtualizarStatusSolicitacaoAsync(idSolicitacao, idServico, novoStatus);
                 await App.Current.MainPage.DisplayAlert("Sucesso", "Status atualizado com sucesso", "OK");
 
-                await CarregarSolicitacoesPrestador(IdPrestador);
+                
                 await ExibirHistoricoClienteAsync();
             }
             catch (Exception ex)
@@ -373,29 +457,7 @@ namespace ConectaProApp.ViewModels.Solicitacaos
 
 
 
-        public async Task CarregarSolicitacoesPrestador(int idPrestador)
-        {
-            SolicitacoesRecebidas.Clear();
-            ServicosAtivosPrestador.Clear();
-            SolicitacoesRecusadas.Clear();
-
-            var solicitacoes = await _solicitacaoService.BuscarSolicitacoesPorPrestadorAsync(idPrestador);
-            foreach (var o in solicitacoes)
-            {
-                switch (o.StatusSolicitacao)
-                {
-                    case StatusOrcamentoEnum.PENDENTE:
-                        SolicitacoesRecebidas.Add(o);
-                        break;
-                    case StatusOrcamentoEnum.ACEITA:
-                        ServicosAtivosPrestador.Add(o);
-                        break;
-                    case StatusOrcamentoEnum.RECUSADA:
-                        SolicitacoesRecusadas.Add(o);
-                        break;
-                }
-            }
-        }
+        
 
         private async Task SelecionarAbaAsync(string aba)
         {
@@ -405,6 +467,8 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             PropostasClienteVisivel = false;
             SolicitacaoClienteVisivel = false;
             PropostasPrestadorVisivel = false;
+            CandidaturasPrestadorVisivel = false;
+
 
             AbaAtual = aba;
 
@@ -433,6 +497,20 @@ namespace ConectaProApp.ViewModels.Solicitacaos
                     PropostasClienteVisivel = false;
                     PropostasPrestadorVisivel = true;
                     await CarregarPropostasPrestadorAsync();
+                    break;
+
+                case "CandidaturasPrestador":
+                    Debug.WriteLine("🟢 Selecionou CandidaturasPrestador");
+                    CandidaturasPrestadorVisivel = false;
+                    CandidaturasPrestadorVisivel = true;
+                    await ExibirCandidaturasPrestadorAsync();
+                    break;
+
+                case "ServicosPrestador":
+                    Debug.WriteLine("🟢 Selecionou ServicosPrestador");
+                    ServicosPrestadorVisivel = false;
+                    ServicosPrestadorVisivel = true;
+                    await ExibirServicosPrestadorAsync();
                     break;
 
             }
