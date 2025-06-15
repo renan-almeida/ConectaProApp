@@ -439,24 +439,57 @@ namespace ConectaProApp.ViewModels.Solicitacaos
         {
             try
             {
+                Debug.WriteLine("🔧 Início do carregamento de serviços");
+
                 int idPrestador = Preferences.Get("id", 0);
-                Debug.WriteLine($"🔧 Buscando propostas para o prestador {idPrestador}");
+                Debug.WriteLine($"🔧 ID Prestador obtido: {idPrestador}");
 
                 var propostas = await _perfilPrestadorService.BuscarServicosPrestadorAsync(idPrestador);
-                Debug.WriteLine($"🔧 Total de propostas recebidas: {propostas.Count}");
+                Debug.WriteLine($"🔧 JSON desserializado com {propostas?.Count ?? 0} registros");
 
-                ServicosPrestador.Clear();
-                foreach (var proposta in propostas)
-                    ServicosPrestador.Add(proposta);
+                if (propostas == null || propostas.Count == 0)
+                {
+                    Debug.WriteLine("⚠ Nenhum serviço retornado pela API.");
+                }
 
-                ServicosPrestadorVisivel = true;
+                // Executa atualização da collection com total segurança na UI thread
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    try
+                    {
+                        Debug.WriteLine("🔧 Atualizando ObservableCollection na UI Thread");
+
+                        ServicosPrestador.Clear();
+
+                        foreach (var proposta in propostas)
+                        {
+                            Debug.WriteLine($"🔧 Adicionando serviço ID: {proposta.IdServico}, Status: {proposta.SituacaoServico}");
+                            ServicosPrestador.Add(proposta);
+                        }
+
+                        ServicosPrestadorVisivel = true;
+                    }
+                    catch (Exception exUI)
+                    {
+                        Debug.WriteLine($"❌ Erro ao atualizar ObservableCollection na UI Thread: {exUI}");
+                        ServicosPrestadorVisivel = false;
+                    }
+                });
             }
-            catch (Exception ex)
+            catch (Exception exGlobal)
             {
-                ServicosPrestadorVisivel = false;
-                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar propostas: {ex.Message}", "OK");
+                Debug.WriteLine($"❌ ERRO GERAL no carregamento de serviços: {exGlobal}");
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    ServicosPrestadorVisivel = false;
+                });
+
+                await App.Current.MainPage.DisplayAlert("Erro", $"Erro ao carregar serviços: {exGlobal.Message}", "OK");
             }
         }
+
+
 
 
 

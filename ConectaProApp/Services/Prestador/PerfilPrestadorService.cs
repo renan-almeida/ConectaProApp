@@ -43,13 +43,13 @@ namespace ConectaProApp.Services.Prestador
                     {
                         Converters = new List<JsonConverter>
                         {new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                     new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                     new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
-                     new DecimalFromStringNewtonsoftConverter(),
-                     new SafeStringEnumConverter<FormaPagtoEnum>(),       // seu enum de pagamento
-                     new SafeStringEnumConverter<NvlUrgenciaEnum>(),       // seu enum de urgência
-                     new SafeStringEnumConverter<TipoSegmentoEnum>(),     // (se tiver outros enums, pode adicionar aqui também)
-                     new SafeStringEnumConverter<StatusServicoEnum>()
+                         new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                         new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                         new DecimalFromStringNewtonsoftConverter(),
+                         new SafeStringEnumConverter<FormaPagtoEnum>(),       // seu enum de pagamento
+                         new SafeStringEnumConverter<NvlUrgenciaEnum>(),       // seu enum de urgência
+                         new SafeStringEnumConverter<TipoSegmentoEnum>(),     // (se tiver outros enums, pode adicionar aqui também)
+                         new SafeStringEnumConverter<StatusServicoEnum>()
                         },
                         Culture = new CultureInfo("pt-BR"),
 
@@ -102,13 +102,13 @@ namespace ConectaProApp.Services.Prestador
                     {
                         Converters = new List<JsonConverter>
                         {new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                     new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-                     new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
-                     new DecimalFromStringNewtonsoftConverter(),
-                     new SafeStringEnumConverter<FormaPagtoEnum>(),       // seu enum de pagamento
-                     new SafeStringEnumConverter<NvlUrgenciaEnum>(),       // seu enum de urgência
-                     new SafeStringEnumConverter<TipoSegmentoEnum>(),     // (se tiver outros enums, pode adicionar aqui também)
-                     new SafeStringEnumConverter<StatusServicoEnum>()
+                         new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                         new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                         new DecimalFromStringNewtonsoftConverter(),
+                         new SafeStringEnumConverter<FormaPagtoEnum>(),       // seu enum de pagamento
+                         new SafeStringEnumConverter<NvlUrgenciaEnum>(),       // seu enum de urgência
+                         new SafeStringEnumConverter<TipoSegmentoEnum>(),     // (se tiver outros enums, pode adicionar aqui também)
+                         new SafeStringEnumConverter<StatusServicoEnum>()
                         },
                         Culture = new CultureInfo("pt-BR"),
 
@@ -139,55 +139,57 @@ namespace ConectaProApp.Services.Prestador
         {
             try
             {
-
                 var token = await SecureStorage.GetAsync("token");
                 Debug.WriteLine($"🔵 Token obtido: {token}");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var endpoint = $"/perfil/prestador/{idPrestador}/servicos-prestados";
                 var response = await client.GetAsync(apiUrlBase + endpoint);
-                Debug.WriteLine("resposta: " + response);
+                Debug.WriteLine($"🔵 Resposta HTTP: {response}");
 
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception($"HTTP {response.StatusCode}: {response.ReasonPhrase}");
+
+                var json = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"🔵 Json recebido: {json}");
+
+                var propostas = JsonConvert.DeserializeObject<List<ServicoDTO>>(json, new JsonSerializerSettings
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    Debug.WriteLine("Json: " + json);
+                    Converters = new List<JsonConverter>
+            {
+                new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
+                new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
+                new DecimalFromStringNewtonsoftConverter(),
+                new SafeStringEnumConverter<FormaPagtoEnum>(),
+                new SafeStringEnumConverter<NvlUrgenciaEnum>(),
+                new SafeStringEnumConverter<TipoSegmentoEnum>(),
+                new SafeStringEnumConverter<StatusServicoEnum>()
+            },
+                    Culture = new CultureInfo("pt-BR"),
+                    Error = (sender, args) => args.ErrorContext.Handled = true
+                });
 
-                    var propostas = JsonConvert.DeserializeObject<List<ServicoDTO>>(json, new JsonSerializerSettings
-                    {
-                        Converters = new List<JsonConverter>
-              {new DateTimeFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-           new DateTimeNullableFromStringNewtonsoftConverter("dd/MM/yyyy - HH:mm"),
-           new DateOnlyFromStringNewtonsoftConverter("dd/MM/yyyy"),
-           new DecimalFromStringNewtonsoftConverter(),
-           new SafeStringEnumConverter<FormaPagtoEnum>(),       // seu enum de pagamento
-           new SafeStringEnumConverter<NvlUrgenciaEnum>(),       // seu enum de urgência
-           new SafeStringEnumConverter<TipoSegmentoEnum>(),     // (se tiver outros enums, pode adicionar aqui 
-           new SafeStringEnumConverter<StatusServicoEnum>()
-              },
-                        Culture = new CultureInfo("pt-BR"),
+                Debug.WriteLine($"🔵 Total de serviços desserializados: {propostas?.Count ?? 0}");
 
-                        Error = (sender, args) =>
-                        {
-                            args.ErrorContext.Handled = true;
-                        }
-                    });
-                    Debug.WriteLine("propostas: " + propostas);
+                var filtrados = propostas?.Where(p =>
+                    p.SituacaoServico == StatusServicoEnum.FINALIZADO
+                ).ToList() ?? new List<ServicoDTO>();
 
-                    var filtrados = propostas.Where(p =>
-                         p.SituacaoServico == StatusServicoEnum.PENDENTE_CONFIRMAR_FINALIZACAO
+                Debug.WriteLine($"🔵 Total filtrado: {filtrados.Count}");
 
-                     ).ToList();
-
-                    return propostas;
-                }
-
-                throw new Exception("Erro ao buscar propostas: resposta não foi bem-sucedida.");
+                return filtrados;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Erro ao buscar propostas: {ex.Message}", ex);
+                Debug.WriteLine($"❌ ERRO BuscarServicosPrestadorAsync: {ex}");
+                throw new Exception($"Erro ao buscar serviços prestador: {ex.Message}", ex);
             }
         }
+
+
+
+
+
     }
 }
