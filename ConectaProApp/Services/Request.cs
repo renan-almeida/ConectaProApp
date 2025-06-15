@@ -54,72 +54,133 @@ namespace ConectaProApp.Services
 
         public async Task<TRetorno> PostAsyncFlex<TEnvio, TRetorno>(string uri, TEnvio data, string token)
         {
-            httpClient.DefaultRequestHeaders.Authorization = null; // LIMPA primeiro
-
-            if (!string.IsNullOrEmpty(token))
+            try
             {
-                httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token);
+                // Limpa token anterior
+                httpClient.DefaultRequestHeaders.Authorization = null;
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    httpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", token);
+                }
+
+                var content = new StringContent(JsonConvert.SerializeObject(data));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                HttpResponseMessage response = await httpClient.PostAsync(uri, content);
+                string serialized = await response.Content.ReadAsStringAsync();
+
+                var jsonBody = JsonConvert.SerializeObject(data);
+                Debug.WriteLine("🔵 JSON ENVIADO:");
+                Debug.WriteLine(jsonBody);
+
+                Debug.WriteLine($"🔴 RESPOSTA DA API: Status: {response.StatusCode}");
+                Debug.WriteLine(serialized);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<TRetorno>(serialized);
+                }
+                else
+                {
+                    string mensagemErro = $"Erro ao chamar a API: StatusCode: {response.StatusCode}";
+
+                    // Tenta extrair uma mensagem legível de erro da API
+                    try
+                    {
+                        var erroApi = JsonConvert.DeserializeObject<Dictionary<string, string>>(serialized);
+                        if (erroApi != null && erroApi.ContainsKey("mensagem"))
+                        {
+                            mensagemErro = erroApi["mensagem"];
+                        }
+                        else
+                        {
+                            mensagemErro = serialized;
+                        }
+                    }
+                    catch
+                    {
+                        // Se a resposta não for JSON, exibe o texto puro
+                        mensagemErro = serialized;
+                    }
+
+                    await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "OK");
+
+                    return default(TRetorno);
+                }
             }
-
-            var content = new StringContent(JsonConvert.SerializeObject(data));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            HttpResponseMessage response = await httpClient.PostAsync(uri, content);
-            string serialized = await response.Content.ReadAsStringAsync();
-
-
-            var jsonBody = JsonConvert.SerializeObject(data);
-            Debug.WriteLine("🔵 JSON ENVIADO:");
-            Debug.WriteLine(jsonBody);
-
-
-            Debug.WriteLine("🔴 RESPOSTA DA API:");
-            Debug.WriteLine(serialized);
-
-            if (response.IsSuccessStatusCode)
+            catch (Exception ex)
             {
-                return JsonConvert.DeserializeObject<TRetorno>(serialized);
-            }
-            else
-            {
-                throw new Exception($"Erro na requisição: {response.StatusCode} - {serialized}");
+                Debug.WriteLine($"Exceção inesperada: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Erro inesperado", ex.Message, "OK");
+                return default(TRetorno);
             }
         }
+
 
         public async Task<TRetorno> PostAsyncFlexToken<TEnvio, TRetorno>(string uri, TEnvio data, string token)
         {
-            httpClient.DefaultRequestHeaders.Authorization
-            = new AuthenticationHeaderValue("Bearer", token);
-
-            var content = new StringContent(JsonConvert.SerializeObject(data));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            HttpResponseMessage response = await httpClient.PostAsync(uri, content);
-            string serialized = await response.Content.ReadAsStringAsync();
-
-
-            var jsonBody = JsonConvert.SerializeObject(data);
-            Debug.WriteLine("🔵 JSON ENVIADO:");
-            Debug.WriteLine(jsonBody);
-
-
-            Debug.WriteLine("🔴 ERRO DA API:");
-            Debug.WriteLine(serialized);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                return JsonConvert.DeserializeObject<TRetorno>(serialized);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var content = new StringContent(JsonConvert.SerializeObject(data));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                HttpResponseMessage response = await httpClient.PostAsync(uri, content);
+                string serialized = await response.Content.ReadAsStringAsync();
+
+                var jsonBody = JsonConvert.SerializeObject(data);
+                Debug.WriteLine("🔵 JSON ENVIADO:");
+                Debug.WriteLine(jsonBody);
+
+                Debug.WriteLine($"🔴 RESPOSTA DA API: Status: {response.StatusCode}");
+                Debug.WriteLine(serialized);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<TRetorno>(serialized);
+                }
+                else
+                {
+                    string mensagemErro = $"Erro ao chamar a API: StatusCode: {response.StatusCode}";
+
+                    // Tenta extrair mensagem de erro do JSON (caso a API retorne algo tipo { "mensagem": "erro tal" })
+                    try
+                    {
+                        var erroApi = JsonConvert.DeserializeObject<Dictionary<string, string>>(serialized);
+                        if (erroApi != null && erroApi.ContainsKey("mensagem"))
+                        {
+                            mensagemErro = erroApi["mensagem"];
+                        }
+                        else
+                        {
+                            // Caso a API retorne um erro diferente, exibe o corpo bruto
+                            mensagemErro = serialized;
+                        }
+                    }
+                    catch
+                    {
+                        // Caso a resposta não seja JSON
+                        mensagemErro = serialized;
+                    }
+
+                    // Mostra o erro ao usuário
+                    await Application.Current.MainPage.DisplayAlert("Erro", mensagemErro, "OK");
+
+                    // Retorna valor default (evita o throw)
+                    return default(TRetorno);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Debug.WriteLine($"Erro: Status: {response.StatusCode}");
-                await Application.Current.MainPage
-                    .DisplayAlert("Erro", $"Detalhes: {response.StatusCode}", "OK");
-                throw new Exception($"Erro na requisição: {response.StatusCode} - {serialized}");
-                
+                Debug.WriteLine($"Exceção inesperada: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Erro inesperado", ex.Message, "OK");
+                return default(TRetorno);
             }
         }
+
 
         public async Task<HttpResponseMessage> PutAsync<T>(string uri, T data, string token)
         {

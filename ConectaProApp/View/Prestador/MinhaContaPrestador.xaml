@@ -26,7 +26,7 @@
         VerticalOptions="Center"
         HorizontalOptions="End"
         Grid.Column="2">
-                    <Image Source="{Binding FotoPrestadorUrl}" 
+                    <Image Source="prestadorsemfoto.png" 
             Aspect="AspectFill" 
             HeightRequest="40" WidthRequest="40"
             >
@@ -63,13 +63,13 @@
                        CornerRadius="60"
                        BackgroundColor="White"
                        IsClippedToBounds="True"
-                       BorderColor="#eeeeee"
+                       BorderColor="#0f5cc2"
                        HorizontalOptions="Center">
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding FotoVM.SelecionarFotoCommand}" />
                     </Frame.GestureRecognizers>
                     <Image x:Name="avatarPrestadorImage"
-                           Source="{Binding FotoVM.FonteImagem}"
+                           Source="prestadorsemfoto.png"
                            Aspect="AspectFill"
                            WidthRequest="120"
                            HeightRequest="120">

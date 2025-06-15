@@ -84,7 +84,7 @@ namespace ConectaProApp.ViewModels.Prestador
             }
         }
 
-        private DateTime previsaoInicio;
+        private DateTime previsaoInicio = DateTime.Now;
         public DateTime PrevisaoInicio
         {
             get => previsaoInicio;
