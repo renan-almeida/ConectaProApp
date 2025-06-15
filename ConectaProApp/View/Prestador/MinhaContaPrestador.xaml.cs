@@ -25,7 +25,7 @@ namespace ConectaProApp.View.Prestador
             _blobService = new BlobService(_apiService);
 
 
-            var idPrestador = Preferences.Get("idPrestador", 0);
+            var idPrestador = Preferences.Get("id", 0);
             // Aqui você poderia recuperar o DTO do próprio Preferences se tiver salvo:
             ViewModel = new SolicitacaoViewModel(SolicitacaoViewModel.TipoUsuario.Prestador, idPrestador);
 

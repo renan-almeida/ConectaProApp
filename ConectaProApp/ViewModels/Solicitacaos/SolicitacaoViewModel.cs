@@ -18,10 +18,12 @@ using Newtonsoft.Json;
 using ConectaProApp.Services.Cliente;
 using ConectaProApp.Services.Servico;
 using ConectaProApp.Services.Prestador;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ConectaProApp.ViewModels.Solicitacaos
 {
-    public class SolicitacaoViewModel : INotifyPropertyChanged
+
+    public partial class SolicitacaoViewModel : INotifyPropertyChanged
     {
         private readonly ApiService _apiService = new ApiService();
         private readonly SolicitacaoService _solicitacaoService;
@@ -269,8 +271,11 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             get => nomePrestador;
             set
             {
-                nomePrestador = value;
-                OnPropertyChanged();
+                if (nomePrestador != value)
+                {
+                    nomePrestador = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -280,11 +285,15 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             get => descricaoPrestador;
             set
             {
-                descricaoPrestador = value;
-                OnPropertyChanged();
+                if (descricaoPrestador != value)
+                {
+                    descricaoPrestador = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
+   
         public async Task CarregarDadosPrestadorAsync()
         {
             try
