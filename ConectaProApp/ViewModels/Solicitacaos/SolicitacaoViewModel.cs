@@ -329,9 +329,42 @@ namespace ConectaProApp.ViewModels.Solicitacaos
             }
         }
 
-   
-        public async Task CarregarDadosPrestadorAsync()
+        public string nomeEmpresa;
+        public string NomeEmpresa
         {
+            get => nomeEmpresa;
+            set
+            {
+                nomeEmpresa = value;
+                OnPropertyChanged();
+
+            }
+        }
+        public async Task CarregarDadosEmpresaAsync()
+        {
+            try
+            {
+                string idEmpresa = Preferences.Get("id", string.Empty);
+
+                if (string.IsNullOrEmpty(idEmpresa))
+                    return;
+
+                var empresa = await _prestadorService.BuscarPrestadorPorIdAsync(int.Parse(idEmpresa));
+
+                if (empresa != null)
+                {
+                    NomeEmpresa = empresa.Nome ?? "sem nome";
+                    Debug.WriteLine("Nome: " + NomeEmpresa);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Erro ao carregar o nome da empresa: {ex.Message}");
+            }
+        }
+           
+                public async Task CarregarDadosPrestadorAsync()
+            {
             try
             {
                 string idPrestador = Preferences.Get("id", string.Empty);

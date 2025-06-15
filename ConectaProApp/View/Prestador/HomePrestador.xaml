@@ -96,13 +96,12 @@
 
                 <!-- Borda Opaca tipo vidro -->
                 <Frame 
-                    BackgroundColor="Transparent"
-                    Opacity="20"
+                    BackgroundColor="#99FFFFFF"
                     CornerRadius="10" 
                     HorizontalOptions="Center"
                     WidthRequest="341"
                     HeightRequest="82"
-                    BorderColor="#0f5cc2"
+                    BorderColor="Black"
                        >
                     <VerticalStackLayout>
                         <Label Text="{Binding DescSolicitacao, Mode=OneWay}"

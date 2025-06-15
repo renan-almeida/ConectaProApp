@@ -24,21 +24,8 @@ namespace ConectaProApp.View.Cliente
             // Define o BindingContext da página inteira para o ViewModel principal
             BindingContext = ViewModel;
 
-            // Preenche campos de nome e descrição com dados salvos
-            NomeEntry.Text = Preferences.Get("NomeCliente", "");
-            DescricaoEditor.Text = Preferences.Get("DescricaoCliente", "Somos da Etec Horácio Augusto da Silveira.");
-        }
 
-        private void OnNomeChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                Preferences.Set("NomeCliente", e.NewTextValue);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao salvar o nome: {ex.Message}");
-            }
+            DescricaoEditor.Text = Preferences.Get("DescricaoCliente", "Breve descrição sobre a sua empresa.");
         }
 
         private void OnDescricaoChanged(object sender, TextChangedEventArgs e)
@@ -57,5 +44,13 @@ namespace ConectaProApp.View.Cliente
         {
             Shell.Current.FlyoutIsPresented = true;
         }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            await ViewModel.CarregarDadosEmpresaAsync();
+        }
     }
+
 }

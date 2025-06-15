@@ -24,7 +24,7 @@
        VerticalOptions="Center"
        HorizontalOptions="End"
        Grid.Column="2">
-                    <Image Source="{Binding FotoEmpresaUrl}" 
+                    <Image Source="empresasemfoto.png" 
            Aspect="AspectFill" 
            HeightRequest="40" WidthRequest="40"
            >
@@ -78,7 +78,7 @@
 
                     <!-- Imagem de perfil (avatar) -->
                     <Image x:Name="avatarImageClient"
-               Source="{Binding FotoVMAvatar.FonteImagem}"
+               Source="empresasemfoto.png"
                WidthRequest="120"
                HeightRequest="120"
                Aspect="AspectFill"
@@ -89,15 +89,12 @@
 
             <!-- Nome e descrição -->
             <VerticalStackLayout Padding="20,0" Spacing="5" HorizontalOptions="Center">
-                <Entry x:Name="NomeEntry"
-                       TextColor="Black"
-                       Placeholder="Nome do Cliente"
-                       FontAttributes="Bold"
-                       FontSize="20"
-                       Margin="20"
-                       HorizontalTextAlignment="Center"
-                       WidthRequest="250"
-                       TextChanged="OnNomeChanged" />
+                <Label Text="{Binding NomeEmpresa, Mode=OneWay}"
+                           FontAttributes="Bold"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           TextColor="Black" />      
+                
                 <Editor x:Name="DescricaoEditor"
                         TextColor="Black"
                         Placeholder="Sobre o cliente"

@@ -97,13 +97,12 @@
                 </HorizontalStackLayout>
 
                 <Frame 
-                    BackgroundColor="Transparent"
-                    Opacity="20"
+                    BackgroundColor="#77FFFFFF"
                     CornerRadius="10" 
                     HorizontalOptions="Center"
                     WidthRequest="341"
                     HeightRequest="82"
-                    BorderColor="#0f5cc2"
+                    BorderColor="Black"
                        >
                     <Label Text="{Binding DescPrestador}"
                            FontSize="14"
